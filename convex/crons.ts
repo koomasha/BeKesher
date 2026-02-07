@@ -1,6 +1,6 @@
 import { cronJobs } from "convex/server";
 import { internal } from "./_generated/api";
-import { internalMutation, internalAction } from "./_generated/server";
+import { internalQuery, internalAction } from "./_generated/server";
 import { v } from "convex/values";
 
 const crons = cronJobs();
@@ -137,7 +137,7 @@ export const sendPaymentReminders = internalAction({
 /**
  * Get participants who need payment reminders
  */
-export const getParticipantsForPaymentReminders = internalMutation({
+export const getParticipantsForPaymentReminders = internalQuery({
     args: {
         threeDaysFromNow: v.number(),
         oneDayFromNow: v.number(),

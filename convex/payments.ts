@@ -1,6 +1,7 @@
 import { action, internalMutation, internalQuery, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
 // ============================================
 // PUBLIC QUERIES
@@ -66,9 +67,9 @@ export const createPaymentLink = action({
         paymentUrl: v.optional(v.string()),
         error: v.optional(v.string()),
     }),
-    handler: async (ctx, args) => {
+    handler: async (ctx, args): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
         // Get participant
-        const participant = await ctx.runQuery(
+        const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
             internal.payments.getParticipantByTelegramId,
             { telegramId: args.telegramId }
         );
@@ -89,7 +90,7 @@ export const createPaymentLink = action({
 
         try {
             // Create payment request to PayPlus
-            const response = await fetch(
+            const response: Response = await fetch(
                 "https://restapidev.payplus.co.il/api/v1.0/PaymentPages/generateLink",
                 {
                     method: "POST",
@@ -120,7 +121,7 @@ export const createPaymentLink = action({
                 }
             );
 
-            const data = await response.json();
+            const data: any = await response.json();
 
             if (data.results?.status === "success" && data.data?.payment_page_link) {
                 // Log the payment attempt

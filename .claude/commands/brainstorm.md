@@ -47,8 +47,8 @@ List questions that need answering before deciding:
 - Scope clarifications
 
 ## Output File
-- Filename: .docs/brainstorming/{branch-name}/brainstorm-{yyyymmdd-hhmm}-{brainstorm-topic}.md
-- Directory: Create .docs/brainstorming/{branch-name} if it doesn't exist
+- Filename: .docs/brainstorming/{branch-name}-brainstorm-{yyyymmdd-hhmm}-{brainstorm-topic}.md
+- Directory: Create .docs/brainstorming if it doesn't exist
 
 ## Output Format
 
