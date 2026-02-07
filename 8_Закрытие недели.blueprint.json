@@ -1,0 +1,1023 @@
+{
+    "name": "8_Закрытие недели",
+    "flow": [
+        {
+            "id": 3,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 11385945
+            },
+            "mapper": {
+                "base": "appaO2oANc7aCrEnZ",
+                "table": "Группы",
+                "fields": [
+                    "group_id",
+                    "Участник 1",
+                    "Участник 2",
+                    "Участник 3",
+                    "Участник 4",
+                    "Статус",
+                    "Возраст (У1)",
+                    "Возраст (У2)",
+                    "Возраст (У3)",
+                    "Возраст (У4)",
+                    "Phone(У1)",
+                    "Phone(У2)",
+                    "Phone(У3)",
+                    "Phone(У4)",
+                    "Telegram_ID (У1)",
+                    "Telegram_ID (У2)",
+                    "Telegram_ID (У3)",
+                    "Telegram_ID (У4)",
+                    "Размер группы",
+                    "Name (У1)",
+                    "Name (У2)",
+                    "Name (У3)",
+                    "Name (У4)",
+                    "О себе (У1)",
+                    "О себе (У2)",
+                    "О себе (У3)",
+                    "О себе (У4)",
+                    "Сфера деятельности (У1)",
+                    "Сфера деятельности (У2)",
+                    "Сфера деятельности (У3)",
+                    "Сфера деятельности (У4)",
+                    " Каких людей ты бы хотел встретить в игре (У1)",
+                    " Каких людей ты бы хотел встретить в игре (У2)",
+                    " Каких людей ты бы хотел встретить в игре (У3)",
+                    " Каких людей ты бы хотел встретить в игре (У4)"
+                ],
+                "formula": "{Статус} = \"Ожидает Фидбек\"",
+                "maxRecords": "10000",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 300
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Соц игра"
+                        },
+                        "sort": {
+                            "mode": "chose"
+                        },
+                        "view": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Группы"
+                        },
+                        "fields": {
+                            "mode": "chose",
+                            "label": [
+                                "group_id",
+                                "Участник 1",
+                                "Участник 2",
+                                "Участник 3",
+                                "Участник 4",
+                                "Статус",
+                                "Возраст (У1)",
+                                "Возраст (У2)",
+                                "Возраст (У3)",
+                                "Возраст (У4)",
+                                "Phone(У1)",
+                                "Phone(У2)",
+                                "Phone(У3)",
+                                "Phone(У4)",
+                                "Telegram_ID (У1)",
+                                "Telegram_ID (У2)",
+                                "Telegram_ID (У3)",
+                                "Telegram_ID (У4)",
+                                "Размер группы",
+                                "Name (У1)",
+                                "Name (У2)",
+                                "Name (У3)",
+                                "Name (У4)",
+                                "О себе (У1)",
+                                "О себе (У2)",
+                                "О себе (У3)",
+                                "О себе (У4)",
+                                "Сфера деятельности (У1)",
+                                "Сфера деятельности (У2)",
+                                "Сфера деятельности (У3)",
+                                "Сфера деятельности (У4)",
+                                " Каких людей ты бы хотел встретить в игре (У1)",
+                                " Каких людей ты бы хотел встретить в игре (У2)",
+                                " Каких людей ты бы хотел встретить в игре (У3)",
+                                " Каких людей ты бы хотел встретить в игре (У4)"
+                            ]
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "2025-CON (User ID: usrBZ9J9DPptgMmse)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "group_id",
+                        "type": "text",
+                        "label": "group_id"
+                    },
+                    {
+                        "name": "Участник 1",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 1"
+                    },
+                    {
+                        "name": "Участник 2",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 2"
+                    },
+                    {
+                        "name": "Участник 3",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 3"
+                    },
+                    {
+                        "name": "Участник 4",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 4"
+                    },
+                    {
+                        "name": "Статус",
+                        "type": "text",
+                        "label": "Статус"
+                    },
+                    {
+                        "name": "Возраст (У1)",
+                        "type": "array",
+                        "label": "Возраст (У1)"
+                    },
+                    {
+                        "name": "Возраст (У2)",
+                        "type": "array",
+                        "label": "Возраст (У2)"
+                    },
+                    {
+                        "name": "Возраст (У3)",
+                        "type": "array",
+                        "label": "Возраст (У3)"
+                    },
+                    {
+                        "name": "Возраст (У4)",
+                        "type": "array",
+                        "label": "Возраст (У4)"
+                    },
+                    {
+                        "name": "Phone(У1)",
+                        "type": "array",
+                        "label": "Phone(У1)"
+                    },
+                    {
+                        "name": "Phone(У2)",
+                        "type": "array",
+                        "label": "Phone(У2)"
+                    },
+                    {
+                        "name": "Phone(У3)",
+                        "type": "array",
+                        "label": "Phone(У3)"
+                    },
+                    {
+                        "name": "Phone(У4)",
+                        "type": "array",
+                        "label": "Phone(У4)"
+                    },
+                    {
+                        "name": "Telegram_ID (У1)",
+                        "type": "array",
+                        "label": "Telegram_ID (У1)"
+                    },
+                    {
+                        "name": "Telegram_ID (У2)",
+                        "type": "array",
+                        "label": "Telegram_ID (У2)"
+                    },
+                    {
+                        "name": "Telegram_ID (У3)",
+                        "type": "array",
+                        "label": "Telegram_ID (У3)"
+                    },
+                    {
+                        "name": "Telegram_ID (У4)",
+                        "type": "array",
+                        "label": "Telegram_ID (У4)"
+                    },
+                    {
+                        "name": "Размер группы",
+                        "type": "text",
+                        "label": "Размер группы"
+                    },
+                    {
+                        "name": "Name (У1)",
+                        "type": "array",
+                        "label": "Name (У1)"
+                    },
+                    {
+                        "name": "Name (У2)",
+                        "type": "array",
+                        "label": "Name (У2)"
+                    },
+                    {
+                        "name": "Name (У3)",
+                        "type": "array",
+                        "label": "Name (У3)"
+                    },
+                    {
+                        "name": "Name (У4)",
+                        "type": "array",
+                        "label": "Name (У4)"
+                    },
+                    {
+                        "name": "О себе (У1)",
+                        "type": "array",
+                        "label": "О себе (У1)"
+                    },
+                    {
+                        "name": "О себе (У2)",
+                        "type": "array",
+                        "label": "О себе (У2)"
+                    },
+                    {
+                        "name": "О себе (У3)",
+                        "type": "array",
+                        "label": "О себе (У3)"
+                    },
+                    {
+                        "name": "О себе (У4)",
+                        "type": "array",
+                        "label": "О себе (У4)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У1)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У1)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У2)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У2)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У3)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У3)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У4)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У4)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У1)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У1)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У2)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У2)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У3)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У3)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У4)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У4)"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 38,
+            "module": "airtable:ActionUpdateRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 11385945
+            },
+            "filter": {
+                "name": "",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{3.`__IMTLENGTH__`}}",
+                            "b": "0",
+                            "o": "text:notequal"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "id": "{{3.group_id}}",
+                "base": "appaO2oANc7aCrEnZ",
+                "table": "tblpBUN4KcKQ6ffki",
+                "record": {
+                    "fldcJm7er88zj3iIc": "Завершена"
+                },
+                "typecast": false,
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 288,
+                    "y": 297
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "label": "Соц игра"
+                        },
+                        "table": {
+                            "label": "Группы"
+                        },
+                        "record": {
+                            "nested": {
+                                "fld655FHJAp4U9bQy": {
+                                    "mode": "chose"
+                                },
+                                "fld88q5kEiNINCRX9": {
+                                    "mode": "chose"
+                                },
+                                "fld8Ruykxh3icIc84": {
+                                    "mode": "chose"
+                                },
+                                "fldGsZ9kGd136GSvl": {
+                                    "mode": "chose"
+                                },
+                                "fldQHi8h5nw0nb0Ao": {
+                                    "mode": "chose"
+                                },
+                                "fldcJm7er88zj3iIc": {
+                                    "mode": "chose",
+                                    "label": "Завершена"
+                                },
+                                "fldzNESCs7jWT4RHl": {
+                                    "mode": "chose"
+                                }
+                            }
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "2025-CON (User ID: usrBZ9J9DPptgMmse)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    },
+                    {
+                        "name": "record",
+                        "spec": [
+                            {
+                                "name": "fld88q5kEiNINCRX9",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Участник 1"
+                            },
+                            {
+                                "name": "fld655FHJAp4U9bQy",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Участник 2"
+                            },
+                            {
+                                "name": "fldzNESCs7jWT4RHl",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Участник 3"
+                            },
+                            {
+                                "name": "fld8Ruykxh3icIc84",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Участник 4"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldcJm7er88zj3iIc",
+                                "type": "select",
+                                "label": "Статус"
+                            },
+                            {
+                                "name": "fldT9Bfnxjx1OVU34",
+                                "time": false,
+                                "type": "date",
+                                "label": "Дата создания"
+                            },
+                            {
+                                "name": "fld1HdUkjbBkpFzfV",
+                                "time": false,
+                                "type": "date",
+                                "label": "Дата завершения"
+                            },
+                            {
+                                "name": "fldrqLiYHD1zcPZzj",
+                                "type": "text",
+                                "label": "Обратная связь участника 1"
+                            },
+                            {
+                                "name": "fldO8CV6Z3wCivLYI",
+                                "type": "text",
+                                "label": "Обратная связь участника 2"
+                            },
+                            {
+                                "name": "fldNaw19PDhVHBtP2",
+                                "type": "text",
+                                "label": "Сезон"
+                            },
+                            {
+                                "name": "flduT4x8b2mUluU7n",
+                                "type": "text",
+                                "label": "Дата  встречи"
+                            },
+                            {
+                                "name": "fldy2lAYbVJETxgwB",
+                                "type": "text",
+                                "label": "Неделя"
+                            },
+                            {
+                                "name": "fldhRZxl1VMnWpHaT",
+                                "type": "text",
+                                "label": "Участники"
+                            },
+                            {
+                                "name": "fldGsZ9kGd136GSvl",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Участники 2"
+                            },
+                            {
+                                "name": "fldQHi8h5nw0nb0Ao",
+                                "spec": {
+                                    "name": "value",
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Обратная связь"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "group_id",
+                        "type": "text",
+                        "label": "group_id"
+                    },
+                    {
+                        "name": "Участник 1",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 1"
+                    },
+                    {
+                        "name": "Участник 2",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 2"
+                    },
+                    {
+                        "name": "Участник 3",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 3"
+                    },
+                    {
+                        "name": "Участник 4",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участник 4"
+                    },
+                    {
+                        "name": "Статус",
+                        "type": "text",
+                        "label": "Статус"
+                    },
+                    {
+                        "name": "Регион (У1)",
+                        "type": "array",
+                        "label": "Регион (У1)"
+                    },
+                    {
+                        "name": "Регион (У2)",
+                        "type": "array",
+                        "label": "Регион (У2)"
+                    },
+                    {
+                        "name": "Регион (У3)",
+                        "type": "array",
+                        "label": "Регион (У3)"
+                    },
+                    {
+                        "name": "Регион (У4)",
+                        "type": "array",
+                        "label": "Регион (У4)"
+                    },
+                    {
+                        "name": "Возраст (У1)",
+                        "type": "array",
+                        "label": "Возраст (У1)"
+                    },
+                    {
+                        "name": "Возраст (У2)",
+                        "type": "array",
+                        "label": "Возраст (У2)"
+                    },
+                    {
+                        "name": "Возраст (У3)",
+                        "type": "array",
+                        "label": "Возраст (У3)"
+                    },
+                    {
+                        "name": "Возраст (У4)",
+                        "type": "array",
+                        "label": "Возраст (У4)"
+                    },
+                    {
+                        "name": "Phone(У1)",
+                        "type": "array",
+                        "label": "Phone(У1)"
+                    },
+                    {
+                        "name": "Phone(У2)",
+                        "type": "array",
+                        "label": "Phone(У2)"
+                    },
+                    {
+                        "name": "Phone(У3)",
+                        "type": "array",
+                        "label": "Phone(У3)"
+                    },
+                    {
+                        "name": "Phone(У4)",
+                        "type": "array",
+                        "label": "Phone(У4)"
+                    },
+                    {
+                        "name": "Telegram_ID (У1)",
+                        "type": "array",
+                        "label": "Telegram_ID (У1)"
+                    },
+                    {
+                        "name": "Telegram_ID (У2)",
+                        "type": "array",
+                        "label": "Telegram_ID (У2)"
+                    },
+                    {
+                        "name": "Telegram_ID (У3)",
+                        "type": "array",
+                        "label": "Telegram_ID (У3)"
+                    },
+                    {
+                        "name": "Telegram_ID (У4)",
+                        "type": "array",
+                        "label": "Telegram_ID (У4)"
+                    },
+                    {
+                        "name": "Дата создания",
+                        "time": false,
+                        "type": "date",
+                        "label": "Дата создания"
+                    },
+                    {
+                        "name": "Дата завершения",
+                        "time": false,
+                        "type": "date",
+                        "label": "Дата завершения"
+                    },
+                    {
+                        "name": "Размер группы",
+                        "type": "text",
+                        "label": "Размер группы"
+                    },
+                    {
+                        "name": "Name (У1)",
+                        "type": "array",
+                        "label": "Name (У1)"
+                    },
+                    {
+                        "name": "Name (У2)",
+                        "type": "array",
+                        "label": "Name (У2)"
+                    },
+                    {
+                        "name": "Name (У3)",
+                        "type": "array",
+                        "label": "Name (У3)"
+                    },
+                    {
+                        "name": "Name (У4)",
+                        "type": "array",
+                        "label": "Name (У4)"
+                    },
+                    {
+                        "name": "Регион (from Участник 1)",
+                        "type": "array",
+                        "label": "Регион (from Участник 1)"
+                    },
+                    {
+                        "name": "Регион (from Участник 2)",
+                        "type": "array",
+                        "label": "Регион (from Участник 2)"
+                    },
+                    {
+                        "name": "Регион (from Участник 3)",
+                        "type": "array",
+                        "label": "Регион (from Участник 3)"
+                    },
+                    {
+                        "name": "Регион (from Участник 4)",
+                        "type": "array",
+                        "label": "Регион (from Участник 4)"
+                    },
+                    {
+                        "name": "О себе (У1)",
+                        "type": "array",
+                        "label": "О себе (У1)"
+                    },
+                    {
+                        "name": "О себе (У2)",
+                        "type": "array",
+                        "label": "О себе (У2)"
+                    },
+                    {
+                        "name": "О себе (У3)",
+                        "type": "array",
+                        "label": "О себе (У3)"
+                    },
+                    {
+                        "name": "О себе (У4)",
+                        "type": "array",
+                        "label": "О себе (У4)"
+                    },
+                    {
+                        "name": "Обратная связь участника 1",
+                        "type": "text",
+                        "label": "Обратная связь участника 1",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Обратная связь участника 2",
+                        "type": "text",
+                        "label": "Обратная связь участника 2",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Средняя оценка",
+                        "type": "array",
+                        "label": "Средняя оценка"
+                    },
+                    {
+                        "name": "Сезон",
+                        "type": "text",
+                        "label": "Сезон"
+                    },
+                    {
+                        "name": "Дата  встречи",
+                        "type": "text",
+                        "label": "Дата  встречи"
+                    },
+                    {
+                        "name": "Неделя",
+                        "type": "text",
+                        "label": "Неделя"
+                    },
+                    {
+                        "name": "Статус недели",
+                        "type": "array",
+                        "label": "Статус недели"
+                    },
+                    {
+                        "name": "Modified By",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "email",
+                                "type": "text",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Modified By"
+                    },
+                    {
+                        "name": "Зачем ты пришёл(а) в игру (from Участник 1)",
+                        "type": "array",
+                        "label": "Зачем ты пришёл(а) в игру (from Участник 1)"
+                    },
+                    {
+                        "name": "Зачем ты пришёл(а) в игру (from Участник 2) 2",
+                        "type": "array",
+                        "label": "Зачем ты пришёл(а) в игру (from Участник 2) 2"
+                    },
+                    {
+                        "name": "Участники",
+                        "type": "text",
+                        "label": "Участники"
+                    },
+                    {
+                        "name": "last modified time",
+                        "type": "date",
+                        "label": "last modified time"
+                    },
+                    {
+                        "name": "Участники 2",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Участники 2"
+                    },
+                    {
+                        "name": "Обратная связь",
+                        "spec": {
+                            "label": "Record ID"
+                        },
+                        "type": "array",
+                        "label": "Обратная связь"
+                    },
+                    {
+                        "name": "Сфера деятельности (У1)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У1)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У2)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У2)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У3)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У3)"
+                    },
+                    {
+                        "name": "Сфера деятельности (У4)",
+                        "type": "array",
+                        "label": "Сфера деятельности (У4)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У1)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У1)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У2)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У2)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У3)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У3)"
+                    },
+                    {
+                        "name": " Каких людей ты бы хотел встретить в игре (У4)",
+                        "type": "array",
+                        "label": " Каких людей ты бы хотел встретить в игре (У4)"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu2.make.com",
+        "notes": []
+    }
+}

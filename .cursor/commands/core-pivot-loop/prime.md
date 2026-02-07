@@ -19,9 +19,10 @@ List all tracked files:
 Show directory structure:
 On Linux, run: `tree -L 3 -I 'node_modules|__pycache__|.git|dist|build'`
 
-### 2. Read Core Documentation
-
-- Read all .md files or similar global rules file
+### 2. Read Core Documentation & Brainstorming Timeline
+- Read all .md files or similar global rules file in the root, `.docs/` and `docs/`.
+- **Brainstorming Sync**: Read all files in `.docs/brainstorming/` EXCEPT those in the `archive/` subfolder.
+- **Chronological Processing**: Use the `{yyyymmdd}` prefix in filenames to build a timeline of decisions, ensuring the most recent brainstorms override older conflicting ones.
 - Read README files at project root and major directories
 - Read any architecture documentation
 
@@ -63,11 +64,12 @@ Check current branch and status:
 
 ## Output Format
 
-Filename: .docs/prime-report/{date-in-format-yyyymmdd}.md
+Filename: .docs/prime-report/{branch-name}/{date-in-format-yyyymmdd-hhmm}.md
 
-Replace {date-in-format-yyyymmdd} with date in format yyyymmdd
-Examples: 20261129.md, 20261130.md, 20260401.md
-Directory: Create .docs/prime-report/ if it doesn't exist
+Replace: {date-in-format-yyyymmdd-hhmm} with date in format yyyymmdd-hhmm 
+Examples: 20261129-1134.md, 20261130-2345.md, 20260401-0900.md
+Replace: {branch-name} with the current branch name
+Directory: Create .docs/prime-report/{branch-name} if it doesn't exist
 
 ## Output Report
 
