@@ -30,6 +30,11 @@ npx tsc --noEmit
 
 # Deploy backend
 npm run convex:deploy
+
+# Testing
+npm run test          # Run tests in watch mode
+npm run test:once     # Run tests once
+npm run test:coverage # Run tests with coverage report
 ```
 
 ## Architecture
@@ -71,3 +76,25 @@ Frontend (`.env.local` in each app): `VITE_CONVEX_URL`
 - Region values: "North", "Center", "South"
 - Matching history prevents re-matching for 4 weeks
 - Group sizes: 2-4 participants
+
+## Testing
+
+Tests use **Vitest** with **convex-test** for testing Convex backend functions. Test files are colocated with source files (e.g., `convex/participants.test.ts`).
+
+### Test Utilities
+`convex/test.utils.ts` provides factory functions for creating test data:
+- `setupTest()` — Creates isolated convexTest instance
+- `makeParticipant()`, `makeGroup()`, `makeFeedback()`, etc. — Factory functions with sensible defaults
+- `seedParticipants()` — Seed multiple participants
+- `uniqueTelegramId(index)` — Generate unique test telegramIds
+
+### Test Coverage
+- **participants.test.ts** — Registration, profile updates, status management
+- **groups.test.ts** — Group creation, listing, lifecycle
+- **support.test.ts** — Ticket creation, answering, closing
+- **feedback.test.ts** — Feedback submission, validation, point awards
+- **payments.test.ts** — Payment logging, success/failure processing
+- **matching.test.ts** — 5-stage matching algorithm, edge cases
+- **http.test.ts** — Webhook handlers (PayPlus, Telegram, health)
+- **crons.test.ts** — Scheduled job handlers
+

@@ -8,11 +8,17 @@
     "dev:user": "npm run dev -w apps/user",
     "dev:admin": "npm run dev -w apps/admin",
     "convex": "convex dev",
-    "convex:deploy": "convex deploy"
+    "convex:deploy": "convex deploy",
+    "test": "vitest",
+    "test:once": "vitest run",
+    "test:coverage": "vitest run --coverage --coverage.reporter=text"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "^4.0.4",
     "@types/node": "^25.2.1",
     "convex": "^1.17.0",
-    "typescript": "^5.7.0"
+    "convex-test": "^0.0.34",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   }
 }
