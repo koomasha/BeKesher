@@ -16,7 +16,9 @@ export const getForParticipant = query({
             groupId: v.id("groups"),
             rating: v.number(),
             textFeedback: v.optional(v.string()),
-            wouldMeetAgain: v.optional(v.boolean()),
+            wouldMeetAgain: v.optional(v.string()),
+            taskEffect: v.optional(v.string()),
+            improvementSuggestion: v.optional(v.string()),
             submittedAt: v.number(),
         })
     ),
@@ -44,6 +46,8 @@ export const getForParticipant = query({
             rating: f.rating,
             textFeedback: f.textFeedback,
             wouldMeetAgain: f.wouldMeetAgain,
+            taskEffect: f.taskEffect,
+            improvementSuggestion: f.improvementSuggestion,
             submittedAt: f.submittedAt,
         }));
     },
@@ -131,6 +135,85 @@ export const getPendingFeedback = query({
 });
 
 /**
+ * List all feedback with optional filters (admin view)
+ */
+export const list = query({
+    args: {
+        minRating: v.optional(v.number()),
+        groupStatus: v.optional(v.string()),
+    },
+    returns: v.array(
+        v.object({
+            _id: v.id("feedback"),
+            participantName: v.string(),
+            groupId: v.id("groups"),
+            groupCreatedAt: v.number(),
+            groupStatus: v.string(),
+            rating: v.number(),
+            textFeedback: v.optional(v.string()),
+            wouldMeetAgain: v.optional(v.string()),
+            photoUrls: v.optional(v.array(v.string())),
+            taskEffect: v.optional(v.string()),
+            improvementSuggestion: v.optional(v.string()),
+            submittedAt: v.number(),
+        })
+    ),
+    handler: async (ctx, args) => {
+        // Get all feedback ordered by submission date (newest first)
+        let feedbackList = await ctx.db
+            .query("feedback")
+            .order("desc")
+            .collect();
+
+        // Apply rating filter if provided
+        if (args.minRating !== undefined) {
+            feedbackList = feedbackList.filter((f) => f.rating >= args.minRating!);
+        }
+
+        // Enrich with participant and group data
+        const enriched = await Promise.all(
+            feedbackList.map(async (f) => {
+                const participant = await ctx.db.get(f.participantId);
+                const group = await ctx.db.get(f.groupId);
+
+                // Filter by group status if provided
+                if (args.groupStatus && group?.status !== args.groupStatus) {
+                    return null;
+                }
+
+                // Resolve photo storage IDs to URLs
+                const photoUrls = f.photos
+                    ? await Promise.all(
+                          f.photos.map(async (storageId) => {
+                              const url = await ctx.storage.getUrl(storageId);
+                              return url || "";
+                          })
+                      )
+                    : undefined;
+
+                return {
+                    _id: f._id,
+                    participantName: participant?.name || "Unknown",
+                    groupId: f.groupId,
+                    groupCreatedAt: group?.createdAt || 0,
+                    groupStatus: group?.status || "Unknown",
+                    rating: f.rating,
+                    textFeedback: f.textFeedback,
+                    wouldMeetAgain: f.wouldMeetAgain,
+                    photoUrls,
+                    taskEffect: f.taskEffect,
+                    improvementSuggestion: f.improvementSuggestion,
+                    submittedAt: f.submittedAt,
+                };
+            })
+        );
+
+        // Filter out null results (from groupStatus filtering)
+        return enriched.filter((f) => f !== null);
+    },
+});
+
+/**
  * Get all feedback for a group (admin view)
  */
 export const getForGroup = query({
@@ -141,7 +224,10 @@ export const getForGroup = query({
             participantName: v.string(),
             rating: v.number(),
             textFeedback: v.optional(v.string()),
-            wouldMeetAgain: v.optional(v.boolean()),
+            wouldMeetAgain: v.optional(v.string()),
+            photos: v.optional(v.array(v.string())),
+            taskEffect: v.optional(v.string()),
+            improvementSuggestion: v.optional(v.string()),
             submittedAt: v.number(),
         })
     ),
@@ -154,12 +240,26 @@ export const getForGroup = query({
         const enrichedFeedback = await Promise.all(
             feedback.map(async (f) => {
                 const participant = await ctx.db.get(f.participantId);
+
+                // Resolve photo storage IDs to URLs
+                const photoUrls = f.photos
+                    ? await Promise.all(
+                          f.photos.map(async (storageId) => {
+                              const url = await ctx.storage.getUrl(storageId);
+                              return url || "";
+                          })
+                      )
+                    : undefined;
+
                 return {
                     _id: f._id,
                     participantName: participant?.name || "Unknown",
                     rating: f.rating,
                     textFeedback: f.textFeedback,
                     wouldMeetAgain: f.wouldMeetAgain,
+                    photos: photoUrls,
+                    taskEffect: f.taskEffect,
+                    improvementSuggestion: f.improvementSuggestion,
                     submittedAt: f.submittedAt,
                 };
             })
@@ -182,8 +282,10 @@ export const submitFeedback = mutation({
         groupId: v.id("groups"),
         rating: v.number(),
         textFeedback: v.optional(v.string()),
-        wouldMeetAgain: v.optional(v.boolean()),
-        photos: v.optional(v.array(v.string())),
+        wouldMeetAgain: v.optional(v.string()),
+        photos: v.optional(v.array(v.id("_storage"))),
+        taskEffect: v.optional(v.string()),
+        improvementSuggestion: v.optional(v.string()),
     },
     returns: v.id("feedback"),
     handler: async (ctx, args) => {
@@ -228,8 +330,8 @@ export const submitFeedback = mutation({
         }
 
         // Validate rating
-        if (args.rating < 1 || args.rating > 5) {
-            throw new Error("Rating must be between 1 and 5");
+        if (args.rating < 1 || args.rating > 10) {
+            throw new Error("Rating must be between 1 and 10");
         }
 
         // Create feedback
@@ -240,6 +342,8 @@ export const submitFeedback = mutation({
             textFeedback: args.textFeedback,
             wouldMeetAgain: args.wouldMeetAgain,
             photos: args.photos,
+            taskEffect: args.taskEffect,
+            improvementSuggestion: args.improvementSuggestion,
             submittedAt: Date.now(),
         });
 
@@ -250,5 +354,16 @@ export const submitFeedback = mutation({
         });
 
         return feedbackId;
+    },
+});
+
+/**
+ * Generate a URL for uploading a feedback photo
+ */
+export const generateUploadUrl = mutation({
+    args: {},
+    returns: v.string(),
+    handler: async (ctx) => {
+        return await ctx.storage.generateUploadUrl();
     },
 });

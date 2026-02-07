@@ -342,3 +342,92 @@ body {
 select.input {
     min-width: 150px;
 }
+
+/* Feedback Page Styles */
+.feedback-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md) 0;
+}
+
+.feedback-item:last-child {
+    border-bottom: none;
+}
+
+.feedback-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feedback-participant {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.feedback-rating {
+    font-weight: 600;
+    color: var(--accent-warning);
+    font-size: 1.125rem;
+}
+
+.feedback-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.feedback-preview {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: var(--spacing-sm) 0;
+}
+
+.feedback-details {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.feedback-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.feedback-section strong {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.feedback-section p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.feedback-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.feedback-photo {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.feedback-photo:hover {
+    transform: scale(1.05);
+}

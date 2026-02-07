@@ -103,7 +103,7 @@ export const resetAndSeed = internalMutation({
                     participantId: p1,
                     rating: 4 + Math.floor(Math.random() * 2),
                     textFeedback: "Great meeting!",
-                    wouldMeetAgain: true,
+                    wouldMeetAgain: "yes",
                     submittedAt: Date.now(),
                 });
             }
