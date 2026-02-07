@@ -117,8 +117,10 @@ export function makeFeedback(
     overrides: Partial<{
         rating: number;
         textFeedback: string;
-        wouldMeetAgain: boolean;
-        photos: string[];
+        wouldMeetAgain: string;
+        photos: Id<"_storage">[];
+        taskEffect: string;
+        improvementSuggestion: string;
         submittedAt: number;
     }> = {}
 ) {

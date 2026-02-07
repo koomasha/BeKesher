@@ -28,6 +28,12 @@ function Sidebar() {
                     🎯 Groups
                 </NavLink>
                 <NavLink
+                    to="/feedback"
+                    className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                    ⭐ Feedback
+                </NavLink>
+                <NavLink
                     to="/matching"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >

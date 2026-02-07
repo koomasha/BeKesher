@@ -33,7 +33,7 @@ describe("feedback", () => {
                 groupId,
                 rating: 5,
                 textFeedback: "Great meeting!",
-                wouldMeetAgain: true,
+                wouldMeetAgain: "yes",
             });
 
             expect(feedbackId).toBeDefined();
@@ -186,10 +186,10 @@ describe("feedback", () => {
                     groupId,
                     rating: 0,
                 })
-            ).rejects.toThrowError("Rating must be between 1 and 5");
+            ).rejects.toThrowError("Rating must be between 1 and 10");
         });
 
-        test("throws if rating is greater than 5", async () => {
+        test("throws if rating is greater than 10", async () => {
             const t = setupTest();
 
             const [p1, p2] = await seedParticipants(t, [
@@ -211,9 +211,9 @@ describe("feedback", () => {
                 t.mutation(api.feedback.submitFeedback, {
                     telegramId: "ratingtest2",
                     groupId,
-                    rating: 6,
+                    rating: 11,
                 })
-            ).rejects.toThrowError("Rating must be between 1 and 5");
+            ).rejects.toThrowError("Rating must be between 1 and 10");
         });
 
         test("accepts rating exactly 1 (boundary)", async () => {
@@ -243,11 +243,11 @@ describe("feedback", () => {
             expect(feedbackId).toBeDefined();
         });
 
-        test("accepts rating exactly 5 (boundary)", async () => {
+        test("accepts rating exactly 10 (boundary)", async () => {
             const t = setupTest();
 
             const [p1, p2] = await seedParticipants(t, [
-                makeParticipant({ telegramId: "rating5test" }),
+                makeParticipant({ telegramId: "rating10test" }),
                 makeParticipant({ telegramId: uniqueTelegramId(2) }),
             ]);
 
@@ -262,9 +262,9 @@ describe("feedback", () => {
             });
 
             const feedbackId = await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "rating5test",
+                telegramId: "rating10test",
                 groupId,
-                rating: 5,
+                rating: 10,
             });
 
             expect(feedbackId).toBeDefined();

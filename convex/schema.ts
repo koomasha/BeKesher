@@ -65,8 +65,10 @@ export default defineSchema({
         participantId: v.id("participants"),
         rating: v.number(),
         textFeedback: v.optional(v.string()),
-        wouldMeetAgain: v.optional(v.boolean()),
-        photos: v.optional(v.array(v.string())),
+        wouldMeetAgain: v.optional(v.string()),
+        photos: v.optional(v.array(v.id("_storage"))),
+        taskEffect: v.optional(v.string()),
+        improvementSuggestion: v.optional(v.string()),
         submittedAt: v.number(),
     })
         .index("by_groupId", ["groupId"])
