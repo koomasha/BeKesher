@@ -118,6 +118,7 @@ When extracting requirements, prioritize files based on the following hierarchy 
 1. **Data Architecture (The "What")**
    - **Primary**: `db_schema.sql`, `schema.prisma`, `models.py`, `migrations/`
    - **Role**: Defines entities, relationships, and data constraints.
+   - **Brainstorming Timeline Analysis**: Review active files in `.docs/brainstorm/` (ignoring the `archive/` folder). Use file dates to establish a timeline of pivots, ensuring the PRD reflects the very latest brainstorming intent even if it hasn't been implemented in the codebase yet.
    - **PRD Impact**: Sections 6 (Architecture) and 10 (API Specification).
 
 2. **Logic & Workflow (The "How")**

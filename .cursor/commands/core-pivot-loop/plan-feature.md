@@ -16,6 +16,11 @@ Transform a feature request into a **comprehensive implementation plan** through
 
 ## Planning Process
 
+**Brainstorming Integrity Rule:**
+- **Read-Only Access**: You may READ all files in `.docs/brainstorming/` (excluding `/archive`) to extract intent and decisions.
+- **No Overwriting**: You are strictly FORBIDDEN from modifying or overwriting existing brainstorming files.
+- **Timeline Preservation**: If you find conflicting decisions in the brainstorming files, always prioritize the one with the most recent `{yyyymmdd}` prefix.
+
 ### Phase 1: Feature Understanding
 
 **Deep Feature Analysis:**
@@ -46,6 +51,17 @@ So that <benefit/value>
 - Locate configuration files (pyproject.toml, package.json, etc.)
 - Find environment setup and build processes
 
+**1. Project Structure & Blueprint Analysis**
+
+- Detect primary language(s), frameworks, and runtime versions.
+- Map directory structure and architectural patterns.
+- Identify service/component boundaries and integration points
+- Source of Truth Identification: Locate project "Blueprints" (e.g., `db_schema.sql`, `n8n.json`, `branding.pdf`).
+- Blueprint Alignment: Determine if the feature requires modifications to the Data Architecture (SQL), Logic Workflows (n8n), or Identity Guidelines (Branding).
+- Locate configuration files (pyproject.toml, package.json, etc.)
+- Find environment setup and build processes
+
+
 **2. Pattern Recognition** (Use specialized subagents when beneficial)
 
 - Search for similar implementations in codebase
@@ -62,7 +78,7 @@ So that <benefit/value>
 
 - Catalog external libraries relevant to feature
 - Understand how libraries are integrated (check imports, configs)
-- Find relevant documentation in docs/, ai_docs/, .agents/reference or ai-wiki if available
+- Find relevant documentation in docs/, ai_docs/, .docs/reference or ai-wiki if available
 - Note library versions and compatibility requirements
 
 **4. Testing Patterns**
@@ -136,6 +152,9 @@ So that <benefit/value>
 - Design for extensibility and future modifications
 - Plan for backward compatibility if needed
 - Consider scalability implications
+
+**Decision Reconciliation**: If the current brainstorming intent contradicts the existing codebase patterns, document this "Pivot" in the **Notes** section of the Plan. Do not attempt to update the brainstorming file to match the code; the code must eventually change to match the brainstorming.
+
 
 ### Phase 5: Plan Structure Generation
 
@@ -213,6 +232,12 @@ So that <benefit/value>
 **Logging Pattern:** (for example)
 
 **Other Relevant Patterns:** (for example)
+
+### Blueprint Alignment (Critical)
+
+- **Data Architecture**: If `db_schema.sql` or `schema.prisma` was identified, verify if the feature requires new tables, columns, or relationships. Update the blueprint accordingly.
+- **Logic Workflows**: If `n8n.json` or workflow files were identified, determine if the feature requires new workflows, triggers, or node configurations. Update the blueprint.
+- **Identity Guidelines**: If `branding.pdf` or style guides were identified, ensure the feature's UI/UX aligns with the established visual identity.
 
 ---
 
@@ -374,12 +399,13 @@ Execute every command to ensure zero regressions and 100% feature correctness.
 
 ## Output Format
 
-**Filename**: `.agents/plans/{kebab-case-descriptive-name}.md`
+**Filename**: `.docs/plans/{branch-name}/{kebab-case-descriptive-name}.md`
 
 - Replace `{kebab-case-descriptive-name}` with short, descriptive feature name
+- Replace `{branch-name}` with the current branch name
 - Examples: `add-user-authentication.md`, `implement-search-api.md`, `refactor-database-layer.md`
 
-**Directory**: Create `.agents/plans/` if it doesn't exist
+**Directory**: Create `.docs/plans/` if it doesn't exist
 
 ## Quality Criteria
 
