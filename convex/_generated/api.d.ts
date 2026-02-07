@@ -16,6 +16,7 @@ import type * as matching from "../matching.js";
 import type * as notifications from "../notifications.js";
 import type * as participants from "../participants.js";
 import type * as payments from "../payments.js";
+import type * as seed from "../seed.js";
 import type * as support from "../support.js";
 
 import type {
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   notifications: typeof notifications;
   participants: typeof participants;
   payments: typeof payments;
+  seed: typeof seed;
   support: typeof support;
 }>;
 
