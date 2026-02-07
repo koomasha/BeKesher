@@ -1,0 +1,352 @@
+import {
+    query,
+    mutation,
+    internalQuery,
+    internalMutation,
+} from "./_generated/server";
+import { v } from "convex/values";
+import { Id } from "./_generated/dataModel";
+
+// ============================================
+// PUBLIC QUERIES
+// ============================================
+
+/**
+ * Get groups for a participant
+ */
+export const getForParticipant = query({
+    args: { telegramId: v.string() },
+    returns: v.array(
+        v.object({
+            _id: v.id("groups"),
+            createdAt: v.number(),
+            status: v.string(),
+            region: v.optional(v.string()),
+            members: v.array(
+                v.object({
+                    _id: v.id("participants"),
+                    name: v.string(),
+                    telegramId: v.string(),
+                })
+            ),
+        })
+    ),
+    handler: async (ctx, args) => {
+        // First get the participant
+        const participant = await ctx.db
+            .query("participants")
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .unique();
+
+        if (!participant) {
+            return [];
+        }
+
+        // Get all groups and filter for this participant
+        // Note: In production, we'd want an index for this
+        const allGroups = await ctx.db.query("groups").collect();
+
+        const participantGroups = allGroups.filter((g) => {
+            return (
+                g.participant1 === participant._id ||
+                g.participant2 === participant._id ||
+                g.participant3 === participant._id ||
+                g.participant4 === participant._id
+            );
+        });
+
+        // Enrich with member details
+        const enrichedGroups = await Promise.all(
+            participantGroups.map(async (group) => {
+                const memberIds = [
+                    group.participant1,
+                    group.participant2,
+                    group.participant3,
+                    group.participant4,
+                ].filter((id): id is Id<"participants"> => id !== undefined);
+
+                const members = await Promise.all(
+                    memberIds.map(async (id) => {
+                        const member = await ctx.db.get(id);
+                        if (!member) return null;
+                        return {
+                            _id: member._id,
+                            name: member.name,
+                            telegramId: member.telegramId,
+                        };
+                    })
+                );
+
+                return {
+                    _id: group._id,
+                    createdAt: group.createdAt,
+                    status: group.status,
+                    region: group.region,
+                    members: members.filter(
+                        (m): m is { _id: Id<"participants">; name: string; telegramId: string } =>
+                            m !== null
+                    ),
+                };
+            })
+        );
+
+        return enrichedGroups;
+    },
+});
+
+/**
+ * Get active group for a participant (if any)
+ */
+export const getActiveForParticipant = query({
+    args: { telegramId: v.string() },
+    returns: v.union(
+        v.object({
+            _id: v.id("groups"),
+            createdAt: v.number(),
+            region: v.optional(v.string()),
+            members: v.array(
+                v.object({
+                    _id: v.id("participants"),
+                    name: v.string(),
+                    telegramId: v.string(),
+                    phone: v.string(),
+                })
+            ),
+        }),
+        v.null()
+    ),
+    handler: async (ctx, args) => {
+        const participant = await ctx.db
+            .query("participants")
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .unique();
+
+        if (!participant) {
+            return null;
+        }
+
+        // Get active groups
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        // Find group containing this participant
+        const myGroup = activeGroups.find((g) => {
+            return (
+                g.participant1 === participant._id ||
+                g.participant2 === participant._id ||
+                g.participant3 === participant._id ||
+                g.participant4 === participant._id
+            );
+        });
+
+        if (!myGroup) {
+            return null;
+        }
+
+        // Get member details
+        const memberIds = [
+            myGroup.participant1,
+            myGroup.participant2,
+            myGroup.participant3,
+            myGroup.participant4,
+        ].filter((id): id is Id<"participants"> => id !== undefined);
+
+        const members = await Promise.all(
+            memberIds.map(async (id) => {
+                const member = await ctx.db.get(id);
+                if (!member) return null;
+                return {
+                    _id: member._id,
+                    name: member.name,
+                    telegramId: member.telegramId,
+                    phone: member.phone,
+                };
+            })
+        );
+
+        return {
+            _id: myGroup._id,
+            createdAt: myGroup.createdAt,
+            region: myGroup.region,
+            members: members.filter(
+                (m): m is { _id: Id<"participants">; name: string; telegramId: string; phone: string } =>
+                    m !== null
+            ),
+        };
+    },
+});
+
+/**
+ * List all groups (for admin)
+ */
+export const list = query({
+    args: {
+        status: v.optional(v.string()),
+    },
+    returns: v.array(
+        v.object({
+            _id: v.id("groups"),
+            createdAt: v.number(),
+            status: v.string(),
+            region: v.optional(v.string()),
+            memberCount: v.number(),
+        })
+    ),
+    handler: async (ctx, args) => {
+        let groupQuery;
+
+        if (args.status) {
+            groupQuery = ctx.db
+                .query("groups")
+                .withIndex("by_status", (q) => q.eq("status", args.status!));
+        } else {
+            groupQuery = ctx.db.query("groups").order("desc");
+        }
+
+        const groups = await groupQuery.collect();
+
+        return groups.map((g) => {
+            const memberCount = [
+                g.participant1,
+                g.participant2,
+                g.participant3,
+                g.participant4,
+            ].filter((id) => id !== undefined).length;
+
+            return {
+                _id: g._id,
+                createdAt: g.createdAt,
+                status: g.status,
+                region: g.region,
+                memberCount,
+            };
+        });
+    },
+});
+
+// ============================================
+// INTERNAL QUERIES (for matching algorithm)
+// ============================================
+
+/**
+ * Get participants currently in active groups
+ */
+export const getParticipantsInActiveGroups = internalQuery({
+    args: {},
+    returns: v.array(v.id("participants")),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        const participantIds: Id<"participants">[] = [];
+
+        for (const group of activeGroups) {
+            if (group.participant1) participantIds.push(group.participant1);
+            if (group.participant2) participantIds.push(group.participant2);
+            if (group.participant3) participantIds.push(group.participant3);
+            if (group.participant4) participantIds.push(group.participant4);
+        }
+
+        return participantIds;
+    },
+});
+
+/**
+ * Get group history for the last N weeks (for repeat checking)
+ */
+export const getHistoryLastWeeks = internalQuery({
+    args: { weeks: v.number() },
+    returns: v.array(
+        v.object({
+            participant1: v.id("participants"),
+            participant2: v.id("participants"),
+            participant3: v.optional(v.id("participants")),
+            participant4: v.optional(v.id("participants")),
+        })
+    ),
+    handler: async (ctx, args) => {
+        const weeksAgo = Date.now() - args.weeks * 7 * 24 * 60 * 60 * 1000;
+
+        // Get groups created after the cutoff
+        const recentGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_createdAt")
+            .collect();
+
+        // Filter by date (can't do this in index query directly)
+        const filteredGroups = recentGroups.filter((g) => g.createdAt >= weeksAgo);
+
+        return filteredGroups.map((g) => ({
+            participant1: g.participant1,
+            participant2: g.participant2,
+            participant3: g.participant3,
+            participant4: g.participant4,
+        }));
+    },
+});
+
+// ============================================
+// INTERNAL MUTATIONS
+// ============================================
+
+/**
+ * Create a new group (called by matching algorithm)
+ */
+export const create = internalMutation({
+    args: {
+        participant1: v.id("participants"),
+        participant2: v.id("participants"),
+        participant3: v.optional(v.id("participants")),
+        participant4: v.optional(v.id("participants")),
+        region: v.optional(v.string()),
+    },
+    returns: v.id("groups"),
+    handler: async (ctx, args) => {
+        const groupId = await ctx.db.insert("groups", {
+            ...args,
+            status: "Active",
+            createdAt: Date.now(),
+        });
+
+        return groupId;
+    },
+});
+
+/**
+ * Update group status
+ */
+export const updateStatus = internalMutation({
+    args: {
+        groupId: v.id("groups"),
+        status: v.string(),
+    },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.groupId, { status: args.status });
+        return null;
+    },
+});
+
+/**
+ * Close all active groups (week close)
+ */
+export const closeActiveGroups = internalMutation({
+    args: {},
+    returns: v.number(),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        for (const group of activeGroups) {
+            await ctx.db.patch(group._id, { status: "Completed" });
+        }
+
+        return activeGroups.length;
+    },
+});

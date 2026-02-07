@@ -399,7 +399,7 @@ Execute every command to ensure zero regressions and 100% feature correctness.
 
 ## Output Format
 
-**Filename**: `.docs/plans/{branch-name}/{kebab-case-descriptive-name}.md`
+**Filename**: `.docs/plans/{branch-name}-{kebab-case-descriptive-name}.md`
 
 - Replace `{kebab-case-descriptive-name}` with short, descriptive feature name
 - Replace `{branch-name}` with the current branch name

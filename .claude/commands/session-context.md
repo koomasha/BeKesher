@@ -1,6 +1,7 @@
 ---
+name: session-context
 description: Capture current brainstorming, decisions, and pivots into a timeline-aware session file
-argument-hint: [brainstorm-topic]
+argument-hint: [session-topic]
 ---
 
 # Session Brainstorm: Mental State Sync
@@ -9,8 +10,8 @@ argument-hint: [brainstorm-topic]
 Summarize the current session to ensure continuity. These files serve as the "active memory" for the Prime agent.
 
 ## Output File
-- Filename: .docs/brainstorming/{branch-name}/context-{yyyymmdd-hhmm}-{brainstorm-topic}.md
-- Directory: Create .docs/brainstorming/{branch-name} if it doesn't exist
+- Filename: .docs/brainstorming/{branch-name}-context-{yyyymmdd-hhmm}-{brainstorm-topic}.md
+- Directory: Create .docs/brainstorming if it doesn't exist
 
 ## Session Structure
 

@@ -64,12 +64,12 @@ Check current branch and status:
 
 ## Output Format
 
-Filename: .docs/prime-report/{branch-name}/{date-in-format-yyyymmdd-hhmm}.md
+Filename: .docs/prime-report/{branch-name}-{date-in-format-yyyymmdd-hhmm}.md
 
 Replace: {date-in-format-yyyymmdd-hhmm} with date in format yyyymmdd-hhmm 
 Examples: 20261129-1134.md, 20261130-2345.md, 20260401-0900.md
 Replace: {branch-name} with the current branch name
-Directory: Create .docs/prime-report/{branch-name} if it doesn't exist
+Directory: Create .docs/prime-report if it doesn't exist
 
 ## Output Report
 
