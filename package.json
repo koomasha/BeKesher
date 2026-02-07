@@ -11,7 +11,8 @@
     "convex:deploy": "convex deploy",
     "test": "vitest",
     "test:once": "vitest run",
-    "test:coverage": "vitest run --coverage --coverage.reporter=text"
+    "test:coverage": "vitest run --coverage --coverage.reporter=text",
+    "seed": "convex run seed:resetAndSeed"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^4.0.4",
