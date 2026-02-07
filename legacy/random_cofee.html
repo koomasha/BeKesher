@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BEKESHER Coffee</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-color: #2b2b2b;
+            --btn-color: #000000;
+            --btn-text: #ffffff;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --glass-bg: rgba(0, 0, 0, 0.2);
+                --glass-border: rgba(255, 255, 255, 0.1);
+                --text-color: #ffffff;
+                --btn-color: #ffffff;
+                --btn-text: #000000;
+            }
+        }
+        body {
+            margin: 0; padding: 20px; font-family: -apple-system, sans-serif;
+            background: var(--bg-gradient); height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-color); overflow: hidden;
+        }
+        .card {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px; border: 1px solid var(--glass-border); padding: 40px 20px;
+            width: 100%; max-width: 340px; text-align: center; box-shadow: var(--shadow); position: relative; z-index: 10;
+        }
+        .icon-container { font-size: 80px; margin-bottom: 20px; position: relative; display: inline-block; }
+        .steam { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 30px; opacity: 0; animation: rise 2s infinite ease-out; }
+        .steam:nth-child(2) { animation-delay: 0.5s; font-size: 20px; margin-left: 10px; }
+        .steam:nth-child(3) { animation-delay: 1s; font-size: 25px; margin-left: -10px; }
+        @keyframes rise { 0% { transform: translate(-50%, 0) scale(1); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translate(-50%, -40px) scale(1.5); opacity: 0; } }
+        h1 { font-size: 28px; font-weight: 800; margin: 0 0 10px 0; }
+        p { font-size: 16px; line-height: 1.4; opacity: 0.85; margin-bottom: 30px; font-weight: 500; }
+        .btn {
+            background: var(--btn-color); color: var(--btn-text); border: none; padding: 18px 0; width: 100%;
+            border-radius: 16px; font-size: 18px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn.loading { pointer-events: none; opacity: 0.9; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.4); } 70% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+        .blob { position: absolute; filter: blur(50px); z-index: 1; opacity: 0.6; }
+        .blob-1 { width: 200px; height: 200px; background: #ff9a9e; top: -50px; left: -50px; }
+        .blob-2 { width: 250px; height: 250px; background: #a18cd1; bottom: -50px; right: -50px; }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div> <div class="blob blob-2"></div>
+    <div class="card">
+        <div class="icon-container">☕<div class="steam">~</div><div class="steam">~</div><div class="steam">~</div></div>
+        <h1>Coffee Roulette</h1>
+        <p>Спонтанный кофе-брейк.<br>Твой регион, случайный собеседник.</p>
+        <button class="btn" id="mainBtn">Найти компанию ⚡️</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // ВОТ СЮДА ВСТАВЬ ССЫЛКУ ИЗ MAKE (ШАГ 2)
+        const MAKE_WEBHOOK_URL = "https://hook.eu2.make.com/edwt2fosrj6rt5fqyycgruddx63ug1on"; 
+
+        const btn = document.getElementById('mainBtn');
+
+        btn.addEventListener('click', () => {
+            btn.classList.add('loading');
+            btn.innerHTML = 'Ищем пару... 🧐';
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
+            const data = {
+                user_id: tg.initDataUnsafe.user?.id,
+                first_name: tg.initDataUnsafe.user?.first_name,
+                username: tg.initDataUnsafe.user?.username,
+                query_id: tg.initDataUnsafe.query_id
+            };
+
+            fetch(MAKE_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                tg.close();
+            })
+            .catch(err => {
+                btn.innerHTML = 'Ошибка 😢';
+                alert('Ошибка соединения');
+            });
+        });
+    </script>
+</body>
+</html>
