@@ -7,9 +7,103 @@ import { Id } from 'convex/_generated/dataModel';
 const TOTAL_STEPS = 6;
 const MAX_PHOTOS = 5;
 
+// Rocket Rating Component
+function RocketRating({ rating, onRatingChange }: { rating: number; onRatingChange: (rating: number) => void }) {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const getRatingFromPosition = (clientY: number) => {
+        if (!trackRef.current) return 1;
+
+        const rect = trackRef.current.getBoundingClientRect();
+        const trackHeight = rect.height;
+        const relativeY = clientY - rect.top;
+
+        // Invert Y (bottom = 1, top = 10)
+        const percentage = Math.max(0, Math.min(1, 1 - relativeY / trackHeight));
+        const newRating = Math.max(1, Math.min(10, Math.round(percentage * 9 + 1)));
+
+        return newRating;
+    };
+
+    const handleStart = (clientY: number) => {
+        setIsDragging(true);
+        const newRating = getRatingFromPosition(clientY);
+        onRatingChange(newRating);
+    };
+
+    const handleMove = (clientY: number) => {
+        if (!isDragging) return;
+        const newRating = getRatingFromPosition(clientY);
+        onRatingChange(newRating);
+    };
+
+    const handleEnd = () => {
+        setIsDragging(false);
+    };
+
+    // Mouse events
+    const handleMouseDown = (e: React.MouseEvent) => {
+        handleStart(e.clientY);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        handleMove(e.clientY);
+    };
+
+    const handleMouseUp = () => {
+        handleEnd();
+    };
+
+    // Touch events
+    const handleTouchStart = (e: React.TouchEvent) => {
+        handleStart(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        handleMove(e.touches[0].clientY);
+    };
+
+    const handleTouchEnd = () => {
+        handleEnd();
+    };
+
+    // Calculate rocket position (0 = bottom, 1 = top)
+    const rocketPosition = rating === 0 ? 0 : (rating - 1) / 9;
+
+    return (
+        <div className="rocket-rating-container">
+            <div className="rocket-rating-value">{rating > 0 ? rating : '?'}</div>
+            <div
+                ref={trackRef}
+                className="rocket-track"
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                <div className="rocket-trail" style={{ height: `${rocketPosition * 100}%` }} />
+                <div
+                    className={`rocket ${isDragging ? 'dragging' : ''}`}
+                    style={{
+                        bottom: `${rocketPosition * 100}%`,
+                        filter: `drop-shadow(0 0 ${rocketPosition * 20}px rgba(79, 70, 229, ${rocketPosition * 0.8}))`,
+                    }}
+                >
+                    🚀
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function FeedbackPage() {
     const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const telegramId = telegramUser?.id?.toString() || '';
+    // Используем тестовый ID для разработки в браузере
+    const telegramId = telegramUser?.id?.toString() || '6444544226';
 
     const pendingFeedback = useQuery(
         api.feedback.getPendingFeedback,
@@ -283,18 +377,8 @@ function FeedbackPage() {
                     {step === 0 && (
                         <>
                             <h2 className="wizard-title">Дай оценку этой недели</h2>
-                            <p className="wizard-subtitle">1 — Полный отстой, 10 — Не хочу чтобы она заканчивалась</p>
-                            <div className="rating-scale">
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                                    <button
-                                        key={num}
-                                        className={`rating-button ${rating === num ? 'selected' : ''}`}
-                                        onClick={() => setRating(num)}
-                                    >
-                                        {num}
-                                    </button>
-                                ))}
-                            </div>
+                            <p className="wizard-subtitle">Подними ракету вверх!</p>
+                            <RocketRating rating={rating} onRatingChange={setRating} />
                             <div className="rating-labels">
                                 <span>Полный отстой</span>
                                 <span>Не хочу чтобы заканчивалась</span>
