@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [masha/deployment-script]
 
 concurrency:
   group: deploy-production
@@ -71,9 +71,6 @@ jobs:
 
       - run: npm ci
 
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
       - name: Build ${{ matrix.app }}
         run: npm run build
         working-directory: apps/${{ matrix.app }}
@@ -81,8 +78,10 @@ jobs:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
 
       - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=dist
-        working-directory: apps/${{ matrix.app }}
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: apps/${{ matrix.app }}/dist
+          production-deploy: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ matrix.app == 'user' && secrets.NETLIFY_SITE_ID_USER || secrets.NETLIFY_SITE_ID_ADMIN }}
