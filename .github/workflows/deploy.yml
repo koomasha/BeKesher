@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [masha/deployment-script]
+    branches: [main]
 
 concurrency:
   group: deploy-production
