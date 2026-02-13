@@ -71,6 +71,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
       - name: Build ${{ matrix.app }}
         run: npm run build
         working-directory: apps/${{ matrix.app }}
@@ -78,7 +81,7 @@ jobs:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
 
       - name: Deploy to Netlify
-        run: npx netlify-cli deploy --prod --dir=apps/${{ matrix.app }}/dist
+        run: netlify deploy --prod --dir=apps/${{ matrix.app }}/dist
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ matrix.app == 'user' && secrets.NETLIFY_SITE_ID_USER || secrets.NETLIFY_SITE_ID_ADMIN }}
