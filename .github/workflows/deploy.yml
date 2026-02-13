@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test
+    name: Test & Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +24,14 @@ jobs:
 
       - name: Run tests
         run: npm run test:once
+
+      - name: Lint user app
+        run: npm run lint
+        working-directory: apps/user
+
+      - name: Lint admin app
+        run: npm run lint
+        working-directory: apps/admin
 
   deploy-convex:
     name: Deploy Convex Backend
