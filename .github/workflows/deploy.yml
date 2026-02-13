@@ -1,0 +1,89 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run tests
+        run: npm run test:once
+
+      - name: Lint user app
+        run: npm run lint
+        working-directory: apps/user
+
+      - name: Lint admin app
+        run: npm run lint
+        working-directory: apps/admin
+
+  deploy-convex:
+    name: Deploy Convex Backend
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Deploy Convex
+        run: npx convex deploy
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+
+  deploy-frontends:
+    name: Deploy ${{ matrix.app }} to Netlify
+    needs: deploy-convex
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - app: user
+          - app: admin
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate Convex client code
+        run: npx convex codegen
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+
+      - name: Build ${{ matrix.app }}
+        run: npm run build
+        working-directory: apps/${{ matrix.app }}
+        env:
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+
+      - name: Deploy to Netlify
+        run: npx netlify-cli deploy --prod --dir=apps/${{ matrix.app }}/dist
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ matrix.app == 'user' && secrets.NETLIFY_SITE_ID_USER || secrets.NETLIFY_SITE_ID_ADMIN }}
