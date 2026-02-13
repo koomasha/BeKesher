@@ -1,4 +1,4 @@
-import { internalMutation, internalAction } from "./_generated/server";
+import { internalMutation, internalAction, action } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
@@ -561,3 +561,30 @@ function formForceMajeureGroups(
 
     return groups;
 }
+
+// ============================================
+// PUBLIC API (for admin dashboard)
+// ============================================
+
+/**
+ * Public wrapper for runWeeklyMatching, callable from the admin dashboard.
+ */
+export const runWeeklyMatchingPublic = action({
+    args: {},
+    returns: v.object({
+        success: v.boolean(),
+        groupsCreated: v.number(),
+        unpaired: v.number(),
+        unpairedNames: v.array(v.string()),
+        message: v.optional(v.string()),
+    }),
+    handler: async (ctx): Promise<{
+        success: boolean;
+        groupsCreated: number;
+        unpaired: number;
+        unpairedNames: string[];
+        message?: string;
+    }> => {
+        return await ctx.runAction(internal.matching.runWeeklyMatching, {});
+    },
+});

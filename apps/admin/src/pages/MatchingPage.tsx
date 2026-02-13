@@ -3,7 +3,7 @@ import { useAction } from 'convex/react';
 import { api } from 'convex/_generated/api';
 
 function MatchingPage() {
-    const runMatching = useAction(api.matching.runWeeklyMatching);
+    const runMatching = useAction(api.matching.runWeeklyMatchingPublic);
 
     const [isRunning, setIsRunning] = useState(false);
     const [result, setResult] = useState<{
