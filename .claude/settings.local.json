@@ -19,7 +19,9 @@
       "mcp__convex__run",
       "mcp__playwright__browser_click",
       "Bash(npx tsc:*)",
-      "Bash(npx vite build:*)"
+      "Bash(npx vite build:*)",
+      "mcp__convex__data",
+      "Bash(npm run dev:user:*)"
     ]
   }
 }

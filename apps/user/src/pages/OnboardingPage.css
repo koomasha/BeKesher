@@ -1,0 +1,354 @@
+.onboarding-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ebf0 100%);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.onboarding-container {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(107, 93, 211, 0.1);
+    padding: 30px;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e8ebf0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6B5DD3 0%, #8B7DE8 100%);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    text-align: center;
+    color: #6B5DD3;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Form Content */
+.step-content {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #e8ebf0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    background: white;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #6B5DD3;
+    box-shadow: 0 0 0 3px rgba(107, 93, 211, 0.1);
+}
+
+.form-input.error,
+.form-textarea.error {
+    border-color: #e74c3c;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+select.form-input {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B5DD3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+/* Radio Groups */
+.radio-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 2px solid #e8ebf0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.radio-label:hover {
+    border-color: #6B5DD3;
+    background: #f8f7fe;
+}
+
+.radio-label input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radio-label input[type="radio"]:checked {
+    border-color: #6B5DD3;
+    background: #6B5DD3;
+}
+
+.radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.radio-label span {
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Vertical Radio Group (for Step 3) */
+.radio-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-label-block {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 16px;
+    border: 2px solid #e8ebf0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.radio-label-block:hover {
+    border-color: #6B5DD3;
+    background: #f8f7fe;
+    transform: translateX(4px);
+}
+
+.radio-label-block input[type="radio"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    margin-right: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.radio-label-block input[type="radio"]:checked {
+    border-color: #6B5DD3;
+    background: #6B5DD3;
+}
+
+.radio-label-block input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+}
+
+.radio-label-block span {
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Character Count */
+.char-count {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #7f8c8d;
+    text-align: right;
+}
+
+/* Error Text */
+.error-text {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6B5DD3 0%, #8B7DE8 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(107, 93, 211, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(107, 93, 211, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: white;
+    color: #6B5DD3;
+    border: 2px solid #6B5DD3;
+}
+
+.btn-secondary:hover {
+    background: #f8f7fe;
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .onboarding-page {
+        padding: 10px;
+    }
+
+    .onboarding-container {
+        padding: 20px;
+    }
+
+    .step-title {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    .radio-group {
+        flex-direction: column;
+    }
+
+    .navigation-buttons {
+        flex-direction: column-reverse;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .onboarding-container {
+        border-radius: 15px;
+        padding: 16px;
+    }
+
+    .step-title {
+        font-size: 22px;
+    }
+
+    .form-input,
+    .form-textarea {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}
