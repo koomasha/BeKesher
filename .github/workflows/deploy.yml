@@ -81,8 +81,7 @@ jobs:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
 
       - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=dist
-        working-directory: apps/${{ matrix.app }}
+        run: netlify deploy --prod --dir ${{ github.workspace }}/apps/${{ matrix.app }}/dist
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ matrix.app == 'user' && secrets.NETLIFY_SITE_ID_USER || secrets.NETLIFY_SITE_ID_ADMIN }}
