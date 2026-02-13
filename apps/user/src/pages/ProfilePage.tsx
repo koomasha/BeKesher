@@ -1,133 +1,137 @@
-import { useQuery } from 'convex/react';
-import { api } from 'convex/_generated/api';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ProfilePage.css';
+import logo from '../assets/logo.png';
+
+interface UserProfile {
+    name: string;
+    phone: string;
+    city: string;
+    age: string;
+    gender: string;
+    aboutMe: string;
+    profession: string;
+    purpose: string;
+    expectations: string;
+}
 
 function ProfilePage() {
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const telegramId = telegramUser?.id?.toString() || '';
+    const navigate = useNavigate();
+    const [profile, setProfile] = useState<UserProfile | null>(null);
 
-    const profile = useQuery(
-        api.participants.getByTelegramId,
-        telegramId ? { telegramId } : 'skip'
-    );
-
-    if (!telegramId) {
-        return (
-            <div className="page">
-                <div className="card">
-                    <div className="empty-state">
-                        <div className="icon">📱</div>
-                        <p>Open this app from Telegram</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (profile === undefined) {
-        return (
-            <div className="page">
-                <div className="loading">
-                    <div className="spinner"></div>
-                </div>
-            </div>
-        );
-    }
+    useEffect(() => {
+        const savedProfile = localStorage.getItem('userProfile');
+        if (savedProfile) {
+            setProfile(JSON.parse(savedProfile));
+        }
+    }, []);
 
     if (!profile) {
         return (
-            <div className="page">
-                <header className="header">
-                    <h1>Profile</h1>
-                    <p>Complete your registration</p>
-                </header>
-                <div className="card">
-                    <p style={{ textAlign: 'center', padding: 'var(--spacing-lg)' }}>
-                        You haven't registered yet. Please complete your registration to join BeKesher!
-                    </p>
-                    <button className="btn btn-primary btn-full">
-                        Register Now
-                    </button>
+            <div className="profile-page">
+                <div className="profile-container">
+                    <div className="empty-state">
+                        <img src={logo} alt="BeKesher" className="empty-logo" />
+                        <h2>Профиль не заполнен</h2>
+                        <p>Пожалуйста, заполните анкету для создания профиля</p>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => navigate('/onboarding')}
+                        >
+                            Заполнить анкету
+                        </button>
+                    </div>
                 </div>
-                <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                    ← Back to Home
-                </Link>
             </div>
         );
     }
 
     return (
-        <div className="page">
-            <header className="header">
-                <h1>👤 My Profile</h1>
-                <p>{profile.name}</p>
-            </header>
-
-            <div className="card animate-fade-in">
-                <div className="card-header">
-                    <span className="card-title">Personal Info</span>
-                    <span className={`badge badge-${profile.status.toLowerCase()}`}>
-                        {profile.status}
-                    </span>
+        <div className="profile-page">
+            <div className="profile-container">
+                {/* Header with Logo */}
+                <div className="profile-header">
+                    <div>
+                        <h1>Мой профиль</h1>
+                        <p className="profile-subtitle">BeKesher</p>
+                    </div>
+                    <img src={logo} alt="BeKesher" className="header-logo" />
                 </div>
 
-                <div className="info-grid" style={{ display: 'grid', gap: 'var(--spacing-md)' }}>
-                    <div className="info-item">
-                        <span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Age</span>
-                        <span style={{ fontWeight: 500 }}>{profile.age}</span>
+                {/* Main Info Section */}
+                <div className="profile-card">
+                    <div className="card-header">
+                        <span className="section-icon">📋</span>
+                        <h2 className="section-title">Основная информация</h2>
                     </div>
-                    <div className="info-item">
-                        <span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Gender</span>
-                        <span style={{ fontWeight: 500 }}>{profile.gender}</span>
-                    </div>
-                    <div className="info-item">
-                        <span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>Region</span>
-                        <span style={{ fontWeight: 500 }}>{profile.region}</span>
-                    </div>
-                    {profile.city && (
+                    <div className="info-grid">
                         <div className="info-item">
-                            <span style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>City</span>
-                            <span style={{ fontWeight: 500 }}>{profile.city}</span>
+                            <span className="info-label">Имя</span>
+                            <span className="info-value">{profile.name}</span>
                         </div>
-                    )}
+                        <div className="info-item">
+                            <span className="info-label">Телефон</span>
+                            <span className="info-value">{profile.phone}</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="info-label">Регион</span>
+                            <span className="info-value">{profile.city}</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="info-label">Возраст</span>
+                            <span className="info-value">{profile.age} лет</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="info-label">Пол</span>
+                            <span className="info-value">{profile.gender}</span>
+                        </div>
+                    </div>
                 </div>
+
+                {/* About Me Section */}
+                <div className="profile-card">
+                    <div className="card-header">
+                        <span className="section-icon">💬</span>
+                        <h2 className="section-title">О себе</h2>
+                    </div>
+                    <div className="about-content">
+                        <div className="about-item">
+                            <span className="info-label">Профессия</span>
+                            <p className="about-text">{profile.profession}</p>
+                        </div>
+                        <div className="about-item">
+                            <span className="info-label">О себе</span>
+                            <p className="about-text">{profile.aboutMe}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Goals and Expectations Section */}
+                <div className="profile-card">
+                    <div className="card-header">
+                        <span className="section-icon">🎯</span>
+                        <h2 className="section-title">Цели и ожидания</h2>
+                    </div>
+                    <div className="about-content">
+                        <div className="about-item">
+                            <span className="info-label">Зачем пришёл в игру</span>
+                            <p className="about-text">{profile.purpose}</p>
+                        </div>
+                        <div className="about-item">
+                            <span className="info-label">Ожидания от людей</span>
+                            <p className="about-text">{profile.expectations}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Edit Button */}
+                <button
+                    className="btn btn-primary btn-edit"
+                    onClick={() => navigate('/onboarding')}
+                >
+                    ✏️ Редактировать профиль
+                </button>
             </div>
-
-            {profile.aboutMe && (
-                <div className="card animate-fade-in">
-                    <span className="card-title">About Me</span>
-                    <p style={{ marginTop: 'var(--spacing-sm)', color: 'var(--text-secondary)' }}>
-                        {profile.aboutMe}
-                    </p>
-                </div>
-            )}
-
-            <div className="card animate-fade-in">
-                <span className="card-title">Subscription</span>
-                <div style={{ marginTop: 'var(--spacing-sm)' }}>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>
-                        Status: <span className={`badge badge-${profile.onPause ? 'pending' : 'active'}`}>
-                            {profile.onPause ? 'Paused' : 'Active'}
-                        </span>
-                    </p>
-                    {profile.paidUntil && (
-                        <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-xs)' }}>
-                            Valid until: {new Date(profile.paidUntil).toLocaleDateString()}
-                        </p>
-                    )}
-                    <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-xs)' }}>
-                        Total Points: {profile.totalPoints} ⭐
-                    </p>
-                </div>
-            </div>
-
-            <button className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                ✏️ Edit Profile
-            </button>
-
-            <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                ← Back to Home
-            </Link>
         </div>
     );
 }

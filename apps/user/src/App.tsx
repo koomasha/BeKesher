@@ -4,6 +4,7 @@ import ProfilePage from './pages/ProfilePage';
 import GroupsPage from './pages/GroupsPage';
 import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
+import OnboardingPage from './pages/OnboardingPage';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <div className="app">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/onboarding" element={<OnboardingPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/groups" element={<GroupsPage />} />
                     <Route path="/feedback" element={<FeedbackPage />} />
