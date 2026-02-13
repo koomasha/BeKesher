@@ -22,11 +22,6 @@ jobs:
 
       - run: npm ci
 
-      - name: Generate Convex client code
-        run: npx convex codegen
-        env:
-          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
-
       - name: Run tests
         run: npm run test:once
 
@@ -75,11 +70,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Generate Convex client code
-        run: npx convex codegen
-        env:
-          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
 
       - name: Build ${{ matrix.app }}
         run: npm run build
