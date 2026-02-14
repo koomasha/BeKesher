@@ -124,12 +124,19 @@ function ProfilePage() {
                     </div>
                 </div>
 
-                {/* Edit Button */}
+                {/* Action Buttons */}
                 <button
                     className="btn btn-primary btn-edit"
                     onClick={() => navigate('/onboarding', { state: { editMode: true, profileData: profile } })}
                 >
                     ✏️ Редактировать профиль
+                </button>
+
+                <button
+                    className="btn btn-secondary btn-home"
+                    onClick={() => navigate('/')}
+                >
+                    🏠 Назад в Главное меню
                 </button>
             </div>
         </div>

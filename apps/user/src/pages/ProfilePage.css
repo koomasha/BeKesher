@@ -126,7 +126,7 @@
     border-left: 4px solid #6B5DD3;
 }
 
-/* Edit Button */
+/* Action Buttons */
 .btn-edit {
     width: 100%;
     margin-top: 10px;
@@ -148,6 +148,31 @@
 }
 
 .btn-edit:active {
+    transform: translateY(0);
+}
+
+.btn-home {
+    width: 100%;
+    margin-top: 12px;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    border: 2px solid #6B5DD3;
+    border-radius: 14px;
+    background: white;
+    color: #6B5DD3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(107, 93, 211, 0.1);
+}
+
+.btn-home:hover {
+    background: #f8f7ff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 93, 211, 0.2);
+}
+
+.btn-home:active {
     transform: translateY(0);
 }
 
