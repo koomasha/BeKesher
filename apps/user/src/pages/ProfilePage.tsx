@@ -73,11 +73,8 @@ function ProfilePage() {
         );
     }
 
-    // Calculate age from birthDate if available, otherwise use age field
-    const displayAge = profile.birthDate ? calculateAge(profile.birthDate) : profile.age;
-
-    // Parse whoToMeet into purpose and expectations
-    const [purpose, expectations] = profile.whoToMeet?.split('\n\n') || ['', ''];
+    // Calculate age from birthDate
+    const displayAge = calculateAge(profile.birthDate);
 
     return (
         <div className="profile-page">
@@ -158,11 +155,11 @@ function ProfilePage() {
                     <div className="about-content">
                         <div className="about-item">
                             <span className="info-label">Зачем пришёл(а) в игру</span>
-                            <p className="about-text">{purpose || '—'}</p>
+                            <p className="about-text">{profile.purpose || '—'}</p>
                         </div>
                         <div className="about-item">
                             <span className="info-label">Каких людей хочу встретить</span>
-                            <p className="about-text">{expectations || '—'}</p>
+                            <p className="about-text">{profile.expectations || '—'}</p>
                         </div>
                     </div>
                 </div>

@@ -182,22 +182,8 @@ function OnboardingPage() {
                     return;
                 }
 
-                // Calculate age from birthDate
-                const today = new Date();
-                const birthDate = new Date(formData.birthDate);
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const monthDiff = today.getMonth() - birthDate.getMonth();
-
-                // Adjust age if birthday hasn't occurred this year yet
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-
                 // Calculate zodiac sign from birthDate
                 const zodiacSign = getZodiacSign(formData.birthDate);
-
-                // Combine purpose and expectations into whoToMeet
-                const whoToMeet = `${formData.purpose}\n\n${formData.expectations}`;
 
                 // Map region names to English
                 const regionMap: { [key: string]: string } = {
@@ -213,14 +199,14 @@ function OnboardingPage() {
                     telegramId: telegramId,
                     tgFirstName: telegramUser?.first_name,
                     tgLastName: telegramUser?.last_name,
-                    age: age,
                     birthDate: formData.birthDate,
                     zodiacSign: zodiacSign,
                     gender: formData.gender,
                     region: regionMap[formData.city] || 'Center',
                     aboutMe: formData.aboutMe,
                     profession: formData.profession,
-                    whoToMeet: whoToMeet,
+                    purpose: formData.purpose,
+                    expectations: formData.expectations,
                 });
 
                 // Also save to localStorage for ProfilePage compatibility

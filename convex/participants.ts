@@ -6,6 +6,22 @@ import {
 } from "./_generated/server";
 import { v } from "convex/values";
 
+/**
+ * Calculate age from birthDate
+ */
+function calculateAge(birthDate: string): number {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
 // ============================================
 // PUBLIC QUERIES
 // ============================================
@@ -25,7 +41,8 @@ export const getByTelegramId = query({
             tgFirstName: v.optional(v.string()),
             tgLastName: v.optional(v.string()),
             photo: v.optional(v.string()),
-            age: v.number(),
+            birthDate: v.string(),
+            zodiacSign: v.optional(v.string()),
             gender: v.string(),
             region: v.string(),
             city: v.optional(v.string()),
@@ -36,7 +53,8 @@ export const getByTelegramId = query({
             formatPreference: v.optional(v.string()),
             aboutMe: v.optional(v.string()),
             profession: v.optional(v.string()),
-            whoToMeet: v.optional(v.string()),
+            purpose: v.optional(v.string()),
+            expectations: v.optional(v.string()),
             values: v.optional(v.array(v.string())),
             interests: v.optional(v.array(v.string())),
             status: v.string(),
@@ -68,15 +86,15 @@ export const getMyProfile = query({
         v.object({
             name: v.string(),
             phone: v.string(),
-            age: v.number(),
-            birthDate: v.optional(v.string()),
+            birthDate: v.string(),
             zodiacSign: v.optional(v.string()),
             gender: v.string(),
             region: v.string(),
             city: v.optional(v.string()),
             aboutMe: v.optional(v.string()),
             profession: v.optional(v.string()),
-            whoToMeet: v.optional(v.string()),
+            purpose: v.optional(v.string()),
+            expectations: v.optional(v.string()),
             status: v.string(),
             onPause: v.boolean(),
             totalPoints: v.number(),
@@ -95,7 +113,6 @@ export const getMyProfile = query({
         return {
             name: participant.name,
             phone: participant.phone,
-            age: participant.age,
             birthDate: participant.birthDate,
             zodiacSign: participant.zodiacSign,
             gender: participant.gender,
@@ -103,7 +120,8 @@ export const getMyProfile = query({
             city: participant.city,
             aboutMe: participant.aboutMe,
             profession: participant.profession,
-            whoToMeet: participant.whoToMeet,
+            purpose: participant.purpose,
+            expectations: participant.expectations,
             status: participant.status,
             onPause: participant.onPause,
             totalPoints: participant.totalPoints,
@@ -125,7 +143,7 @@ export const list = query({
             _id: v.id("participants"),
             name: v.string(),
             telegramId: v.string(),
-            age: v.number(),
+            birthDate: v.string(),
             gender: v.string(),
             region: v.string(),
             status: v.string(),
@@ -156,7 +174,7 @@ export const list = query({
             _id: p._id,
             name: p.name,
             telegramId: p.telegramId,
-            age: p.age,
+            birthDate: p.birthDate,
             gender: p.gender,
             region: p.region,
             status: p.status,
@@ -181,8 +199,7 @@ export const register = mutation({
         tgFirstName: v.optional(v.string()),
         tgLastName: v.optional(v.string()),
         photo: v.optional(v.string()),
-        age: v.number(),
-        birthDate: v.optional(v.string()),
+        birthDate: v.string(),
         zodiacSign: v.optional(v.string()),
         gender: v.string(),
         region: v.string(),
@@ -194,7 +211,8 @@ export const register = mutation({
         formatPreference: v.optional(v.string()),
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
-        whoToMeet: v.optional(v.string()),
+        purpose: v.optional(v.string()),
+        expectations: v.optional(v.string()),
         values: v.optional(v.array(v.string())),
         interests: v.optional(v.array(v.string())),
     },
@@ -232,7 +250,6 @@ export const updateProfile = mutation({
         telegramId: v.string(),
         name: v.optional(v.string()),
         phone: v.optional(v.string()),
-        age: v.optional(v.number()),
         birthDate: v.optional(v.string()),
         zodiacSign: v.optional(v.string()),
         gender: v.optional(v.string()),
@@ -245,7 +262,8 @@ export const updateProfile = mutation({
         formatPreference: v.optional(v.string()),
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
-        whoToMeet: v.optional(v.string()),
+        purpose: v.optional(v.string()),
+        expectations: v.optional(v.string()),
         values: v.optional(v.array(v.string())),
         interests: v.optional(v.array(v.string())),
     },
@@ -364,7 +382,7 @@ export const getActiveForMatching = internalQuery({
             _id: v.id("participants"),
             name: v.string(),
             telegramId: v.string(),
-            age: v.number(),
+            birthDate: v.string(),
             gender: v.string(),
             region: v.string(),
             targetGender: v.optional(v.string()),
@@ -394,7 +412,7 @@ export const getActiveForMatching = internalQuery({
             _id: p._id,
             name: p.name,
             telegramId: p.telegramId,
-            age: p.age,
+            birthDate: p.birthDate,
             gender: p.gender,
             region: p.region,
             targetGender: p.targetGender,

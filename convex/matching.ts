@@ -4,6 +4,26 @@ import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 
 // ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/**
+ * Calculate age from birthDate
+ */
+function calculateAge(birthDate: string): number {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
+// ============================================
 // TYPES
 // ============================================
 
@@ -11,7 +31,7 @@ interface Participant {
     _id: Id<"participants">;
     name: string;
     telegramId: string;
-    age: number;
+    birthDate: string;
     gender: string;
     region: string;
     targetGender?: string;
@@ -290,7 +310,9 @@ function matchGroupsWithCriteria(
 
     for (const pool of pools) {
         // Sort by age
-        const sortedPool = [...pool.participants].sort((a, b) => a.age - b.age);
+        const sortedPool = [...pool.participants].sort((a, b) =>
+            calculateAge(a.birthDate) - calculateAge(b.birthDate)
+        );
         let available = sortedPool.filter((p) => !matched.has(p._id));
 
         while (available.length >= 2) {
@@ -382,7 +404,7 @@ function checkCompatibility(
     criteria: MatchingCriteria
 ): boolean {
     // Check age range
-    const ageDiff = Math.abs(p1.age - p2.age);
+    const ageDiff = Math.abs(calculateAge(p1.birthDate) - calculateAge(p2.birthDate));
     if (ageDiff > criteria.ageRange) {
         return false;
     }
