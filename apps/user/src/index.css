@@ -1,62 +1,98 @@
 /* BeKesher User App - Global Styles */
 
+/* Google Fonts - Rubik */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
 :root {
-  /* Primary Colors - Gradient inspired */
-  --primary-start: #667eea;
-  --primary-end: #764ba2;
-  --primary-gradient: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
-  
-  /* Accent Colors */
-  --accent-success: #48bb78;
-  --accent-warning: #ed8936;
-  --accent-error: #f56565;
-  
-  /* Neutral Colors */
-  --bg-primary: #f7fafc;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --text-primary: #1a202c;
-  --text-secondary: #718096;
-  --text-muted: #a0aec0;
-  --border-color: #e2e8f0;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+  /* Brand Colors - BeKesher Official */
+  --color-primary: #005871;           /* Lyons Blue */
+  --color-primary-hover: #004559;
+  --color-accent: #33BECC;            /* Blue Curaçao */
+  --color-warm: #FF7F50;              /* Vivid Coral */
+  --color-warm-hover: #FF6B4A;
+  --color-highlight: #DCD494;         /* Lemon Grass */
+
+  /* Legacy support - map old variables to new */
+  --primary-start: #005871;
+  --primary-end: #004559;
+  --primary-gradient: linear-gradient(135deg, #005871 0%, #004559 100%);
+  --warm-gradient: linear-gradient(135deg, #FF7F50 0%, #FF6B4A 100%);
+
+  /* Semantic Colors */
+  --accent-success: #4CAF50;
+  --accent-error: #E53935;
+  --accent-warning: #FFA726;
+  --accent-info: #33BECC;
+
+  /* Backgrounds - WARM, never sterile */
+  --bg-primary: #F7F4F0;              /* warm cream - primary page bg */
+  --bg-alt: #EDF8F9;                  /* teal tint - alternating sections */
+  --bg-warm: rgba(255, 127, 80, 0.06); /* coral whisper for warm sections */
+  --bg-card: #FFFFFF;
+  --bg-secondary: #FFFFFF;
+
+  /* Text Colors */
+  --text-primary: #1A1A1A;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --border-color: #E8E2DC;            /* warm-tinted border, not cold gray */
+
+  /* Shadows - warm-tinted, based on brand blue */
+  --shadow-subtle: 0 1px 4px rgba(0, 88, 113, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 88, 113, 0.05);
+  --shadow-md: 0 2px 12px rgba(0, 88, 113, 0.06);
+  --shadow-lg: 0 4px 16px rgba(0, 88, 113, 0.10);
+  --shadow-raised: 0 4px 16px rgba(0, 88, 113, 0.10);
+  --shadow-modal: 0 16px 48px rgba(0, 88, 113, 0.15);
+
   /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+
+  /* Border Radius - generous and soft */
+  --radius-sm: 0.5rem;     /* 8px */
+  --radius-md: 0.75rem;    /* 12px */
+  --radius-card: 1.25rem;  /* 20px */
+  --radius-btn: 1.375rem;  /* 22px */
+  --radius-lg: 1.5rem;     /* 24px */
   --radius-full: 9999px;
-  
-  /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
+
+  /* Typography - Rubik font */
+  --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.25rem;    /* 20px */
+  --font-size-xl: 1.5rem;     /* 24px */
+  --font-size-2xl: 2rem;      /* 32px */
+  --font-size-3xl: 3rem;      /* 48px */
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 /* Dark theme support for Telegram */
 .dark {
-  --bg-primary: #1a202c;
-  --bg-secondary: #2d3748;
-  --bg-card: #2d3748;
-  --text-primary: #f7fafc;
-  --text-secondary: #a0aec0;
+  --color-primary: #33BECC;
+  --primary-start: #33BECC;
+  --primary-end: #33BECC;
+  --bg-primary: #1A1A1A;
+  --bg-alt: #222222;
+  --bg-card: #2A2A2A;
+  --bg-secondary: #2A2A2A;
+  --text-primary: #F0F0F0;
+  --text-secondary: #9CA3AF;
   --text-muted: #718096;
-  --border-color: #4a5568;
+  --border-color: #3A3A3A;
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-raised: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -112,10 +148,17 @@ body {
 /* Card Styles */
 .card {
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);  /* 20px - generous and soft */
+  border: 1px solid rgba(0, 88, 113, 0.08);  /* crisp definition */
   box-shadow: var(--shadow-md);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-md);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
 }
 
 .card-header {
@@ -137,13 +180,13 @@ body {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: 12px 28px;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-btn);  /* 22px - playful and inviting */
   font-size: var(--font-size-base);
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   text-decoration: none;
 }
 
@@ -186,18 +229,20 @@ body {
 
 .input {
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);  /* 8px - slightly rounded */
   font-size: var(--font-size-base);
+  font-family: var(--font-family);
   background: var(--bg-secondary);
   color: var(--text-primary);
-  transition: border-color 0.2s ease;
+  transition: border-color var(--transition-base);
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--primary-start);
+  border-color: var(--color-accent);  /* #33BECC */
+  box-shadow: 0 0 0 3px rgba(51, 190, 204, 0.15);
 }
 
 /* Navigation Menu */
@@ -215,11 +260,12 @@ body {
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);  /* 20px - playful and soft */
+  border: 1px solid rgba(0, 88, 113, 0.08);
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   color: var(--text-primary);
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .nav-item:hover {
@@ -404,11 +450,11 @@ body {
   background: var(--bg-secondary);
   border: 2px solid var(--border-color);
   color: var(--text-muted);
-  transition: all 0.3s ease;
+  transition: all var(--transition-slow);
 }
 
 .wizard-step.active {
-  background: var(--primary-gradient);
+  background: var(--primary-gradient);  /* BeKesher brand gradient */
   border-color: transparent;
   color: white;
   transform: scale(1.1);
@@ -424,7 +470,7 @@ body {
   flex: 1;
   height: 2px;
   background: var(--border-color);
-  transition: background 0.3s ease;
+  transition: background var(--transition-slow);
 }
 
 .wizard-divider.completed {
@@ -433,7 +479,8 @@ body {
 
 .wizard-content {
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);  /* 20px - generous */
+  border: 1px solid rgba(0, 88, 113, 0.08);
   box-shadow: var(--shadow-md);
   padding: var(--spacing-xl);
   margin-bottom: var(--spacing-md);
@@ -468,7 +515,7 @@ body {
 .rocket-rating-value {
   font-size: 3rem;
   font-weight: 700;
-  background: var(--primary-gradient);
+  background: var(--primary-gradient);  /* BeKesher brand gradient */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -485,7 +532,7 @@ body {
   cursor: pointer;
   touch-action: none;
   user-select: none;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 8px rgba(0, 88, 113, 0.1);
 }
 
 .rocket-trail {
@@ -493,7 +540,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(79, 70, 229, 0.3), rgba(129, 140, 248, 0.6));
+  background: linear-gradient(to top, rgba(0, 88, 113, 0.3), rgba(51, 190, 204, 0.6));  /* Brand colors */
   border-radius: var(--radius-full);
   transition: height 0.1s ease-out;
   pointer-events: none;
@@ -542,19 +589,19 @@ body {
   font-size: var(--font-size-lg);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .rating-button:hover {
-  border-color: var(--primary-start);
+  border-color: var(--color-accent);  /* #33BECC */
   transform: scale(1.05);
 }
 
 .rating-button.selected {
-  background: var(--primary-gradient);
+  background: var(--primary-gradient);  /* BeKesher brand gradient */
   border-color: transparent;
   color: white;
   transform: scale(1.1);
@@ -578,14 +625,14 @@ body {
 .choice-button {
   flex: 1;
   padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);  /* 20px - playful */
   border: 2px solid var(--border-color);
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -597,12 +644,12 @@ body {
 }
 
 .choice-button:hover {
-  border-color: var(--primary-start);
+  border-color: var(--color-accent);  /* #33BECC */
   transform: translateY(-2px);
 }
 
 .choice-button.selected {
-  background: var(--primary-gradient);
+  background: var(--primary-gradient);  /* BeKesher brand gradient */
   border-color: transparent;
   color: white;
   transform: scale(1.05);
@@ -667,7 +714,7 @@ body {
   color: var(--text-secondary);
   font-size: var(--font-size-base);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -675,8 +722,8 @@ body {
 }
 
 .photo-upload-button:hover {
-  border-color: var(--primary-start);
-  color: var(--primary-start);
+  border-color: var(--color-accent);  /* #33BECC */
+  color: var(--color-accent);
 }
 
 .photo-upload-button .upload-icon {

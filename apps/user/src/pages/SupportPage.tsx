@@ -134,7 +134,7 @@ function SupportPage() {
             )}
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                ← Back to Home
+                🏠 Назад в Главное меню
             </Link>
         </div>
     );

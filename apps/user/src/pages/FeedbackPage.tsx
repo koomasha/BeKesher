@@ -541,7 +541,7 @@ function FeedbackPage() {
             </div>
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                ← На главную
+                🏠 Назад в Главное меню
             </Link>
         </div>
     );

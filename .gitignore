@@ -16,7 +16,6 @@ out/
 
 # Convex
 .convex/
-convex/_generated/
 
 # IDE
 .idea/

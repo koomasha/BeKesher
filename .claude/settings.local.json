@@ -21,7 +21,8 @@
       "Bash(npx tsc:*)",
       "Bash(npx vite build:*)",
       "mcp__convex__data",
-      "Bash(npm run dev:user:*)"
+      "Bash(npm run dev:user:*)",
+      "Bash(npm run dev:*)"
     ]
   }
 }
