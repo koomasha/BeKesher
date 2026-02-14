@@ -13,6 +13,8 @@ export default defineSchema({
 
         // Demographics
         age: v.number(),
+        birthDate: v.optional(v.string()), // YYYY-MM-DD format
+        zodiacSign: v.optional(v.string()),
         gender: v.string(),
         region: v.string(), // "North" | "Center" | "South"
         city: v.optional(v.string()),
