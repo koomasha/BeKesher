@@ -10,7 +10,7 @@ interface FormData {
     name: string;
     phone: string;
     city: string;
-    age: string;
+    birthDate: string;
     gender: string;
 
     // Step 2: About Me
@@ -37,7 +37,7 @@ function OnboardingPage() {
         name: '',
         phone: '',
         city: '',
-        age: '',
+        birthDate: '',
         gender: '',
         aboutMe: '',
         profession: '',
@@ -74,6 +74,27 @@ function OnboardingPage() {
         return regex.test(phone.replace(/[\s-]/g, ''));
     };
 
+    const getZodiacSign = (birthDate: string): string => {
+        const date = new Date(birthDate);
+        const month = date.getMonth() + 1; // 1-12
+        const day = date.getDate();
+
+        if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'Овен ♈';
+        if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'Телец ♉';
+        if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'Близнецы ♊';
+        if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'Рак ♋';
+        if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'Лев ♌';
+        if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'Дева ♍';
+        if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'Весы ♎';
+        if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'Скорпион ♏';
+        if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'Стрелец ♐';
+        if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'Козерог ♑';
+        if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'Водолей ♒';
+        if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return 'Рыбы ♓';
+
+        return '';
+    };
+
     const validateStep = (step: number): boolean => {
         const newErrors: FormErrors = {};
 
@@ -89,12 +110,24 @@ function OnboardingPage() {
             if (!formData.city) {
                 newErrors.city = 'Выберите регион';
             }
-            if (!formData.age) {
-                newErrors.age = 'Возраст обязателен';
+            if (!formData.birthDate) {
+                newErrors.birthDate = 'Дата рождения обязательна';
             } else {
-                const ageNum = parseInt(formData.age);
-                if (isNaN(ageNum) || ageNum < 18 || ageNum > 100) {
-                    newErrors.age = 'Возраст должен быть от 18 до 100 лет';
+                // Calculate age from birthDate
+                const today = new Date();
+                const birthDate = new Date(formData.birthDate);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                // Adjust age if birthday hasn't occurred this year yet
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                if (age < 18) {
+                    newErrors.birthDate = 'Вам должно быть 18 лет или больше';
+                } else if (age > 100) {
+                    newErrors.birthDate = 'Пожалуйста, проверьте правильность даты';
                 }
             }
             if (!formData.gender) {
@@ -149,6 +182,20 @@ function OnboardingPage() {
                     return;
                 }
 
+                // Calculate age from birthDate
+                const today = new Date();
+                const birthDate = new Date(formData.birthDate);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                // Adjust age if birthday hasn't occurred this year yet
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                // Calculate zodiac sign from birthDate
+                const zodiacSign = getZodiacSign(formData.birthDate);
+
                 // Combine purpose and expectations into whoToMeet
                 const whoToMeet = `${formData.purpose}\n\n${formData.expectations}`;
 
@@ -166,7 +213,9 @@ function OnboardingPage() {
                     telegramId: telegramId,
                     tgFirstName: telegramUser?.first_name,
                     tgLastName: telegramUser?.last_name,
-                    age: parseInt(formData.age),
+                    age: age,
+                    birthDate: formData.birthDate,
+                    zodiacSign: zodiacSign,
                     gender: formData.gender,
                     region: regionMap[formData.city] || 'Center',
                     aboutMe: formData.aboutMe,
@@ -252,17 +301,15 @@ function OnboardingPage() {
             </div>
 
             <div className="form-group">
-                <label className="form-label">Возраст *</label>
+                <label className="form-label">Дата рождения *</label>
                 <input
-                    type="number"
-                    className={`form-input ${errors.age ? 'error' : ''}`}
-                    value={formData.age}
-                    onChange={(e) => handleInputChange('age', e.target.value)}
-                    placeholder="18"
-                    min="18"
-                    max="100"
+                    type="date"
+                    className={`form-input ${errors.birthDate ? 'error' : ''}`}
+                    value={formData.birthDate}
+                    onChange={(e) => handleInputChange('birthDate', e.target.value)}
+                    max={new Date().toISOString().split('T')[0]}
                 />
-                {errors.age && <div className="error-text">{errors.age}</div>}
+                {errors.birthDate && <div className="error-text">{errors.birthDate}</div>}
             </div>
 
             <div className="form-group">
