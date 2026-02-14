@@ -90,6 +90,8 @@
     transition: all 0.3s ease;
     font-family: inherit;
     background: white;
+    position: relative;
+    z-index: 1;
 }
 
 .form-input:focus,
@@ -116,6 +118,8 @@ select.form-input {
     background-repeat: no-repeat;
     background-position: right 16px center;
     padding-right: 40px;
+    position: relative;
+    z-index: 10;
 }
 
 /* Radio Groups */
@@ -181,6 +185,7 @@ select.form-input {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
 }
 
 .radio-label-block {

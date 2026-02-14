@@ -127,7 +127,7 @@ function ProfilePage() {
                 {/* Edit Button */}
                 <button
                     className="btn btn-primary btn-edit"
-                    onClick={() => navigate('/onboarding')}
+                    onClick={() => navigate('/onboarding', { state: { editMode: true, profileData: profile } })}
                 >
                     ✏️ Редактировать профиль
                 </button>
