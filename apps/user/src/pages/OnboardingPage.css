@@ -1,6 +1,6 @@
 .onboarding-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e8ebf0 100%);
+    background: #F7F4F0;  /* Warm cream - never sterile white */
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -12,7 +12,8 @@
     max-width: 600px;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(107, 93, 211, 0.1);
+    border: 1px solid rgba(0, 88, 113, 0.08);  /* Crisp definition */
+    box-shadow: 0 4px 16px rgba(0, 88, 113, 0.10);  /* Brand-tinted shadow */
     padding: 30px;
 }
 
@@ -32,14 +33,14 @@
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #6B5DD3 0%, #8B7DE8 100%);
+    background: linear-gradient(90deg, #005871 0%, #33BECC 100%);  /* BeKesher brand gradient */
     border-radius: 10px;
     transition: width 0.3s ease;
 }
 
 .progress-text {
     text-align: center;
-    color: #6B5DD3;
+    color: #005871;  /* Lyons Blue - brand primary */
     font-weight: 600;
     font-size: 14px;
 }
@@ -97,8 +98,8 @@
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #6B5DD3;
-    box-shadow: 0 0 0 3px rgba(107, 93, 211, 0.1);
+    border-color: #33BECC;  /* Blue Curaçao - accent */
+    box-shadow: 0 0 0 3px rgba(51, 190, 204, 0.15);
 }
 
 .form-input.error,
@@ -114,7 +115,7 @@
 select.form-input {
     cursor: pointer;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B5DD3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23005871' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
     padding-right: 40px;
@@ -141,8 +142,8 @@ select.form-input {
 }
 
 .radio-label:hover {
-    border-color: #6B5DD3;
-    background: #f8f7fe;
+    border-color: #33BECC;  /* Blue Curaçao - accent */
+    background: rgba(51, 190, 204, 0.05);  /* Light tint */
 }
 
 .radio-label input[type="radio"] {
@@ -158,8 +159,8 @@ select.form-input {
 }
 
 .radio-label input[type="radio"]:checked {
-    border-color: #6B5DD3;
-    background: #6B5DD3;
+    border-color: #005871;  /* Lyons Blue - brand primary */
+    background: #005871;
 }
 
 .radio-label input[type="radio"]:checked::after {
@@ -200,8 +201,8 @@ select.form-input {
 }
 
 .radio-label-block:hover {
-    border-color: #6B5DD3;
-    background: #f8f7fe;
+    border-color: #33BECC;  /* Blue Curaçao - accent */
+    background: rgba(51, 190, 204, 0.05);  /* Light tint */
     transform: translateX(4px);
 }
 
@@ -219,8 +220,8 @@ select.form-input {
 }
 
 .radio-label-block input[type="radio"]:checked {
-    border-color: #6B5DD3;
-    background: #6B5DD3;
+    border-color: #005871;  /* Lyons Blue - brand primary */
+    background: #005871;
 }
 
 .radio-label-block input[type="radio"]:checked::after {
@@ -272,21 +273,22 @@ select.form-input {
     font-size: 16px;
     font-weight: 600;
     border: none;
-    border-radius: 12px;
+    border-radius: 22px;  /* Playful and inviting - 22px */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-family: inherit;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #6B5DD3 0%, #8B7DE8 100%);
+    background: linear-gradient(135deg, #005871 0%, #004559 100%);  /* BeKesher brand gradient */
     color: white;
-    box-shadow: 0 4px 12px rgba(107, 93, 211, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.3);
 }
 
 .btn-primary:hover {
+    background: linear-gradient(135deg, #004559 0%, #003A4C 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(107, 93, 211, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.4);
 }
 
 .btn-primary:active {
@@ -295,12 +297,12 @@ select.form-input {
 
 .btn-secondary {
     background: white;
-    color: #6B5DD3;
-    border: 2px solid #6B5DD3;
+    color: #33BECC;  /* Blue Curaçao - accent */
+    border: 2px solid #33BECC;
 }
 
 .btn-secondary:hover {
-    background: #f8f7fe;
+    background: rgba(51, 190, 204, 0.05);  /* Light accent tint */
     transform: translateY(-2px);
 }
 
