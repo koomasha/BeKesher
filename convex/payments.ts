@@ -1,7 +1,8 @@
-import { action, internalMutation, internalQuery, mutation, query } from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
+import { userQuery, userAction } from "./authUser";
 
 // ============================================
 // PUBLIC QUERIES
@@ -10,8 +11,8 @@ import { Id } from "./_generated/dataModel";
 /**
  * Get payment history for a participant
  */
-export const getPaymentHistory = query({
-    args: { telegramId: v.string() },
+export const getPaymentHistory = userQuery({
+    args: {},
     returns: v.array(
         v.object({
             _id: v.id("paymentLogs"),
@@ -24,7 +25,7 @@ export const getPaymentHistory = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -56,9 +57,8 @@ export const getPaymentHistory = query({
 /**
  * Create a payment link via PayPlus
  */
-export const createPaymentLink = action({
+export const createPaymentLink = userAction({
     args: {
-        telegramId: v.string(),
         amount: v.number(),
         months: v.number(),
     },
@@ -71,7 +71,7 @@ export const createPaymentLink = action({
         // Get participant
         const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
             internal.payments.getParticipantByTelegramId,
-            { telegramId: args.telegramId }
+            { telegramId: ctx.telegramId }
         );
 
         if (!participant) {

@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { useTelegramAuth } from '../hooks/useTelegramAuth';
 
 function HomePage() {
-    // Get Telegram user ID if available
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const telegramId = telegramUser?.id?.toString() || '';
+    const { authArgs, isAuthenticated, telegramUser } = useTelegramAuth();
 
-    // Fetch user profile if we have a Telegram ID
+    // Fetch user profile if authenticated
     const profile = useQuery(
         api.participants.getMyProfile,
-        telegramId ? { telegramId } : 'skip'
+        isAuthenticated ? authArgs : 'skip'
     );
 
     const firstName = telegramUser?.first_name || 'Friend';
@@ -18,11 +17,11 @@ function HomePage() {
     return (
         <div className="page">
             <header className="header">
-                <h1>👋 Hey, {firstName}!</h1>
+                <h1>Hey, {firstName}!</h1>
                 <p>Welcome to BeKesher</p>
             </header>
 
-            {profile === undefined && telegramId && (
+            {profile === undefined && isAuthenticated && (
                 <div className="loading">
                     <div className="spinner"></div>
                     <p>Loading your profile...</p>
@@ -38,7 +37,7 @@ function HomePage() {
                         </span>
                     </div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>
-                        Points: {profile.totalPoints} ⭐
+                        Points: {profile.totalPoints}
                     </p>
                     {profile.paidUntil && (
                         <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>
@@ -48,7 +47,7 @@ function HomePage() {
                 </div>
             )}
 
-            {!profile && !telegramId && (
+            {!profile && !isAuthenticated && (
                 <div className="card animate-fade-in">
                     <div className="empty-state">
                         <div className="icon">📱</div>

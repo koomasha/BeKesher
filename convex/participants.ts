@@ -1,20 +1,20 @@
 import {
-    query,
-    mutation,
     internalQuery,
     internalMutation,
 } from "./_generated/server";
 import { v } from "convex/values";
+import { userQuery, userMutation, publicMutation } from "./authUser";
+import { adminQuery } from "./authAdmin";
 
 // ============================================
 // PUBLIC QUERIES
 // ============================================
 
 /**
- * Get a participant by their Telegram ID
+ * Get a participant by their Telegram ID (resolved from auth)
  */
-export const getByTelegramId = query({
-    args: { telegramId: v.string() },
+export const getByTelegramId = userQuery({
+    args: {},
     returns: v.union(
         v.object({
             _id: v.id("participants"),
@@ -53,7 +53,7 @@ export const getByTelegramId = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
         return participant;
     },
@@ -62,8 +62,8 @@ export const getByTelegramId = query({
 /**
  * Get participant profile for display (public-facing)
  */
-export const getMyProfile = query({
-    args: { telegramId: v.string() },
+export const getMyProfile = userQuery({
+    args: {},
     returns: v.union(
         v.object({
             name: v.string(),
@@ -83,7 +83,7 @@ export const getMyProfile = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) return null;
@@ -107,7 +107,7 @@ export const getMyProfile = query({
 /**
  * List all participants (for admin)
  */
-export const list = query({
+export const list = adminQuery({
     args: {
         status: v.optional(v.string()),
         region: v.optional(v.string()),
@@ -164,8 +164,10 @@ export const list = query({
 
 /**
  * Register a new participant
+ * Public because user isn't authenticated yet during registration.
+ * Still accepts telegramId as an explicit arg.
  */
-export const register = mutation({
+export const register = publicMutation({
     args: {
         name: v.string(),
         phone: v.string(),
@@ -217,9 +219,8 @@ export const register = mutation({
 /**
  * Update participant profile
  */
-export const updateProfile = mutation({
+export const updateProfile = userMutation({
     args: {
-        telegramId: v.string(),
         name: v.optional(v.string()),
         phone: v.optional(v.string()),
         age: v.optional(v.number()),
@@ -241,14 +242,14 @@ export const updateProfile = mutation({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
             throw new Error("Participant not found");
         }
 
-        const { telegramId, ...updates } = args;
+        const updates = args;
 
         // Remove undefined values
         const cleanUpdates: Record<string, unknown> = {};
@@ -269,13 +270,13 @@ export const updateProfile = mutation({
 /**
  * Toggle pause status
  */
-export const togglePause = mutation({
-    args: { telegramId: v.string() },
+export const togglePause = userMutation({
+    args: {},
     returns: v.boolean(),
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -292,13 +293,13 @@ export const togglePause = mutation({
 /**
  * Deactivate participant (unsubscribe)
  */
-export const deactivate = mutation({
-    args: { telegramId: v.string() },
+export const deactivate = userMutation({
+    args: {},
     returns: v.null(),
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -317,22 +318,22 @@ export const deactivate = mutation({
 /**
  * Delete a participant completely (for testing/cleanup)
  */
-export const deleteParticipant = mutation({
-    args: { telegramId: v.string() },
+export const deleteParticipant = userMutation({
+    args: {},
     returns: v.null(),
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
-            console.log(`Participant with telegramId ${args.telegramId} not found`);
+            console.log(`Participant with telegramId ${ctx.telegramId} not found`);
             return null;
         }
 
         await ctx.db.delete(participant._id);
-        console.log(`Deleted participant: ${participant.name} (${args.telegramId})`);
+        console.log(`Deleted participant: ${participant.name} (${ctx.telegramId})`);
 
         return null;
     },
@@ -435,6 +436,29 @@ export const updatePaymentInfo = internalMutation({
         });
 
         return null;
+    },
+});
+
+/**
+ * Toggle pause status (used by telegram webhook)
+ */
+export const togglePauseInternal = internalMutation({
+    args: { telegramId: v.string() },
+    returns: v.boolean(),
+    handler: async (ctx, args) => {
+        const participant = await ctx.db
+            .query("participants")
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .unique();
+
+        if (!participant) {
+            throw new Error("Participant not found");
+        }
+
+        const newPauseStatus = !participant.onPause;
+        await ctx.db.patch(participant._id, { onPause: newPauseStatus });
+
+        return newPauseStatus;
     },
 });
 

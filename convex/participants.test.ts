@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession, withAdminIdentity } from "./test.utils";
 
 describe("participants", () => {
     // ============================================
@@ -23,8 +23,9 @@ describe("participants", () => {
             expect(participantId).toBeDefined();
 
             // Verify the participant was created correctly
+            const token = await createTestSession(t, "alice123");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "alice123",
+                sessionToken: token,
             });
 
             expect(participant).not.toBeNull();
@@ -85,8 +86,9 @@ describe("participants", () => {
                 interests: ["Tech", "Music"],
             });
 
+            const token = await createTestSession(t, "fullprofile");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "fullprofile",
+                sessionToken: token,
             });
 
             expect(participant?.city).toBe("Tel Aviv");
@@ -107,8 +109,9 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "user123", name: "Test User" }),
             ]);
 
+            const token = await createTestSession(t, "user123");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "user123",
+                sessionToken: token,
             });
 
             expect(participant).not.toBeNull();
@@ -118,8 +121,9 @@ describe("participants", () => {
         test("returns null when not found", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(participant).toBeNull();
@@ -147,8 +151,9 @@ describe("participants", () => {
                 }),
             ]);
 
+            const token = await createTestSession(t, "profileuser");
             const profile = await t.query(api.participants.getMyProfile, {
-                telegramId: "profileuser",
+                sessionToken: token,
             });
 
             expect(profile).not.toBeNull();
@@ -165,8 +170,9 @@ describe("participants", () => {
         test("returns null for non-existent user", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const profile = await t.query(api.participants.getMyProfile, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(profile).toBeNull();
@@ -183,7 +189,8 @@ describe("participants", () => {
                 makeParticipant({ telegramId: uniqueTelegramId(3), name: "User 3", status: "Inactive" }),
             ]);
 
-            const participants = await t.query(api.participants.list, {});
+            const admin = withAdminIdentity(t);
+            const participants = await admin.query(api.participants.list, {});
 
             expect(participants).toHaveLength(3);
         });
@@ -197,7 +204,8 @@ describe("participants", () => {
                 makeParticipant({ telegramId: uniqueTelegramId(3), name: "Lead 1", status: "Lead" }),
             ]);
 
-            const activeParticipants = await t.query(api.participants.list, {
+            const admin = withAdminIdentity(t);
+            const activeParticipants = await admin.query(api.participants.list, {
                 status: "Active",
             });
 
@@ -215,7 +223,8 @@ describe("participants", () => {
                 makeParticipant({ telegramId: uniqueTelegramId(4), status: "Lead", region: "Center" }),
             ]);
 
-            const activeCenterParticipants = await t.query(api.participants.list, {
+            const admin = withAdminIdentity(t);
+            const activeCenterParticipants = await admin.query(api.participants.list, {
                 status: "Active",
                 region: "Center",
             });
@@ -236,15 +245,16 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "updateuser", name: "Original Name", age: 25 }),
             ]);
 
+            const token = await createTestSession(t, "updateuser");
             await t.mutation(api.participants.updateProfile, {
-                telegramId: "updateuser",
+                sessionToken: token,
                 name: "Updated Name",
                 age: 30,
                 city: "Haifa",
             });
 
             const updated = await t.query(api.participants.getByTelegramId, {
-                telegramId: "updateuser",
+                sessionToken: token,
             });
 
             expect(updated?.name).toBe("Updated Name");
@@ -259,13 +269,14 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "partialupdate", name: "Keep This", age: 25, city: "Tel Aviv" }),
             ]);
 
+            const token = await createTestSession(t, "partialupdate");
             await t.mutation(api.participants.updateProfile, {
-                telegramId: "partialupdate",
+                sessionToken: token,
                 age: 30,
             });
 
             const updated = await t.query(api.participants.getByTelegramId, {
-                telegramId: "partialupdate",
+                sessionToken: token,
             });
 
             expect(updated?.name).toBe("Keep This");
@@ -276,9 +287,10 @@ describe("participants", () => {
         test("throws when participant not found", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             await expect(
                 t.mutation(api.participants.updateProfile, {
-                    telegramId: "nonexistent",
+                    sessionToken: token,
                     name: "New Name",
                 })
             ).rejects.toThrowError("Participant not found");
@@ -293,14 +305,15 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "pauseuser", onPause: false }),
             ]);
 
+            const token = await createTestSession(t, "pauseuser");
             const newStatus = await t.mutation(api.participants.togglePause, {
-                telegramId: "pauseuser",
+                sessionToken: token,
             });
 
             expect(newStatus).toBe(true);
 
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "pauseuser",
+                sessionToken: token,
             });
             expect(participant?.onPause).toBe(true);
         });
@@ -312,8 +325,9 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "unpauseuser", onPause: true }),
             ]);
 
+            const token = await createTestSession(t, "unpauseuser");
             const newStatus = await t.mutation(api.participants.togglePause, {
-                telegramId: "unpauseuser",
+                sessionToken: token,
             });
 
             expect(newStatus).toBe(false);
@@ -326,9 +340,10 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "doubletoggle", onPause: false }),
             ]);
 
-            await t.mutation(api.participants.togglePause, { telegramId: "doubletoggle" });
+            const token = await createTestSession(t, "doubletoggle");
+            await t.mutation(api.participants.togglePause, { sessionToken: token });
             const finalStatus = await t.mutation(api.participants.togglePause, {
-                telegramId: "doubletoggle",
+                sessionToken: token,
             });
 
             expect(finalStatus).toBe(false);
@@ -337,9 +352,10 @@ describe("participants", () => {
         test("throws when participant not found", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             await expect(
                 t.mutation(api.participants.togglePause, {
-                    telegramId: "nonexistent",
+                    sessionToken: token,
                 })
             ).rejects.toThrowError("Participant not found");
         });
@@ -353,12 +369,13 @@ describe("participants", () => {
                 makeParticipant({ telegramId: "deactivateuser", status: "Active", onPause: true }),
             ]);
 
+            const token = await createTestSession(t, "deactivateuser");
             await t.mutation(api.participants.deactivate, {
-                telegramId: "deactivateuser",
+                sessionToken: token,
             });
 
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "deactivateuser",
+                sessionToken: token,
             });
 
             expect(participant?.status).toBe("Inactive");
@@ -368,9 +385,10 @@ describe("participants", () => {
         test("throws when participant not found", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             await expect(
                 t.mutation(api.participants.deactivate, {
-                    telegramId: "nonexistent",
+                    sessionToken: token,
                 })
             ).rejects.toThrowError("Participant not found");
         });
@@ -410,8 +428,9 @@ describe("participants", () => {
                 status: "Active",
             });
 
+            const token = await createTestSession(t, "statususer");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "statususer",
+                sessionToken: token,
             });
 
             expect(participant?.status).toBe("Active");
@@ -435,8 +454,9 @@ describe("participants", () => {
                 paymentDate,
             });
 
+            const token = await createTestSession(t, "paymentuser");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "paymentuser",
+                sessionToken: token,
             });
 
             expect(participant?.paidUntil).toBe(paidUntil);
@@ -481,8 +501,9 @@ describe("participants", () => {
                 points: 15,
             });
 
+            const token = await createTestSession(t, "pointsuser");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "pointsuser",
+                sessionToken: token,
             });
 
             expect(participant?.totalPoints).toBe(25);

@@ -1,5 +1,7 @@
-import { query, mutation, internalMutation } from "./_generated/server";
+import { internalMutation } from "./_generated/server";
 import { v } from "convex/values";
+import { userQuery, userMutation } from "./authUser";
+import { adminQuery } from "./authAdmin";
 
 // ============================================
 // PUBLIC QUERIES
@@ -8,8 +10,8 @@ import { v } from "convex/values";
 /**
  * Get feedback submissions for a participant
  */
-export const getForParticipant = query({
-    args: { telegramId: v.string() },
+export const getForParticipant = userQuery({
+    args: {},
     returns: v.array(
         v.object({
             _id: v.id("feedback"),
@@ -25,7 +27,7 @@ export const getForParticipant = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -56,8 +58,8 @@ export const getForParticipant = query({
 /**
  * Check if participant has pending feedback to submit
  */
-export const getPendingFeedback = query({
-    args: { telegramId: v.string() },
+export const getPendingFeedback = userQuery({
+    args: {},
     returns: v.array(
         v.object({
             groupId: v.id("groups"),
@@ -68,7 +70,7 @@ export const getPendingFeedback = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -137,7 +139,7 @@ export const getPendingFeedback = query({
 /**
  * List all feedback with optional filters (admin view)
  */
-export const list = query({
+export const list = adminQuery({
     args: {
         minRating: v.optional(v.number()),
         groupStatus: v.optional(v.string()),
@@ -216,7 +218,7 @@ export const list = query({
 /**
  * Get all feedback for a group (admin view)
  */
-export const getForGroup = query({
+export const getForGroup = adminQuery({
     args: { groupId: v.id("groups") },
     returns: v.array(
         v.object({
@@ -276,9 +278,8 @@ export const getForGroup = query({
 /**
  * Submit feedback for a group meetup
  */
-export const submitFeedback = mutation({
+export const submitFeedback = userMutation({
     args: {
-        telegramId: v.string(),
         groupId: v.id("groups"),
         rating: v.number(),
         textFeedback: v.optional(v.string()),
@@ -292,7 +293,7 @@ export const submitFeedback = mutation({
         // Get participant
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -360,7 +361,7 @@ export const submitFeedback = mutation({
 /**
  * Generate a URL for uploading a feedback photo
  */
-export const generateUploadUrl = mutation({
+export const generateUploadUrl = userMutation({
     args: {},
     returns: v.string(),
     handler: async (ctx) => {

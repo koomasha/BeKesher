@@ -1,7 +1,9 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server";
-import { api, internal } from "./_generated/api";
+import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
+import { ConvexError } from "convex/values";
+
 
 const http = httpRouter();
 
@@ -115,7 +117,7 @@ http.route({
                     case "menu_pause":
                         // Toggle pause - could handle directly
                         if (userId) {
-                            await ctx.runMutation(api.participants.togglePause, {
+                            await ctx.runMutation(internal.participants.togglePauseInternal, {
                                 telegramId: userId,
                             });
                         }
@@ -160,6 +162,79 @@ http.route({
         }
     }),
 });
+
+// ============================================
+// AUTH: BYPASS SESSION (CI/CD/AI/Developer)
+// ============================================
+
+/**
+ * POST /auth/bypass-session
+ * Creates a bypass session for CI/CD/AI/developer use.
+ * Requires AUTH_BYPASS_SECRET in the environment.
+ *
+ * Body: { secret: string, telegramId: string, source?: string }
+ * Returns: { token: string, telegramId: string }
+ */
+http.route({
+    path: "/auth/bypass-session",
+    method: "POST",
+    handler: httpAction(async (ctx, req) => {
+        const corsHeaders = {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Content-Type": "application/json",
+        };
+
+        try {
+            const body = await req.json();
+
+            if (!body.secret || !body.telegramId) {
+                return new Response(
+                    JSON.stringify({ error: "Missing secret or telegramId" }),
+                    { status: 400, headers: corsHeaders }
+                );
+            }
+
+            const result = await ctx.runMutation(internal.authUser.createBypassSession, {
+                secret: body.secret,
+                telegramId: body.telegramId,
+                source: body.source || "dev",
+            });
+
+            return new Response(
+                JSON.stringify({ token: result.token, telegramId: body.telegramId }),
+                { status: 200, headers: corsHeaders }
+            );
+        } catch (error) {
+            console.error("Bypass session error:", error);
+            const isAuthError = error instanceof ConvexError;
+            const message = isAuthError ? String(error.data) : "Internal server error";
+            return new Response(
+                JSON.stringify({ error: message }),
+                { status: isAuthError ? 403 : 500, headers: corsHeaders }
+            );
+        }
+    }),
+});
+
+// CORS preflight for /auth/bypass-session
+http.route({
+    path: "/auth/bypass-session",
+    method: "OPTIONS",
+    handler: httpAction(async () => {
+        return new Response(null, {
+            status: 204,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+            },
+        });
+    }),
+});
+
+
 
 // ============================================
 // HEALTH CHECK

@@ -1,22 +1,22 @@
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
+import { useTelegramAuth } from '../hooks/useTelegramAuth';
 
 function GroupsPage() {
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const telegramId = telegramUser?.id?.toString() || '';
+    const { authArgs, isAuthenticated } = useTelegramAuth();
 
     const activeGroup = useQuery(
         api.groups.getActiveForParticipant,
-        telegramId ? { telegramId } : 'skip'
+        isAuthenticated ? authArgs : 'skip'
     );
 
     const allGroups = useQuery(
         api.groups.getForParticipant,
-        telegramId ? { telegramId } : 'skip'
+        isAuthenticated ? authArgs : 'skip'
     );
 
-    if (!telegramId) {
+    if (!isAuthenticated) {
         return (
             <div className="page">
                 <div className="card">

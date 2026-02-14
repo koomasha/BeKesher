@@ -21,5 +21,8 @@
     "convex-test": "^0.0.34",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "convex-helpers": "^0.1.112"
   }
 }

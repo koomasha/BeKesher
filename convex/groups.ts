@@ -1,11 +1,11 @@
 import {
-    query,
-    mutation,
     internalQuery,
     internalMutation,
 } from "./_generated/server";
 import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
+import { userQuery } from "./authUser";
+import { adminQuery } from "./authAdmin";
 
 // ============================================
 // PUBLIC QUERIES
@@ -14,8 +14,8 @@ import { Id } from "./_generated/dataModel";
 /**
  * Get groups for a participant
  */
-export const getForParticipant = query({
-    args: { telegramId: v.string() },
+export const getForParticipant = userQuery({
+    args: {},
     returns: v.array(
         v.object({
             _id: v.id("groups"),
@@ -35,7 +35,7 @@ export const getForParticipant = query({
         // First get the participant
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -97,8 +97,8 @@ export const getForParticipant = query({
 /**
  * Get active group for a participant (if any)
  */
-export const getActiveForParticipant = query({
-    args: { telegramId: v.string() },
+export const getActiveForParticipant = userQuery({
+    args: {},
     returns: v.union(
         v.object({
             _id: v.id("groups"),
@@ -118,7 +118,7 @@ export const getActiveForParticipant = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         if (!participant) {
@@ -181,7 +181,7 @@ export const getActiveForParticipant = query({
 /**
  * List all groups (for admin)
  */
-export const list = query({
+export const list = adminQuery({
     args: {
         status: v.optional(v.string()),
     },

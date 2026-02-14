@@ -21,8 +21,7 @@ export const resetAndSeed = internalMutation({
         const supportTickets = await ctx.db.query("supportTickets").collect();
         for (const doc of supportTickets) await ctx.db.delete(doc._id);
 
-        const admins = await ctx.db.query("admins").collect();
-        for (const doc of admins) await ctx.db.delete(doc._id);
+
 
         console.log("Data cleared.");
 
