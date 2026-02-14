@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удалить пользователя BeKesher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ebf0 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(107, 93, 211, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e8ebf0;
+            border-radius: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6B5DD3 0%, #8B7DE8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 93, 211, 0.4);
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Удалить данные пользователя</h1>
+        <p>Введите Telegram ID для удаления всех данных из базы BeKesher</p>
+
+        <input type="text" id="telegramId" placeholder="Telegram ID (например: 6444544226)" value="6444544226">
+        <button onclick="deleteUser()">Удалить данные</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script type="module">
+        import { ConvexHttpClient } from "https://esm.sh/convex@1.16.3/browser";
+
+        // Initialize Convex client - REPLACE WITH YOUR ACTUAL CONVEX URL
+        const CONVEX_URL = prompt("Введите CONVEX_URL (из .env.local файла):");
+
+        if (!CONVEX_URL) {
+            alert("CONVEX_URL обязателен!");
+        }
+
+        const client = new ConvexHttpClient(CONVEX_URL);
+
+        window.deleteUser = async function() {
+            const telegramId = document.getElementById('telegramId').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            if (!telegramId) {
+                resultDiv.className = 'error';
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = 'Пожалуйста, введите Telegram ID';
+                return;
+            }
+
+            resultDiv.className = 'info';
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Удаление данных...';
+
+            try {
+                await client.mutation("participants:deleteParticipant", { telegramId });
+
+                resultDiv.className = 'success';
+                resultDiv.textContent = `✅ Данные пользователя с Telegram ID ${telegramId} успешно удалены!`;
+
+                // Clear localStorage
+                localStorage.removeItem('userProfile');
+                resultDiv.textContent += '\n\nLocalStorage также очищен.';
+
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = `❌ Ошибка: ${error.message}`;
+                console.error('Delete error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

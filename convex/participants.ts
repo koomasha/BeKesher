@@ -314,6 +314,30 @@ export const deactivate = mutation({
     },
 });
 
+/**
+ * Delete a participant completely (for testing/cleanup)
+ */
+export const deleteParticipant = mutation({
+    args: { telegramId: v.string() },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        const participant = await ctx.db
+            .query("participants")
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .unique();
+
+        if (!participant) {
+            console.log(`Participant with telegramId ${args.telegramId} not found`);
+            return null;
+        }
+
+        await ctx.db.delete(participant._id);
+        console.log(`Deleted participant: ${participant.name} (${args.telegramId})`);
+
+        return null;
+    },
+});
+
 // ============================================
 // INTERNAL QUERIES (for matching algorithm)
 // ============================================

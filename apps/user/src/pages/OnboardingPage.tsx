@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useMutation } from 'convex/react';
+import { api } from 'convex/_generated/api';
 import './OnboardingPage.css';
 import logo from '../assets/logo.png';
 
@@ -28,6 +30,8 @@ interface FormErrors {
 
 function OnboardingPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const registerParticipant = useMutation(api.participants.register);
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -41,6 +45,14 @@ function OnboardingPage() {
         expectations: ''
     });
     const [errors, setErrors] = useState<FormErrors>({});
+
+    // Load existing profile data when editing
+    useEffect(() => {
+        const state = location.state as { editMode?: boolean; profileData?: FormData };
+        if (state?.editMode && state?.profileData) {
+            setFormData(state.profileData);
+        }
+    }, [location]);
 
     const regions = [
         'Север',
@@ -125,11 +137,52 @@ function OnboardingPage() {
         setErrors({});
     };
 
-    const handleFinish = () => {
+    const handleFinish = async () => {
         if (validateStep(currentStep)) {
-            console.log('Form Data:', formData);
-            localStorage.setItem('userProfile', JSON.stringify(formData));
-            navigate('/');
+            try {
+                // Get Telegram user data
+                const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+                const telegramId = telegramUser?.id?.toString() || '';
+
+                if (!telegramId) {
+                    alert('Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram.');
+                    return;
+                }
+
+                // Combine purpose and expectations into whoToMeet
+                const whoToMeet = `${formData.purpose}\n\n${formData.expectations}`;
+
+                // Map region names to English
+                const regionMap: { [key: string]: string } = {
+                    'Север': 'North',
+                    'Центр': 'Center',
+                    'Юг': 'South'
+                };
+
+                // Register participant in Convex
+                await registerParticipant({
+                    name: formData.name,
+                    phone: formData.phone,
+                    telegramId: telegramId,
+                    tgFirstName: telegramUser?.first_name,
+                    tgLastName: telegramUser?.last_name,
+                    age: parseInt(formData.age),
+                    gender: formData.gender,
+                    region: regionMap[formData.city] || 'Center',
+                    aboutMe: formData.aboutMe,
+                    profession: formData.profession,
+                    whoToMeet: whoToMeet,
+                });
+
+                // Also save to localStorage for ProfilePage compatibility
+                localStorage.setItem('userProfile', JSON.stringify(formData));
+
+                console.log('Registration successful!');
+                navigate('/');
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Ошибка при регистрации. Попробуйте еще раз.');
+            }
         }
     };
 
@@ -219,21 +272,21 @@ function OnboardingPage() {
                         <input
                             type="radio"
                             name="gender"
-                            value="М"
-                            checked={formData.gender === 'М'}
+                            value="Мужчина"
+                            checked={formData.gender === 'Мужчина'}
                             onChange={(e) => handleInputChange('gender', e.target.value)}
                         />
-                        <span>М</span>
+                        <span>Мужчина</span>
                     </label>
                     <label className="radio-label">
                         <input
                             type="radio"
                             name="gender"
-                            value="Ж"
-                            checked={formData.gender === 'Ж'}
+                            value="Женщина"
+                            checked={formData.gender === 'Женщина'}
                             onChange={(e) => handleInputChange('gender', e.target.value)}
                         />
-                        <span>Ж</span>
+                        <span>Женщина</span>
                     </label>
                     <label className="radio-label">
                         <input
@@ -275,12 +328,12 @@ function OnboardingPage() {
 
             <div className="form-group">
                 <label className="form-label">Профессия/сфера деятельности *</label>
-                <input
-                    type="text"
-                    className={`form-input ${errors.profession ? 'error' : ''}`}
+                <textarea
+                    className={`form-textarea ${errors.profession ? 'error' : ''}`}
                     value={formData.profession}
                     onChange={(e) => handleInputChange('profession', e.target.value)}
                     placeholder="Например: Разработчик, Дизайнер, Учитель"
+                    rows={5}
                 />
                 {errors.profession && <div className="error-text">{errors.profession}</div>}
             </div>
