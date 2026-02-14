@@ -12,8 +12,7 @@ export default defineSchema({
         photo: v.optional(v.string()),
 
         // Demographics
-        age: v.number(),
-        birthDate: v.optional(v.string()), // YYYY-MM-DD format
+        birthDate: v.string(), // YYYY-MM-DD format
         zodiacSign: v.optional(v.string()),
         gender: v.string(),
         region: v.string(), // "North" | "Center" | "South"
@@ -29,7 +28,8 @@ export default defineSchema({
         // Profile
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
-        whoToMeet: v.optional(v.string()),
+        purpose: v.optional(v.string()),
+        expectations: v.optional(v.string()),
         values: v.optional(v.array(v.string())),
         interests: v.optional(v.array(v.string())),
 
