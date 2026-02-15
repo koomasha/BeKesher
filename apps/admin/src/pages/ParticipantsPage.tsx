@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { Trans } from '@lingui/macro';
 
 function calculateAge(birthDate: string): number {
     const today = new Date();
@@ -26,37 +27,37 @@ function ParticipantsPage() {
     return (
         <div>
             <div className="page-header">
-                <h1 className="page-title">Participants</h1>
+                <h1 className="page-title"><Trans>Participants</Trans></h1>
                 <span style={{ color: 'var(--text-secondary)' }}>
-                    {participants?.length || 0} total
+                    <Trans>{participants?.length || 0} total</Trans>
                 </span>
             </div>
 
             <div className="filter-bar">
                 <div className="filter-group">
-                    <label className="filter-label">Status:</label>
+                    <label className="filter-label"><Trans>Status:</Trans></label>
                     <select
                         className="input"
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Lead">Lead</option>
-                        <option value="Inactive">Inactive</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="Active"><Trans>Active</Trans></option>
+                        <option value="Lead"><Trans>Lead</Trans></option>
+                        <option value="Inactive"><Trans>Inactive</Trans></option>
                     </select>
                 </div>
                 <div className="filter-group">
-                    <label className="filter-label">Region:</label>
+                    <label className="filter-label"><Trans>Region:</Trans></label>
                     <select
                         className="input"
                         value={regionFilter}
                         onChange={(e) => setRegionFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="North">North</option>
-                        <option value="Center">Center</option>
-                        <option value="South">South</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="North"><Trans>North</Trans></option>
+                        <option value="Center"><Trans>Center</Trans></option>
+                        <option value="South"><Trans>South</Trans></option>
                     </select>
                 </div>
             </div>
@@ -68,21 +69,21 @@ function ParticipantsPage() {
                     </div>
                 ) : participants.length === 0 ? (
                     <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: 'var(--spacing-lg)' }}>
-                        No participants found.
+                        <Trans>No participants found.</Trans>
                     </p>
                 ) : (
                     <div className="table-container">
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Age</th>
-                                    <th>Gender</th>
-                                    <th>Region</th>
-                                    <th>Status</th>
-                                    <th>Paused</th>
-                                    <th>Paid Until</th>
-                                    <th>Actions</th>
+                                    <th><Trans>Name</Trans></th>
+                                    <th><Trans>Age</Trans></th>
+                                    <th><Trans>Gender</Trans></th>
+                                    <th><Trans>Region</Trans></th>
+                                    <th><Trans>Status</Trans></th>
+                                    <th><Trans>Paused</Trans></th>
+                                    <th><Trans>Paid Until</Trans></th>
+                                    <th><Trans>Actions</Trans></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -104,7 +105,7 @@ function ParticipantsPage() {
                                                 {p.status}
                                             </span>
                                         </td>
-                                        <td>{p.onPause ? '⏸️ Yes' : '-'}</td>
+                                        <td>{p.onPause ? <Trans>⏸️ Yes</Trans> : '-'}</td>
                                         <td>
                                             {p.paidUntil
                                                 ? new Date(p.paidUntil).toLocaleDateString()
@@ -113,7 +114,7 @@ function ParticipantsPage() {
                                         </td>
                                         <td>
                                             <button className="btn btn-secondary" style={{ marginRight: 'var(--spacing-xs)' }}>
-                                                View
+                                                <Trans>View</Trans>
                                             </button>
                                         </td>
                                     </tr>

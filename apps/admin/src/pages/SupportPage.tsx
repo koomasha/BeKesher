@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
+import { Trans, t } from '@lingui/macro';
 
 function SupportPage() {
     const [statusFilter, setStatusFilter] = useState<string>('Open');
@@ -25,7 +26,7 @@ function SupportPage() {
             setAnswer('');
         } catch (error) {
             console.error('Failed to answer ticket:', error);
-            alert('Failed to answer ticket');
+            alert(t`Failed to answer ticket`);
         }
     };
 
@@ -34,31 +35,31 @@ function SupportPage() {
             await closeTicket({ ticketId });
         } catch (error) {
             console.error('Failed to close ticket:', error);
-            alert('Failed to close ticket');
+            alert(t`Failed to close ticket`);
         }
     };
 
     return (
         <div>
             <div className="page-header">
-                <h1 className="page-title">Support Tickets</h1>
+                <h1 className="page-title"><Trans>Support Tickets</Trans></h1>
                 <span style={{ color: 'var(--text-secondary)' }}>
-                    {tickets?.length || 0} tickets
+                    <Trans>{tickets?.length || 0} tickets</Trans>
                 </span>
             </div>
 
             <div className="filter-bar">
                 <div className="filter-group">
-                    <label className="filter-label">Status:</label>
+                    <label className="filter-label"><Trans>Status:</Trans></label>
                     <select
                         className="input"
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="Open">Open</option>
-                        <option value="Answered">Answered</option>
-                        <option value="Closed">Closed</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="Open"><Trans>Open</Trans></option>
+                        <option value="Answered"><Trans>Answered</Trans></option>
+                        <option value="Closed"><Trans>Closed</Trans></option>
                     </select>
                 </div>
             </div>
@@ -70,7 +71,7 @@ function SupportPage() {
                     </div>
                 ) : tickets.length === 0 ? (
                     <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: 'var(--spacing-lg)' }}>
-                        No tickets found.
+                        <Trans>No tickets found.</Trans>
                     </p>
                 ) : (
                     <div>
@@ -85,7 +86,7 @@ function SupportPage() {
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--spacing-sm)' }}>
                                     <div>
                                         <span style={{ fontWeight: 500 }}>
-                                            {ticket.participantName || 'Unknown User'}
+                                            {ticket.participantName || <Trans>Unknown User</Trans>}
                                         </span>
                                         <span style={{ color: 'var(--text-secondary)', marginLeft: 'var(--spacing-sm)', fontSize: '0.875rem' }}>
                                             ({ticket.telegramId})
@@ -110,7 +111,7 @@ function SupportPage() {
                                         borderRadius: 'var(--radius-sm)',
                                         marginBottom: 'var(--spacing-sm)',
                                     }}>
-                                        <span style={{ fontWeight: 500, fontSize: '0.875rem' }}>Answer: </span>
+                                        <span style={{ fontWeight: 500, fontSize: '0.875rem' }}><Trans>Answer: </Trans></span>
                                         <span style={{ fontSize: '0.875rem' }}>{ticket.answer}</span>
                                     </div>
                                 )}
@@ -122,15 +123,15 @@ function SupportPage() {
                                             rows={3}
                                             value={answer}
                                             onChange={(e) => setAnswer(e.target.value)}
-                                            placeholder="Type your answer..."
+                                            placeholder={t`Type your answer...`}
                                             style={{ marginBottom: 'var(--spacing-sm)' }}
                                         />
                                         <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
                                             <button className="btn btn-primary" onClick={handleAnswer}>
-                                                Send Answer
+                                                <Trans>Send Answer</Trans>
                                             </button>
                                             <button className="btn btn-secondary" onClick={() => { setSelectedTicket(null); setAnswer(''); }}>
-                                                Cancel
+                                                <Trans>Cancel</Trans>
                                             </button>
                                         </div>
                                     </div>
@@ -141,7 +142,7 @@ function SupportPage() {
                                                 className="btn btn-primary"
                                                 onClick={() => setSelectedTicket(ticket._id)}
                                             >
-                                                Answer
+                                                <Trans>Answer</Trans>
                                             </button>
                                         )}
                                         {ticket.status !== 'Closed' && (
@@ -149,7 +150,7 @@ function SupportPage() {
                                                 className="btn btn-secondary"
                                                 onClick={() => handleClose(ticket._id)}
                                             >
-                                                Close
+                                                <Trans>Close</Trans>
                                             </button>
                                         )}
                                     </div>

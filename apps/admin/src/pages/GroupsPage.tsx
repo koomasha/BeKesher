@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { Trans } from '@lingui/macro';
 
 function GroupsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('');
@@ -12,24 +13,24 @@ function GroupsPage() {
     return (
         <div>
             <div className="page-header">
-                <h1 className="page-title">Groups</h1>
+                <h1 className="page-title"><Trans>Groups</Trans></h1>
                 <span style={{ color: 'var(--text-secondary)' }}>
-                    {groups?.length || 0} total
+                    <Trans>{groups?.length || 0} total</Trans>
                 </span>
             </div>
 
             <div className="filter-bar">
                 <div className="filter-group">
-                    <label className="filter-label">Status:</label>
+                    <label className="filter-label"><Trans>Status:</Trans></label>
                     <select
                         className="input"
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="Active"><Trans>Active</Trans></option>
+                        <option value="Completed"><Trans>Completed</Trans></option>
+                        <option value="Cancelled"><Trans>Cancelled</Trans></option>
                     </select>
                 </div>
             </div>
@@ -41,18 +42,18 @@ function GroupsPage() {
                     </div>
                 ) : groups.length === 0 ? (
                     <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: 'var(--spacing-lg)' }}>
-                        No groups found.
+                        <Trans>No groups found.</Trans>
                     </p>
                 ) : (
                     <div className="table-container">
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Created</th>
-                                    <th>Status</th>
-                                    <th>Region</th>
-                                    <th>Members</th>
-                                    <th>Actions</th>
+                                    <th><Trans>Created</Trans></th>
+                                    <th><Trans>Status</Trans></th>
+                                    <th><Trans>Region</Trans></th>
+                                    <th><Trans>Members</Trans></th>
+                                    <th><Trans>Actions</Trans></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,11 +65,11 @@ function GroupsPage() {
                                                 {g.status}
                                             </span>
                                         </td>
-                                        <td>{g.region || 'Mixed'}</td>
-                                        <td>{g.memberCount} people</td>
+                                        <td>{g.region || <Trans>Mixed</Trans>}</td>
+                                        <td><Trans>{g.memberCount} people</Trans></td>
                                         <td>
                                             <button className="btn btn-secondary">
-                                                View Details
+                                                <Trans>View Details</Trans>
                                             </button>
                                         </td>
                                     </tr>

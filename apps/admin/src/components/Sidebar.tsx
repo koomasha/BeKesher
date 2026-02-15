@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useAdminAuth } from '../hooks/useAdminAuth';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { Trans } from '@lingui/macro';
 
 function Sidebar() {
     const user = useQuery(api.authAdmin.getAdminIdentity);
@@ -10,8 +12,9 @@ function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
-                <h1>🔗 BeKesher</h1>
-                <p style={{ fontSize: '0.75rem', opacity: 0.7 }}>Admin Dashboard</p>
+                <h1><Trans>🔗 BeKesher</Trans></h1>
+                <p style={{ fontSize: '0.75rem', opacity: 0.7 }}><Trans>Admin Dashboard</Trans></p>
+                <LanguageSwitcher />
             </div>
 
             <nav className="sidebar-nav">
@@ -19,37 +22,37 @@ function Sidebar() {
                     to="/dashboard"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    📊 Dashboard
+                    <Trans>📊 Dashboard</Trans>
                 </NavLink>
                 <NavLink
                     to="/participants"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    👥 Participants
+                    <Trans>👥 Participants</Trans>
                 </NavLink>
                 <NavLink
                     to="/groups"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    🎯 Groups
+                    <Trans>🎯 Groups</Trans>
                 </NavLink>
                 <NavLink
                     to="/feedback"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    ⭐ Feedback
+                    <Trans>⭐ Feedback</Trans>
                 </NavLink>
                 <NavLink
                     to="/matching"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    🔄 Run Matching
+                    <Trans>🔄 Run Matching</Trans>
                 </NavLink>
                 <NavLink
                     to="/support"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    💬 Support Tickets
+                    <Trans>💬 Support Tickets</Trans>
                 </NavLink>
             </nav>
 

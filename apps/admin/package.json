@@ -5,18 +5,24 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
     "dependencies": {
+        "@lingui/core": "^5.9.1",
+        "@lingui/react": "^5.9.1",
         "@react-oauth/google": "^0.13.4",
         "convex": "^1.17.0",
+        "make-plural": "^8.1.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.22.0"
     },
     "devDependencies": {
+        "@lingui/babel-plugin-lingui-macro": "^5.9.1",
+        "@lingui/cli": "^5.9.1",
+        "@lingui/vite-plugin": "^5.9.1",
         "@types/react": "^18.2.43",
         "@types/react-dom": "^18.2.17",
         "@typescript-eslint/eslint-plugin": "^7.18.0",

@@ -3,6 +3,7 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Trans, t } from '@lingui/macro';
 
 function SupportPage() {
     const { authArgs, isAuthenticated } = useTelegramAuth();
@@ -23,7 +24,7 @@ function SupportPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <p>Откройте приложение из Telegram</p>
+                        <p><Trans>Откройте приложение из Telegram</Trans></p>
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@ function SupportPage() {
             setQuestion('');
         } catch (error) {
             console.error('Failed to submit question:', error);
-            alert('Не удалось отправить вопрос. Попробуйте ещё раз.');
+            alert(t`Не удалось отправить вопрос. Попробуйте ещё раз.`);
         } finally {
             setIsSubmitting(false);
         }
@@ -53,20 +54,20 @@ function SupportPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
-                <h1>Поддержка</h1>
-                <p>Мы рады помочь!</p>
+                <h1><Trans>Поддержка</Trans></h1>
+                <p><Trans>Мы рады помочь!</Trans></p>
             </div>
 
             {submitted && (
                 <div className="card animate-fade-in" style={{ background: 'rgba(76, 175, 80, 0.08)', borderColor: 'var(--accent-success)' }}>
                     <p style={{ textAlign: 'center', color: 'var(--accent-success)', fontWeight: 500 }}>
-                        Твой вопрос отправлен. Мы скоро ответим!
+                        <Trans>Твой вопрос отправлен. Мы скоро ответим!</Trans>
                     </p>
                 </div>
             )}
 
             <div className="card animate-fade-in">
-                <span className="card-title">Задай вопрос</span>
+                <span className="card-title"><Trans>Задай вопрос</Trans></span>
                 <form onSubmit={handleSubmit} style={{ marginTop: 'var(--spacing-md)' }}>
                     <div className="input-group">
                         <textarea
@@ -74,7 +75,7 @@ function SupportPage() {
                             rows={4}
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
-                            placeholder="Чем мы можем помочь?"
+                            placeholder={t`Чем мы можем помочь?`}
                             style={{ resize: 'vertical' }}
                         />
                     </div>
@@ -83,14 +84,14 @@ function SupportPage() {
                         className="btn btn-primary btn-full"
                         disabled={!question.trim() || isSubmitting}
                     >
-                        {isSubmitting ? 'Отправка...' : 'Отправить вопрос'}
+                        {isSubmitting ? t`Отправка...` : t`Отправить вопрос`}
                     </button>
                 </form>
             </div>
 
             {myTickets && myTickets.length > 0 && (
                 <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
-                    <span className="card-title">Твои вопросы</span>
+                    <span className="card-title"><Trans>Твои вопросы</Trans></span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {myTickets.map((ticket) => (
                             <div
@@ -113,7 +114,7 @@ function SupportPage() {
                                 </p>
                                 {ticket.answer && (
                                     <div className="ticket-answer">
-                                        <div className="ticket-answer-label">Ответ:</div>
+                                        <div className="ticket-answer-label"><Trans>Ответ:</Trans></div>
                                         <p style={{ fontSize: 'var(--font-size-sm)', margin: 0, color: 'var(--text-primary)' }}>
                                             {ticket.answer}
                                         </p>
@@ -126,7 +127,7 @@ function SupportPage() {
             )}
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                На главную
+                <Trans>На главную</Trans>
             </Link>
         </div>
     );

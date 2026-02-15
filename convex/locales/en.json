@@ -1,0 +1,7 @@
+{
+  "notifications": {
+    "welcome": "🥳 Hooray, {name}! Your profile is accepted!\nYou're officially in the game! 🚀\n\nWhat happens next?\n⏳ Wait for Sunday. That's when our algorithm forms groups. In the evening you'll get a message with your team and first task!\n\n🎁 Reminder: First week is FREE. Try it, meet people, enjoy!",
+    "groupMatch": "🎉 <b>Your group for this week is ready!</b>\n\n📍 Region: {region}\n\n👥 Your group:\n{memberList}\n\n📋 <b>Your task:</b>\nMeet up with your group this week and get to know each other!\n\n💡 Tip: Exchange contacts and plan a meeting!\n\nGood luck! 🚀",
+    "feedbackRequest": "📝 <b>How was your meetup?</b>\n\nYou met with: {members}\n\nPlease share your feedback - it helps us improve the matching!\n\nTap the button below to submit your feedback:"
+  }
+}

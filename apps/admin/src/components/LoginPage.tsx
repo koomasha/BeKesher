@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Trans, t } from '@lingui/macro';
 
 interface LoginPageProps {
     onLogin: (credential: string) => void;
@@ -62,7 +63,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                             setError(null);
                             onLogin(response.credential);
                         } else {
-                            setError("No credential received. Please try again.");
+                            setError(t`No credential received. Please try again.`);
                         }
                     },
                 });
@@ -79,7 +80,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                 setGsiLoaded(true);
             } catch (err) {
                 console.error("Failed to initialize Google Sign-In:", err);
-                setError("Failed to load Google Sign-In. Please refresh.");
+                setError(t`Failed to load Google Sign-In. Please refresh.`);
             }
         };
 
@@ -105,7 +106,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
             script.defer = true;
             script.addEventListener("load", initializeGsi);
             script.onerror = () => {
-                setError("Failed to load Google Sign-In script.");
+                setError(t`Failed to load Google Sign-In script.`);
             };
             document.head.appendChild(script);
         }
@@ -146,7 +147,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                         marginBottom: "8px",
                     }}
                 >
-                    BeKesher Admin
+                    <Trans>BeKesher Admin</Trans>
                 </h1>
                 <p
                     style={{
@@ -155,7 +156,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                         fontSize: "14px",
                     }}
                 >
-                    Sign in with your Google account to continue
+                    <Trans>Sign in with your Google account to continue</Trans>
                 </p>
                 <div
                     style={{
@@ -172,7 +173,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                                 fontSize: "14px",
                             }}
                         >
-                            Loading...
+                            <Trans>Loading...</Trans>
                         </div>
                     )}
                     <div ref={googleBtnRef} />

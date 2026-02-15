@@ -1,0 +1,629 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-02-15 14:23+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: apps/user/src/pages/FeedbackPage.tsx:396
+msgid "(если хочешь)"
+msgstr "(если хочешь)"
+
+#. placeholder {0}: photos.length
+#: apps/user/src/pages/FeedbackPage.tsx:428
+msgid "{0} / {MAX_PHOTOS} фотографий"
+msgstr "{0} / {MAX_PHOTOS} фотографий"
+
+#. placeholder {0}: formData.aboutMe.length
+#. placeholder {0}: formData.expectations.length
+#: apps/user/src/pages/OnboardingPage.tsx:370
+#: apps/user/src/pages/OnboardingPage.tsx:434
+msgid "{0} / минимум 20 символов"
+msgstr "{0} / минимум 20 символов"
+
+#. placeholder {0}: profile.totalPoints
+#: apps/user/src/pages/HomePage.tsx:45
+msgid "{0} баллов"
+msgstr "{0} баллов"
+
+#: apps/user/src/pages/ProfilePage.tsx:154
+msgid "{displayAge} лет"
+msgstr "{displayAge} лет"
+
+#. placeholder {0}: index + 1
+#: apps/user/src/pages/FeedbackPage.tsx:402
+msgid "Preview {0}"
+msgstr "Preview {0}"
+
+#: apps/user/src/pages/ProfilePage.tsx:42
+msgid "Близнецы"
+msgstr "Близнецы"
+
+#: apps/user/src/pages/OnboardingPage.tsx:111
+msgid "Вам должно быть 18 лет или больше"
+msgstr "Вам должно быть 18 лет или больше"
+
+#: apps/user/src/pages/OnboardingPage.tsx:270
+msgid "Введите ваше имя"
+msgstr "Введите ваше имя"
+
+#: apps/user/src/pages/ProfilePage.tsx:46
+msgid "Весы"
+msgstr "Весы"
+
+#: apps/user/src/pages/ProfilePage.tsx:50
+msgid "Водолей"
+msgstr "Водолей"
+
+#: apps/user/src/pages/ProfilePage.tsx:153
+msgid "Возраст"
+msgstr "Возраст"
+
+#: apps/user/src/pages/FeedbackPage.tsx:317
+msgid "Выбери группу для оценки:"
+msgstr "Выбери группу для оценки:"
+
+#: apps/user/src/pages/OnboardingPage.tsx:117
+msgid "Выберите пол"
+msgstr "Выберите пол"
+
+#: apps/user/src/pages/OnboardingPage.tsx:94
+#: apps/user/src/pages/OnboardingPage.tsx:294
+msgid "Выберите регион"
+msgstr "Выберите регион"
+
+#: apps/user/src/pages/OnboardingPage.tsx:130
+msgid "Выберите цель участия"
+msgstr "Выберите цель участия"
+
+#: apps/user/src/pages/GroupsPage.tsx:52
+msgid "Группа этой недели"
+msgstr "Группа этой недели"
+
+#: apps/user/src/pages/GroupsPage.tsx:79
+msgid "Группы формируются каждое воскресенье"
+msgstr "Группы формируются каждое воскресенье"
+
+#: apps/user/src/pages/FeedbackPage.tsx:479
+msgid "Да"
+msgstr "Да"
+
+#: apps/user/src/pages/FeedbackPage.tsx:383
+msgid "Дай оценку этой недели"
+msgstr "Дай оценку этой недели"
+
+#: apps/user/src/pages/FeedbackPage.tsx:547
+#: apps/user/src/pages/OnboardingPage.tsx:478
+msgid "Далее"
+msgstr "Далее"
+
+#: apps/user/src/pages/ProfilePage.tsx:147
+msgid "Дата рождения"
+msgstr "Дата рождения"
+
+#: apps/user/src/pages/OnboardingPage.tsx:303
+msgid "Дата рождения *"
+msgstr "Дата рождения *"
+
+#: apps/user/src/pages/OnboardingPage.tsx:97
+msgid "Дата рождения обязательна"
+msgstr "Дата рождения обязательна"
+
+#: apps/user/src/pages/ProfilePage.tsx:45
+msgid "Дева"
+msgstr "Дева"
+
+#: apps/user/src/pages/FeedbackPage.tsx:453
+msgid "Добавило веселья"
+msgstr "Добавило веселья"
+
+#: apps/user/src/pages/HomePage.tsx:25
+msgid "Добро пожаловать в BeKesher"
+msgstr "Добро пожаловать в BeKesher"
+
+#: apps/user/src/pages/OnboardingPage.tsx:341
+#: apps/user/src/pages/OnboardingPage.tsx:342
+#: apps/user/src/pages/OnboardingPage.tsx:345
+msgid "Другое"
+msgstr "Другое"
+
+#: apps/user/src/pages/OnboardingPage.tsx:331
+#: apps/user/src/pages/OnboardingPage.tsx:332
+#: apps/user/src/pages/OnboardingPage.tsx:335
+msgid "Женщина"
+msgstr "Женщина"
+
+#: apps/user/src/pages/OnboardingPage.tsx:485
+msgid "Завершить"
+msgstr "Завершить"
+
+#: apps/user/src/pages/HomePage.tsx:31
+msgid "Загружаем профиль..."
+msgstr "Загружаем профиль..."
+
+#: apps/user/src/pages/FeedbackPage.tsx:395
+msgid "Загрузи фотку с вашей встречи"
+msgstr "Загрузи фотку с вашей встречи"
+
+#: apps/user/src/pages/ProfilePage.tsx:70
+msgid "Загрузка профиля..."
+msgstr "Загрузка профиля..."
+
+#: apps/user/src/pages/SupportPage.tsx:70
+msgid "Задай вопрос"
+msgstr "Задай вопрос"
+
+#: apps/user/src/pages/ProfilePage.tsx:105
+msgid "Заполнить анкету"
+msgstr "Заполнить анкету"
+
+#: apps/user/src/pages/ProfilePage.tsx:203
+msgid "Зачем пришёл(а) в игру"
+msgstr "Зачем пришёл(а) в игру"
+
+#: apps/user/src/pages/OnboardingPage.tsx:397
+msgid "Зачем ты пришёл(а) в игру? *"
+msgstr "Зачем ты пришёл(а) в игру? *"
+
+#: apps/user/src/pages/ProfilePage.tsx:157
+msgid "Знак зодиака"
+msgstr "Знак зодиака"
+
+#: apps/user/src/pages/OnboardingPage.tsx:72
+msgid "И дружбу, и романтическое знакомство"
+msgstr "И дружбу, и романтическое знакомство"
+
+#: apps/user/src/pages/ProfilePage.tsx:139
+msgid "Имя"
+msgstr "Имя"
+
+#: apps/user/src/pages/OnboardingPage.tsx:264
+msgid "Имя *"
+msgstr "Имя *"
+
+#: apps/user/src/pages/OnboardingPage.tsx:86
+msgid "Имя обязательно"
+msgstr "Имя обязательно"
+
+#: apps/user/src/pages/FeedbackPage.tsx:435
+msgid "Как задание повлияло на ваше общение?"
+msgstr "Как задание повлияло на ваше общение?"
+
+#: apps/user/src/pages/OnboardingPage.tsx:425
+msgid "Каких людей хочешь встретить, что важно, ожидания *"
+msgstr "Каких людей хочешь встретить, что важно, ожидания *"
+
+#: apps/user/src/pages/ProfilePage.tsx:207
+msgid "Каких людей хочу встретить"
+msgstr "Каких людей хочу встретить"
+
+#: apps/user/src/pages/ProfilePage.tsx:49
+msgid "Козерог"
+msgstr "Козерог"
+
+#: apps/user/src/pages/ProfilePage.tsx:44
+msgid "Лев"
+msgstr "Лев"
+
+#: apps/user/src/pages/OnboardingPage.tsx:259
+msgid "Личные данные"
+msgstr "Личные данные"
+
+#: apps/user/src/pages/OnboardingPage.tsx:123
+#: apps/user/src/pages/OnboardingPage.tsx:136
+msgid "Минимум 20 символов"
+msgstr "Минимум 20 символов"
+
+#: apps/user/src/pages/FeedbackPage.tsx:497
+msgid "Может быть"
+msgstr "Может быть"
+
+#: apps/user/src/pages/GroupsPage.tsx:45
+#: apps/user/src/pages/HomePage.tsx:80
+msgid "Мои группы"
+msgstr "Мои группы"
+
+#: apps/user/src/pages/HomePage.tsx:70
+#: apps/user/src/pages/ProfilePage.tsx:122
+msgid "Мой профиль"
+msgstr "Мой профиль"
+
+#: apps/user/src/pages/OnboardingPage.tsx:321
+#: apps/user/src/pages/OnboardingPage.tsx:322
+#: apps/user/src/pages/OnboardingPage.tsx:325
+msgid "Мужчина"
+msgstr "Мужчина"
+
+#: apps/user/src/pages/SupportPage.tsx:58
+msgid "Мы рады помочь!"
+msgstr "Мы рады помочь!"
+
+#: apps/user/src/pages/FeedbackPage.tsx:281
+#: apps/user/src/pages/FeedbackPage.tsx:303
+#: apps/user/src/pages/FeedbackPage.tsx:339
+#: apps/user/src/pages/FeedbackPage.tsx:562
+#: apps/user/src/pages/GroupsPage.tsx:118
+#: apps/user/src/pages/SupportPage.tsx:130
+msgid "На главную"
+msgstr "На главную"
+
+#: apps/user/src/pages/GroupsPage.tsx:77
+msgid "На этой неделе пока нет группы"
+msgstr "На этой неделе пока нет группы"
+
+#: apps/user/src/pages/FeedbackPage.tsx:418
+msgid "Нажми для загрузки"
+msgstr "Нажми для загрузки"
+
+#: apps/user/src/pages/FeedbackPage.tsx:538
+#: apps/user/src/pages/OnboardingPage.tsx:469
+msgid "Назад"
+msgstr "Назад"
+
+#: apps/user/src/pages/ProfilePage.tsx:240
+msgid "Назад в Главное меню"
+msgstr "Назад в Главное меню"
+
+#: apps/user/src/pages/FeedbackPage.tsx:375
+msgid "Назад к выбору группы"
+msgstr "Назад к выбору группы"
+
+#: apps/user/src/pages/OnboardingPage.tsx:68
+msgid "Найти друзей и единомышленников"
+msgstr "Найти друзей и единомышленников"
+
+#: apps/user/src/pages/OnboardingPage.tsx:361
+msgid "Напиши о себе *"
+msgstr "Напиши о себе *"
+
+#: apps/user/src/pages/OnboardingPage.tsx:381
+msgid "Например: Разработчик, Дизайнер, Учитель"
+msgstr "Например: Разработчик, Дизайнер, Учитель"
+
+#: apps/user/src/pages/FeedbackPage.tsx:462
+msgid "Не очень подошло"
+msgstr "Не очень подошло"
+
+#: apps/user/src/pages/SupportPage.tsx:48
+msgid "Не удалось отправить вопрос. Попробуйте ещё раз."
+msgstr "Не удалось отправить вопрос. Попробуйте ещё раз."
+
+#: apps/user/src/pages/FeedbackPage.tsx:228
+msgid "Не удалось отправить отзыв. Пожалуйста, попробуйте еще раз."
+msgstr "Не удалось отправить отзыв. Пожалуйста, попробуйте еще раз."
+
+#: apps/user/src/pages/FeedbackPage.tsx:388
+msgid "Не хочу чтобы заканчивалась"
+msgstr "Не хочу чтобы заканчивалась"
+
+#: apps/user/src/pages/OnboardingPage.tsx:91
+msgid "Неверный формат телефона (например: 0501234567 или +972501234567)"
+msgstr "Неверный формат телефона (например: 0501234567 или +972501234567)"
+
+#: apps/user/src/pages/FeedbackPage.tsx:488
+msgid "Нет"
+msgstr "Нет"
+
+#: apps/user/src/pages/FeedbackPage.tsx:296
+msgid "Нет ожидающих отзывов"
+msgstr "Нет ожидающих отзывов"
+
+#: apps/user/src/pages/OnboardingPage.tsx:366
+msgid "Никто не знает обо мне, что..."
+msgstr "Никто не знает обо мне, что..."
+
+#: apps/user/src/pages/OnboardingPage.tsx:356
+#: apps/user/src/pages/ProfilePage.tsx:173
+#: apps/user/src/pages/ProfilePage.tsx:186
+msgid "О себе"
+msgstr "О себе"
+
+#: apps/user/src/pages/FeedbackPage.tsx:266
+#: apps/user/src/pages/FeedbackPage.tsx:292
+#: apps/user/src/pages/FeedbackPage.tsx:313
+#: apps/user/src/pages/FeedbackPage.tsx:356
+msgid "Обратная связь"
+msgstr "Обратная связь"
+
+#: apps/user/src/pages/GroupsPage.tsx:46
+msgid "Общайся с новыми друзьями"
+msgstr "Общайся с новыми друзьями"
+
+#: apps/user/src/pages/ProfilePage.tsx:40
+msgid "Овен"
+msgstr "Овен"
+
+#: apps/user/src/pages/OnboardingPage.tsx:420
+msgid "Ожидания"
+msgstr "Ожидания"
+
+#: apps/user/src/pages/OnboardingPage.tsx:430
+msgid "Опишите ваши ожидания от встреч..."
+msgstr "Опишите ваши ожидания от встреч..."
+
+#: apps/user/src/pages/ProfilePage.tsx:130
+msgid "Основная информация"
+msgstr "Основная информация"
+
+#: apps/user/src/pages/FeedbackPage.tsx:278
+msgid "Оставить ещё отзыв"
+msgstr "Оставить ещё отзыв"
+
+#: apps/user/src/pages/SupportPage.tsx:117
+msgid "Ответ:"
+msgstr "Ответ:"
+
+#: apps/user/src/pages/HomePage.tsx:86
+msgid "Отзывы"
+msgstr "Отзывы"
+
+#: apps/user/src/pages/FeedbackPage.tsx:245
+#: apps/user/src/pages/GroupsPage.tsx:25
+#: apps/user/src/pages/HomePage.tsx:59
+#: apps/user/src/pages/SupportPage.tsx:27
+msgid "Откройте приложение из Telegram"
+msgstr "Откройте приложение из Telegram"
+
+#: apps/user/src/pages/OnboardingPage.tsx:460
+msgid "Отмена"
+msgstr "Отмена"
+
+#: apps/user/src/pages/FeedbackPage.tsx:555
+msgid "Отправить"
+msgstr "Отправить"
+
+#: apps/user/src/pages/SupportPage.tsx:87
+msgid "Отправить вопрос"
+msgstr "Отправить вопрос"
+
+#: apps/user/src/pages/FeedbackPage.tsx:555
+#: apps/user/src/pages/SupportPage.tsx:87
+msgid "Отправка..."
+msgstr "Отправка..."
+
+#: apps/user/src/pages/OnboardingPage.tsx:231
+msgid "Ошибка: {errorMessage}"
+msgstr "Ошибка: {errorMessage}"
+
+#: apps/user/src/pages/OnboardingPage.tsx:198
+msgid "Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram."
+msgstr "Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram."
+
+#: apps/user/src/pages/HomePage.tsx:92
+#: apps/user/src/pages/SupportPage.tsx:57
+msgid "Поддержка"
+msgstr "Поддержка"
+
+#: apps/user/src/pages/FeedbackPage.tsx:314
+msgid "Поделись впечатлениями"
+msgstr "Поделись впечатлениями"
+
+#: apps/user/src/pages/FeedbackPage.tsx:384
+msgid "Подними ракету вверх!"
+msgstr "Подними ракету вверх!"
+
+#. placeholder {0}: new Date(profile.paidUntil).toLocaleDateString('ru-RU')
+#: apps/user/src/pages/HomePage.tsx:50
+msgid "Подписка до: {0}"
+msgstr "Подписка до: {0}"
+
+#: apps/user/src/pages/ProfilePage.tsx:100
+msgid "Пожалуйста, заполните анкету для создания профиля"
+msgstr "Пожалуйста, заполните анкету для создания профиля"
+
+#: apps/user/src/pages/ProfilePage.tsx:85
+msgid "Пожалуйста, откройте приложение через Telegram"
+msgstr "Пожалуйста, откройте приложение через Telegram"
+
+#: apps/user/src/pages/OnboardingPage.tsx:113
+msgid "Пожалуйста, проверьте правильность даты"
+msgstr "Пожалуйста, проверьте правильность даты"
+
+#: apps/user/src/pages/OnboardingPage.tsx:71
+msgid "Познать себя и людей рядом"
+msgstr "Познать себя и людей рядом"
+
+#: apps/user/src/pages/ProfilePage.tsx:165
+msgid "Пол"
+msgstr "Пол"
+
+#: apps/user/src/pages/OnboardingPage.tsx:315
+msgid "Пол *"
+msgstr "Пол *"
+
+#: apps/user/src/pages/FeedbackPage.tsx:387
+msgid "Полный отстой"
+msgstr "Полный отстой"
+
+#: apps/user/src/pages/OnboardingPage.tsx:228
+msgid "Пользователь с таким Telegram ID уже зарегистрирован."
+msgstr "Пользователь с таким Telegram ID уже зарегистрирован."
+
+#: apps/user/src/pages/HomePage.tsx:24
+msgid "Привет, {firstName}!"
+msgstr "Привет, {firstName}!"
+
+#: apps/user/src/pages/OnboardingPage.tsx:70
+msgid "Провести время интересно и с пользой"
+msgstr "Провести время интересно и с пользой"
+
+#: apps/user/src/pages/OnboardingPage.tsx:126
+msgid "Профессия обязательна"
+msgstr "Профессия обязательна"
+
+#: apps/user/src/pages/ProfilePage.tsx:182
+msgid "Профессия/сфера деятельности"
+msgstr "Профессия/сфера деятельности"
+
+#: apps/user/src/pages/OnboardingPage.tsx:376
+msgid "Профессия/сфера деятельности *"
+msgstr "Профессия/сфера деятельности *"
+
+#: apps/user/src/pages/ProfilePage.tsx:99
+msgid "Профиль не заполнен"
+msgstr "Профиль не заполнен"
+
+#: apps/user/src/pages/GroupsPage.tsx:87
+msgid "Прошлые группы"
+msgstr "Прошлые группы"
+
+#: apps/user/src/pages/ProfilePage.tsx:43
+msgid "Рак"
+msgstr "Рак"
+
+#: apps/user/src/pages/FeedbackPage.tsx:527
+msgid "Расскажи, что можно улучшить..."
+msgstr "Расскажи, что можно улучшить..."
+
+#: apps/user/src/pages/FeedbackPage.tsx:512
+msgid "Расскажи, что понравилось..."
+msgstr "Расскажи, что понравилось..."
+
+#: apps/user/src/pages/OnboardingPage.tsx:69
+msgid "Расширить круг общения / нетворкинг"
+msgstr "Расширить круг общения / нетворкинг"
+
+#: apps/user/src/pages/ProfilePage.tsx:161
+msgid "Регион"
+msgstr "Регион"
+
+#: apps/user/src/pages/OnboardingPage.tsx:288
+msgid "Регион *"
+msgstr "Регион *"
+
+#. placeholder {0}: activeGroup.region || 'Смешанный'
+#: apps/user/src/pages/GroupsPage.tsx:56
+msgid "Регион: {0}"
+msgstr "Регион: {0}"
+
+#: apps/user/src/pages/ProfilePage.tsx:233
+msgid "Редактировать профиль"
+msgstr "Редактировать профиль"
+
+#: apps/user/src/pages/ProfilePage.tsx:51
+msgid "Рыбы"
+msgstr "Рыбы"
+
+#. placeholder {0}: group.members.join(', ')
+#: apps/user/src/pages/FeedbackPage.tsx:331
+msgid "С: {0}"
+msgstr "С: {0}"
+
+#: apps/user/src/pages/FeedbackPage.tsx:444
+msgid "Сделало общение глубже"
+msgstr "Сделало общение глубже"
+
+#: apps/user/src/pages/OnboardingPage.tsx:62
+#: apps/user/src/pages/OnboardingPage.tsx:165
+#: apps/user/src/pages/ProfilePage.tsx:58
+msgid "Север"
+msgstr "Север"
+
+#: apps/user/src/pages/ProfilePage.tsx:47
+msgid "Скорпион"
+msgstr "Скорпион"
+
+#: apps/user/src/pages/OnboardingPage.tsx:485
+msgid "Сохранить"
+msgstr "Сохранить"
+
+#: apps/user/src/pages/FeedbackPage.tsx:272
+msgid "Спасибо за отзыв!"
+msgstr "Спасибо за отзыв!"
+
+#: apps/user/src/pages/ProfilePage.tsx:48
+msgid "Стрелец"
+msgstr "Стрелец"
+
+#: apps/user/src/pages/SupportPage.tsx:94
+msgid "Твои вопросы"
+msgstr "Твои вопросы"
+
+#: apps/user/src/pages/SupportPage.tsx:64
+msgid "Твой вопрос отправлен. Мы скоро ответим!"
+msgstr "Твой вопрос отправлен. Мы скоро ответим!"
+
+#: apps/user/src/pages/HomePage.tsx:38
+msgid "Твой статус"
+msgstr "Твой статус"
+
+#: apps/user/src/pages/ProfilePage.tsx:143
+msgid "Телефон"
+msgstr "Телефон"
+
+#: apps/user/src/pages/OnboardingPage.tsx:276
+msgid "Телефон *"
+msgstr "Телефон *"
+
+#: apps/user/src/pages/OnboardingPage.tsx:89
+msgid "Телефон обязателен"
+msgstr "Телефон обязателен"
+
+#: apps/user/src/pages/ProfilePage.tsx:41
+msgid "Телец"
+msgstr "Телец"
+
+#: apps/user/src/pages/ProfilePage.tsx:84
+msgid "Требуется авторизация"
+msgstr "Требуется авторизация"
+
+#: apps/user/src/pages/FeedbackPage.tsx:298
+msgid "Ты в курсе всех дел!"
+msgstr "Ты в курсе всех дел!"
+
+#: apps/user/src/pages/FeedbackPage.tsx:273
+msgid "Ты получил(а) 10 баллов!"
+msgstr "Ты получил(а) 10 баллов!"
+
+#: apps/user/src/pages/FeedbackPage.tsx:470
+msgid "Хочешь встретиться с этим партнером снова?"
+msgstr "Хочешь встретиться с этим партнером снова?"
+
+#: apps/user/src/pages/ProfilePage.tsx:194
+msgid "Цели и ожидания"
+msgstr "Цели и ожидания"
+
+#: apps/user/src/pages/OnboardingPage.tsx:392
+msgid "Цель участия"
+msgstr "Цель участия"
+
+#: apps/user/src/pages/OnboardingPage.tsx:63
+#: apps/user/src/pages/OnboardingPage.tsx:166
+#: apps/user/src/pages/ProfilePage.tsx:59
+msgid "Центр"
+msgstr "Центр"
+
+#: apps/user/src/pages/SupportPage.tsx:78
+msgid "Чем мы можем помочь?"
+msgstr "Чем мы можем помочь?"
+
+#: apps/user/src/pages/FeedbackPage.tsx:520
+msgid "Что бы ты хотел(а) улучшить в игре?"
+msgstr "Что бы ты хотел(а) улучшить в игре?"
+
+#: apps/user/src/pages/FeedbackPage.tsx:505
+msgid "Что понравилось в этой встрече?"
+msgstr "Что понравилось в этой встрече?"
+
+#: apps/user/src/pages/OnboardingPage.tsx:251
+msgid "Шаг {currentStep} из 4"
+msgstr "Шаг {currentStep} из 4"
+
+#: apps/user/src/pages/OnboardingPage.tsx:121
+#: apps/user/src/pages/OnboardingPage.tsx:134
+msgid "Это поле обязательно"
+msgstr "Это поле обязательно"
+
+#: apps/user/src/pages/OnboardingPage.tsx:64
+#: apps/user/src/pages/OnboardingPage.tsx:167
+#: apps/user/src/pages/ProfilePage.tsx:60
+msgid "Юг"
+msgstr "Юг"

@@ -2,6 +2,7 @@ import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Trans } from '@lingui/macro';
 
 function GroupsPage() {
     const { authArgs, isAuthenticated } = useTelegramAuth();
@@ -21,7 +22,7 @@ function GroupsPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <p>Откройте приложение из Telegram</p>
+                        <p><Trans>Откройте приложение из Telegram</Trans></p>
                     </div>
                 </div>
             </div>
@@ -41,18 +42,18 @@ function GroupsPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
-                <h1>Мои группы</h1>
-                <p>Общайся с новыми друзьями</p>
+                <h1><Trans>Мои группы</Trans></h1>
+                <p><Trans>Общайся с новыми друзьями</Trans></p>
             </div>
 
             {activeGroup && (
                 <div className="card animate-fade-in">
                     <div className="card-header">
-                        <span className="card-title">Группа этой недели</span>
+                        <span className="card-title"><Trans>Группа этой недели</Trans></span>
                         <span className="badge badge-active">Active</span>
                     </div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginBottom: 'var(--spacing-md)' }}>
-                        Регион: {activeGroup.region || 'Смешанный'}
+                        <Trans>Регион: {activeGroup.region || 'Смешанный'}</Trans>
                     </p>
                     <ul className="member-list">
                         {activeGroup.members.map((member) => (
@@ -73,9 +74,9 @@ function GroupsPage() {
             {!activeGroup && (
                 <div className="card animate-fade-in">
                     <div className="empty-state">
-                        <p>На этой неделе пока нет группы</p>
+                        <p><Trans>На этой неделе пока нет группы</Trans></p>
                         <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)', color: 'var(--text-muted)' }}>
-                            Группы формируются каждое воскресенье
+                            <Trans>Группы формируются каждое воскресенье</Trans>
                         </p>
                     </div>
                 </div>
@@ -83,7 +84,7 @@ function GroupsPage() {
 
             {allGroups && allGroups.length > 0 && (
                 <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
-                    <span className="card-title">Прошлые группы</span>
+                    <span className="card-title"><Trans>Прошлые группы</Trans></span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {allGroups
                             .filter((g) => g.status !== 'Active')
@@ -114,7 +115,7 @@ function GroupsPage() {
             )}
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                На главную
+                <Trans>На главную</Trans>
             </Link>
         </div>
     );

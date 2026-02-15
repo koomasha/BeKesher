@@ -4,6 +4,7 @@ import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { Id } from 'convex/_generated/dataModel';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Trans, t } from '@lingui/macro';
 
 const TOTAL_STEPS = 6;
 const MAX_PHOTOS = 5;
@@ -224,7 +225,7 @@ function FeedbackPage() {
             setSubmitted(true);
         } catch (error) {
             console.error('Failed to submit feedback:', error);
-            alert('Не удалось отправить отзыв. Пожалуйста, попробуйте еще раз.');
+            alert(t`Не удалось отправить отзыв. Пожалуйста, попробуйте еще раз.`);
         } finally {
             setIsSubmitting(false);
         }
@@ -241,7 +242,7 @@ function FeedbackPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <p>Откройте приложение из Telegram</p>
+                        <p><Trans>Откройте приложение из Telegram</Trans></p>
                     </div>
                 </div>
             </div>
@@ -262,22 +263,22 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
-                    <h1>Обратная связь</h1>
+                    <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="success-state animate-fade-in">
                     <div className="success-icon-circle">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </div>
-                    <h2>Спасибо за отзыв!</h2>
-                    <p>Ты получил(а) 10 баллов!</p>
+                    <h2><Trans>Спасибо за отзыв!</Trans></h2>
+                    <p><Trans>Ты получил(а) 10 баллов!</Trans></p>
                     <button
                         className="btn btn-warm btn-full"
                         onClick={() => setSubmitted(false)}
                     >
-                        Оставить ещё отзыв
+                        <Trans>Оставить ещё отзыв</Trans>
                     </button>
                     <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                        На главную
+                        <Trans>На главную</Trans>
                     </Link>
                 </div>
             </div>
@@ -288,18 +289,18 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
-                    <h1>Обратная связь</h1>
+                    <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="card animate-fade-in">
                     <div className="empty-state">
-                        <p>Нет ожидающих отзывов</p>
+                        <p><Trans>Нет ожидающих отзывов</Trans></p>
                         <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)', color: 'var(--text-muted)' }}>
-                            Ты в курсе всех дел!
+                            <Trans>Ты в курсе всех дел!</Trans>
                         </p>
                     </div>
                 </div>
                 <Link to="/" className="btn btn-secondary btn-full">
-                    На главную
+                    <Trans>На главную</Trans>
                 </Link>
             </div>
         );
@@ -309,11 +310,11 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header decorated-section">
-                    <h1>Обратная связь</h1>
-                    <p>Поделись впечатлениями</p>
+                    <h1><Trans>Обратная связь</Trans></h1>
+                    <p><Trans>Поделись впечатлениями</Trans></p>
                 </div>
                 <div className="card animate-fade-in">
-                    <span className="card-title">Выбери группу для оценки:</span>
+                    <span className="card-title"><Trans>Выбери группу для оценки:</Trans></span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {pendingFeedback.map((group) => (
                             <button
@@ -327,7 +328,7 @@ function FeedbackPage() {
                                         {new Date(group.groupCreatedAt).toLocaleDateString('ru-RU')}
                                     </div>
                                     <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)' }}>
-                                        С: {group.members.join(', ')}
+                                        <Trans>С: {group.members.join(', ')}</Trans>
                                     </div>
                                 </div>
                             </button>
@@ -335,7 +336,7 @@ function FeedbackPage() {
                     </div>
                 </div>
                 <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                    На главную
+                    <Trans>На главную</Trans>
                 </Link>
             </div>
         );
@@ -352,7 +353,7 @@ function FeedbackPage() {
     return (
         <div className="page">
             <div className="page-header">
-                <h1>Обратная связь</h1>
+                <h1><Trans>Обратная связь</Trans></h1>
             </div>
 
             <div className="wizard-container">
@@ -371,7 +372,7 @@ function FeedbackPage() {
                 {/* Cancel link */}
                 <div style={{ textAlign: 'center', marginBottom: 'var(--spacing-md)' }}>
                     <button onClick={handleCancel} className="btn btn-secondary" style={{ fontSize: 'var(--font-size-sm)' }}>
-                        Назад к выбору группы
+                        <Trans>Назад к выбору группы</Trans>
                     </button>
                 </div>
 
@@ -379,26 +380,26 @@ function FeedbackPage() {
                 <div className="wizard-content animate-fade-in">
                     {step === 0 && (
                         <>
-                            <h2 className="wizard-title">Дай оценку этой недели</h2>
-                            <p className="wizard-subtitle">Подними ракету вверх!</p>
+                            <h2 className="wizard-title"><Trans>Дай оценку этой недели</Trans></h2>
+                            <p className="wizard-subtitle"><Trans>Подними ракету вверх!</Trans></p>
                             <RocketRating rating={rating} onRatingChange={setRating} />
                             <div className="rating-labels">
-                                <span>Полный отстой</span>
-                                <span>Не хочу чтобы заканчивалась</span>
+                                <span><Trans>Полный отстой</Trans></span>
+                                <span><Trans>Не хочу чтобы заканчивалась</Trans></span>
                             </div>
                         </>
                     )}
 
                     {step === 1 && (
                         <>
-                            <h2 className="wizard-title">Загрузи фотку с вашей встречи</h2>
-                            <p className="wizard-subtitle">(если хочешь)</p>
+                            <h2 className="wizard-title"><Trans>Загрузи фотку с вашей встречи</Trans></h2>
+                            <p className="wizard-subtitle"><Trans>(если хочешь)</Trans></p>
                             <div className="photo-upload">
                                 {photos.length > 0 && (
                                     <div className="photo-grid">
                                         {photos.map((photo, index) => (
                                             <div key={index} className="photo-preview">
-                                                <img src={photo.preview} alt={`Preview ${index + 1}`} />
+                                                <img src={photo.preview} alt={t`Preview ${index + 1}`} />
                                                 <button
                                                     className="remove-photo"
                                                     onClick={() => handleRemovePhoto(index)}
@@ -414,7 +415,7 @@ function FeedbackPage() {
                                         <div className="upload-icon">
                                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5"/><circle cx="12" cy="12" r="3" stroke="var(--color-accent)" strokeWidth="1.5"/><circle cx="17" cy="8" r="1" fill="var(--color-accent)"/></svg>
                                         </div>
-                                        <span>Нажми для загрузки</span>
+                                        <span><Trans>Нажми для загрузки</Trans></span>
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -424,14 +425,14 @@ function FeedbackPage() {
                                         />
                                     </label>
                                 )}
-                                <p className="photo-count">{photos.length} / {MAX_PHOTOS} фотографий</p>
+                                <p className="photo-count"><Trans>{photos.length} / {MAX_PHOTOS} фотографий</Trans></p>
                             </div>
                         </>
                     )}
 
                     {step === 2 && (
                         <>
-                            <h2 className="wizard-title">Как задание повлияло на ваше общение?</h2>
+                            <h2 className="wizard-title"><Trans>Как задание повлияло на ваше общение?</Trans></h2>
                             <div className="choice-group">
                                 <button
                                     className={`choice-button ${taskEffect === 'deeper' ? 'selected' : ''}`}
@@ -440,7 +441,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-teal">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17 11h-4V7a1 1 0 00-2 0v4H7a1 1 0 000 2h4v4a1 1 0 002 0v-4h4a1 1 0 000-2z" fill="currentColor"/></svg>
                                     </div>
-                                    <span>Сделало общение глубже</span>
+                                    <span><Trans>Сделало общение глубже</Trans></span>
                                 </button>
                                 <button
                                     className={`choice-button ${taskEffect === 'fun' ? 'selected' : ''}`}
@@ -449,7 +450,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-coral">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
                                     </div>
-                                    <span>Добавило веселья</span>
+                                    <span><Trans>Добавило веселья</Trans></span>
                                 </button>
                                 <button
                                     className={`choice-button ${taskEffect === 'not_fit' ? 'selected' : ''}`}
@@ -458,7 +459,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-muted">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5"/></svg>
                                     </div>
-                                    <span>Не очень подошло</span>
+                                    <span><Trans>Не очень подошло</Trans></span>
                                 </button>
                             </div>
                         </>
@@ -466,7 +467,7 @@ function FeedbackPage() {
 
                     {step === 3 && (
                         <>
-                            <h2 className="wizard-title">Хочешь встретиться с этим партнером снова?</h2>
+                            <h2 className="wizard-title"><Trans>Хочешь встретиться с этим партнером снова?</Trans></h2>
                             <div className="choice-group">
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'yes' ? 'selected' : ''}`}
@@ -475,7 +476,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-teal">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                                     </div>
-                                    <span>Да</span>
+                                    <span><Trans>Да</Trans></span>
                                 </button>
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'no' ? 'selected' : ''}`}
@@ -484,7 +485,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-coral">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
                                     </div>
-                                    <span>Нет</span>
+                                    <span><Trans>Нет</Trans></span>
                                 </button>
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'maybe' ? 'selected' : ''}`}
@@ -493,7 +494,7 @@ function FeedbackPage() {
                                     <div className="choice-icon-circle choice-icon-muted">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/><path d="M9 10c0-1.7 1.3-3 3-3s3 1.3 3 3c0 1.2-.7 2-1.5 2.5-.5.3-1.5.5-1.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="currentColor" strokeWidth="0.5"/></svg>
                                     </div>
-                                    <span>Может быть</span>
+                                    <span><Trans>Может быть</Trans></span>
                                 </button>
                             </div>
                         </>
@@ -501,14 +502,14 @@ function FeedbackPage() {
 
                     {step === 4 && (
                         <>
-                            <h2 className="wizard-title">Что понравилось в этой встрече?</h2>
+                            <h2 className="wizard-title"><Trans>Что понравилось в этой встрече?</Trans></h2>
                             <div className="input-group">
                                 <textarea
                                     className="input"
                                     rows={4}
                                     value={textFeedback}
                                     onChange={(e) => setTextFeedback(e.target.value)}
-                                    placeholder="Расскажи, что понравилось..."
+                                    placeholder={t`Расскажи, что понравилось...`}
                                 />
                             </div>
                         </>
@@ -516,14 +517,14 @@ function FeedbackPage() {
 
                     {step === 5 && (
                         <>
-                            <h2 className="wizard-title">Что бы ты хотел(а) улучшить в игре?</h2>
+                            <h2 className="wizard-title"><Trans>Что бы ты хотел(а) улучшить в игре?</Trans></h2>
                             <div className="input-group">
                                 <textarea
                                     className="input"
                                     rows={4}
                                     value={improvementSuggestion}
                                     onChange={(e) => setImprovementSuggestion(e.target.value)}
-                                    placeholder="Расскажи, что можно улучшить..."
+                                    placeholder={t`Расскажи, что можно улучшить...`}
                                 />
                             </div>
                         </>
@@ -534,7 +535,7 @@ function FeedbackPage() {
                 <div className="wizard-actions">
                     {step > 0 && (
                         <button className="btn btn-secondary" onClick={handleBack}>
-                            Назад
+                            <Trans>Назад</Trans>
                         </button>
                     )}
                     {step < TOTAL_STEPS - 1 ? (
@@ -543,7 +544,7 @@ function FeedbackPage() {
                             onClick={handleNext}
                             disabled={!canProceed()}
                         >
-                            Далее
+                            <Trans>Далее</Trans>
                         </button>
                     ) : (
                         <button
@@ -551,14 +552,14 @@ function FeedbackPage() {
                             onClick={handleSubmit}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Отправка...' : 'Отправить'}
+                            {isSubmitting ? <Trans>Отправка...</Trans> : <Trans>Отправить</Trans>}
                         </button>
                     )}
                 </div>
             </div>
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                На главную
+                <Trans>На главную</Trans>
             </Link>
         </div>
     );

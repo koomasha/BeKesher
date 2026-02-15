@@ -4,7 +4,12 @@ import { useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
 import { Logo } from '../components/Logo';
+import { Trans, t } from '@lingui/macro';
 import './OnboardingPage.css';
+
+interface LocationState {
+    editMode?: boolean;
+}
 
 interface FormData {
     // Step 1: Personal Info
@@ -58,17 +63,17 @@ function OnboardingPage() {
     }, [location]);
 
     const regions = [
-        'Север',
-        'Центр',
-        'Юг'
+        t`Север`,
+        t`Центр`,
+        t`Юг`
     ];
 
     const purposes = [
-        'Найти друзей и единомышленников',
-        'Расширить круг общения / нетворкинг',
-        'Провести время интересно и с пользой',
-        'Познать себя и людей рядом',
-        'И дружбу, и романтическое знакомство'
+        t`Найти друзей и единомышленников`,
+        t`Расширить круг общения / нетворкинг`,
+        t`Провести время интересно и с пользой`,
+        t`Познать себя и людей рядом`,
+        t`И дружбу, и романтическое знакомство`
     ];
 
     const validatePhone = (phone: string): boolean => {
@@ -82,18 +87,18 @@ function OnboardingPage() {
 
         if (step === 1) {
             if (!formData.name.trim()) {
-                newErrors.name = 'Имя обязательно';
+                newErrors.name = t`Имя обязательно`;
             }
             if (!formData.phone.trim()) {
-                newErrors.phone = 'Телефон обязателен';
+                newErrors.phone = t`Телефон обязателен`;
             } else if (!validatePhone(formData.phone)) {
-                newErrors.phone = 'Неверный формат телефона (например: 0501234567 или +972501234567)';
+                newErrors.phone = t`Неверный формат телефона (например: 0501234567 или +972501234567)`;
             }
             if (!formData.city) {
-                newErrors.city = 'Выберите регион';
+                newErrors.city = t`Выберите регион`;
             }
             if (!formData.birthDate) {
-                newErrors.birthDate = 'Дата рождения обязательна';
+                newErrors.birthDate = t`Дата рождения обязательна`;
             } else {
                 // Calculate age from birthDate
                 const today = new Date();
@@ -107,32 +112,32 @@ function OnboardingPage() {
                 }
 
                 if (age < 18) {
-                    newErrors.birthDate = 'Вам должно быть 18 лет или больше';
+                    newErrors.birthDate = t`Вам должно быть 18 лет или больше`;
                 } else if (age > 100) {
-                    newErrors.birthDate = 'Пожалуйста, проверьте правильность даты';
+                    newErrors.birthDate = t`Пожалуйста, проверьте правильность даты`;
                 }
             }
             if (!formData.gender) {
-                newErrors.gender = 'Выберите пол';
+                newErrors.gender = t`Выберите пол`;
             }
         } else if (step === 2) {
             if (!formData.aboutMe.trim()) {
-                newErrors.aboutMe = 'Это поле обязательно';
+                newErrors.aboutMe = t`Это поле обязательно`;
             } else if (formData.aboutMe.trim().length < 20) {
-                newErrors.aboutMe = 'Минимум 20 символов';
+                newErrors.aboutMe = t`Минимум 20 символов`;
             }
             if (!formData.profession.trim()) {
-                newErrors.profession = 'Профессия обязательна';
+                newErrors.profession = t`Профессия обязательна`;
             }
         } else if (step === 3) {
             if (!formData.purpose) {
-                newErrors.purpose = 'Выберите цель участия';
+                newErrors.purpose = t`Выберите цель участия`;
             }
         } else if (step === 4) {
             if (!formData.expectations.trim()) {
-                newErrors.expectations = 'Это поле обязательно';
+                newErrors.expectations = t`Это поле обязательно`;
             } else if (formData.expectations.trim().length < 20) {
-                newErrors.expectations = 'Минимум 20 символов';
+                newErrors.expectations = t`Минимум 20 символов`;
             }
         }
 
@@ -161,12 +166,12 @@ function OnboardingPage() {
             try {
                 // Map region names to English
                 const regionMap: { [key: string]: string } = {
-                    'Север': 'North',
-                    'Центр': 'Center',
-                    'Юг': 'South'
+                    [t`Север`]: 'North',
+                    [t`Центр`]: 'Center',
+                    [t`Юг`]: 'South'
                 };
 
-                const isEditing = (location.state as any)?.editMode;
+                const isEditing = (location.state as LocationState)?.editMode;
 
                 if (isEditing) {
                     await updateProfile({
@@ -194,7 +199,7 @@ function OnboardingPage() {
                 const telegramId = telegramUser?.id?.toString() || '';
 
                 if (!telegramId) {
-                    alert('Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram.');
+                    alert(t`Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram.`);
                     return;
                 }
 
@@ -212,7 +217,7 @@ function OnboardingPage() {
                     profession: formData.profession,
                     purpose: formData.purpose,
                     expectations: formData.expectations,
-                } as any);
+                } as LocationState);
 
                 // Also save to localStorage for ProfilePage compatibility
                 localStorage.setItem('userProfile', JSON.stringify(formData));
@@ -224,10 +229,10 @@ function OnboardingPage() {
                 const errorMessage = error instanceof Error ? error.message : String(error);
 
                 if (errorMessage.includes("already exists")) {
-                    alert('Пользователь с таким Telegram ID уже зарегистрирован.');
+                    alert(t`Пользователь с таким Telegram ID уже зарегистрирован.`);
                     navigate('/');
                 } else {
-                    alert(`Ошибка: ${errorMessage}`);
+                    alert(t`Ошибка: ${errorMessage}`);
                 }
             }
         }
@@ -247,7 +252,7 @@ function OnboardingPage() {
                         style={{ width: `${progress}%` }}
                     />
                 </div>
-                <div className="progress-text">Шаг {currentStep} из 4</div>
+                <div className="progress-text"><Trans>Шаг {currentStep} из 4</Trans></div>
             </div>
         );
     };
@@ -255,24 +260,24 @@ function OnboardingPage() {
     const renderStep1 = () => (
         <div className="step-content">
             <div className="step-header">
-                <h2 className="step-title">Личные данные</h2>
+                <h2 className="step-title"><Trans>Личные данные</Trans></h2>
                 <Logo size={56} />
             </div>
 
             <div className="form-group">
-                <label className="form-label">Имя *</label>
+                <label className="form-label"><Trans>Имя *</Trans></label>
                 <input
                     type="text"
                     className={`form-input ${errors.name ? 'error' : ''}`}
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    placeholder="Введите ваше имя"
+                    placeholder={t`Введите ваше имя`}
                 />
                 {errors.name && <div className="error-text">{errors.name}</div>}
             </div>
 
             <div className="form-group">
-                <label className="form-label">Телефон *</label>
+                <label className="form-label"><Trans>Телефон *</Trans></label>
                 <input
                     type="tel"
                     className={`form-input ${errors.phone ? 'error' : ''}`}
@@ -284,13 +289,13 @@ function OnboardingPage() {
             </div>
 
             <div className="form-group">
-                <label className="form-label">Регион *</label>
+                <label className="form-label"><Trans>Регион *</Trans></label>
                 <select
                     className={`form-input ${errors.city ? 'error' : ''}`}
                     value={formData.city}
                     onChange={(e) => handleInputChange('city', e.target.value)}
                 >
-                    <option value="">Выберите регион</option>
+                    <option value="">{t`Выберите регион`}</option>
                     {regions.map(region => (
                         <option key={region} value={region}>{region}</option>
                     ))}
@@ -299,7 +304,7 @@ function OnboardingPage() {
             </div>
 
             <div className="form-group">
-                <label className="form-label">Дата рождения *</label>
+                <label className="form-label"><Trans>Дата рождения *</Trans></label>
                 <input
                     type="date"
                     className={`form-input ${errors.birthDate ? 'error' : ''}`}
@@ -311,37 +316,37 @@ function OnboardingPage() {
             </div>
 
             <div className="form-group">
-                <label className="form-label">Пол *</label>
+                <label className="form-label"><Trans>Пол *</Trans></label>
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
                             type="radio"
                             name="gender"
-                            value="Мужчина"
-                            checked={formData.gender === 'Мужчина'}
+                            value={t`Мужчина`}
+                            checked={formData.gender === t`Мужчина`}
                             onChange={(e) => handleInputChange('gender', e.target.value)}
                         />
-                        <span>Мужчина</span>
+                        <span><Trans>Мужчина</Trans></span>
                     </label>
                     <label className="radio-label">
                         <input
                             type="radio"
                             name="gender"
-                            value="Женщина"
-                            checked={formData.gender === 'Женщина'}
+                            value={t`Женщина`}
+                            checked={formData.gender === t`Женщина`}
                             onChange={(e) => handleInputChange('gender', e.target.value)}
                         />
-                        <span>Женщина</span>
+                        <span><Trans>Женщина</Trans></span>
                     </label>
                     <label className="radio-label">
                         <input
                             type="radio"
                             name="gender"
-                            value="Другое"
-                            checked={formData.gender === 'Другое'}
+                            value={t`Другое`}
+                            checked={formData.gender === t`Другое`}
                             onChange={(e) => handleInputChange('gender', e.target.value)}
                         />
-                        <span>Другое</span>
+                        <span><Trans>Другое</Trans></span>
                     </label>
                 </div>
                 {errors.gender && <div className="error-text">{errors.gender}</div>}
@@ -352,32 +357,32 @@ function OnboardingPage() {
     const renderStep2 = () => (
         <div className="step-content">
             <div className="step-header">
-                <h2 className="step-title">О себе</h2>
+                <h2 className="step-title"><Trans>О себе</Trans></h2>
                 <Logo size={56} />
             </div>
 
             <div className="form-group">
-                <label className="form-label">Напиши о себе *</label>
+                <label className="form-label"><Trans>Напиши о себе *</Trans></label>
                 <textarea
                     className={`form-textarea ${errors.aboutMe ? 'error' : ''}`}
                     value={formData.aboutMe}
                     onChange={(e) => handleInputChange('aboutMe', e.target.value)}
-                    placeholder="Никто не знает обо мне, что..."
+                    placeholder={t`Никто не знает обо мне, что...`}
                     rows={5}
                 />
                 <div className="char-count">
-                    {formData.aboutMe.length} / минимум 20 символов
+                    <Trans>{formData.aboutMe.length} / минимум 20 символов</Trans>
                 </div>
                 {errors.aboutMe && <div className="error-text">{errors.aboutMe}</div>}
             </div>
 
             <div className="form-group">
-                <label className="form-label">Профессия/сфера деятельности *</label>
+                <label className="form-label"><Trans>Профессия/сфера деятельности *</Trans></label>
                 <textarea
                     className={`form-textarea ${errors.profession ? 'error' : ''}`}
                     value={formData.profession}
                     onChange={(e) => handleInputChange('profession', e.target.value)}
-                    placeholder="Например: Разработчик, Дизайнер, Учитель"
+                    placeholder={t`Например: Разработчик, Дизайнер, Учитель`}
                     rows={5}
                 />
                 {errors.profession && <div className="error-text">{errors.profession}</div>}
@@ -388,12 +393,12 @@ function OnboardingPage() {
     const renderStep3 = () => (
         <div className="step-content">
             <div className="step-header">
-                <h2 className="step-title">Цель участия</h2>
+                <h2 className="step-title"><Trans>Цель участия</Trans></h2>
                 <Logo size={56} />
             </div>
 
             <div className="form-group">
-                <label className="form-label">Зачем ты пришёл(а) в игру? *</label>
+                <label className="form-label"><Trans>Зачем ты пришёл(а) в игру? *</Trans></label>
                 <div className="radio-group-vertical">
                     {purposes.map(purpose => (
                         <label key={purpose} className="radio-label-block">
@@ -416,21 +421,21 @@ function OnboardingPage() {
     const renderStep4 = () => (
         <div className="step-content">
             <div className="step-header">
-                <h2 className="step-title">Ожидания</h2>
+                <h2 className="step-title"><Trans>Ожидания</Trans></h2>
                 <Logo size={56} />
             </div>
 
             <div className="form-group">
-                <label className="form-label">Каких людей хочешь встретить, что важно, ожидания *</label>
+                <label className="form-label"><Trans>Каких людей хочешь встретить, что важно, ожидания *</Trans></label>
                 <textarea
                     className={`form-textarea ${errors.expectations ? 'error' : ''}`}
                     value={formData.expectations}
                     onChange={(e) => handleInputChange('expectations', e.target.value)}
-                    placeholder="Опишите ваши ожидания от встреч..."
+                    placeholder={t`Опишите ваши ожидания от встреч...`}
                     rows={6}
                 />
                 <div className="char-count">
-                    {formData.expectations.length} / минимум 20 символов
+                    <Trans>{formData.expectations.length} / минимум 20 символов</Trans>
                 </div>
                 {errors.expectations && <div className="error-text">{errors.expectations}</div>}
             </div>
@@ -450,13 +455,13 @@ function OnboardingPage() {
                 </div>
 
                 <div className="navigation-buttons">
-                    {(location.state as any)?.editMode && (
+                    {(location.state as LocationState)?.editMode && (
                         <button
                             className="btn btn-secondary"
                             onClick={handleCancel}
                             style={{ marginRight: 'auto' }}
                         >
-                            Отмена
+                            <Trans>Отмена</Trans>
                         </button>
                     )}
 
@@ -465,7 +470,7 @@ function OnboardingPage() {
                             className="btn btn-secondary"
                             onClick={handleBack}
                         >
-                            Назад
+                            <Trans>Назад</Trans>
                         </button>
                     )}
 
@@ -474,14 +479,14 @@ function OnboardingPage() {
                             className="btn btn-primary"
                             onClick={handleNext}
                         >
-                            Далее
+                            <Trans>Далее</Trans>
                         </button>
                     ) : (
                         <button
                             className="btn btn-primary"
                             onClick={handleFinish}
                         >
-                            {(location.state as any)?.editMode ? 'Сохранить' : 'Завершить'}
+                            {(location.state as LocationState)?.editMode ? <Trans>Сохранить</Trans> : <Trans>Завершить</Trans>}
                         </button>
                     )}
                 </div>

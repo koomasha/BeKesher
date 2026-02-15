@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
+import { Trans } from '@lingui/macro';
 
 function FeedbackPage() {
     const [ratingFilter, setRatingFilter] = useState<string>('');
@@ -24,39 +25,39 @@ function FeedbackPage() {
         <div>
             {/* Page Header */}
             <div className="page-header">
-                <h1 className="page-title">Feedback</h1>
+                <h1 className="page-title"><Trans>Feedback</Trans></h1>
                 <span style={{ color: 'var(--text-secondary)' }}>
-                    {feedback?.length || 0} submissions • Avg: {avgRating}/10
+                    <Trans>{feedback?.length || 0} submissions • Avg: {avgRating}/10</Trans>
                 </span>
             </div>
 
             {/* Filter Bar */}
             <div className="filter-bar">
                 <div className="filter-group">
-                    <label className="filter-label">Min Rating:</label>
+                    <label className="filter-label"><Trans>Min Rating:</Trans></label>
                     <select
                         className="input"
                         value={ratingFilter}
                         onChange={(e) => setRatingFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="8">8+ (Great)</option>
-                        <option value="6">6+ (Good)</option>
-                        <option value="4">4+ (Fair)</option>
-                        <option value="1">1+ (All)</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="8"><Trans>8+ (Great)</Trans></option>
+                        <option value="6"><Trans>6+ (Good)</Trans></option>
+                        <option value="4"><Trans>4+ (Fair)</Trans></option>
+                        <option value="1"><Trans>1+ (All)</Trans></option>
                     </select>
                 </div>
                 <div className="filter-group">
-                    <label className="filter-label">Group Status:</label>
+                    <label className="filter-label"><Trans>Group Status:</Trans></label>
                     <select
                         className="input"
                         value={groupStatusFilter}
                         onChange={(e) => setGroupStatusFilter(e.target.value)}
                     >
-                        <option value="">All</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Active">Active</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value=""><Trans>All</Trans></option>
+                        <option value="Completed"><Trans>Completed</Trans></option>
+                        <option value="Active"><Trans>Active</Trans></option>
+                        <option value="Cancelled"><Trans>Cancelled</Trans></option>
                     </select>
                 </div>
             </div>
@@ -75,7 +76,7 @@ function FeedbackPage() {
                             padding: 'var(--spacing-lg)',
                         }}
                     >
-                        No feedback found.
+                        <Trans>No feedback found.</Trans>
                     </p>
                 ) : (
                     <div>
@@ -94,12 +95,12 @@ function FeedbackPage() {
                                         </span>
                                         {f.wouldMeetAgain && (
                                             <span>
-                                                Would meet again:{' '}
+                                                <Trans>Would meet again:{' '}
                                                 {f.wouldMeetAgain === 'yes'
                                                     ? '👍 Yes'
                                                     : f.wouldMeetAgain === 'no'
                                                       ? '👎 No'
-                                                      : '🤔 Maybe'}
+                                                      : '🤔 Maybe'}</Trans>
                                             </span>
                                         )}
                                     </div>
@@ -117,7 +118,7 @@ function FeedbackPage() {
                                         className="btn btn-secondary"
                                         onClick={() => setExpandedId(expandedId === f._id ? null : f._id)}
                                     >
-                                        {expandedId === f._id ? 'Hide Details' : 'View Details'}
+                                        {expandedId === f._id ? <Trans>Hide Details</Trans> : <Trans>View Details</Trans>}
                                     </button>
                                 </div>
 
@@ -126,26 +127,26 @@ function FeedbackPage() {
                                     <div className="feedback-details">
                                         {f.textFeedback && (
                                             <div className="feedback-section">
-                                                <strong>What they liked:</strong>
+                                                <strong><Trans>What they liked:</Trans></strong>
                                                 <p>{f.textFeedback}</p>
                                             </div>
                                         )}
 
                                         {f.improvementSuggestion && (
                                             <div className="feedback-section">
-                                                <strong>Improvement suggestions:</strong>
+                                                <strong><Trans>Improvement suggestions:</Trans></strong>
                                                 <p>{f.improvementSuggestion}</p>
                                             </div>
                                         )}
 
                                         {f.taskEffect && (
                                             <div className="feedback-section">
-                                                <strong>Task effect:</strong>
+                                                <strong><Trans>Task effect:</Trans></strong>
                                                 <div>
                                                     <span className="badge">
-                                                        {f.taskEffect === 'deeper' && '🤝 Made it deeper'}
-                                                        {f.taskEffect === 'fun' && '🎉 Added fun'}
-                                                        {f.taskEffect === 'not_fit' && "⚠️ Didn't fit"}
+                                                        {f.taskEffect === 'deeper' && <Trans>🤝 Made it deeper</Trans>}
+                                                        {f.taskEffect === 'fun' && <Trans>🎉 Added fun</Trans>}
+                                                        {f.taskEffect === 'not_fit' && <Trans>⚠️ Didn't fit</Trans>}
                                                     </span>
                                                 </div>
                                             </div>
@@ -153,7 +154,7 @@ function FeedbackPage() {
 
                                         {f.photoUrls && f.photoUrls.length > 0 && (
                                             <div className="feedback-section">
-                                                <strong>Photos ({f.photoUrls.length}):</strong>
+                                                <strong><Trans>Photos ({f.photoUrls.length}):</Trans></strong>
                                                 <div className="feedback-photos">
                                                     {f.photoUrls.map((url, idx) => (
                                                         <img

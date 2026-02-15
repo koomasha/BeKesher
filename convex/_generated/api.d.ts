@@ -14,6 +14,7 @@ import type * as crons from "../crons.js";
 import type * as feedback from "../feedback.js";
 import type * as groups from "../groups.js";
 import type * as http from "../http.js";
+import type * as i18n from "../i18n.js";
 import type * as matching from "../matching.js";
 import type * as notifications from "../notifications.js";
 import type * as participants from "../participants.js";
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   feedback: typeof feedback;
   groups: typeof groups;
   http: typeof http;
+  i18n: typeof i18n;
   matching: typeof matching;
   notifications: typeof notifications;
   participants: typeof participants;

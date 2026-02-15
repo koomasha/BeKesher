@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { I18nProvider } from '@lingui/react';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import GroupsPage from './pages/GroupsPage';
@@ -6,10 +7,23 @@ import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
 import { UserHeader } from './components/UserHeader';
+import { UserFooter } from './components/UserFooter';
 import { useTelegramAuth } from './hooks/useTelegramAuth';
+import { useLanguage } from './hooks/useLanguage';
+import { i18n } from './i18n';
 
 function App() {
     const { telegramUser } = useTelegramAuth();
+    const { isLoading } = useLanguage();
+
+    // Show loading state while i18n catalogs are loading
+    if (isLoading) {
+        return (
+            <div className="loading">
+                <div className="spinner"></div>
+            </div>
+        );
+    }
 
     // In production, restrict access to users with a valid Telegram ID
     if (import.meta.env.PROD && !telegramUser?.id) {
@@ -31,19 +45,22 @@ function App() {
     }
 
     return (
-        <BrowserRouter>
-            <div className="app">
-                <UserHeader />
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/onboarding" element={<OnboardingPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/groups" element={<GroupsPage />} />
-                    <Route path="/feedback" element={<FeedbackPage />} />
-                    <Route path="/support" element={<SupportPage />} />
-                </Routes>
-            </div>
-        </BrowserRouter>
+        <I18nProvider i18n={i18n}>
+            <BrowserRouter>
+                <div className="app">
+                    <UserHeader />
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/onboarding" element={<OnboardingPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/groups" element={<GroupsPage />} />
+                        <Route path="/feedback" element={<FeedbackPage />} />
+                        <Route path="/support" element={<SupportPage />} />
+                    </Routes>
+                    <UserFooter />
+                </div>
+            </BrowserRouter>
+        </I18nProvider>
     );
 }
 

@@ -1,0 +1,483 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-02-15 14:23+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. placeholder {0}: g.memberCount
+#. placeholder {0}: group.memberCount
+#: apps/admin/src/pages/DashboardPage.tsx:73
+#: apps/admin/src/pages/GroupsPage.tsx:69
+msgid "{0} people"
+msgstr "{0} чел."
+
+#. placeholder {0}: feedback?.length || 0
+#: apps/admin/src/pages/FeedbackPage.tsx:30
+msgid "{0} submissions • Avg: {avgRating}/10"
+msgstr "{0} отзывов • Средняя оценка: {avgRating}/10"
+
+#. placeholder {0}: tickets?.length || 0
+#: apps/admin/src/pages/SupportPage.tsx:47
+msgid "{0} tickets"
+msgstr "{0} обращений"
+
+#. placeholder {0}: groups?.length || 0
+#. placeholder {0}: participants?.length || 0
+#: apps/admin/src/pages/GroupsPage.tsx:18
+#: apps/admin/src/pages/ParticipantsPage.tsx:32
+msgid "{0} total"
+msgstr "Всего: {0}"
+
+#: apps/admin/src/pages/MatchingPage.tsx:57
+msgid "<0>Stage A:</0> Strict matching (same region, ±10 years, no repeats)"
+msgstr "<0>Этап A:</0> Строгое совпадение (тот же регион, ±10 лет, без повторов)"
+
+#: apps/admin/src/pages/MatchingPage.tsx:58
+msgid "<0>Stage B:</0> Expanded age (same region, ±15 years, no repeats)"
+msgstr "<0>Этап B:</0> Расширенный возраст (тот же регион, ±15 лет, без повторов)"
+
+#: apps/admin/src/pages/MatchingPage.tsx:59
+msgid "<0>Stage C:</0> Allow repeats (same region, ±15 years)"
+msgstr "<0>Этап C:</0> Допускаются повторы (тот же регион, ±15 лет)"
+
+#: apps/admin/src/pages/MatchingPage.tsx:60
+msgid "<0>Stage D:</0> Neighboring regions"
+msgstr "<0>Этап D:</0> Соседние регионы"
+
+#: apps/admin/src/pages/MatchingPage.tsx:61
+msgid "<0>Stage E:</0> Force majeure (no one left behind)"
+msgstr "<0>Этап E:</0> Форс-мажор (никто не остается без группы)"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:108
+msgid "⏸️ Yes"
+msgstr "⏸️ Да"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:149
+msgid "⚠️ Didn't fit"
+msgstr "⚠️ Не подошло"
+
+#: apps/admin/src/pages/MatchingPage.tsx:123
+msgid "⚠️ Important Notes"
+msgstr "⚠️ Важные примечания"
+
+#: apps/admin/src/pages/MatchingPage.tsx:83
+msgid "✅ Matching Complete"
+msgstr "✅ Подбор завершен"
+
+#: apps/admin/src/pages/MatchingPage.tsx:83
+msgid "❌ Matching Failed"
+msgstr "❌ Подбор не удался"
+
+#: apps/admin/src/components/Sidebar.tsx:43
+msgid "⭐ Feedback"
+msgstr "⭐ Отзывы"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:148
+msgid "🎉 Added fun"
+msgstr "🎉 Добавило веселья"
+
+#: apps/admin/src/components/Sidebar.tsx:37
+msgid "🎯 Groups"
+msgstr "🎯 Группы"
+
+#: apps/admin/src/components/Sidebar.tsx:31
+msgid "👥 Participants"
+msgstr "👥 Участники"
+
+#: apps/admin/src/components/Sidebar.tsx:55
+msgid "💬 Support Tickets"
+msgstr "💬 Обращения в поддержку"
+
+#: apps/admin/src/components/Sidebar.tsx:25
+msgid "📊 Dashboard"
+msgstr "📊 Панель управления"
+
+#: apps/admin/src/components/Sidebar.tsx:49
+msgid "🔄 Run Matching"
+msgstr "🔄 Запустить подбор"
+
+#: apps/admin/src/pages/MatchingPage.tsx:70
+msgid "🔄 Running..."
+msgstr "🔄 Выполняется..."
+
+#: apps/admin/src/components/Sidebar.tsx:15
+msgid "🔗 BeKesher"
+msgstr "🔗 BeKesher"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:147
+msgid "🤝 Made it deeper"
+msgstr "🤝 Углубило связь"
+
+#: apps/admin/src/pages/MatchingPage.tsx:70
+msgid "🚀 Run Matching Algorithm"
+msgstr "🚀 Запустить алгоритм подбора"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:47
+msgid "1+ (All)"
+msgstr "1+ (Все)"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:46
+msgid "4+ (Fair)"
+msgstr "4+ (Удовлетворительно)"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:45
+msgid "6+ (Good)"
+msgstr "6+ (Хорошо)"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:44
+msgid "8+ (Great)"
+msgstr "8+ (Отлично)"
+
+#: apps/admin/src/pages/GroupsPage.tsx:56
+#: apps/admin/src/pages/ParticipantsPage.tsx:86
+msgid "Actions"
+msgstr "Действия"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:59
+#: apps/admin/src/pages/GroupsPage.tsx:31
+#: apps/admin/src/pages/ParticipantsPage.tsx:45
+msgid "Active"
+msgstr "Активный"
+
+#: apps/admin/src/pages/DashboardPage.tsx:36
+msgid "Active Groups"
+msgstr "Активные группы"
+
+#: apps/admin/src/pages/DashboardPage.tsx:28
+msgid "Active Participants"
+msgstr "Активные участники"
+
+#: apps/admin/src/components/Sidebar.tsx:16
+msgid "Admin Dashboard"
+msgstr "Панель администратора"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:80
+msgid "Age"
+msgstr "Возраст"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:43
+#: apps/admin/src/pages/FeedbackPage.tsx:57
+#: apps/admin/src/pages/GroupsPage.tsx:30
+#: apps/admin/src/pages/ParticipantsPage.tsx:44
+#: apps/admin/src/pages/ParticipantsPage.tsx:57
+#: apps/admin/src/pages/SupportPage.tsx:59
+msgid "All"
+msgstr "Все"
+
+#: apps/admin/src/pages/SupportPage.tsx:145
+msgid "Answer"
+msgstr "Ответить"
+
+#: apps/admin/src/pages/SupportPage.tsx:114
+msgid "Answer: "
+msgstr "Ответ: "
+
+#: apps/admin/src/pages/SupportPage.tsx:61
+msgid "Answered"
+msgstr "Отвечено"
+
+#: apps/admin/src/pages/MatchingPage.tsx:19
+msgid "Are you sure you want to run the matching algorithm? This will create new groups."
+msgstr "Вы уверены, что хотите запустить алгоритм подбора? Это создаст новые группы."
+
+#: apps/admin/src/components/LoginPage.tsx:150
+msgid "BeKesher Admin"
+msgstr "BeKesher Администратор"
+
+#: apps/admin/src/pages/SupportPage.tsx:134
+msgid "Cancel"
+msgstr "Отмена"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:60
+#: apps/admin/src/pages/GroupsPage.tsx:33
+msgid "Cancelled"
+msgstr "Отменено"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:59
+msgid "Center"
+msgstr "Центр"
+
+#: apps/admin/src/pages/SupportPage.tsx:153
+msgid "Close"
+msgstr "Закрыть"
+
+#: apps/admin/src/pages/SupportPage.tsx:62
+msgid "Closed"
+msgstr "Закрыто"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:58
+#: apps/admin/src/pages/GroupsPage.tsx:32
+msgid "Completed"
+msgstr "Завершено"
+
+#: apps/admin/src/pages/GroupsPage.tsx:52
+msgid "Created"
+msgstr "Создано"
+
+#: apps/admin/src/pages/DashboardPage.tsx:18
+msgid "Dashboard"
+msgstr "Панель управления"
+
+#: apps/admin/src/pages/DashboardPage.tsx:57
+msgid "Date"
+msgstr "Дата"
+
+#: apps/admin/src/pages/SupportPage.tsx:29
+msgid "Failed to answer ticket"
+msgstr "Не удалось ответить на обращение"
+
+#: apps/admin/src/pages/SupportPage.tsx:38
+msgid "Failed to close ticket"
+msgstr "Не удалось закрыть обращение"
+
+#: apps/admin/src/components/LoginPage.tsx:109
+msgid "Failed to load Google Sign-In script."
+msgstr "Не удалось загрузить скрипт Google Sign-In."
+
+#: apps/admin/src/components/LoginPage.tsx:83
+msgid "Failed to load Google Sign-In. Please refresh."
+msgstr "Не удалось загрузить Google Sign-In. Пожалуйста, обновите страницу."
+
+#: apps/admin/src/pages/FeedbackPage.tsx:28
+msgid "Feedback"
+msgstr "Отзывы"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:81
+msgid "Gender"
+msgstr "Пол"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:51
+msgid "Group Status:"
+msgstr "Статус группы:"
+
+#: apps/admin/src/pages/GroupsPage.tsx:16
+msgid "Groups"
+msgstr "Группы"
+
+#: apps/admin/src/pages/MatchingPage.tsx:97
+msgid "Groups Created"
+msgstr "Создано групп"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:121
+msgid "Hide Details"
+msgstr "Скрыть детали"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:137
+msgid "Improvement suggestions:"
+msgstr "Предложения по улучшению:"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:47
+msgid "Inactive"
+msgstr "Неактивный"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:46
+msgid "Lead"
+msgstr "Лид"
+
+#: apps/admin/src/pages/DashboardPage.tsx:32
+msgid "Leads (New)"
+msgstr "Лиды (Новые)"
+
+#: apps/admin/src/components/LoginPage.tsx:176
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: apps/admin/src/pages/MatchingPage.tsx:36
+msgid "Matching failed. Check console for details."
+msgstr "Подбор не удался. Проверьте консоль для подробностей."
+
+#: apps/admin/src/pages/MatchingPage.tsx:125
+msgid "Matching runs automatically every Sunday at 18:00 Israel time"
+msgstr "Подбор запускается автоматически каждое воскресенье в 18:00 по израильскому времени"
+
+#: apps/admin/src/pages/MatchingPage.tsx:129
+msgid "Meeting history from the last 4 weeks is considered to avoid repeats"
+msgstr "История встреч за последние 4 недели учитывается для избежания повторов"
+
+#: apps/admin/src/pages/DashboardPage.tsx:60
+#: apps/admin/src/pages/GroupsPage.tsx:55
+msgid "Members"
+msgstr "Участники"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:37
+msgid "Min Rating:"
+msgstr "Мин. оценка:"
+
+#: apps/admin/src/pages/DashboardPage.tsx:72
+#: apps/admin/src/pages/GroupsPage.tsx:68
+msgid "Mixed"
+msgstr "Смешанная"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:79
+msgid "Name"
+msgstr "Имя"
+
+#: apps/admin/src/components/LoginPage.tsx:66
+msgid "No credential received. Please try again."
+msgstr "Учетные данные не получены. Пожалуйста, попробуйте снова."
+
+#: apps/admin/src/pages/FeedbackPage.tsx:79
+msgid "No feedback found."
+msgstr "Отзывы не найдены."
+
+#: apps/admin/src/pages/GroupsPage.tsx:45
+msgid "No groups found."
+msgstr "Группы не найдены."
+
+#: apps/admin/src/pages/DashboardPage.tsx:51
+msgid "No groups yet."
+msgstr "Групп пока нет."
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:72
+msgid "No participants found."
+msgstr "Участники не найдены."
+
+#: apps/admin/src/pages/SupportPage.tsx:74
+msgid "No tickets found."
+msgstr "Обращения не найдены."
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:58
+msgid "North"
+msgstr "Север"
+
+#: apps/admin/src/pages/MatchingPage.tsx:128
+msgid "North and South regions are never matched together (Center acts as bridge)"
+msgstr "Регионы Север и Юг никогда не объединяются вместе (Центр выступает как мост)"
+
+#: apps/admin/src/pages/MatchingPage.tsx:126
+msgid "Only active participants not already in groups are matched"
+msgstr "Подбираются только активные участники, не состоящие в группах"
+
+#: apps/admin/src/pages/SupportPage.tsx:60
+msgid "Open"
+msgstr "Открыто"
+
+#: apps/admin/src/pages/DashboardPage.tsx:40
+msgid "Open Tickets"
+msgstr "Открытые обращения"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:85
+msgid "Paid Until"
+msgstr "Оплачено до"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:30
+msgid "Participants"
+msgstr "Участники"
+
+#: apps/admin/src/pages/MatchingPage.tsx:127
+msgid "Participants on pause are excluded"
+msgstr "Участники на паузе исключаются"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:84
+msgid "Paused"
+msgstr "На паузе"
+
+#. placeholder {0}: f.photoUrls.length
+#: apps/admin/src/pages/FeedbackPage.tsx:157
+msgid "Photos ({0}):"
+msgstr "Фото ({0}):"
+
+#: apps/admin/src/pages/DashboardPage.tsx:45
+msgid "Recent Activity"
+msgstr "Недавняя активность"
+
+#: apps/admin/src/pages/DashboardPage.tsx:59
+#: apps/admin/src/pages/GroupsPage.tsx:54
+#: apps/admin/src/pages/ParticipantsPage.tsx:82
+msgid "Region"
+msgstr "Регион"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:51
+msgid "Region:"
+msgstr "Регион:"
+
+#: apps/admin/src/pages/MatchingPage.tsx:46
+msgid "Run Matching"
+msgstr "Запустить подбор"
+
+#: apps/admin/src/pages/SupportPage.tsx:131
+msgid "Send Answer"
+msgstr "Отправить ответ"
+
+#: apps/admin/src/components/LoginPage.tsx:159
+msgid "Sign in with your Google account to continue"
+msgstr "Войдите через Google, чтобы продолжить"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:60
+msgid "South"
+msgstr "Юг"
+
+#: apps/admin/src/pages/DashboardPage.tsx:58
+#: apps/admin/src/pages/GroupsPage.tsx:53
+#: apps/admin/src/pages/ParticipantsPage.tsx:83
+msgid "Status"
+msgstr "Статус"
+
+#: apps/admin/src/pages/GroupsPage.tsx:24
+#: apps/admin/src/pages/ParticipantsPage.tsx:38
+#: apps/admin/src/pages/SupportPage.tsx:53
+msgid "Status:"
+msgstr "Статус:"
+
+#: apps/admin/src/pages/SupportPage.tsx:45
+msgid "Support Tickets"
+msgstr "Обращения в поддержку"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:144
+msgid "Task effect:"
+msgstr "Эффект задания:"
+
+#: apps/admin/src/pages/MatchingPage.tsx:52
+msgid "This will run the matching algorithm to create new groups for this week. The algorithm works in 5 stages:"
+msgstr "Это запустит алгоритм подбора для создания новых групп на эту неделю. Алгоритм работает в 5 этапов:"
+
+#: apps/admin/src/pages/DashboardPage.tsx:24
+msgid "Total Participants"
+msgstr "Всего участников"
+
+#: apps/admin/src/pages/SupportPage.tsx:126
+msgid "Type your answer..."
+msgstr "Введите ваш ответ..."
+
+#: apps/admin/src/pages/SupportPage.tsx:89
+msgid "Unknown User"
+msgstr "Неизвестный пользователь"
+
+#: apps/admin/src/pages/MatchingPage.tsx:103
+msgid "Unpaired Participants"
+msgstr "Не подобранные участники"
+
+#: apps/admin/src/pages/MatchingPage.tsx:110
+msgid "Unpaired Participants:"
+msgstr "Не подобранные участники:"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:117
+msgid "View"
+msgstr "Просмотр"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:121
+#: apps/admin/src/pages/GroupsPage.tsx:72
+msgid "View Details"
+msgstr "Подробнее"
+
+#: apps/admin/src/pages/MatchingPage.tsx:50
+msgid "Weekly Matching Algorithm"
+msgstr "Еженедельный алгоритм подбора"
+
+#: apps/admin/src/pages/FeedbackPage.tsx:130
+msgid "What they liked:"
+msgstr "Что понравилось:"
+
+#. placeholder {0}: f.wouldMeetAgain === 'yes' ? '👍 Yes' : f.wouldMeetAgain === 'no' ? '👎 No' : '🤔 Maybe'
+#: apps/admin/src/pages/FeedbackPage.tsx:98
+msgid "Would meet again: {0}"
+msgstr "Готовы встретиться снова: {0}"
