@@ -61,7 +61,8 @@ export function makeParticipant(
         tgFirstName: string;
         tgLastName: string;
         photo: string;
-        age: number;
+        birthDate: string;
+        age: number; // Virtual field for testing convenience
         gender: string;
         region: string;
         city: string;
@@ -72,7 +73,8 @@ export function makeParticipant(
         formatPreference: string;
         aboutMe: string;
         profession: string;
-        whoToMeet: string;
+        purpose: string;
+        expectations: string;
         values: string[];
         interests: string[];
         status: string;
@@ -85,11 +87,19 @@ export function makeParticipant(
         periodsPaid: number;
     }> = {}
 ) {
+    const { age, ...otherOverrides } = overrides;
+
+    let defaultBirthDate = "1994-01-01";
+    if (age !== undefined) {
+        const year = new Date().getFullYear() - age;
+        defaultBirthDate = `${year}-01-01`;
+    }
+
     return {
         name: "Test User",
         phone: "+972501234567",
         telegramId: "100001",
-        age: 30,
+        birthDate: defaultBirthDate,
         gender: "Male",
         region: "Center",
         status: "Active",
@@ -98,7 +108,7 @@ export function makeParticipant(
         registrationDate: Date.now(),
         inChannel: false,
         periodsPaid: 0,
-        ...overrides,
+        ...otherOverrides,
     };
 }
 
