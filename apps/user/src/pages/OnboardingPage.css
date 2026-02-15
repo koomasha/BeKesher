@@ -1,7 +1,7 @@
 .onboarding-page {
     min-height: 100vh;
-    background: #F7F4F0;  /* Warm cream - never sterile white */
-    padding: 20px;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,39 +10,39 @@
 .onboarding-container {
     width: 100%;
     max-width: 600px;
-    background: white;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 88, 113, 0.08);  /* Crisp definition */
-    box-shadow: 0 4px 16px rgba(0, 88, 113, 0.10);  /* Brand-tinted shadow */
-    padding: 30px;
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(0, 88, 113, 0.08);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
 }
 
 /* Progress Bar */
 .progress-container {
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-xl);
 }
 
 .progress-bar {
     width: 100%;
     height: 8px;
-    background: #e8ebf0;
-    border-radius: 10px;
+    background: var(--border-color);
+    border-radius: var(--radius-full);
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: var(--spacing-sm);
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #005871 0%, #33BECC 100%);  /* BeKesher brand gradient */
-    border-radius: 10px;
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--color-warm) 0%, var(--color-accent) 100%);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
 }
 
 .progress-text {
     text-align: center;
-    color: #005871;  /* Lyons Blue - brand primary */
+    color: var(--color-primary);
     font-weight: 600;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
 }
 
 /* Form Content */
@@ -62,49 +62,48 @@
 }
 
 .step-title {
-    font-size: 28px;
+    font-size: var(--font-size-xl);
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--text-primary);
     margin-bottom: 0;
 }
 
 /* Form Groups */
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
 }
 
 .form-label {
     display: block;
     font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-base);
 }
 
 .form-input,
 .form-textarea {
     width: 100%;
     padding: 12px 16px;
-    font-size: 16px;
-    border: 2px solid #e8ebf0;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    background: white;
-    position: relative;
-    z-index: 1;
+    font-size: var(--font-size-base);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-slow);
+    font-family: var(--font-family);
+    background: var(--bg-card);
+    color: var(--text-primary);
 }
 
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #33BECC;  /* Blue Curaçao - accent */
+    border-color: var(--color-accent);
     box-shadow: 0 0 0 3px rgba(51, 190, 204, 0.15);
 }
 
 .form-input.error,
 .form-textarea.error {
-    border-color: #e74c3c;
+    border-color: var(--accent-error);
 }
 
 .form-textarea {
@@ -126,7 +125,7 @@ select.form-input {
 /* Radio Groups */
 .radio-group {
     display: flex;
-    gap: 16px;
+    gap: var(--spacing-md);
     flex-wrap: wrap;
 }
 
@@ -134,33 +133,33 @@ select.form-input {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 10px 20px;
-    border: 2px solid #e8ebf0;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    background: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-slow);
+    background: var(--bg-card);
 }
 
 .radio-label:hover {
-    border-color: #33BECC;  /* Blue Curaçao - accent */
-    background: rgba(51, 190, 204, 0.05);  /* Light tint */
+    border-color: var(--color-accent);
+    background: rgba(51, 190, 204, 0.04);
 }
 
 .radio-label input[type="radio"] {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color);
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: var(--spacing-sm);
     position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-slow);
 }
 
 .radio-label input[type="radio"]:checked {
-    border-color: #005871;  /* Lyons Blue - brand primary */
-    background: #005871;
+    border-color: var(--color-primary);
+    background: var(--color-primary);
 }
 
 .radio-label input[type="radio"]:checked::after {
@@ -176,8 +175,8 @@ select.form-input {
 }
 
 .radio-label span {
-    font-size: 15px;
-    color: #2c3e50;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
@@ -185,7 +184,7 @@ select.form-input {
 .radio-group-vertical {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--spacing-md);
     width: 100%;
 }
 
@@ -193,16 +192,16 @@ select.form-input {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 16px;
-    border: 2px solid #e8ebf0;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background: white;
+    padding: var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-card);
+    transition: all var(--transition-slow);
+    background: var(--bg-card);
 }
 
 .radio-label-block:hover {
-    border-color: #33BECC;  /* Blue Curaçao - accent */
-    background: rgba(51, 190, 204, 0.05);  /* Light tint */
+    border-color: var(--color-accent);
+    background: rgba(51, 190, 204, 0.04);
     transform: translateX(4px);
 }
 
@@ -210,18 +209,18 @@ select.form-input {
     appearance: none;
     width: 22px;
     height: 22px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color);
     border-radius: 50%;
     margin-right: 14px;
     position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-slow);
     flex-shrink: 0;
 }
 
 .radio-label-block input[type="radio"]:checked {
-    border-color: #005871;  /* Lyons Blue - brand primary */
-    background: #005871;
+    border-color: var(--color-warm);
+    background: var(--color-warm);
 }
 
 .radio-label-block input[type="radio"]:checked::after {
@@ -237,91 +236,93 @@ select.form-input {
 }
 
 .radio-label-block span {
-    font-size: 15px;
-    color: #2c3e50;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
     font-weight: 500;
     line-height: 1.5;
 }
 
 /* Character Count */
 .char-count {
-    margin-top: 6px;
-    font-size: 13px;
-    color: #7f8c8d;
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
     text-align: right;
 }
 
 /* Error Text */
 .error-text {
-    color: #e74c3c;
-    font-size: 13px;
-    margin-top: 6px;
+    color: var(--accent-error);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
     font-weight: 500;
 }
 
 /* Navigation Buttons */
 .navigation-buttons {
     display: flex;
-    gap: 12px;
-    margin-top: 30px;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
     justify-content: space-between;
 }
 
-.btn {
+.onboarding-page .btn {
     flex: 1;
     padding: 14px 24px;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     border: none;
-    border-radius: 22px;  /* Playful and inviting - 22px */
+    border-radius: var(--radius-btn);
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
+    transition: all var(--transition-base);
+    font-family: var(--font-family);
+    min-height: 44px;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #005871 0%, #004559 100%);  /* BeKesher brand gradient */
+.onboarding-page .btn-primary {
+    background: var(--primary-gradient);
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.25);
 }
 
-.btn-primary:hover {
+.onboarding-page .btn-primary:hover {
     background: linear-gradient(135deg, #004559 0%, #003A4C 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.35);
 }
 
-.btn-primary:active {
+.onboarding-page .btn-primary:active {
     transform: translateY(0);
 }
 
-.btn-secondary {
-    background: white;
-    color: #33BECC;  /* Blue Curaçao - accent */
-    border: 2px solid #33BECC;
+.onboarding-page .btn-secondary {
+    background: transparent;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
 }
 
-.btn-secondary:hover {
-    background: rgba(51, 190, 204, 0.05);  /* Light accent tint */
+.onboarding-page .btn-secondary:hover {
+    background: var(--color-accent);
+    color: white;
     transform: translateY(-2px);
 }
 
-.btn-secondary:active {
+.onboarding-page .btn-secondary:active {
     transform: translateY(0);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .onboarding-page {
-        padding: 10px;
+        padding: var(--spacing-sm);
     }
 
     .onboarding-container {
-        padding: 20px;
+        padding: var(--spacing-lg);
     }
 
     .step-title {
-        font-size: 24px;
+        font-size: var(--font-size-lg);
         margin-bottom: 0;
     }
 
@@ -333,29 +334,27 @@ select.form-input {
         flex-direction: column-reverse;
     }
 
-    .btn {
+    .onboarding-page .btn {
         width: 100%;
     }
 }
 
 @media (max-width: 480px) {
     .onboarding-container {
-        border-radius: 15px;
-        padding: 16px;
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md);
     }
 
     .step-title {
-        font-size: 22px;
+        font-size: var(--font-size-lg);
     }
 
     .form-input,
     .form-textarea {
-        font-size: 14px;
-        padding: 10px 14px;
+        padding: var(--spacing-sm) 14px;
     }
 
-    .btn {
+    .onboarding-page .btn {
         padding: 12px 20px;
-        font-size: 15px;
     }
 }

@@ -91,10 +91,14 @@ function RocketRating({ rating, onRatingChange }: { rating: number; onRatingChan
                     className={`rocket ${isDragging ? 'dragging' : ''}`}
                     style={{
                         bottom: `${rocketPosition * 100}%`,
-                        filter: `drop-shadow(0 0 ${rocketPosition * 20}px rgba(79, 70, 229, ${rocketPosition * 0.8}))`,
+                        filter: `drop-shadow(0 0 ${rocketPosition * 20}px rgba(255, 127, 80, ${rocketPosition * 0.8}))`,
                     }}
                 >
-                    🚀
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C12 2 4 8 4 14c0 3 2 6 4 7l1-3h6l1 3c2-1 4-4 4-7 0-6-8-12-8-12z" fill="#FF7F50"/>
+                        <path d="M12 2C12 2 8 6 8 11c0 2 1 4 2 5h4c1-1 2-3 2-5 0-5-4-9-4-9z" fill="#33BECC" opacity="0.6"/>
+                        <circle cx="12" cy="10" r="2" fill="white"/>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -237,7 +241,6 @@ function FeedbackPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <div className="icon">📱</div>
                         <p>Откройте приложение из Telegram</p>
                     </div>
                 </div>
@@ -258,21 +261,23 @@ function FeedbackPage() {
     if (submitted) {
         return (
             <div className="page">
-                <header className="header">
-                    <h1>⭐ Обратная связь</h1>
-                </header>
+                <div className="page-header">
+                    <h1>Обратная связь</h1>
+                </div>
                 <div className="success-state animate-fade-in">
-                    <div className="icon">🎉</div>
+                    <div className="success-icon-circle">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
                     <h2>Спасибо за отзыв!</h2>
-                    <p>Вы получили 10 баллов!</p>
+                    <p>Ты получил(а) 10 баллов!</p>
                     <button
-                        className="btn btn-primary btn-full"
+                        className="btn btn-warm btn-full"
                         onClick={() => setSubmitted(false)}
                     >
                         Оставить ещё отзыв
                     </button>
                     <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                        ← На главную
+                        На главную
                     </Link>
                 </div>
             </div>
@@ -282,20 +287,19 @@ function FeedbackPage() {
     if (pendingFeedback.length === 0) {
         return (
             <div className="page">
-                <header className="header">
-                    <h1>⭐ Обратная связь</h1>
-                </header>
+                <div className="page-header">
+                    <h1>Обратная связь</h1>
+                </div>
                 <div className="card animate-fade-in">
                     <div className="empty-state">
-                        <div className="icon">✅</div>
                         <p>Нет ожидающих отзывов</p>
-                        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)' }}>
-                            Вы в курсе всех дел!
+                        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)', color: 'var(--text-muted)' }}>
+                            Ты в курсе всех дел!
                         </p>
                     </div>
                 </div>
                 <Link to="/" className="btn btn-secondary btn-full">
-                    ← На главную
+                    На главную
                 </Link>
             </div>
         );
@@ -304,12 +308,12 @@ function FeedbackPage() {
     if (!selectedGroup) {
         return (
             <div className="page">
-                <header className="header">
-                    <h1>⭐ Обратная связь</h1>
-                    <p>Поделитесь впечатлениями</p>
-                </header>
+                <div className="page-header decorated-section">
+                    <h1>Обратная связь</h1>
+                    <p>Поделись впечатлениями</p>
+                </div>
                 <div className="card animate-fade-in">
-                    <span className="card-title">Выберите группу для оценки:</span>
+                    <span className="card-title">Выбери группу для оценки:</span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {pendingFeedback.map((group) => (
                             <button
@@ -331,7 +335,7 @@ function FeedbackPage() {
                     </div>
                 </div>
                 <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                    ← На главную
+                    На главную
                 </Link>
             </div>
         );
@@ -347,9 +351,9 @@ function FeedbackPage() {
 
     return (
         <div className="page">
-            <header className="header">
-                <h1>⭐ Обратная связь</h1>
-            </header>
+            <div className="page-header">
+                <h1>Обратная связь</h1>
+            </div>
 
             <div className="wizard-container">
                 {/* Progress indicator */}
@@ -357,7 +361,7 @@ function FeedbackPage() {
                     {Array.from({ length: TOTAL_STEPS }, (_, i) => i).map((s, i) => (
                         <div key={s}>
                             <div className={`wizard-step ${s === step ? 'active' : s < step ? 'completed' : ''}`}>
-                                {s < step ? '✓' : s + 1}
+                                {s < step ? '\u2713' : s + 1}
                             </div>
                             {i < TOTAL_STEPS - 1 && <div className={`wizard-divider ${s < step ? 'completed' : ''}`} />}
                         </div>
@@ -367,7 +371,7 @@ function FeedbackPage() {
                 {/* Cancel link */}
                 <div style={{ textAlign: 'center', marginBottom: 'var(--spacing-md)' }}>
                     <button onClick={handleCancel} className="btn btn-secondary" style={{ fontSize: 'var(--font-size-sm)' }}>
-                        ← Назад к выбору группы
+                        Назад к выбору группы
                     </button>
                 </div>
 
@@ -399,7 +403,7 @@ function FeedbackPage() {
                                                     className="remove-photo"
                                                     onClick={() => handleRemovePhoto(index)}
                                                 >
-                                                    ✕
+                                                    &times;
                                                 </button>
                                             </div>
                                         ))}
@@ -407,8 +411,10 @@ function FeedbackPage() {
                                 )}
                                 {photos.length < MAX_PHOTOS && (
                                     <label className="photo-upload-button">
-                                        <div className="upload-icon">📷</div>
-                                        <span>Нажмите для загрузки</span>
+                                        <div className="upload-icon">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5"/><circle cx="12" cy="12" r="3" stroke="var(--color-accent)" strokeWidth="1.5"/><circle cx="17" cy="8" r="1" fill="var(--color-accent)"/></svg>
+                                        </div>
+                                        <span>Нажми для загрузки</span>
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -431,21 +437,27 @@ function FeedbackPage() {
                                     className={`choice-button ${taskEffect === 'deeper' ? 'selected' : ''}`}
                                     onClick={() => setTaskEffect('deeper')}
                                 >
-                                    <div className="choice-icon">🤝</div>
+                                    <div className="choice-icon-circle choice-icon-teal">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17 11h-4V7a1 1 0 00-2 0v4H7a1 1 0 000 2h4v4a1 1 0 002 0v-4h4a1 1 0 000-2z" fill="currentColor"/></svg>
+                                    </div>
                                     <span>Сделало общение глубже</span>
                                 </button>
                                 <button
                                     className={`choice-button ${taskEffect === 'fun' ? 'selected' : ''}`}
                                     onClick={() => setTaskEffect('fun')}
                                 >
-                                    <div className="choice-icon">😄</div>
+                                    <div className="choice-icon-circle choice-icon-coral">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                                    </div>
                                     <span>Добавило веселья</span>
                                 </button>
                                 <button
                                     className={`choice-button ${taskEffect === 'not_fit' ? 'selected' : ''}`}
                                     onClick={() => setTaskEffect('not_fit')}
                                 >
-                                    <div className="choice-icon">🤷</div>
+                                    <div className="choice-icon-circle choice-icon-muted">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5"/></svg>
+                                    </div>
                                     <span>Не очень подошло</span>
                                 </button>
                             </div>
@@ -454,27 +466,33 @@ function FeedbackPage() {
 
                     {step === 3 && (
                         <>
-                            <h2 className="wizard-title">Хочешь ли встретиться с этим партнером снова?</h2>
+                            <h2 className="wizard-title">Хочешь встретиться с этим партнером снова?</h2>
                             <div className="choice-group">
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'yes' ? 'selected' : ''}`}
                                     onClick={() => setWouldMeetAgain('yes')}
                                 >
-                                    <div className="choice-icon">👍</div>
+                                    <div className="choice-icon-circle choice-icon-teal">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                    </div>
                                     <span>Да</span>
                                 </button>
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'no' ? 'selected' : ''}`}
                                     onClick={() => setWouldMeetAgain('no')}
                                 >
-                                    <div className="choice-icon">👎</div>
+                                    <div className="choice-icon-circle choice-icon-coral">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                                    </div>
                                     <span>Нет</span>
                                 </button>
                                 <button
                                     className={`choice-button ${wouldMeetAgain === 'maybe' ? 'selected' : ''}`}
                                     onClick={() => setWouldMeetAgain('maybe')}
                                 >
-                                    <div className="choice-icon">🤔</div>
+                                    <div className="choice-icon-circle choice-icon-muted">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/><path d="M9 10c0-1.7 1.3-3 3-3s3 1.3 3 3c0 1.2-.7 2-1.5 2.5-.5.3-1.5.5-1.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="currentColor" strokeWidth="0.5"/></svg>
+                                    </div>
                                     <span>Может быть</span>
                                 </button>
                             </div>
@@ -498,7 +516,7 @@ function FeedbackPage() {
 
                     {step === 5 && (
                         <>
-                            <h2 className="wizard-title">Что бы ты хотел/а улучшить в игре?</h2>
+                            <h2 className="wizard-title">Что бы ты хотел(а) улучшить в игре?</h2>
                             <div className="input-group">
                                 <textarea
                                     className="input"
@@ -516,7 +534,7 @@ function FeedbackPage() {
                 <div className="wizard-actions">
                     {step > 0 && (
                         <button className="btn btn-secondary" onClick={handleBack}>
-                            ← Назад
+                            Назад
                         </button>
                     )}
                     {step < TOTAL_STEPS - 1 ? (
@@ -525,11 +543,11 @@ function FeedbackPage() {
                             onClick={handleNext}
                             disabled={!canProceed()}
                         >
-                            Далее →
+                            Далее
                         </button>
                     ) : (
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-warm"
                             onClick={handleSubmit}
                             disabled={isSubmitting}
                         >
@@ -540,7 +558,7 @@ function FeedbackPage() {
             </div>
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                🏠 Назад в Главное меню
+                На главную
             </Link>
         </div>
     );
