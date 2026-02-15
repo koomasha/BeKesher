@@ -44,7 +44,6 @@ function SupportPage() {
             setSubmitted(true);
             setQuestion('');
         } catch (error) {
-            console.error('Failed to submit question:', error);
             alert(t`Не удалось отправить вопрос. Попробуйте ещё раз.`);
         } finally {
             setIsSubmitting(false);

@@ -68,15 +68,11 @@ export const closeWeekAndRequestFeedback = internalAction({
     args: {},
     returns: v.null(),
     handler: async (ctx) => {
-        console.log("🔒 Closing active groups...");
-
         // Close all active groups
         const closedCount: number = await ctx.runMutation(
             internal.groups.closeActiveGroups,
             {}
         );
-
-        console.log(`✅ Closed ${closedCount} groups`);
 
         // TODO: Send feedback request notifications to all group members
         // This would use internal.notifications.sendFeedbackRequest
@@ -92,8 +88,6 @@ export const sendPaymentReminders = internalAction({
     args: {},
     returns: v.null(),
     handler: async (ctx) => {
-        console.log("💳 Checking for expiring subscriptions...");
-
         const now = Date.now();
         const threeDaysFromNow = now + 3 * 24 * 60 * 60 * 1000;
         const oneDayFromNow = now + 1 * 24 * 60 * 60 * 1000;
@@ -110,8 +104,6 @@ export const sendPaymentReminders = internalAction({
             }
         );
 
-        console.log(`📧 Sending ${participants.length} payment reminders`);
-
         // TODO: Send notifications via Telegram
         // Different messages based on:
         // - 3 days before: "Your subscription expires in 3 days"
@@ -122,7 +114,6 @@ export const sendPaymentReminders = internalAction({
         // Deactivate participants who are 6+ days past expiry
         for (const p of participants) {
             if (p.paidUntil && p.paidUntil < sixDaysAgo) {
-                console.log(`❌ Deactivating ${p.name} - grace period expired`);
                 await ctx.runMutation(internal.participants.updateStatus, {
                     participantId: p._id,
                     status: "Inactive",
@@ -205,14 +196,10 @@ export const cleanupOldData = internalAction({
     args: {},
     returns: v.null(),
     handler: async (_ctx) => {
-        console.log("🧹 Running weekly cleanup...");
-
         // TODO: Implement cleanup logic
         // - Remove very old completed groups (>6 months)
         // - Clean up old payment logs
         // - Archive old support tickets
-
-        console.log("✅ Cleanup complete");
 
         return null;
     },

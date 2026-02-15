@@ -22,8 +22,6 @@ http.route({
         try {
             const body = await req.json();
 
-            console.log("PayPlus callback received:", JSON.stringify(body, null, 2));
-
             // Extract payment details from PayPlus callback
             const status = body.transaction?.status_code;
             const transactionId = body.transaction?.uid;
@@ -31,7 +29,6 @@ http.route({
             const amount = body.transaction?.amount;
 
             if (!participantId) {
-                console.error("No participant ID in callback");
                 return new Response(JSON.stringify({ error: "Missing participant ID" }), {
                     status: 400,
                     headers: { "Content-Type": "application/json" },
@@ -47,8 +44,6 @@ http.route({
                     amount: amount || 0,
                     months: 1, // Default to 1 month, could be derived from amount
                 });
-
-                console.log(`✅ Payment successful for ${participantId}`);
             } else {
                 // Failed payment
                 await ctx.runMutation(internal.payments.processFailedPayment, {
@@ -56,8 +51,6 @@ http.route({
                     transactionId,
                     reason: `Status code: ${status}`,
                 });
-
-                console.log(`❌ Payment failed for ${participantId}: ${status}`);
             }
 
             return new Response(JSON.stringify({ ok: true }), {
@@ -92,15 +85,11 @@ http.route({
         try {
             const update = await req.json();
 
-            console.log("Telegram update received:", JSON.stringify(update, null, 2));
-
             // Handle callback queries (button presses in bot)
             if (update.callback_query) {
                 const callbackData = update.callback_query.data;
                 const chatId = update.callback_query.message?.chat?.id;
                 const userId = update.callback_query.from?.id?.toString();
-
-                console.log(`Callback: ${callbackData} from user ${userId}`);
 
                 // Route based on callback data
                 // This maps to the Make.com dispatcher logic
@@ -141,7 +130,6 @@ http.route({
 
                 // Handle /start command
                 if (text?.startsWith("/start")) {
-                    console.log(`User ${chatId} started the bot`);
                     // Would send welcome message with Mini App button
                 }
             }

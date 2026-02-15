@@ -21,7 +21,7 @@ import type * as participants from "../participants.js";
 import type * as payments from "../payments.js";
 import type * as seed from "../seed.js";
 import type * as support from "../support.js";
-import type * as testSetup from "../testSetup.js";
+import type * as utils from "../utils.js";
 
 import type {
   ApiFromModules,
@@ -43,7 +43,7 @@ declare const fullApi: ApiFromModules<{
   payments: typeof payments;
   seed: typeof seed;
   support: typeof support;
-  testSetup: typeof testSetup;
+  utils: typeof utils;
 }>;
 
 /**

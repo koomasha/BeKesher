@@ -54,6 +54,17 @@ export const getPaymentHistory = userQuery({
 // PUBLIC ACTIONS
 // ============================================
 
+// PayPlus API response interface
+interface PayPlusResponse {
+    results?: {
+        status: string;
+        description?: string;
+    };
+    data?: {
+        payment_page_link?: string;
+    };
+}
+
 /**
  * Create a payment link via PayPlus
  */
@@ -67,7 +78,7 @@ export const createPaymentLink = userAction({
         paymentUrl: v.optional(v.string()),
         error: v.optional(v.string()),
     }),
-    // TODO: type ctx and args properly once userAction has correct types
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handler: async (ctx: any, args: any): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
         // Get participant
         const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
@@ -122,8 +133,7 @@ export const createPaymentLink = userAction({
                 }
             );
 
-            // TODO: define a PayPlusResponse interface for this response
-            const data: any = await response.json();
+            const data: PayPlusResponse = await response.json();
 
             if (data.results?.status === "success" && data.data?.payment_page_link) {
                 // Log the payment attempt

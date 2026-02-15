@@ -27,7 +27,6 @@ function MatchingPage() {
             const matchResult = await runMatching({});
             setResult(matchResult);
         } catch (error) {
-            console.error('Matching failed:', error);
             setResult({
                 success: false,
                 groupsCreated: 0,

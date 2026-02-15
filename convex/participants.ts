@@ -5,22 +5,7 @@ import {
 import { v } from "convex/values";
 import { userQuery, userMutation, publicMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
-
-/**
- * Calculate age from birthDate
- */
-function calculateAge(birthDate: string): number {
-    const today = new Date();
-    const birth = new Date(birthDate);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--;
-    }
-
-    return age;
-}
+import { calculateAge } from "./utils";
 
 // ============================================
 // PUBLIC QUERIES
@@ -355,12 +340,10 @@ export const deleteParticipant = userMutation({
             .unique();
 
         if (!participant) {
-            console.log(`Participant with telegramId ${ctx.telegramId} not found`);
             return null;
         }
 
         await ctx.db.delete(participant._id);
-        console.log(`Deleted participant: ${participant.name} (${ctx.telegramId})`);
 
         return null;
     },

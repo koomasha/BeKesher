@@ -448,11 +448,8 @@ describe("feedback", () => {
             const feedback = await admin.query(api.feedback.getForGroup, { groupId });
 
             expect(feedback).toHaveLength(2);
-            // TODO: add participantName to getForGroup return type validator so @ts-ignore isn't needed
-            // @ts-ignore
-            expect(feedback.some((f) => f.participantName === "User One")).toBe(true);
-            // @ts-ignore
-            expect(feedback.some((f) => f.participantName === "User Two")).toBe(true);
+            expect(feedback.some((f: { participantName: string }) => f.participantName === "User One")).toBe(true);
+            expect(feedback.some((f: { participantName: string }) => f.participantName === "User Two")).toBe(true);
         });
 
         test("returns empty array for group with no feedback", async () => {

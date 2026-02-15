@@ -199,11 +199,8 @@ describe("groups", () => {
 
             expect(activeGroup).not.toBeNull();
             expect(activeGroup?.members).toHaveLength(2);
-            // TODO: add name to members return type in getActiveForParticipant so @ts-ignore isn't needed
-            // @ts-ignore
-            expect(activeGroup?.members.some((m) => m.name === "Active User 1")).toBe(true);
-            // @ts-ignore
-            expect(activeGroup?.members.some((m) => m.name === "Active User 2")).toBe(true);
+            expect(activeGroup?.members.some((m: { name: string }) => m.name === "Active User 1")).toBe(true);
+            expect(activeGroup?.members.some((m: { name: string }) => m.name === "Active User 2")).toBe(true);
         });
 
         test("returns null when no active group", async () => {

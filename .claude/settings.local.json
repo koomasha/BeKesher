@@ -35,6 +35,9 @@
       "Bash(npx lingui compile:*)",
       "Bash(find:*)",
       "Bash(git add:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\KooMa\\src\\bekesher"
     ]
   }
 }

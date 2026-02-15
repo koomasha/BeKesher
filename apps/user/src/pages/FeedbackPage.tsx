@@ -201,7 +201,7 @@ function FeedbackPage() {
                     const { storageId } = await result.json();
                     storageIds.push(storageId);
                 } catch (error) {
-                    console.error('Photo upload failed:', error);
+                    // Photo upload failed - continue without this photo
                 }
             }
 
@@ -224,7 +224,6 @@ function FeedbackPage() {
             resetForm();
             setSubmitted(true);
         } catch (error) {
-            console.error('Failed to submit feedback:', error);
             alert(t`Не удалось отправить отзыв. Пожалуйста, попробуйте еще раз.`);
         } finally {
             setIsSubmitting(false);

@@ -25,7 +25,6 @@ function SupportPage() {
             setSelectedTicket(null);
             setAnswer('');
         } catch (error) {
-            console.error('Failed to answer ticket:', error);
             alert(t`Failed to answer ticket`);
         }
     };
@@ -34,7 +33,6 @@ function SupportPage() {
         try {
             await closeTicket({ ticketId });
         } catch (error) {
-            console.error('Failed to close ticket:', error);
             alert(t`Failed to close ticket`);
         }
     };

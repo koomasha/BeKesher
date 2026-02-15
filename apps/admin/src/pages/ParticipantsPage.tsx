@@ -2,18 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans } from '@lingui/macro';
-
-function calculateAge(birthDate: string): number {
-    const today = new Date();
-    const birth = new Date(birthDate);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--;
-    }
-    return age;
-}
+import { calculateAge } from '../utils/dateUtils';
 
 function ParticipantsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('');
