@@ -42,6 +42,8 @@ export const resetAndSeed = internalMutation({
             const region = regions[Math.floor(Math.random() * regions.length)];
             const status = statuses[Math.floor(Math.random() * statuses.length)];
             const age = 20 + Math.floor(Math.random() * 40);
+            const birthYear = new Date().getFullYear() - age;
+            const birthDate = `${birthYear}-01-01`;
 
             const participantId = await ctx.db.insert("participants", {
                 name: `${firstName} ${lastName}`,
@@ -50,7 +52,7 @@ export const resetAndSeed = internalMutation({
                 tgFirstName: firstName,
                 tgLastName: lastName,
                 // photo: optional
-                age: age,
+                birthDate: birthDate,
                 gender: gender,
                 region: region,
                 city: "Tel Aviv",
@@ -64,8 +66,8 @@ export const resetAndSeed = internalMutation({
 
                 // Preferences
                 targetGender: gender === "Male" ? "Female" : "Male",
-                targetAgeFrom: age - 5,
-                targetAgeTo: age + 5,
+                targetAgeFrom: 20,
+                targetAgeTo: 40,
                 formatPreference: "In Person",
 
                 // Profile

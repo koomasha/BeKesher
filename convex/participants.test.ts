@@ -15,7 +15,7 @@ describe("participants", () => {
                 name: "Alice Cohen",
                 phone: "+972501111111",
                 telegramId: "alice123",
-                age: 28,
+                birthDate: `${new Date().getFullYear() - 28}-01-01`,
                 gender: "Female",
                 region: "Center",
             });
@@ -45,7 +45,7 @@ describe("participants", () => {
                 name: "First User",
                 phone: "+972501111111",
                 telegramId: "duplicate123",
-                age: 30,
+                birthDate: `${new Date().getFullYear() - 30}-01-01`,
                 gender: "Male",
                 region: "North",
             });
@@ -56,7 +56,7 @@ describe("participants", () => {
                     name: "Second User",
                     phone: "+972502222222",
                     telegramId: "duplicate123",
-                    age: 25,
+                    birthDate: `${new Date().getFullYear() - 25}-01-01`,
                     gender: "Female",
                     region: "South",
                 })
@@ -70,7 +70,7 @@ describe("participants", () => {
                 name: "Full Profile User",
                 phone: "+972501234567",
                 telegramId: "fullprofile",
-                age: 35,
+                birthDate: `${new Date().getFullYear() - 35}-01-01`,
                 gender: "Male",
                 region: "Center",
                 city: "Tel Aviv",
@@ -81,7 +81,6 @@ describe("participants", () => {
                 formatPreference: "Coffee",
                 aboutMe: "I love coding",
                 profession: "Developer",
-                whoToMeet: "Interesting people",
                 values: ["Honesty", "Growth"],
                 interests: ["Tech", "Music"],
             });
@@ -158,7 +157,7 @@ describe("participants", () => {
 
             expect(profile).not.toBeNull();
             expect(profile?.name).toBe("Profile Test");
-            expect(profile?.age).toBe(32);
+            expect(profile?.birthDate).toBe(`${new Date().getFullYear() - 32}-01-01`);
             expect(profile?.region).toBe("South");
             expect(profile?.city).toBe("Beer Sheva");
             expect(profile?.status).toBe("Active");
@@ -251,7 +250,7 @@ describe("participants", () => {
             await t.mutation(api.participants.updateProfile, {
                 sessionToken: token,
                 name: "Updated Name",
-                age: 30,
+                birthDate: `${new Date().getFullYear() - 30}-01-01`,
                 city: "Haifa",
             });
 
@@ -260,7 +259,7 @@ describe("participants", () => {
             });
 
             expect(updated?.name).toBe("Updated Name");
-            expect(updated?.age).toBe(30);
+            expect(updated?.birthDate).toBe(`${new Date().getFullYear() - 30}-01-01`);
             expect(updated?.city).toBe("Haifa");
         });
 
@@ -274,7 +273,7 @@ describe("participants", () => {
             const token = await createTestSession(t, "partialupdate");
             await t.mutation(api.participants.updateProfile, {
                 sessionToken: token,
-                age: 30,
+                birthDate: `${new Date().getFullYear() - 30}-01-01`,
             });
 
             const updated = await t.query(api.participants.getByTelegramId, {
@@ -282,7 +281,7 @@ describe("participants", () => {
             });
 
             expect(updated?.name).toBe("Keep This");
-            expect(updated?.age).toBe(30);
+            expect(updated?.birthDate).toBe(`${new Date().getFullYear() - 30}-01-01`);
             expect(updated?.city).toBe("Tel Aviv");
         });
 
