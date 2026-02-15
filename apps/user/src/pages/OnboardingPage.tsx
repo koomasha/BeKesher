@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from '../components/Logo';
 import './OnboardingPage.css';
-import logo from '../assets/logo.png';
 
 interface FormData {
     // Step 1: Personal Info
@@ -32,6 +33,8 @@ function OnboardingPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const registerParticipant = useMutation(api.participants.register);
+    const updateProfile = useMutation(api.participants.updateProfile);
+    const { telegramUser, authArgs } = useTelegramAuth(); // Use the hook
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -73,8 +76,6 @@ function OnboardingPage() {
         const regex = /^(\+972|0)(5[0-9])[0-9]{7}$/;
         return regex.test(phone.replace(/[\s-]/g, ''));
     };
-
-
 
     const validateStep = (step: number): boolean => {
         const newErrors: FormErrors = {};
@@ -151,19 +152,13 @@ function OnboardingPage() {
         setErrors({});
     };
 
+    const handleCancel = () => {
+        navigate('/profile');
+    };
+
     const handleFinish = async () => {
         if (validateStep(currentStep)) {
             try {
-                // Get Telegram user data
-                const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-                const telegramId = telegramUser?.id?.toString() || '';
-
-                if (!telegramId) {
-                    alert('Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram.');
-                    return;
-                }
-
-
                 // Map region names to English
                 const regionMap: { [key: string]: string } = {
                     'Север': 'North',
@@ -171,13 +166,45 @@ function OnboardingPage() {
                     'Юг': 'South'
                 };
 
+                const isEditing = (location.state as any)?.editMode;
+
+                if (isEditing) {
+                    await updateProfile({
+                        ...authArgs, // Pass authentication arguments
+                        name: formData.name,
+                        phone: formData.phone,
+                        birthDate: formData.birthDate,
+                        gender: formData.gender,
+                        region: regionMap[formData.city] || 'Center',
+                        aboutMe: formData.aboutMe,
+                        profession: formData.profession,
+                        purpose: formData.purpose,
+                        expectations: formData.expectations,
+                    });
+
+                    // Update localStorage
+                    localStorage.setItem('userProfile', JSON.stringify(formData));
+
+                    console.log('Profile updated successfully!');
+                    navigate('/profile');
+                    return;
+                }
+
+                // Get Telegram user data from hook
+                const telegramId = telegramUser?.id?.toString() || '';
+
+                if (!telegramId) {
+                    alert('Ошибка: не удалось получить Telegram ID. Откройте приложение из Telegram.');
+                    return;
+                }
+
                 // Register participant in Convex
                 await registerParticipant({
                     name: formData.name,
                     phone: formData.phone,
                     telegramId: telegramId,
                     tgFirstName: telegramUser?.first_name,
-                    tgLastName: telegramUser?.last_name,
+                    tgLastName: telegramUser?.last_name || telegramUser?.username, // fallback to username if last name missing
                     birthDate: formData.birthDate,
                     gender: formData.gender,
                     region: regionMap[formData.city] || 'Center',
@@ -185,16 +212,23 @@ function OnboardingPage() {
                     profession: formData.profession,
                     purpose: formData.purpose,
                     expectations: formData.expectations,
-                });
+                } as any);
 
                 // Also save to localStorage for ProfilePage compatibility
                 localStorage.setItem('userProfile', JSON.stringify(formData));
 
                 console.log('Registration successful!');
                 navigate('/');
-            } catch (error) {
-                console.error('Registration error:', error);
-                alert('Ошибка при регистрации. Попробуйте еще раз.');
+            } catch (error: unknown) {
+                console.error('Registration/Update error:', error);
+                const errorMessage = error instanceof Error ? error.message : String(error);
+
+                if (errorMessage.includes("already exists")) {
+                    alert('Пользователь с таким Telegram ID уже зарегистрирован.');
+                    navigate('/');
+                } else {
+                    alert(`Ошибка: ${errorMessage}`);
+                }
             }
         }
     };
@@ -220,9 +254,9 @@ function OnboardingPage() {
 
     const renderStep1 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Личные данные</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -317,9 +351,9 @@ function OnboardingPage() {
 
     const renderStep2 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">О себе</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -353,9 +387,9 @@ function OnboardingPage() {
 
     const renderStep3 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Цель участия</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -381,9 +415,9 @@ function OnboardingPage() {
 
     const renderStep4 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Ожидания</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -416,6 +450,16 @@ function OnboardingPage() {
                 </div>
 
                 <div className="navigation-buttons">
+                    {(location.state as any)?.editMode && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={handleCancel}
+                            style={{ marginRight: 'auto' }}
+                        >
+                            Отмена
+                        </button>
+                    )}
+
                     {currentStep > 1 && (
                         <button
                             className="btn btn-secondary"
@@ -437,7 +481,7 @@ function OnboardingPage() {
                             className="btn btn-primary"
                             onClick={handleFinish}
                         >
-                            Завершить
+                            {(location.state as any)?.editMode ? 'Сохранить' : 'Завершить'}
                         </button>
                     )}
                 </div>

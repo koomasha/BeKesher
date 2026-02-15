@@ -1,7 +1,7 @@
 .profile-page {
     min-height: 100vh;
-    background: #F7F4F0;  /* Warm cream - never sterile white */
-    padding: 20px;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
 }
 
 .profile-container {
@@ -14,26 +14,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding: 24px;
-    background: white;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 88, 113, 0.08);
-    box-shadow: 0 2px 12px rgba(0, 88, 113, 0.06);  /* Warm-tinted shadow */
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-warm);
+    border-radius: var(--radius-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(51, 190, 204, 0.1);
+    pointer-events: none;
 }
 
 .profile-header h1 {
-    font-size: 32px;
+    font-size: var(--font-size-2xl);
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--text-primary);
     margin: 0;
 }
 
 .profile-subtitle {
-    font-size: 16px;
-    color: #005871;  /* Lyons Blue - brand primary */
+    font-size: var(--font-size-base);
+    color: var(--color-primary);
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: var(--spacing-xs);
 }
 
 .header-logo {
@@ -43,27 +55,27 @@
 
 /* Profile Cards */
 .profile-card {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
     border: 1px solid rgba(0, 88, 113, 0.08);
-    box-shadow: 0 2px 12px rgba(0, 88, 113, 0.06);  /* Warm-tinted shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
 
 .profile-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 88, 113, 0.10);  /* Raised shadow */
+    box-shadow: var(--shadow-raised);
 }
 
-.card-header {
+.profile-card .card-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #f0f0f0;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-color);
 }
 
 .section-icon {
@@ -71,9 +83,9 @@
 }
 
 .section-title {
-    font-size: 22px;
+    font-size: var(--font-size-xl);
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -81,7 +93,7 @@
 .info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .info-item {
@@ -91,16 +103,16 @@
 }
 
 .info-label {
-    font-size: 13px;
-    color: #7f8c8d;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .info-value {
-    font-size: 16px;
-    color: #2c3e50;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -108,46 +120,49 @@
 .about-content {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .about-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-sm);
 }
 
 .about-text {
-    font-size: 15px;
-    color: #2c3e50;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
     line-height: 1.6;
     margin: 0;
     padding: 14px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    border-left: 4px solid #005871;  /* Lyons Blue - brand primary */
+    background: var(--bg-alt);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-warm);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 /* Action Buttons */
 .btn-edit {
     width: 100%;
-    margin-top: 10px;
-    padding: 16px;
-    font-size: 17px;
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
     font-weight: 600;
+    font-family: var(--font-family);
     border: none;
-    border-radius: 22px;  /* Playful and inviting */
-    background: linear-gradient(135deg, #005871 0%, #004559 100%);  /* BeKesher brand gradient */
+    border-radius: var(--radius-btn);
+    background: var(--primary-gradient);
     color: white;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.3);
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.25);
 }
 
 .btn-edit:hover {
     background: linear-gradient(135deg, #004559 0%, #003A4C 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.35);
 }
 
 .btn-edit:active {
@@ -156,23 +171,23 @@
 
 .btn-home {
     width: 100%;
-    margin-top: 12px;
-    padding: 16px;
-    font-size: 17px;
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
     font-weight: 600;
-    border: 2px solid #33BECC;  /* Blue Curaçao - accent */
-    border-radius: 22px;  /* Playful and inviting */
-    background: white;
-    color: #33BECC;
+    font-family: var(--font-family);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-btn);
+    background: transparent;
+    color: var(--color-accent);
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(51, 190, 204, 0.1);
+    transition: all var(--transition-base);
 }
 
 .btn-home:hover {
-    background: rgba(51, 190, 204, 0.05);  /* Light accent tint */
+    background: var(--color-accent);
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(51, 190, 204, 0.2);
 }
 
 .btn-home:active {
@@ -180,73 +195,73 @@
 }
 
 /* Empty State */
-.empty-state {
+.profile-page .empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 30px;
-    background: white;
-    border-radius: 20px;
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
     border: 1px solid rgba(0, 88, 113, 0.08);
-    box-shadow: 0 4px 16px rgba(0, 88, 113, 0.10);  /* Brand-tinted shadow */
+    box-shadow: var(--shadow-lg);
     text-align: center;
 }
 
 .empty-logo {
     width: 120px;
     height: 120px;
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-lg);
     opacity: 0.9;
 }
 
-.empty-state h2 {
-    font-size: 26px;
+.profile-page .empty-state h2 {
+    font-size: var(--font-size-xl);
     font-weight: 700;
-    color: #2c3e50;
-    margin: 0 0 12px 0;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-md) 0;
 }
 
-.empty-state p {
-    font-size: 16px;
-    color: #7f8c8d;
-    margin: 0 0 30px 0;
+.profile-page .empty-state p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-xl) 0;
 }
 
-.empty-state .btn {
+.profile-page .empty-state .btn {
     padding: 14px 32px;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-btn);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-slow);
 }
 
-.empty-state .btn-primary {
-    background: linear-gradient(135deg, #005871 0%, #004559 100%);  /* BeKesher brand gradient */
+.profile-page .empty-state .btn-primary {
+    background: var(--primary-gradient);
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 88, 113, 0.25);
 }
 
-.empty-state .btn-primary:hover {
+.profile-page .empty-state .btn-primary:hover {
     background: linear-gradient(135deg, #004559 0%, #003A4C 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 88, 113, 0.35);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-page {
-        padding: 15px;
+        padding: var(--spacing-md);
     }
 
     .profile-header {
-        padding: 20px;
+        padding: var(--spacing-lg);
     }
 
     .profile-header h1 {
-        font-size: 26px;
+        font-size: var(--font-size-xl);
     }
 
     .header-logo {
@@ -255,31 +270,30 @@
     }
 
     .profile-card {
-        padding: 20px;
+        padding: var(--spacing-lg);
     }
 
     .section-title {
-        font-size: 20px;
+        font-size: var(--font-size-lg);
     }
 
     .info-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: var(--spacing-md);
     }
 }
 
 @media (max-width: 480px) {
     .profile-page {
-        padding: 10px;
+        padding: var(--spacing-sm);
     }
 
     .profile-header {
-        padding: 16px;
-        border-radius: 15px;
+        padding: var(--spacing-md);
     }
 
     .profile-header h1 {
-        font-size: 22px;
+        font-size: var(--font-size-lg);
     }
 
     .header-logo {
@@ -288,8 +302,7 @@
     }
 
     .profile-card {
-        padding: 16px;
-        border-radius: 15px;
+        padding: var(--spacing-md);
     }
 
     .section-icon {
@@ -297,19 +310,11 @@
     }
 
     .section-title {
-        font-size: 18px;
+        font-size: var(--font-size-lg);
     }
 
     .empty-logo {
         width: 90px;
         height: 90px;
-    }
-
-    .empty-state h2 {
-        font-size: 22px;
-    }
-
-    .empty-state p {
-        font-size: 14px;
     }
 }

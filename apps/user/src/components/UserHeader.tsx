@@ -1,6 +1,7 @@
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from './Logo';
 import './UserHeader.css';
 
 export function UserHeader() {
@@ -34,6 +35,10 @@ export function UserHeader() {
 
     return (
         <div className="user-header animate-fade-in">
+            <div className="header-brand">
+                <Logo size={32} />
+                <span className="brand-wordmark">BeKesher</span>
+            </div>
             <div className="user-info">
                 <div className="user-avatar">
                     {avatarUrl ? (
@@ -51,8 +56,8 @@ export function UserHeader() {
             </div>
             {profile && (
                 <div className="user-points">
-                    <span className="points-label">Points</span>
                     <span className="points-value">{profile.totalPoints}</span>
+                    <span className="points-label">pts</span>
                 </div>
             )}
         </div>

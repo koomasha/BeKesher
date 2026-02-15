@@ -21,8 +21,7 @@ function GroupsPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <div className="icon">📱</div>
-                        <p>Open this app from Telegram</p>
+                        <p>Откройте приложение из Telegram</p>
                     </div>
                 </div>
             </div>
@@ -41,19 +40,19 @@ function GroupsPage() {
 
     return (
         <div className="page">
-            <header className="header">
-                <h1>👥 My Groups</h1>
-                <p>Connect with your matches</p>
-            </header>
+            <div className="page-header decorated-section">
+                <h1>Мои группы</h1>
+                <p>Общайся с новыми друзьями</p>
+            </div>
 
             {activeGroup && (
                 <div className="card animate-fade-in">
                     <div className="card-header">
-                        <span className="card-title">🔥 This Week's Group</span>
+                        <span className="card-title">Группа этой недели</span>
                         <span className="badge badge-active">Active</span>
                     </div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginBottom: 'var(--spacing-md)' }}>
-                        📍 Region: {activeGroup.region || 'Mixed'}
+                        Регион: {activeGroup.region || 'Смешанный'}
                     </p>
                     <ul className="member-list">
                         {activeGroup.members.map((member) => (
@@ -63,7 +62,7 @@ function GroupsPage() {
                                 </div>
                                 <div className="member-info">
                                     <div className="member-name">{member.name}</div>
-                                    <div className="member-detail">📞 {member.phone}</div>
+                                    <div className="member-detail">{member.phone}</div>
                                 </div>
                             </li>
                         ))}
@@ -74,18 +73,17 @@ function GroupsPage() {
             {!activeGroup && (
                 <div className="card animate-fade-in">
                     <div className="empty-state">
-                        <div className="icon">⏳</div>
-                        <p>No active group this week</p>
-                        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)' }}>
-                            Groups are formed every Sunday
+                        <p>На этой неделе пока нет группы</p>
+                        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-sm)', color: 'var(--text-muted)' }}>
+                            Группы формируются каждое воскресенье
                         </p>
                     </div>
                 </div>
             )}
 
             {allGroups && allGroups.length > 0 && (
-                <div className="card animate-fade-in">
-                    <span className="card-title">📜 Past Groups</span>
+                <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
+                    <span className="card-title">Прошлые группы</span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {allGroups
                             .filter((g) => g.status !== 'Active')
@@ -94,13 +92,13 @@ function GroupsPage() {
                                 <div
                                     key={group._id}
                                     style={{
-                                        padding: 'var(--spacing-sm)',
+                                        padding: 'var(--spacing-sm) 0',
                                         borderBottom: '1px solid var(--border-color)',
                                     }}
                                 >
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <span style={{ fontSize: 'var(--font-size-sm)' }}>
-                                            {new Date(group.createdAt).toLocaleDateString()}
+                                        <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>
+                                            {new Date(group.createdAt).toLocaleDateString('ru-RU')}
                                         </span>
                                         <span className={`badge badge-${group.status.toLowerCase()}`}>
                                             {group.status}
@@ -116,7 +114,7 @@ function GroupsPage() {
             )}
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                🏠 Назад в Главное меню
+                На главную
             </Link>
         </div>
     );

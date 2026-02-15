@@ -11,6 +11,19 @@
     z-index: 100;
 }
 
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.brand-wordmark {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+}
+
 .user-info {
     display: flex;
     align-items: center;
@@ -19,39 +32,35 @@
 
 .user-header.skeleton {
     height: 60px;
-    background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%);
+    background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-primary) 50%, var(--bg-card) 100%);
     background-size: 200% 100%;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0% {
-        background-position: 200% 0;
-    }
-
-    100% {
-        background-position: -200% 0;
-    }
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 .user-avatar {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-full);
-    background: var(--primary-gradient);
+    border-radius: 50%;
+    background: var(--warm-gradient);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 127, 80, 0.2);
 }
 
 .user-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--radius-full);
+    border-radius: 50%;
 }
 
 .user-details {
@@ -62,6 +71,7 @@
 .user-name {
     font-size: var(--font-size-sm);
     font-weight: 600;
+    color: var(--text-primary);
     line-height: 1.2;
 }
 
@@ -77,17 +87,20 @@
 
 .user-points {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background: rgba(220, 212, 148, 0.2);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
 }
 
 .points-label {
     font-size: 0.7rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
 }
 
 .points-value {
     font-size: var(--font-size-sm);
     font-weight: 700;
-    color: var(--primary-start);
+    color: var(--color-primary);
 }

@@ -23,8 +23,7 @@ function SupportPage() {
             <div className="page">
                 <div className="card">
                     <div className="empty-state">
-                        <div className="icon">📱</div>
-                        <p>Open this app from Telegram</p>
+                        <p>Откройте приложение из Telegram</p>
                     </div>
                 </div>
             </div>
@@ -45,7 +44,7 @@ function SupportPage() {
             setQuestion('');
         } catch (error) {
             console.error('Failed to submit question:', error);
-            alert('Failed to submit question. Please try again.');
+            alert('Не удалось отправить вопрос. Попробуйте ещё раз.');
         } finally {
             setIsSubmitting(false);
         }
@@ -53,21 +52,21 @@ function SupportPage() {
 
     return (
         <div className="page">
-            <header className="header">
-                <h1>💬 Support</h1>
-                <p>We're here to help</p>
-            </header>
+            <div className="page-header decorated-section">
+                <h1>Поддержка</h1>
+                <p>Мы рады помочь!</p>
+            </div>
 
             {submitted && (
-                <div className="card animate-fade-in" style={{ background: 'rgba(72, 187, 120, 0.1)', borderColor: 'var(--accent-success)' }}>
-                    <p style={{ textAlign: 'center', color: 'var(--accent-success)' }}>
-                        ✅ Your question has been submitted. We'll get back to you soon!
+                <div className="card animate-fade-in" style={{ background: 'rgba(76, 175, 80, 0.08)', borderColor: 'var(--accent-success)' }}>
+                    <p style={{ textAlign: 'center', color: 'var(--accent-success)', fontWeight: 500 }}>
+                        Твой вопрос отправлен. Мы скоро ответим!
                     </p>
                 </div>
             )}
 
             <div className="card animate-fade-in">
-                <span className="card-title">Ask a Question</span>
+                <span className="card-title">Задай вопрос</span>
                 <form onSubmit={handleSubmit} style={{ marginTop: 'var(--spacing-md)' }}>
                     <div className="input-group">
                         <textarea
@@ -75,7 +74,7 @@ function SupportPage() {
                             rows={4}
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
-                            placeholder="How can we help you?"
+                            placeholder="Чем мы можем помочь?"
                             style={{ resize: 'vertical' }}
                         />
                     </div>
@@ -84,14 +83,14 @@ function SupportPage() {
                         className="btn btn-primary btn-full"
                         disabled={!question.trim() || isSubmitting}
                     >
-                        {isSubmitting ? 'Sending...' : 'Send Question'}
+                        {isSubmitting ? 'Отправка...' : 'Отправить вопрос'}
                     </button>
                 </form>
             </div>
 
             {myTickets && myTickets.length > 0 && (
-                <div className="card animate-fade-in">
-                    <span className="card-title">Your Questions</span>
+                <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
+                    <span className="card-title">Твои вопросы</span>
                     <div style={{ marginTop: 'var(--spacing-md)' }}>
                         {myTickets.map((ticket) => (
                             <div
@@ -103,26 +102,19 @@ function SupportPage() {
                             >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-xs)' }}>
                                     <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-                                        {new Date(ticket.createdAt).toLocaleDateString()}
+                                        {new Date(ticket.createdAt).toLocaleDateString('ru-RU')}
                                     </span>
                                     <span className={`badge badge-${ticket.status === 'Open' ? 'pending' : ticket.status === 'Answered' ? 'active' : 'inactive'}`}>
                                         {ticket.status}
                                     </span>
                                 </div>
-                                <p style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
+                                <p style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)', color: 'var(--text-primary)' }}>
                                     {ticket.question}
                                 </p>
                                 {ticket.answer && (
-                                    <div style={{
-                                        background: 'rgba(102, 126, 234, 0.1)',
-                                        padding: 'var(--spacing-sm)',
-                                        borderRadius: 'var(--radius-sm)',
-                                        marginTop: 'var(--spacing-sm)'
-                                    }}>
-                                        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--primary-start)', fontWeight: 500 }}>
-                                            Answer:
-                                        </span>
-                                        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-xs)' }}>
+                                    <div className="ticket-answer">
+                                        <div className="ticket-answer-label">Ответ:</div>
+                                        <p style={{ fontSize: 'var(--font-size-sm)', margin: 0, color: 'var(--text-primary)' }}>
                                             {ticket.answer}
                                         </p>
                                     </div>
@@ -134,7 +126,7 @@ function SupportPage() {
             )}
 
             <Link to="/" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
-                🏠 Назад в Главное меню
+                На главную
             </Link>
         </div>
     );

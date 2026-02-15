@@ -22,7 +22,11 @@
       "Bash(npx vite build:*)",
       "mcp__convex__data",
       "Bash(npm run dev:user:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(npx eslint:*)",
+      "WebFetch(domain:landing.bekesher.app)",
+      "mcp__playwright__browser_navigate",
+      "Bash(npm install:*)"
     ]
   }
 }
