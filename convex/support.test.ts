@@ -151,16 +151,13 @@ describe("support", () => {
 
             expect(allTickets).toHaveLength(2);
 
-            // TODO: add participantName/telegramId to list return type validator so @ts-ignore isn't needed
-            // @ts-ignore
             const namedTicket = allTickets.find(
-                (t) => t.telegramId === "named_user"
+                (t: { telegramId: string }) => t.telegramId === "named_user"
             );
             expect(namedTicket?.participantName).toBe("Named User");
 
-            // @ts-ignore
             const anonTicket = allTickets.find(
-                (t) => t.telegramId === "anonymous_user"
+                (t: { telegramId: string }) => t.telegramId === "anonymous_user"
             );
             expect(anonTicket?.participantName).toBeUndefined();
         });

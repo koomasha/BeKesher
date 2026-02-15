@@ -1,0 +1,23 @@
+1. Game Structure and Business Model
+• Shift to Monthly Seasons: Instead of a 3-month commitment or an endless game, the project will operate on 1-month "seasons". This allows for a sense of urgency (scarcity) and makes it easier for users to commit financially.
+• Elimination of Free Trial: The team decided to remove the "free trial week." Users must pay from day one. This avoids complications with refunds and ensures users understand what they are buying immediately.
+• Pricing: The price remains 100 NIS per month.
+• Sales Cycle: Registration for the next season will open roughly three weeks before the start date, with prices increasing as the date approaches (e.g., starting at 80 NIS, rising to 100 NIS).
+2. Technical and Platform Changes (MVP)
+• Bot-Centric Flow: The team decided to remove the external landing page to reduce friction. All interactions—from description to registration and payment—will happen directly through the Telegram Bot.
+• Simplifying Channels: To avoid confusing users, they will remove the Telegram Channel and keep only the Bot (for the game) and the Group (for community chat).
+• Questionnaire: The intake questionnaire will be integrated directly into the Bot (or a Mini App within Telegram) rather than being a separate external document/form.
+• Deployment: Masha and Yura will focus on getting the production environment ready and deploying deployment scripts immediately.
+3. Content and Marketing Strategy
+• Tone Shift: Content (posts/videos) must shift from a complex, "literary" style to a simple, conversational tone ("speak with words through your mouth") that directly addresses the audience's pain points (loneliness) rather than just the author's internal reflections.
+• Engagement: Posts should break the "fourth wall" and ask questions to provoke interaction (e.g., "Press a button if you are lonely," "Tell us your city").
+• Campaigns:
+    ◦ Valentine's Day: Run a contest for the funniest bad date story or interactive "send a valentine" post to boost engagement.
+    ◦ Purim: A costume contest where the winner gets a free month of the game.
+• Influencers: Margo will focus on contacting influencers (bloggers like Zhukovsky) and partners rather than just posting in free groups.
+4. Timeline
+• Internal Testing: Immediate start (approx. Feb 13–18) for 5 days of internal technical testing.
+• Beta Testing: Starting February 18th, the 65 people currently on the waiting list will act as beta testers for one week (free) to find bugs.
+• Official Launch: The paid game/first season is scheduled to start on March 15th.
+5. Visual Identity
+• Logo & Style: The team agreed to create a professional logo and consistent visual style (colors, headers) to build trust. They leaned toward a "sea wave" (teal/blue-green) color palette. Margo is responsible for finding a designer or using AI tools like Ideogram

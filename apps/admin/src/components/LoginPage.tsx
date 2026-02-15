@@ -79,7 +79,6 @@ function LoginPage({ onLogin }: LoginPageProps) {
 
                 setGsiLoaded(true);
             } catch (err) {
-                console.error("Failed to initialize Google Sign-In:", err);
                 setError(t`Failed to load Google Sign-In. Please refresh.`);
             }
         };

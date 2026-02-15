@@ -190,7 +190,6 @@ function OnboardingPage() {
                     // Update localStorage
                     localStorage.setItem('userProfile', JSON.stringify(formData));
 
-                    console.log('Profile updated successfully!');
                     navigate('/profile');
                     return;
                 }
@@ -222,10 +221,8 @@ function OnboardingPage() {
                 // Also save to localStorage for ProfilePage compatibility
                 localStorage.setItem('userProfile', JSON.stringify(formData));
 
-                console.log('Registration successful!');
                 navigate('/');
             } catch (error: unknown) {
-                console.error('Registration/Update error:', error);
                 const errorMessage = error instanceof Error ? error.message : String(error);
 
                 if (errorMessage.includes("already exists")) {

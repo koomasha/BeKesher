@@ -5,6 +5,7 @@ import './ProfilePage.css';
 import { Logo } from '../components/Logo';
 import { CollapsibleProfileCard } from '../components/CollapsibleProfileCard';
 import { Trans, t } from '@lingui/macro';
+import { calculateAge } from '../utils/dateUtils';
 
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
 
@@ -17,20 +18,6 @@ function ProfilePage() {
         api.participants.getMyProfile,
         isAuthenticated ? authArgs : 'skip'
     );
-
-    // Helper function to calculate age from birthDate
-    const calculateAge = (birthDate: string): number => {
-        const today = new Date();
-        const birth = new Date(birthDate);
-        let age = today.getFullYear() - birth.getFullYear();
-        const monthDiff = today.getMonth() - birth.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-            age--;
-        }
-
-        return age;
-    };
 
     const getZodiacSign = (birthDate: string): string => {
         const date = new Date(birthDate);
