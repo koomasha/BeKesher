@@ -448,7 +448,9 @@ describe("feedback", () => {
             const feedback = await admin.query(api.feedback.getForGroup, { groupId });
 
             expect(feedback).toHaveLength(2);
+            // @ts-ignore
             expect(feedback.some((f) => f.participantName === "User One")).toBe(true);
+            // @ts-ignore
             expect(feedback.some((f) => f.participantName === "User Two")).toBe(true);
         });
 

@@ -5,11 +5,13 @@ import GroupsPage from './pages/GroupsPage';
 import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
+import { UserHeader } from './components/UserHeader';
 
 function App() {
     return (
         <BrowserRouter>
             <div className="app">
+                <UserHeader />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/onboarding" element={<OnboardingPage />} />

@@ -8,6 +8,8 @@
  * @module
  */
 
+import type * as authAdmin from "../authAdmin.js";
+import type * as authUser from "../authUser.js";
 import type * as crons from "../crons.js";
 import type * as feedback from "../feedback.js";
 import type * as groups from "../groups.js";
@@ -27,6 +29,8 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  authAdmin: typeof authAdmin;
+  authUser: typeof authUser;
   crons: typeof crons;
   feedback: typeof feedback;
   groups: typeof groups;

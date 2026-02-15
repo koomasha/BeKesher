@@ -1,6 +1,12 @@
 import { NavLink } from 'react-router-dom';
+import { useQuery } from 'convex/react';
+import { api } from 'convex/_generated/api';
+import { useAdminAuth } from '../hooks/useAdminAuth';
 
 function Sidebar() {
+    const user = useQuery(api.authAdmin.getAdminIdentity);
+    const { logout } = useAdminAuth();
+
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
@@ -46,6 +52,23 @@ function Sidebar() {
                     💬 Support Tickets
                 </NavLink>
             </nav>
+
+            <div className="sidebar-footer">
+                {user && (
+                    <div className="user-profile">
+                        {user.picture && (
+                            <img src={user.picture} alt={user.name || "User"} className="user-avatar" />
+                        )}
+                        <div className="user-info">
+                            <div className="user-name">{user.name}</div>
+                            <div className="user-email" title={user.email}>{user.email}</div>
+                        </div>
+                        <button onClick={logout} className="logout-btn" title="Logout">
+                            🚪
+                        </button>
+                    </div>
+                )}
+            </div>
         </aside>
     );
 }

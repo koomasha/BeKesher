@@ -1,0 +1,93 @@
+.user-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    padding-top: calc(var(--spacing-sm) + env(safe-area-inset-top));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.user-header.skeleton {
+    height: 60px;
+    background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%);
+    background-size: 200% 100%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-full);
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.user-status {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.badge-guest {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.user-points {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.points-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.points-value {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--primary-start);
+}

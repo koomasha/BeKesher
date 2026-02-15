@@ -30,11 +30,15 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
 function App() {
     const { login } = useAdminAuth();
+    const { isAuthenticated } = useConvexAuth();
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={<LoginPage onLogin={login} />} />
+                <Route
+                    path="/login"
+                    element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage onLogin={login} />}
+                />
                 <Route
                     path="/*"
                     element={

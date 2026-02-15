@@ -151,11 +151,13 @@ describe("support", () => {
 
             expect(allTickets).toHaveLength(2);
 
+            // @ts-ignore
             const namedTicket = allTickets.find(
                 (t) => t.telegramId === "named_user"
             );
             expect(namedTicket?.participantName).toBe("Named User");
 
+            // @ts-ignore
             const anonTicket = allTickets.find(
                 (t) => t.telegramId === "anonymous_user"
             );

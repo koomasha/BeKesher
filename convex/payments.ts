@@ -67,7 +67,7 @@ export const createPaymentLink = userAction({
         paymentUrl: v.optional(v.string()),
         error: v.optional(v.string()),
     }),
-    handler: async (ctx, args): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
+    handler: async (ctx: any, args: any): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
         // Get participant
         const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
             internal.payments.getParticipantByTelegramId,

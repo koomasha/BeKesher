@@ -195,7 +195,7 @@ export const userMutation = customMutation(mutation, {
  * Same auth pattern, but actions can't query DB directly.
  * For session token auth, resolves telegramId via an internal query.
  */
-export const userAction = customAction(action, {
+export const userAction: any = customAction(action, {
     args: {
         telegramToken: v.optional(v.string()),
         sessionToken: v.optional(v.string()),
@@ -210,7 +210,7 @@ export const userAction = customAction(action, {
             if (!process.env.AUTH_BYPASS_SECRET) {
                 throw new ConvexError("Session auth is not enabled in this environment");
             }
-            const result = await ctx.runQuery(internal.authUser.resolveSessionToken, {
+            const result: string | null = await ctx.runQuery(internal.authUser.resolveSessionToken, {
                 token: sessionToken,
             });
             if (!result) {

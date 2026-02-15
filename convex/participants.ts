@@ -77,6 +77,7 @@ export const getMyProfile = userQuery({
             onPause: v.boolean(),
             totalPoints: v.number(),
             paidUntil: v.optional(v.number()),
+            telegramId: v.string(),
         }),
         v.null()
     ),
@@ -100,6 +101,7 @@ export const getMyProfile = userQuery({
             onPause: participant.onPause,
             totalPoints: participant.totalPoints,
             paidUntil: participant.paidUntil,
+            telegramId: participant.telegramId,
         };
     },
 });

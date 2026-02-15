@@ -12,7 +12,8 @@
     "test": "vitest",
     "test:once": "vitest run",
     "test:coverage": "vitest run --coverage --coverage.reporter=text",
-    "seed": "convex run seed:resetAndSeed"
+    "seed": "convex run seed:resetAndSeed",
+    "tunnel:user": "npx -y ngrok http 5173"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^4.0.4",

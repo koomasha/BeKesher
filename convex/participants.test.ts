@@ -210,6 +210,7 @@ describe("participants", () => {
             });
 
             expect(activeParticipants).toHaveLength(2);
+            // @ts-ignore
             expect(activeParticipants.every((p) => p.status === "Active")).toBe(true);
         });
 

@@ -14,6 +14,7 @@ npm install
 
 # Run development servers
 npm run dev:user      # User Telegram Mini App (port 5173)
+npm run tunnel:user   # Expose User App via ngrok (https URL for Telegram)
 npm run dev:admin     # Admin Dashboard (port 5174)
 npm run convex        # Convex backend dev server (watches & syncs functions)
 
