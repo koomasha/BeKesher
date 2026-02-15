@@ -210,6 +210,7 @@ describe("participants", () => {
             });
 
             expect(activeParticipants).toHaveLength(2);
+            // TODO: add status to list return type validator so @ts-ignore isn't needed
             // @ts-ignore
             expect(activeParticipants.every((p) => p.status === "Active")).toBe(true);
         });

@@ -195,6 +195,7 @@ export const userMutation = customMutation(mutation, {
  * Same auth pattern, but actions can't query DB directly.
  * For session token auth, resolves telegramId via an internal query.
  */
+// TODO: replace `any` with proper return type from customAction
 export const userAction: any = customAction(action, {
     args: {
         telegramToken: v.optional(v.string()),

@@ -67,6 +67,7 @@ export const createPaymentLink = userAction({
         paymentUrl: v.optional(v.string()),
         error: v.optional(v.string()),
     }),
+    // TODO: type ctx and args properly once userAction has correct types
     handler: async (ctx: any, args: any): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
         // Get participant
         const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
@@ -121,6 +122,7 @@ export const createPaymentLink = userAction({
                 }
             );
 
+            // TODO: define a PayPlusResponse interface for this response
             const data: any = await response.json();
 
             if (data.results?.status === "success" && data.data?.payment_page_link) {
