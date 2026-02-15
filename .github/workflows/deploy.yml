@@ -75,6 +75,7 @@ jobs:
         working-directory: apps/${{ matrix.app }}
         env:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+          VITE_GOOGLE_CLIENT_ID: ${{ matrix.app == 'admin' && secrets.VITE_GOOGLE_CLIENT_ID || '' }}
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
