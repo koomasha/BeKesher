@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession, withAdminIdentity } from "./test.utils";
 
 describe("groups", () => {
     // ============================================
@@ -25,7 +25,8 @@ describe("groups", () => {
             expect(groupId).toBeDefined();
 
             // Verify group was created
-            const groups = await t.query(api.groups.list, {});
+            const admin = withAdminIdentity(t);
+            const groups = await admin.query(api.groups.list, {});
             expect(groups).toHaveLength(1);
             expect(groups[0].status).toBe("Active");
             expect(groups[0].memberCount).toBe(2);
@@ -49,7 +50,8 @@ describe("groups", () => {
                 region: "North",
             });
 
-            const groups = await t.query(api.groups.list, {});
+            const admin = withAdminIdentity(t);
+            const groups = await admin.query(api.groups.list, {});
             expect(groups[0].memberCount).toBe(4);
         });
     });
@@ -79,7 +81,8 @@ describe("groups", () => {
                 participant2: p4,
             });
 
-            const groups = await t.query(api.groups.list, {});
+            const admin = withAdminIdentity(t);
+            const groups = await admin.query(api.groups.list, {});
             expect(groups).toHaveLength(2);
         });
 
@@ -109,10 +112,11 @@ describe("groups", () => {
                 status: "Completed",
             });
 
-            const activeGroups = await t.query(api.groups.list, { status: "Active" });
+            const admin = withAdminIdentity(t);
+            const activeGroups = await admin.query(api.groups.list, { status: "Active" });
             expect(activeGroups).toHaveLength(1);
 
-            const completedGroups = await t.query(api.groups.list, { status: "Completed" });
+            const completedGroups = await admin.query(api.groups.list, { status: "Completed" });
             expect(completedGroups).toHaveLength(1);
         });
     });
@@ -137,8 +141,9 @@ describe("groups", () => {
                 participant2: p3,
             });
 
+            const token = await createTestSession(t, "user2");
             const user2Groups = await t.query(api.groups.getForParticipant, {
-                telegramId: "user2",
+                sessionToken: token,
             });
 
             expect(user2Groups).toHaveLength(2);
@@ -148,8 +153,9 @@ describe("groups", () => {
         test("returns empty array for non-existent participant", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const groups = await t.query(api.groups.getForParticipant, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(groups).toHaveLength(0);
@@ -162,8 +168,9 @@ describe("groups", () => {
                 makeParticipant({ telegramId: "loneuser" }),
             ]);
 
+            const token = await createTestSession(t, "loneuser");
             const groups = await t.query(api.groups.getForParticipant, {
-                telegramId: "loneuser",
+                sessionToken: token,
             });
 
             expect(groups).toHaveLength(0);
@@ -185,13 +192,17 @@ describe("groups", () => {
                 region: "Center",
             });
 
+            const token = await createTestSession(t, "activeuser1");
             const activeGroup = await t.query(api.groups.getActiveForParticipant, {
-                telegramId: "activeuser1",
+                sessionToken: token,
             });
 
             expect(activeGroup).not.toBeNull();
             expect(activeGroup?.members).toHaveLength(2);
+            // TODO: add name to members return type in getActiveForParticipant so @ts-ignore isn't needed
+            // @ts-ignore
             expect(activeGroup?.members.some((m) => m.name === "Active User 1")).toBe(true);
+            // @ts-ignore
             expect(activeGroup?.members.some((m) => m.name === "Active User 2")).toBe(true);
         });
 
@@ -214,8 +225,9 @@ describe("groups", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "noactiveuser1");
             const activeGroup = await t.query(api.groups.getActiveForParticipant, {
-                telegramId: "noactiveuser1",
+                sessionToken: token,
             });
 
             expect(activeGroup).toBeNull();
@@ -224,8 +236,9 @@ describe("groups", () => {
         test("returns null for non-existent participant", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const activeGroup = await t.query(api.groups.getActiveForParticipant, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(activeGroup).toBeNull();
@@ -351,7 +364,8 @@ describe("groups", () => {
                 status: "Cancelled",
             });
 
-            const groups = await t.query(api.groups.list, { status: "Cancelled" });
+            const admin = withAdminIdentity(t);
+            const groups = await admin.query(api.groups.list, { status: "Cancelled" });
             expect(groups).toHaveLength(1);
         });
     });
@@ -387,10 +401,11 @@ describe("groups", () => {
 
             expect(closedCount).toBe(3);
 
-            const activeGroups = await t.query(api.groups.list, { status: "Active" });
+            const admin = withAdminIdentity(t);
+            const activeGroups = await admin.query(api.groups.list, { status: "Active" });
             expect(activeGroups).toHaveLength(0);
 
-            const completedGroups = await t.query(api.groups.list, { status: "Completed" });
+            const completedGroups = await admin.query(api.groups.list, { status: "Completed" });
             expect(completedGroups).toHaveLength(3);
         });
 

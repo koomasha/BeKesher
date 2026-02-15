@@ -1,13 +1,52 @@
 import { convexTest } from "convex-test";
 import schema from "./schema";
 import { Id } from "./_generated/dataModel";
+import { internal } from "./_generated/api";
 
 /**
  * Create a fresh convexTest instance with schema.
  * Every test should call this to get an isolated database.
+ * Sets up necessary environment variables for auth testing.
  */
 export function setupTest() {
+    process.env.AUTH_BYPASS_SECRET = "test-secret";
+    process.env.TELEGRAM_BOT_TOKEN = "test-bot-token";
     return convexTest(schema);
+}
+
+/**
+ * Create a bypass session for testing user-facing functions.
+ * Returns the sessionToken that should be passed to userQuery/userMutation calls.
+ */
+export async function createTestSession(
+    t: ReturnType<typeof setupTest>,
+    telegramId: string
+) {
+    const { token } = await t.mutation(internal.authUser.createBypassSession, {
+        secret: process.env.AUTH_BYPASS_SECRET!,
+        telegramId,
+        source: "test",
+    });
+    return token;
+}
+
+/**
+ * Create a test client acting as an authenticated admin.
+ * Use this to call adminQuery/adminMutation functions.
+ */
+export function withAdminIdentity(
+    t: ReturnType<typeof setupTest>,
+    email: string = "masha@koomasha.com"
+) {
+    return t.withIdentity({
+        tokenIdentifier: `google|${email}`,
+        issuer: "https://accounts.google.com",
+        subject: `google|${email}`,
+        name: "Admin User",
+        email: email,
+        picture: "https://example.com/photo.jpg",
+        emailVerified: true,
+    });
 }
 
 /**
@@ -161,7 +200,7 @@ export function makePaymentLog(
  * Useful for matching algorithm tests that need many participants.
  */
 export async function seedParticipants(
-    t: ReturnType<typeof convexTest>,
+    t: ReturnType<typeof setupTest>,
     participants: Array<ReturnType<typeof makeParticipant>>
 ) {
     const ids: Id<"participants">[] = [];

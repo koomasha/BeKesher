@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
+import { useTelegramAuth } from '../hooks/useTelegramAuth';
 
 function SupportPage() {
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const telegramId = telegramUser?.id?.toString() || '';
+    const { authArgs, isAuthenticated } = useTelegramAuth();
 
     const myTickets = useQuery(
         api.support.getMyTickets,
-        telegramId ? { telegramId } : 'skip'
+        isAuthenticated ? authArgs : 'skip'
     );
 
     const createTicket = useMutation(api.support.createTicket);
@@ -18,7 +18,7 @@ function SupportPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
-    if (!telegramId) {
+    if (!isAuthenticated) {
         return (
             <div className="page">
                 <div className="card">
@@ -38,7 +38,7 @@ function SupportPage() {
         setIsSubmitting(true);
         try {
             await createTicket({
-                telegramId,
+                ...authArgs,
                 question: question.trim(),
             });
             setSubmitted(true);

@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession, withAdminIdentity } from "./test.utils";
 
 describe("support", () => {
     // ============================================
@@ -15,15 +15,16 @@ describe("support", () => {
                 makeParticipant({ telegramId: "supportuser", name: "Support User" }),
             ]);
 
+            const token = await createTestSession(t, "supportuser");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "supportuser",
+                sessionToken: token,
                 question: "How do I update my profile?",
             });
 
             expect(ticketId).toBeDefined();
 
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "supportuser",
+                sessionToken: token,
             });
 
             expect(tickets).toHaveLength(1);
@@ -36,15 +37,16 @@ describe("support", () => {
             const t = setupTest();
 
             // No participant with this telegramId
+            const token = await createTestSession(t, "unregistered123");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "unregistered123",
+                sessionToken: token,
                 question: "How do I sign up?",
             });
 
             expect(ticketId).toBeDefined();
 
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "unregistered123",
+                sessionToken: token,
             });
 
             expect(tickets).toHaveLength(1);
@@ -54,9 +56,10 @@ describe("support", () => {
         test("throws on empty question", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "testuser");
             await expect(
                 t.mutation(api.support.createTicket, {
-                    telegramId: "testuser",
+                    sessionToken: token,
                     question: "",
                 })
             ).rejects.toThrowError("Question cannot be empty");
@@ -65,9 +68,10 @@ describe("support", () => {
         test("throws on whitespace-only question", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "testuser");
             await expect(
                 t.mutation(api.support.createTicket, {
-                    telegramId: "testuser",
+                    sessionToken: token,
                     question: "   ",
                 })
             ).rejects.toThrowError("Question cannot be empty");
@@ -86,23 +90,25 @@ describe("support", () => {
                 makeParticipant({ telegramId: "ticketuser" }),
             ]);
 
+            const token = await createTestSession(t, "ticketuser");
             await t.mutation(api.support.createTicket, {
-                telegramId: "ticketuser",
+                sessionToken: token,
                 question: "Question 1",
             });
 
             await t.mutation(api.support.createTicket, {
-                telegramId: "ticketuser",
+                sessionToken: token,
                 question: "Question 2",
             });
 
+            const otherToken = await createTestSession(t, "otheruser");
             await t.mutation(api.support.createTicket, {
-                telegramId: "otheruser",
+                sessionToken: otherToken,
                 question: "Other user question",
             });
 
             const myTickets = await t.query(api.support.getMyTickets, {
-                telegramId: "ticketuser",
+                sessionToken: token,
             });
 
             expect(myTickets).toHaveLength(2);
@@ -111,8 +117,9 @@ describe("support", () => {
         test("returns empty array for user with no tickets", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "notickets");
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "notickets",
+                sessionToken: token,
             });
 
             expect(tickets).toHaveLength(0);
@@ -127,25 +134,31 @@ describe("support", () => {
                 makeParticipant({ telegramId: "named_user", name: "Named User" }),
             ]);
 
+            const namedToken = await createTestSession(t, "named_user");
             await t.mutation(api.support.createTicket, {
-                telegramId: "named_user",
+                sessionToken: namedToken,
                 question: "Question from named user",
             });
 
+            const anonToken = await createTestSession(t, "anonymous_user");
             await t.mutation(api.support.createTicket, {
-                telegramId: "anonymous_user",
+                sessionToken: anonToken,
                 question: "Question from anonymous",
             });
 
-            const allTickets = await t.query(api.support.list, {});
+            const admin = withAdminIdentity(t);
+            const allTickets = await admin.query(api.support.list, {});
 
             expect(allTickets).toHaveLength(2);
 
+            // TODO: add participantName/telegramId to list return type validator so @ts-ignore isn't needed
+            // @ts-ignore
             const namedTicket = allTickets.find(
                 (t) => t.telegramId === "named_user"
             );
             expect(namedTicket?.participantName).toBe("Named User");
 
+            // @ts-ignore
             const anonTicket = allTickets.find(
                 (t) => t.telegramId === "anonymous_user"
             );
@@ -155,25 +168,28 @@ describe("support", () => {
         test("filters by status", async () => {
             const t = setupTest();
 
+            const token1 = await createTestSession(t, uniqueTelegramId(1));
             const ticketId1 = await t.mutation(api.support.createTicket, {
-                telegramId: uniqueTelegramId(1),
+                sessionToken: token1,
                 question: "Open question",
             });
 
+            const token2 = await createTestSession(t, uniqueTelegramId(2));
             const ticketId2 = await t.mutation(api.support.createTicket, {
-                telegramId: uniqueTelegramId(2),
+                sessionToken: token2,
                 question: "Answered question",
             });
 
-            await t.mutation(api.support.answerTicket, {
+            const admin = withAdminIdentity(t);
+            await admin.mutation(api.support.answerTicket, {
                 ticketId: ticketId2,
                 answer: "Here is your answer",
             });
 
-            const openTickets = await t.query(api.support.list, { status: "Open" });
+            const openTickets = await admin.query(api.support.list, { status: "Open" });
             expect(openTickets).toHaveLength(1);
 
-            const answeredTickets = await t.query(api.support.list, {
+            const answeredTickets = await admin.query(api.support.list, {
                 status: "Answered",
             });
             expect(answeredTickets).toHaveLength(1);
@@ -188,18 +204,20 @@ describe("support", () => {
         test("sets answer and status to Answered", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "answertest");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "answertest",
+                sessionToken: token,
                 question: "What is the meaning of life?",
             });
 
-            await t.mutation(api.support.answerTicket, {
+            const admin = withAdminIdentity(t);
+            await admin.mutation(api.support.answerTicket, {
                 ticketId,
                 answer: "42",
             });
 
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "answertest",
+                sessionToken: token,
             });
 
             expect(tickets[0].answer).toBe("42");
@@ -210,8 +228,9 @@ describe("support", () => {
             const t = setupTest();
 
             // Create and delete a ticket to get a valid-looking but non-existent ID
+            const token = await createTestSession(t, "temp");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "temp",
+                sessionToken: token,
                 question: "Temp question",
             });
 
@@ -219,8 +238,9 @@ describe("support", () => {
                 await ctx.db.delete(ticketId);
             });
 
+            const admin = withAdminIdentity(t);
             await expect(
-                t.mutation(api.support.answerTicket, {
+                admin.mutation(api.support.answerTicket, {
                     ticketId,
                     answer: "This should fail",
                 })
@@ -230,13 +250,15 @@ describe("support", () => {
         test("throws on empty answer", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "emptyanswertest");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "emptyanswertest",
+                sessionToken: token,
                 question: "A question",
             });
 
+            const admin = withAdminIdentity(t);
             await expect(
-                t.mutation(api.support.answerTicket, {
+                admin.mutation(api.support.answerTicket, {
                     ticketId,
                     answer: "",
                 })
@@ -246,13 +268,15 @@ describe("support", () => {
         test("throws on whitespace-only answer", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "whitespacetest");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "whitespacetest",
+                sessionToken: token,
                 question: "A question",
             });
 
+            const admin = withAdminIdentity(t);
             await expect(
-                t.mutation(api.support.answerTicket, {
+                admin.mutation(api.support.answerTicket, {
                     ticketId,
                     answer: "   ",
                 })
@@ -268,15 +292,17 @@ describe("support", () => {
         test("sets status to Closed", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "closetest");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "closetest",
+                sessionToken: token,
                 question: "A question to close",
             });
 
-            await t.mutation(api.support.closeTicket, { ticketId });
+            const admin = withAdminIdentity(t);
+            await admin.mutation(api.support.closeTicket, { ticketId });
 
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "closetest",
+                sessionToken: token,
             });
 
             expect(tickets[0].status).toBe("Closed");
@@ -285,8 +311,9 @@ describe("support", () => {
         test("throws on non-existent ticket", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "temp");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "temp",
+                sessionToken: token,
                 question: "Temp question",
             });
 
@@ -294,28 +321,31 @@ describe("support", () => {
                 await ctx.db.delete(ticketId);
             });
 
+            const admin = withAdminIdentity(t);
             await expect(
-                t.mutation(api.support.closeTicket, { ticketId })
+                admin.mutation(api.support.closeTicket, { ticketId })
             ).rejects.toThrowError("Ticket not found");
         });
 
         test("can close an already answered ticket", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "answerthenclose");
             const ticketId = await t.mutation(api.support.createTicket, {
-                telegramId: "answerthenclose",
+                sessionToken: token,
                 question: "Question",
             });
 
-            await t.mutation(api.support.answerTicket, {
+            const admin = withAdminIdentity(t);
+            await admin.mutation(api.support.answerTicket, {
                 ticketId,
                 answer: "Answer",
             });
 
-            await t.mutation(api.support.closeTicket, { ticketId });
+            await admin.mutation(api.support.closeTicket, { ticketId });
 
             const tickets = await t.query(api.support.getMyTickets, {
-                telegramId: "answerthenclose",
+                sessionToken: token,
             });
 
             expect(tickets[0].status).toBe("Closed");

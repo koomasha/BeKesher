@@ -1,5 +1,6 @@
-import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { userQuery, userMutation } from "./authUser";
+import { adminQuery, adminMutation } from "./authAdmin";
 
 // ============================================
 // PUBLIC QUERIES
@@ -8,8 +9,8 @@ import { v } from "convex/values";
 /**
  * Get support tickets for a user
  */
-export const getMyTickets = query({
-    args: { telegramId: v.string() },
+export const getMyTickets = userQuery({
+    args: {},
     returns: v.array(
         v.object({
             _id: v.id("supportTickets"),
@@ -22,7 +23,7 @@ export const getMyTickets = query({
     handler: async (ctx, args) => {
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         // Get tickets by telegramId (works even if not a registered participant)
@@ -33,7 +34,7 @@ export const getMyTickets = query({
 
         const userTickets = tickets.filter(
             (t) =>
-                t.telegramId === args.telegramId ||
+                t.telegramId === ctx.telegramId ||
                 (participant && t.participantId === participant._id)
         );
 
@@ -50,7 +51,7 @@ export const getMyTickets = query({
 /**
  * List all tickets (admin view)
  */
-export const list = query({
+export const list = adminQuery({
     args: {
         status: v.optional(v.string()),
     },
@@ -110,9 +111,8 @@ export const list = query({
 /**
  * Create a new support ticket
  */
-export const createTicket = mutation({
+export const createTicket = userMutation({
     args: {
-        telegramId: v.string(),
         question: v.string(),
     },
     returns: v.id("supportTickets"),
@@ -124,12 +124,12 @@ export const createTicket = mutation({
         // Try to find participant
         const participant = await ctx.db
             .query("participants")
-            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
 
         const ticketId = await ctx.db.insert("supportTickets", {
             participantId: participant?._id,
-            telegramId: args.telegramId,
+            telegramId: ctx.telegramId,
             question: args.question.trim(),
             status: "Open",
             createdAt: Date.now(),
@@ -142,7 +142,7 @@ export const createTicket = mutation({
 /**
  * Answer a support ticket (admin)
  */
-export const answerTicket = mutation({
+export const answerTicket = adminMutation({
     args: {
         ticketId: v.id("supportTickets"),
         answer: v.string(),
@@ -173,7 +173,7 @@ export const answerTicket = mutation({
 /**
  * Close a ticket
  */
-export const closeTicket = mutation({
+export const closeTicket = adminMutation({
     args: {
         ticketId: v.id("supportTickets"),
     },

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import App from './App';
 import './index.css';
+import { TelegramAuthContext, getTelegramAuthState } from './hooks/useTelegramAuth';
 
 // Initialize Convex client
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
@@ -51,10 +52,15 @@ if (window.Telegram?.WebApp) {
     window.Telegram.WebApp.expand();
 }
 
+// Read auth state once at startup
+const authState = getTelegramAuthState();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <ConvexProvider client={convex}>
-            <App />
+            <TelegramAuthContext.Provider value={authState}>
+                <App />
+            </TelegramAuthContext.Provider>
         </ConvexProvider>
     </React.StrictMode>
 );

@@ -94,9 +94,12 @@ export default defineSchema({
         createdAt: v.number(),
     }).index("by_status", ["status"]),
 
-    admins: defineTable({
-        email: v.string(),
-        passwordHash: v.string(),
-        name: v.string(),
-    }).index("by_email", ["email"]),
+    sessions: defineTable({
+        telegramId: v.string(),
+        token: v.string(),
+        expiresAt: v.number(),
+        source: v.string(), // "ai" | "cicd" | "dev"
+    }).index("by_token", ["token"]),
+
+
 });

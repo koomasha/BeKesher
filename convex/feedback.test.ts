@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession, withAdminIdentity } from "./test.utils";
 
 describe("feedback", () => {
     // ============================================
@@ -28,8 +28,9 @@ describe("feedback", () => {
             });
 
             // Submit feedback
+            const token = await createTestSession(t, "feedbackuser1");
             const feedbackId = await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "feedbackuser1",
+                sessionToken: token,
                 groupId,
                 rating: 5,
                 textFeedback: "Great meeting!",
@@ -40,7 +41,7 @@ describe("feedback", () => {
 
             // Check points were awarded
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "feedbackuser1",
+                sessionToken: token,
             });
             expect(participant?.totalPoints).toBe(10);
         });
@@ -63,9 +64,10 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "nonexistent");
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "nonexistent",
+                    sessionToken: token,
                     groupId,
                     rating: 4,
                 })
@@ -90,9 +92,10 @@ describe("feedback", () => {
                 await ctx.db.delete(groupId);
             });
 
+            const token = await createTestSession(t, "fakegroupuser");
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "fakegroupuser",
+                    sessionToken: token,
                     groupId,
                     rating: 4,
                 })
@@ -118,9 +121,10 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "outsider");
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "outsider",
+                    sessionToken: token,
                     groupId,
                     rating: 4,
                 })
@@ -146,8 +150,9 @@ describe("feedback", () => {
             });
 
             // First feedback should succeed
+            const token = await createTestSession(t, "duplicatefb");
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "duplicatefb",
+                sessionToken: token,
                 groupId,
                 rating: 5,
             });
@@ -155,7 +160,7 @@ describe("feedback", () => {
             // Second feedback should fail
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "duplicatefb",
+                    sessionToken: token,
                     groupId,
                     rating: 4,
                 })
@@ -180,9 +185,10 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "ratingtest1");
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "ratingtest1",
+                    sessionToken: token,
                     groupId,
                     rating: 0,
                 })
@@ -207,9 +213,10 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "ratingtest2");
             await expect(
                 t.mutation(api.feedback.submitFeedback, {
-                    telegramId: "ratingtest2",
+                    sessionToken: token,
                     groupId,
                     rating: 11,
                 })
@@ -234,8 +241,9 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "rating1test");
             const feedbackId = await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "rating1test",
+                sessionToken: token,
                 groupId,
                 rating: 1,
             });
@@ -261,8 +269,9 @@ describe("feedback", () => {
                 status: "Completed",
             });
 
+            const token = await createTestSession(t, "rating10test");
             const feedbackId = await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "rating10test",
+                sessionToken: token,
                 groupId,
                 rating: 10,
             });
@@ -299,19 +308,20 @@ describe("feedback", () => {
             await t.mutation(internal.groups.updateStatus, { groupId: groupId2, status: "Completed" });
 
             // Submit feedback for both
+            const token = await createTestSession(t, "fbparticipant1");
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "fbparticipant1",
+                sessionToken: token,
                 groupId: groupId1,
                 rating: 4,
             });
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "fbparticipant1",
+                sessionToken: token,
                 groupId: groupId2,
                 rating: 5,
             });
 
             const feedback = await t.query(api.feedback.getForParticipant, {
-                telegramId: "fbparticipant1",
+                sessionToken: token,
             });
 
             expect(feedback).toHaveLength(2);
@@ -324,8 +334,9 @@ describe("feedback", () => {
                 makeParticipant({ telegramId: "nofeedbackuser" }),
             ]);
 
+            const token = await createTestSession(t, "nofeedbackuser");
             const feedback = await t.query(api.feedback.getForParticipant, {
-                telegramId: "nofeedbackuser",
+                sessionToken: token,
             });
 
             expect(feedback).toHaveLength(0);
@@ -334,8 +345,9 @@ describe("feedback", () => {
         test("returns empty array for non-existent participant", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const feedback = await t.query(api.feedback.getForParticipant, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(feedback).toHaveLength(0);
@@ -372,14 +384,15 @@ describe("feedback", () => {
             await t.mutation(internal.groups.updateStatus, { groupId: groupId2, status: "Completed" });
 
             // Submit feedback for only one group
+            const token = await createTestSession(t, "pendinguser");
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "pendinguser",
+                sessionToken: token,
                 groupId: groupId1,
                 rating: 4,
             });
 
             const pending = await t.query(api.feedback.getPendingFeedback, {
-                telegramId: "pendinguser",
+                sessionToken: token,
             });
 
             expect(pending).toHaveLength(1);
@@ -389,8 +402,9 @@ describe("feedback", () => {
         test("returns empty array for non-existent participant", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const pending = await t.query(api.feedback.getPendingFeedback, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(pending).toHaveLength(0);
@@ -414,24 +428,30 @@ describe("feedback", () => {
             await t.mutation(internal.groups.updateStatus, { groupId, status: "Completed" });
 
             // Both submit feedback
+            const token1 = await createTestSession(t, "groupfb1");
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "groupfb1",
+                sessionToken: token1,
                 groupId,
                 rating: 4,
                 textFeedback: "Nice meeting!",
             });
 
+            const token2 = await createTestSession(t, "groupfb2");
             await t.mutation(api.feedback.submitFeedback, {
-                telegramId: "groupfb2",
+                sessionToken: token2,
                 groupId,
                 rating: 5,
                 textFeedback: "Excellent!",
             });
 
-            const feedback = await t.query(api.feedback.getForGroup, { groupId });
+            const admin = withAdminIdentity(t);
+            const feedback = await admin.query(api.feedback.getForGroup, { groupId });
 
             expect(feedback).toHaveLength(2);
+            // TODO: add participantName to getForGroup return type validator so @ts-ignore isn't needed
+            // @ts-ignore
             expect(feedback.some((f) => f.participantName === "User One")).toBe(true);
+            // @ts-ignore
             expect(feedback.some((f) => f.participantName === "User Two")).toBe(true);
         });
 
@@ -448,7 +468,8 @@ describe("feedback", () => {
                 participant2: p2,
             });
 
-            const feedback = await t.query(api.feedback.getForGroup, { groupId });
+            const admin = withAdminIdentity(t);
+            const feedback = await admin.query(api.feedback.getForGroup, { groupId });
 
             expect(feedback).toHaveLength(0);
         });

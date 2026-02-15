@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession } from "./test.utils";
 
 describe("payments", () => {
     // ============================================
@@ -23,8 +23,9 @@ describe("payments", () => {
 
             expect(paymentLogId).toBeDefined();
 
+            const token = await createTestSession(t, "paymentloguser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "paymentloguser",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(1);
@@ -62,15 +63,16 @@ describe("payments", () => {
             });
 
             // Check payment log is updated
+            const token = await createTestSession(t, "successuser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "successuser",
+                sessionToken: token,
             });
 
             expect(history[0].status).toBe("Success");
 
             // Check participant is activated
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "successuser",
+                sessionToken: token,
             });
 
             expect(participant?.status).toBe("Active");
@@ -96,8 +98,9 @@ describe("payments", () => {
                 months: 2,
             });
 
+            const token = await createTestSession(t, "nopendinguser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "nopendinguser",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(1);
@@ -127,8 +130,9 @@ describe("payments", () => {
                 months: 1,
             });
 
+            const token = await createTestSession(t, "extenduser");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "extenduser",
+                sessionToken: token,
             });
 
             // New paidUntil should be ~40 days from now (10 existing + 30 new)
@@ -181,8 +185,9 @@ describe("payments", () => {
                 reason: "Card declined",
             });
 
+            const token = await createTestSession(t, "failuser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "failuser",
+                sessionToken: token,
             });
 
             expect(history[0].status).toBe("Failed");
@@ -201,8 +206,9 @@ describe("payments", () => {
                 reason: "Test failure",
             });
 
+            const token = await createTestSession(t, "nopendingfail");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "nopendingfail",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(0);
@@ -237,8 +243,9 @@ describe("payments", () => {
                 currency: "ILS",
             });
 
+            const token = await createTestSession(t, "historyuser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "historyuser",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(2);
@@ -254,8 +261,9 @@ describe("payments", () => {
                 makeParticipant({ telegramId: "nopaymentuser" }),
             ]);
 
+            const token = await createTestSession(t, "nopaymentuser");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "nopaymentuser",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(0);
@@ -264,8 +272,9 @@ describe("payments", () => {
         test("returns empty array for non-existent participant", async () => {
             const t = setupTest();
 
+            const token = await createTestSession(t, "nonexistent");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "nonexistent",
+                sessionToken: token,
             });
 
             expect(history).toHaveLength(0);

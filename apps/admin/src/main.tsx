@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithAuth, ConvexReactClient } from 'convex/react';
 import App from './App';
 import './index.css';
+import { useAdminAuth } from './hooks/useAdminAuth';
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ConvexProvider client={convex}>
+        <ConvexProviderWithAuth client={convex} useAuth={useAdminAuth}>
             <App />
-        </ConvexProvider>
+        </ConvexProviderWithAuth>
     </React.StrictMode>
 );

@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession } from "./test.utils";
 
 describe("http", () => {
     // ============================================
@@ -63,8 +63,9 @@ describe("http", () => {
             expect(body.ok).toBe(true);
 
             // Verify participant was activated
+            const token = await createTestSession(t, "payplususer1");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "payplususer1",
+                sessionToken: token,
             });
             expect(participant?.status).toBe("Active");
         });
@@ -105,8 +106,9 @@ describe("http", () => {
             expect(body.ok).toBe(true);
 
             // Verify payment was marked as failed
+            const token = await createTestSession(t, "payplususer2");
             const history = await t.query(api.payments.getPaymentHistory, {
-                telegramId: "payplususer2",
+                sessionToken: token,
             });
             expect(history[0].status).toBe("Failed");
         });
@@ -179,8 +181,9 @@ describe("http", () => {
             expect(body.ok).toBe(true);
 
             // Verify pause was toggled
+            const token = await createTestSession(t, "123456789");
             const participant = await t.query(api.participants.getByTelegramId, {
-                telegramId: "123456789",
+                sessionToken: token,
             });
             expect(participant?.onPause).toBe(true);
         });

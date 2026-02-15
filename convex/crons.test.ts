@@ -1,6 +1,6 @@
 import { expect, test, describe, vi } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, withAdminIdentity } from "./test.utils";
 
 describe("crons", () => {
     // ============================================
@@ -29,17 +29,18 @@ describe("crons", () => {
             });
 
             // Verify they're active
-            const activeBefore = await t.query(api.groups.list, { status: "Active" });
+            const admin = withAdminIdentity(t);
+            const activeBefore = await admin.query(api.groups.list, { status: "Active" });
             expect(activeBefore).toHaveLength(2);
 
             // Run the close week handler
             await t.action(internal.crons.closeWeekAndRequestFeedback, {});
 
             // Verify all groups are now completed
-            const activeAfter = await t.query(api.groups.list, { status: "Active" });
+            const activeAfter = await admin.query(api.groups.list, { status: "Active" });
             expect(activeAfter).toHaveLength(0);
 
-            const completed = await t.query(api.groups.list, { status: "Completed" });
+            const completed = await admin.query(api.groups.list, { status: "Completed" });
             expect(completed).toHaveLength(2);
         });
 
@@ -50,7 +51,8 @@ describe("crons", () => {
             // This should not throw
             await t.action(internal.crons.closeWeekAndRequestFeedback, {});
 
-            const groups = await t.query(api.groups.list, {});
+            const admin = withAdminIdentity(t);
+            const groups = await admin.query(api.groups.list, {});
             expect(groups).toHaveLength(0);
         });
     });

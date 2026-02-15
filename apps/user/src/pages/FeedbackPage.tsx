@@ -3,6 +3,7 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { Id } from 'convex/_generated/dataModel';
+import { useTelegramAuth } from '../hooks/useTelegramAuth';
 
 const TOTAL_STEPS = 6;
 const MAX_PHOTOS = 5;
@@ -101,13 +102,11 @@ function RocketRating({ rating, onRatingChange }: { rating: number; onRatingChan
 }
 
 function FeedbackPage() {
-    const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    // Используем тестовый ID для разработки в браузере
-    const telegramId = telegramUser?.id?.toString() || '6444544226';
+    const { authArgs, isAuthenticated } = useTelegramAuth();
 
     const pendingFeedback = useQuery(
         api.feedback.getPendingFeedback,
-        telegramId ? { telegramId } : 'skip'
+        isAuthenticated ? authArgs : 'skip'
     );
 
     const submitFeedbackMutation = useMutation(api.feedback.submitFeedback);
@@ -188,7 +187,7 @@ function FeedbackPage() {
             const storageIds: Id<'_storage'>[] = [];
             for (const photo of photos) {
                 try {
-                    const uploadUrl = await generateUploadUrl();
+                    const uploadUrl = await generateUploadUrl(authArgs);
                     const result = await fetch(uploadUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': photo.file.type },
@@ -203,7 +202,7 @@ function FeedbackPage() {
 
             // Submit feedback
             await submitFeedbackMutation({
-                telegramId,
+                ...authArgs,
                 groupId: selectedGroup,
                 rating,
                 textFeedback: textFeedback || undefined,
@@ -233,7 +232,7 @@ function FeedbackPage() {
         resetForm();
     };
 
-    if (!telegramId) {
+    if (!isAuthenticated) {
         return (
             <div className="page">
                 <div className="card">

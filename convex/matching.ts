@@ -1,7 +1,8 @@
-import { internalMutation, internalAction, action } from "./_generated/server";
+import { internalMutation, internalAction } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
+import { adminAction } from "./authAdmin";
 
 // ============================================
 // HELPER FUNCTIONS
@@ -591,7 +592,7 @@ function formForceMajeureGroups(
 /**
  * Public wrapper for runWeeklyMatching, callable from the admin dashboard.
  */
-export const runWeeklyMatchingPublic = action({
+export const runWeeklyMatchingPublic = adminAction({
     args: {},
     returns: v.object({
         success: v.boolean(),
