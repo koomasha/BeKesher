@@ -2,6 +2,18 @@ import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 
+function calculateAge(birthDate: string): number {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    return age;
+}
+
 function ParticipantsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('');
     const [regionFilter, setRegionFilter] = useState<string>('');
@@ -84,7 +96,7 @@ function ParticipantsPage() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>{p.age}</td>
+                                        <td>{calculateAge(p.birthDate)}</td>
                                         <td>{p.gender}</td>
                                         <td>{p.region}</td>
                                         <td>
