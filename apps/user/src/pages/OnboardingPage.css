@@ -2,19 +2,11 @@
     min-height: 100vh;
     background: var(--bg-primary);
     padding: var(--spacing-lg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .onboarding-container {
-    width: 100%;
-    max-width: 600px;
-    background: var(--bg-card);
-    border-radius: var(--radius-card);
-    border: 1px solid rgba(0, 88, 113, 0.08);
-    box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 /* Progress Bar */
@@ -45,6 +37,16 @@
     font-size: var(--font-size-sm);
 }
 
+/* Form Container — card surface for form content */
+.form-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(0, 88, 113, 0.08);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
 /* Form Content */
 .step-content {
     animation: fadeIn 0.3s ease;
@@ -61,11 +63,48 @@
     }
 }
 
+/* Step Header — matches profile-header pattern */
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-warm);
+    border-radius: var(--radius-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-header::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(51, 190, 204, 0.1);
+    pointer-events: none;
+}
+
+.step-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 127, 80, 0.1);
+    pointer-events: none;
+}
+
 .step-title {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 0;
+    margin: 0;
 }
 
 /* Form Groups */
@@ -314,16 +353,19 @@ select.form-input {
 /* Responsive Design */
 @media (max-width: 768px) {
     .onboarding-page {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md);
     }
 
-    .onboarding-container {
+    .step-header {
+        padding: var(--spacing-lg);
+    }
+
+    .form-container {
         padding: var(--spacing-lg);
     }
 
     .step-title {
-        font-size: var(--font-size-lg);
-        margin-bottom: 0;
+        font-size: var(--font-size-xl);
     }
 
     .radio-group {
@@ -340,8 +382,15 @@ select.form-input {
 }
 
 @media (max-width: 480px) {
-    .onboarding-container {
-        border-radius: var(--radius-md);
+    .onboarding-page {
+        padding: var(--spacing-sm);
+    }
+
+    .step-header {
+        padding: var(--spacing-md);
+    }
+
+    .form-container {
         padding: var(--spacing-md);
     }
 

@@ -451,10 +451,10 @@ body {
   box-shadow: var(--shadow-raised);
 }
 
-/* Nav icon circles — styled letter in colored circle, replaces emojis */
+/* Nav icon circles — Branded Node System */
 .nav-icon {
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -463,26 +463,86 @@ body {
   font-weight: 700;
   color: white;
   transition: transform var(--transition-base);
+  position: relative;
+  /* Glassmorphism: subtle blur and crisp border */
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 88, 113, 0.08);
 }
 
 .nav-item:hover .nav-icon {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
+/* Profile: User2 icon with Blue Curaçao gradient for consistency */
 .nav-icon-profile {
-  background: var(--primary-gradient);
-}
-
-.nav-icon-groups {
   background: linear-gradient(135deg, #33BECC 0%, #2AA8B5 100%);
+  color: white;
 }
 
+/* Decorative dot - subtle accent inside the circle at top-right */
+.nav-icon-dot-profile {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  top: 12px;
+  right: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Groups: Three overlapping circles (cluster representing community) */
+.nav-icon-groups {
+  background: var(--color-primary);
+  overflow: visible;
+}
+
+.cluster-circles {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.cluster-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(0, 88, 113, 0.3);
+}
+
+.cluster-circle-1 {
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 8px;
+  z-index: 3;
+}
+
+.cluster-circle-2 {
+  width: 14px;
+  height: 14px;
+  bottom: 2px;
+  left: 0;
+  z-index: 2;
+}
+
+.cluster-circle-3 {
+  width: 12px;
+  height: 12px;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* Feedback: Heart icon with Vivid Coral background */
 .nav-icon-feedback {
-  background: var(--warm-gradient);
+  background: var(--color-warm);
 }
 
+/* Support: Lifebuoy icon with Lemon Grass background */
 .nav-icon-support {
-  background: linear-gradient(135deg, #DCD494 0%, #C8BF7A 100%);
+  background: var(--color-highlight);
   color: var(--color-primary);
 }
 

@@ -25,7 +25,8 @@
       "Bash(npm run dev:*)",
       "Bash(npx eslint:*)",
       "WebFetch(domain:landing.bekesher.app)",
-      "mcp__playwright__browser_navigate"
+      "mcp__playwright__browser_navigate",
+      "Bash(npm install:*)"
     ]
   }
 }

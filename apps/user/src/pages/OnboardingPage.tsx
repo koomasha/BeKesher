@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from '../components/Logo';
 import './OnboardingPage.css';
-import logo from '../assets/logo.png';
 
 interface FormData {
     // Step 1: Personal Info
@@ -254,9 +254,9 @@ function OnboardingPage() {
 
     const renderStep1 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Личные данные</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -351,9 +351,9 @@ function OnboardingPage() {
 
     const renderStep2 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">О себе</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -387,9 +387,9 @@ function OnboardingPage() {
 
     const renderStep3 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Цель участия</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">
@@ -415,9 +415,9 @@ function OnboardingPage() {
 
     const renderStep4 = () => (
         <div className="step-content">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="step-header">
                 <h2 className="step-title">Ожидания</h2>
-                <img src={logo} alt="BeKesher" style={{ width: '72px', height: '72px' }} />
+                <Logo size={56} />
             </div>
 
             <div className="form-group">

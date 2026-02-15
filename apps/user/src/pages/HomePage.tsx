@@ -3,6 +3,7 @@ import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
 import { Logo } from '../components/Logo';
+import { User2, Heart, LifeBuoy } from 'lucide-react';
 
 function HomePage() {
     const { authArgs, isAuthenticated, telegramUser } = useTelegramAuth();
@@ -61,19 +62,32 @@ function HomePage() {
 
             <nav className="nav-menu">
                 <Link to="/profile" className="nav-item">
-                    <span className="nav-icon nav-icon-profile">P</span>
+                    <div className="nav-icon nav-icon-profile">
+                        <User2 size={24} strokeWidth={2} />
+                        <span className="nav-icon-dot nav-icon-dot-profile"></span>
+                    </div>
                     <span className="label">Мой профиль</span>
                 </Link>
                 <Link to="/groups" className="nav-item">
-                    <span className="nav-icon nav-icon-groups">G</span>
+                    <div className="nav-icon nav-icon-groups">
+                        <div className="cluster-circles">
+                            <div className="cluster-circle cluster-circle-1"></div>
+                            <div className="cluster-circle cluster-circle-2"></div>
+                            <div className="cluster-circle cluster-circle-3"></div>
+                        </div>
+                    </div>
                     <span className="label">Мои группы</span>
                 </Link>
                 <Link to="/feedback" className="nav-item">
-                    <span className="nav-icon nav-icon-feedback">F</span>
+                    <div className="nav-icon nav-icon-feedback">
+                        <Heart size={24} strokeWidth={2} fill="currentColor" />
+                    </div>
                     <span className="label">Отзывы</span>
                 </Link>
                 <Link to="/support" className="nav-item">
-                    <span className="nav-icon nav-icon-support">S</span>
+                    <div className="nav-icon nav-icon-support">
+                        <LifeBuoy size={24} strokeWidth={2} />
+                    </div>
                     <span className="label">Поддержка</span>
                 </Link>
             </nav>
