@@ -200,7 +200,6 @@ function OnboardingPage() {
                     tgFirstName: telegramUser?.first_name,
                     tgLastName: telegramUser?.last_name,
                     birthDate: formData.birthDate,
-                    zodiacSign: zodiacSign,
                     gender: formData.gender,
                     region: regionMap[formData.city] || 'Center',
                     aboutMe: formData.aboutMe,
