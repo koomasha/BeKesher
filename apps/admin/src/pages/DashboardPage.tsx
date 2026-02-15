@@ -1,5 +1,6 @@
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { Trans } from '@lingui/macro';
 
 function DashboardPage() {
     const participants = useQuery(api.participants.list, {});
@@ -14,49 +15,49 @@ function DashboardPage() {
     return (
         <div>
             <div className="page-header">
-                <h1 className="page-title">Dashboard</h1>
+                <h1 className="page-title"><Trans>Dashboard</Trans></h1>
             </div>
 
             <div className="stats-grid">
                 <div className="stat-card">
                     <div className="stat-value">{participants?.length || 0}</div>
-                    <div className="stat-label">Total Participants</div>
+                    <div className="stat-label"><Trans>Total Participants</Trans></div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-value" style={{ color: 'var(--accent-success)' }}>{activeCount}</div>
-                    <div className="stat-label">Active Participants</div>
+                    <div className="stat-label"><Trans>Active Participants</Trans></div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-value" style={{ color: 'var(--primary)' }}>{leadCount}</div>
-                    <div className="stat-label">Leads (New)</div>
+                    <div className="stat-label"><Trans>Leads (New)</Trans></div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-value">{activeGroups}</div>
-                    <div className="stat-label">Active Groups</div>
+                    <div className="stat-label"><Trans>Active Groups</Trans></div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-value" style={{ color: 'var(--accent-warning)' }}>{ticketCount}</div>
-                    <div className="stat-label">Open Tickets</div>
+                    <div className="stat-label"><Trans>Open Tickets</Trans></div>
                 </div>
             </div>
 
             <div className="card">
-                <h2 className="card-title">Recent Activity</h2>
+                <h2 className="card-title"><Trans>Recent Activity</Trans></h2>
                 {groups === undefined ? (
                     <div className="loading">
                         <div className="spinner"></div>
                     </div>
                 ) : groups.length === 0 ? (
-                    <p style={{ color: 'var(--text-secondary)' }}>No groups yet.</p>
+                    <p style={{ color: 'var(--text-secondary)' }}><Trans>No groups yet.</Trans></p>
                 ) : (
                     <div className="table-container">
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Region</th>
-                                    <th>Members</th>
+                                    <th><Trans>Date</Trans></th>
+                                    <th><Trans>Status</Trans></th>
+                                    <th><Trans>Region</Trans></th>
+                                    <th><Trans>Members</Trans></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,8 +69,8 @@ function DashboardPage() {
                                                 {group.status}
                                             </span>
                                         </td>
-                                        <td>{group.region || 'Mixed'}</td>
-                                        <td>{group.memberCount} people</td>
+                                        <td>{group.region || <Trans>Mixed</Trans>}</td>
+                                        <td><Trans>{group.memberCount} people</Trans></td>
                                     </tr>
                                 ))}
                             </tbody>

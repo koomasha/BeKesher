@@ -13,7 +13,10 @@
     "test:once": "vitest run",
     "test:coverage": "vitest run --coverage --coverage.reporter=text",
     "seed": "convex run seed:resetAndSeed",
-    "tunnel:user": "npx -y ngrok http 5173"
+    "tunnel:user": "npx -y ngrok http 5173",
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui compile",
+    "lingui:extract:watch": "lingui extract --watch"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^4.0.4",

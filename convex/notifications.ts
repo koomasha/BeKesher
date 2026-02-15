@@ -1,5 +1,6 @@
 import { internalAction } from "./_generated/server";
 import { v } from "convex/values";
+import { getText } from './i18n';
 
 // ============================================
 // TELEGRAM NOTIFICATION ACTIONS
@@ -62,13 +63,10 @@ export const sendWelcomeMessage = internalAction({
     },
     returns: v.boolean(),
     handler: async (ctx, args) => {
-        const welcomeText = `🥳 Hooray, ${args.name}! Your profile is accepted!
-You're officially in the game! 🚀
-
-What happens next?
-⏳ Wait for Sunday. That's when our algorithm forms groups. In the evening you'll get a message with your team and first task!
-
-🎁 Reminder: First week is FREE. Try it, meet people, enjoy!`;
+        // TODO: Add locale parameter to function args later (default to 'ru' for now)
+        const welcomeText = getText('ru', 'notifications.welcome', {
+            name: args.name,
+        });
 
         return await ctx.runAction(
             // @ts-expect-error - internal reference
@@ -96,19 +94,11 @@ export const notifyGroupMembers = internalAction({
 
         const memberList = memberNames.map((name, i) => `${i + 1}. ${name}`).join("\n");
 
-        const message = `🎉 <b>Your group for this week is ready!</b>
-
-📍 Region: ${region}
-
-👥 Your group:
-${memberList}
-
-📋 <b>Your task:</b>
-Meet up with your group this week and get to know each other!
-
-💡 Tip: Exchange contacts and plan a meeting!
-
-Good luck! 🚀`;
+        // TODO: Add locale parameter to function args later (default to 'ru' for now)
+        const message = getText('ru', 'notifications.groupMatch', {
+            region,
+            memberList,
+        });
 
         for (const telegramId of memberTelegramIds) {
             await ctx.runAction(
@@ -138,13 +128,10 @@ export const sendFeedbackRequest = internalAction({
     handler: async (ctx, args) => {
         const members = args.groupMemberNames.join(", ");
 
-        const message = `📝 <b>How was your meetup?</b>
-
-You met with: ${members}
-
-Please share your feedback - it helps us improve the matching!
-
-Tap the button below to submit your feedback:`;
+        // TODO: Add locale parameter to function args later (default to 'ru' for now)
+        const message = getText('ru', 'notifications.feedbackRequest', {
+            members,
+        });
 
         // TODO: Add inline keyboard button to open Mini App feedback form
 

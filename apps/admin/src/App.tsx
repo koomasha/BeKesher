@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useConvexAuth } from 'convex/react';
+import { I18nProvider } from '@lingui/react';
 import DashboardPage from './pages/DashboardPage';
 import ParticipantsPage from './pages/ParticipantsPage';
 import GroupsPage from './pages/GroupsPage';
@@ -9,6 +10,8 @@ import MatchingPage from './pages/MatchingPage';
 import Sidebar from './components/Sidebar';
 import LoginPage from './components/LoginPage';
 import { useAdminAuth } from './hooks/useAdminAuth';
+import { useLanguage } from './hooks/useLanguage';
+import { i18n } from './i18n';
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
     const { isLoading, isAuthenticated } = useConvexAuth();
@@ -31,10 +34,20 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 function App() {
     const { login } = useAdminAuth();
     const { isAuthenticated } = useConvexAuth();
+    const { isLoading } = useLanguage();
+
+    if (isLoading) {
+        return (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                <div className="spinner"></div>
+            </div>
+        );
+    }
 
     return (
-        <BrowserRouter>
-            <Routes>
+        <I18nProvider i18n={i18n}>
+            <BrowserRouter>
+                <Routes>
                 <Route
                     path="/login"
                     element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage onLogin={login} />}
@@ -62,6 +75,7 @@ function App() {
                 />
             </Routes>
         </BrowserRouter>
+        </I18nProvider>
     );
 }
 
