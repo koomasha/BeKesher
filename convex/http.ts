@@ -88,7 +88,6 @@ http.route({
             // Handle callback queries (button presses in bot)
             if (update.callback_query) {
                 const callbackData = update.callback_query.data;
-                const chatId = update.callback_query.message?.chat?.id;
                 const userId = update.callback_query.from?.id?.toString();
 
                 // Route based on callback data
@@ -126,7 +125,6 @@ http.route({
             // Handle regular messages
             if (update.message) {
                 const text = update.message.text;
-                const chatId = update.message.chat.id;
 
                 // Handle /start command
                 if (text?.startsWith("/start")) {

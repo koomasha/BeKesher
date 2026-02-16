@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { userQuery, userAction } from "./authUser";
+import { paymentStatusValidator, currencyValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -17,12 +18,12 @@ export const getPaymentHistory = userQuery({
         v.object({
             _id: v.id("paymentLogs"),
             amount: v.number(),
-            currency: v.string(),
-            status: v.string(),
+            currency: currencyValidator,
+            status: paymentStatusValidator,
             createdAt: v.number(),
         })
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -205,7 +206,7 @@ export const logPaymentAttempt = internalMutation({
     args: {
         participantId: v.id("participants"),
         amount: v.number(),
-        currency: v.string(),
+        currency: currencyValidator,
     },
     returns: v.id("paymentLogs"),
     handler: async (ctx, args) => {

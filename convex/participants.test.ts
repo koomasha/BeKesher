@@ -74,15 +74,8 @@ describe("participants", () => {
                 gender: "Male",
                 region: "Center",
                 city: "Tel Aviv",
-                familyStatus: "Single",
-                targetGender: "Female",
-                targetAgeFrom: 25,
-                targetAgeTo: 40,
-                formatPreference: "Coffee",
                 aboutMe: "I love coding",
                 profession: "Developer",
-                values: ["Honesty", "Growth"],
-                interests: ["Tech", "Music"],
             });
 
             const token = await createTestSession(t, "fullprofile");
@@ -91,8 +84,8 @@ describe("participants", () => {
             });
 
             expect(participant?.city).toBe("Tel Aviv");
-            expect(participant?.targetGender).toBe("Female");
-            expect(participant?.values).toEqual(["Honesty", "Growth"]);
+            expect(participant?.aboutMe).toBe("I love coding");
+            expect(participant?.profession).toBe("Developer");
         });
     });
 

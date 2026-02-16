@@ -1,9 +1,10 @@
-import { internalMutation, internalAction } from "./_generated/server";
+import { internalAction } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { adminAction } from "./authAdmin";
 import { calculateAge } from "./utils";
+import type { Region } from "./validators";
 
 // ============================================
 // HELPER FUNCTIONS
@@ -20,9 +21,6 @@ interface Participant {
     birthDate: string;
     gender: string;
     region: string;
-    targetGender?: string;
-    targetAgeFrom?: number;
-    targetAgeTo?: number;
 }
 
 interface MatchingCriteria {
@@ -33,7 +31,7 @@ interface MatchingCriteria {
 
 interface GroupResult {
     participants: Participant[];
-    region: string;
+    region: Region | undefined;
     isForceMajeure?: boolean;
 }
 
@@ -47,12 +45,6 @@ interface MatchingStageResult {
 // ============================================
 
 const HISTORY_WEEKS = 4;
-
-const NEIGHBORING_REGIONS: Record<string, string[]> = {
-    North: ["Center"],
-    Center: ["North", "South"],
-    South: ["Center"],
-};
 
 // ============================================
 // MAIN MATCHING FUNCTION
@@ -277,21 +269,27 @@ function matchGroupsWithCriteria(
     const matched = new Set<Id<"participants">>();
 
     // Create pools based on region criteria
-    const pools: Array<{ region: string; participants: Participant[] }> = [];
+    const pools: Array<{ region: Region | undefined; participants: Participant[] }> = [];
 
     if (criteria.sameRegion) {
-        const byRegion: Record<string, Participant[]> = {};
+        const byRegion: Record<Region, Participant[]> = {
+            North: [],
+            Center: [],
+            South: [],
+        };
         for (const p of participants) {
-            const region = p.region || "Unknown";
-            if (!byRegion[region]) byRegion[region] = [];
-            byRegion[region].push(p);
+            if (p.region && (p.region === "North" || p.region === "Center" || p.region === "South")) {
+                byRegion[p.region].push(p);
+            }
         }
 
-        for (const region in byRegion) {
-            pools.push({ region, participants: byRegion[region] });
+        for (const region of ["North", "Center", "South"] as const) {
+            if (byRegion[region].length > 0) {
+                pools.push({ region, participants: byRegion[region] });
+            }
         }
     } else {
-        pools.push({ region: "All", participants });
+        pools.push({ region: undefined, participants });
     }
 
     for (const pool of pools) {
@@ -552,7 +550,7 @@ function formForceMajeureGroups(
 
         groups.push({
             participants: groupParticipants,
-            region: "Mixed",
+            region: undefined,
             isForceMajeure: true,
         });
 

@@ -1,0 +1,52 @@
+name: Deploy Convex Only
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-convex-only
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run tests
+        run: npm run test:once
+
+      - name: Lint user app
+        run: npm run lint
+        working-directory: apps/user
+
+      - name: Lint admin app
+        run: npm run lint
+        working-directory: apps/admin
+
+  deploy-convex:
+    name: Deploy Convex Backend
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Deploy Convex
+        run: npx convex deploy
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}

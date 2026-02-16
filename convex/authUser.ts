@@ -3,6 +3,7 @@ import { query, mutation, action, internalQuery, internalMutation } from "./_gen
 import type { QueryCtx } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { ConvexError, v } from "convex/values";
+import { sessionSourceValidator } from "./validators";
 
 // ============================================
 // TELEGRAM TOKEN HMAC-SHA256 VALIDATION
@@ -287,7 +288,7 @@ export const createBypassSession = internalMutation({
     args: {
         secret: v.string(),
         telegramId: v.string(),
-        source: v.optional(v.string()),
+        source: v.optional(sessionSourceValidator),
     },
     returns: v.object({ token: v.string() }),
     handler: async (ctx, args) => {

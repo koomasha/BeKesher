@@ -16,7 +16,7 @@ export const sendTelegramMessage = internalAction({
         parseMode: v.optional(v.string()),
     },
     returns: v.boolean(),
-    handler: async (ctx, args) => {
+    handler: async (_ctx, args) => {
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
 
         if (!botToken) {

@@ -22,6 +22,7 @@ import type * as payments from "../payments.js";
 import type * as seed from "../seed.js";
 import type * as support from "../support.js";
 import type * as utils from "../utils.js";
+import type * as validators from "../validators.js";
 
 import type {
   ApiFromModules,
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   seed: typeof seed;
   support: typeof support;
   utils: typeof utils;
+  validators: typeof validators;
 }>;
 
 /**

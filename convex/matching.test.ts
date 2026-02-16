@@ -98,7 +98,7 @@ describe("matching", () => {
         test("respects history - participants who met within 4 weeks are NOT matched in Stage A", async () => {
             const t = setupTest();
 
-            const [p1, p2, p3, p4] = await seedParticipants(t, [
+            const [p1, p2] = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "User1",

@@ -34,7 +34,8 @@
       "Bash(npm run lingui:compile:*)",
       "Bash(npx lingui compile:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "WebFetch(domain:docs.convex.dev)"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\bekesher"

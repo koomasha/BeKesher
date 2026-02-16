@@ -166,7 +166,7 @@ describe("support", () => {
             const t = setupTest();
 
             const token1 = await createTestSession(t, uniqueTelegramId(1));
-            const ticketId1 = await t.mutation(api.support.createTicket, {
+            await t.mutation(api.support.createTicket, {
                 sessionToken: token1,
                 question: "Open question",
             });

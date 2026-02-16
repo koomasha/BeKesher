@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, createTestSession } from "./test.utils";
+import { setupTest, makeParticipant, seedParticipants, createTestSession } from "./test.utils";
 
 describe("http", () => {
     // ============================================
