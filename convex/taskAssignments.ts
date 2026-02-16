@@ -65,9 +65,18 @@ export const listForReview = adminQuery({
         }
 
         return {
-          ...assignment,
+          _id: assignment._id,
+          groupId: assignment.groupId,
+          taskId: assignment.taskId,
           taskTitle: task?.title || "Unknown",
+          weekInSeason: assignment.weekInSeason,
+          reviewStatus: assignment.reviewStatus,
+          completionNotes: assignment.completionNotes,
+          completionPhotos: assignment.completionPhotos,
+          submittedAt: assignment.submittedAt,
+          submittedBy: assignment.submittedBy,
           submittedByName,
+          pointsAwarded: assignment.pointsAwarded,
         };
       })
     );

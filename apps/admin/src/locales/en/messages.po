@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-02-15 14:23+0200\n"
+"POT-Creation-Date: 2026-02-16 21:44+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,38 +26,46 @@ msgid "{0} submissions • Avg: {avgRating}/10"
 msgstr ""
 
 #. placeholder {0}: tickets?.length || 0
-#: apps/admin/src/pages/SupportPage.tsx:47
+#: apps/admin/src/pages/SupportPage.tsx:45
 msgid "{0} tickets"
 msgstr ""
 
 #. placeholder {0}: groups?.length || 0
 #. placeholder {0}: participants?.length || 0
 #: apps/admin/src/pages/GroupsPage.tsx:18
-#: apps/admin/src/pages/ParticipantsPage.tsx:32
+#: apps/admin/src/pages/ParticipantsPage.tsx:19
 msgid "{0} total"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:57
+#: apps/admin/src/pages/SeasonsPage.tsx:24
+msgid "+ Create Season"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:27
+msgid "+ Create Task"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:56
 msgid "<0>Stage A:</0> Strict matching (same region, ±10 years, no repeats)"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:58
+#: apps/admin/src/pages/MatchingPage.tsx:57
 msgid "<0>Stage B:</0> Expanded age (same region, ±15 years, no repeats)"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:59
+#: apps/admin/src/pages/MatchingPage.tsx:58
 msgid "<0>Stage C:</0> Allow repeats (same region, ±15 years)"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:60
+#: apps/admin/src/pages/MatchingPage.tsx:59
 msgid "<0>Stage D:</0> Neighboring regions"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:61
+#: apps/admin/src/pages/MatchingPage.tsx:60
 msgid "<0>Stage E:</0> Force majeure (no one left behind)"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:108
+#: apps/admin/src/pages/ParticipantsPage.tsx:76
 msgid "⏸️ Yes"
 msgstr ""
 
@@ -65,19 +73,31 @@ msgstr ""
 msgid "⚠️ Didn't fit"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:123
+#: apps/admin/src/pages/MatchingPage.tsx:122
 msgid "⚠️ Important Notes"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:83
+#: apps/admin/src/pages/ReviewPage.tsx:220
+msgid "✅ Approve"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:82
 msgid "✅ Matching Complete"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:83
+#: apps/admin/src/components/Sidebar.tsx:64
+msgid "✅ Review Tasks"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:82
 msgid "❌ Matching Failed"
 msgstr ""
 
-#: apps/admin/src/components/Sidebar.tsx:43
+#: apps/admin/src/pages/ReviewPage.tsx:244
+msgid "❌ Reject"
+msgstr ""
+
+#: apps/admin/src/components/Sidebar.tsx:79
 msgid "⭐ Feedback"
 msgstr ""
 
@@ -93,19 +113,35 @@ msgstr ""
 msgid "👥 Participants"
 msgstr ""
 
-#: apps/admin/src/components/Sidebar.tsx:55
+#: apps/admin/src/components/Sidebar.tsx:85
 msgid "💬 Support Tickets"
+msgstr ""
+
+#: apps/admin/src/components/Sidebar.tsx:46
+msgid "📅 Seasons"
 msgstr ""
 
 #: apps/admin/src/components/Sidebar.tsx:25
 msgid "📊 Dashboard"
 msgstr ""
 
-#: apps/admin/src/components/Sidebar.tsx:49
+#: apps/admin/src/components/Sidebar.tsx:58
+msgid "📌 Assign Tasks"
+msgstr ""
+
+#: apps/admin/src/components/Sidebar.tsx:52
+msgid "📝 Task Library"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:232
+msgid "🔄 Needs Revision"
+msgstr ""
+
+#: apps/admin/src/components/Sidebar.tsx:73
 msgid "🔄 Run Matching"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:70
+#: apps/admin/src/pages/MatchingPage.tsx:69
 msgid "🔄 Running..."
 msgstr ""
 
@@ -117,7 +153,7 @@ msgstr ""
 msgid "🤝 Made it deeper"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:70
+#: apps/admin/src/pages/MatchingPage.tsx:69
 msgid "🚀 Run Matching Algorithm"
 msgstr ""
 
@@ -138,13 +174,21 @@ msgid "8+ (Great)"
 msgstr ""
 
 #: apps/admin/src/pages/GroupsPage.tsx:56
-#: apps/admin/src/pages/ParticipantsPage.tsx:86
+#: apps/admin/src/pages/ParticipantsPage.tsx:59
+#: apps/admin/src/pages/ReviewPage.tsx:63
+#: apps/admin/src/pages/SeasonsPage.tsx:63
+#: apps/admin/src/pages/TasksPage.tsx:79
 msgid "Actions"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:142
+msgid "Activate"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:59
 #: apps/admin/src/pages/GroupsPage.tsx:31
-#: apps/admin/src/pages/ParticipantsPage.tsx:45
+#: apps/admin/src/pages/SeasonsPage.tsx:38
+#: apps/admin/src/pages/TasksPage.tsx:40
 msgid "Active"
 msgstr ""
 
@@ -156,44 +200,88 @@ msgstr ""
 msgid "Active Participants"
 msgstr ""
 
+#: apps/admin/src/pages/AssignmentsPage.tsx:31
+msgid "Active Season:"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:52
+#: apps/admin/src/pages/TasksPage.tsx:313
+msgid "Activity"
+msgstr ""
+
 #: apps/admin/src/components/Sidebar.tsx:16
 msgid "Admin Dashboard"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:80
+#: apps/admin/src/pages/ParticipantsPage.tsx:54
 msgid "Age"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:43
 #: apps/admin/src/pages/FeedbackPage.tsx:57
 #: apps/admin/src/pages/GroupsPage.tsx:30
-#: apps/admin/src/pages/ParticipantsPage.tsx:44
-#: apps/admin/src/pages/ParticipantsPage.tsx:57
-#: apps/admin/src/pages/SupportPage.tsx:59
+#: apps/admin/src/pages/ParticipantsPage.tsx:31
+#: apps/admin/src/pages/ReviewPage.tsx:33
+#: apps/admin/src/pages/SeasonsPage.tsx:36
+#: apps/admin/src/pages/SupportPage.tsx:57
+#: apps/admin/src/pages/TasksPage.tsx:39
+#: apps/admin/src/pages/TasksPage.tsx:51
 msgid "All"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:145
+#: apps/admin/src/pages/AssignmentsPage.tsx:202
+msgid "Already assigned"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:143
 msgid "Answer"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:114
+#: apps/admin/src/pages/SupportPage.tsx:112
 msgid "Answer: "
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:61
+#: apps/admin/src/pages/SupportPage.tsx:59
 msgid "Answered"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:35
+msgid "Approved"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:41
+#: apps/admin/src/pages/TasksPage.tsx:156
+msgid "Archive"
 msgstr ""
 
 #: apps/admin/src/pages/MatchingPage.tsx:19
 msgid "Are you sure you want to run the matching algorithm? This will create new groups."
 msgstr ""
 
-#: apps/admin/src/components/LoginPage.tsx:150
+#: apps/admin/src/pages/AssignmentsPage.tsx:148
+msgid "Assign to Selected Groups"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:148
+msgid "Assigning..."
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:21
+msgid "assignments"
+msgstr ""
+
+#: apps/admin/src/components/LoginPage.tsx:154
 msgid "BeKesher Admin"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:134
+#: apps/admin/src/pages/SeasonsPage.tsx:219
+msgid "Brief description of the season (optional)"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:283
+#: apps/admin/src/pages/SeasonsPage.tsx:245
+#: apps/admin/src/pages/SupportPage.tsx:132
+#: apps/admin/src/pages/TasksPage.tsx:338
 msgid "Cancel"
 msgstr ""
 
@@ -202,25 +290,70 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:59
+#: apps/admin/src/pages/ParticipantsPage.tsx:33
 msgid "Center"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:153
+#: apps/admin/src/pages/SupportPage.tsx:151
+#: apps/admin/src/pages/TasksPage.tsx:210
 msgid "Close"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:62
+#: apps/admin/src/pages/SupportPage.tsx:60
 msgid "Closed"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:151
+msgid "Complete"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:58
 #: apps/admin/src/pages/GroupsPage.tsx:32
+#: apps/admin/src/pages/SeasonsPage.tsx:39
 msgid "Completed"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:182
+msgid "Completion Notes"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:53
+#: apps/admin/src/pages/TasksPage.tsx:314
+msgid "Conversation"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:194
+msgid "Create New Season"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:262
+msgid "Create New Task"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:252
+msgid "Create Season"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:341
+msgid "Create Task"
 msgstr ""
 
 #: apps/admin/src/pages/GroupsPage.tsx:52
 msgid "Created"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:252
+#: apps/admin/src/pages/TasksPage.tsx:341
+msgid "Creating..."
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:54
+#: apps/admin/src/pages/TasksPage.tsx:315
+msgid "Creative"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:176
+msgid "Current Task"
 msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:18
@@ -231,11 +364,62 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:29
+#: apps/admin/src/pages/TasksPage.tsx:284
+msgid "Describe what participants will do in this task"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:213
+#: apps/admin/src/pages/TasksPage.tsx:184
+#: apps/admin/src/pages/TasksPage.tsx:278
+msgid "Description"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:76
+#: apps/admin/src/pages/TasksPage.tsx:320
+msgid "Difficulty"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:201
+msgid "Difficulty:"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:37
+msgid "Draft"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:207
+msgid "e.g., Winter 2026"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:322
+msgid "Easy"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:61
+msgid "End Date"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:235
+msgid "End date will be automatically set to 4 weeks after start date"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:62
+msgid "Enrolled"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:273
+msgid "Enter a descriptive task title"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:330
+msgid "Everyone"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:28
 msgid "Failed to answer ticket"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:38
+#: apps/admin/src/pages/SupportPage.tsx:36
 msgid "Failed to close ticket"
 msgstr ""
 
@@ -251,7 +435,11 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:81
+#: apps/admin/src/pages/TasksPage.tsx:332
+msgid "Friendship"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:55
 msgid "Gender"
 msgstr ""
 
@@ -263,8 +451,12 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:97
+#: apps/admin/src/pages/MatchingPage.tsx:96
 msgid "Groups Created"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:324
+msgid "Hard"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:121
@@ -276,36 +468,56 @@ msgid "Improvement suggestions:"
 msgstr ""
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:47
-msgid "Inactive"
+#~ msgid "Inactive"
+#~ msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:295
+msgid "Instructions for completing online (optional)"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:46
-msgid "Lead"
+#: apps/admin/src/pages/TasksPage.tsx:305
+msgid "Instructions for how participants should report completion"
 msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:294
+#: apps/admin/src/pages/TasksPage.tsx:304
+#: apps/admin/src/pages/ParticipantsPage.tsx:46
+#~ msgid "Lead"
+#~ msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:32
 msgid "Leads (New)"
 msgstr ""
 
-#: apps/admin/src/components/LoginPage.tsx:176
+#: apps/admin/src/components/LoginPage.tsx:180
+#: apps/admin/src/pages/ReviewPage.tsx:154
 msgid "Loading..."
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:36
+#: apps/admin/src/pages/MatchingPage.tsx:35
 msgid "Matching failed. Check console for details."
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:125
+#: apps/admin/src/pages/MatchingPage.tsx:124
 msgid "Matching runs automatically every Sunday at 18:00 Israel time"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:129
+#: apps/admin/src/pages/TasksPage.tsx:323
+msgid "Medium"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:128
 msgid "Meeting history from the last 4 weeks is considered to avoid repeats"
 msgstr ""
 
+#: apps/admin/src/pages/AssignmentsPage.tsx:174
 #: apps/admin/src/pages/DashboardPage.tsx:60
 #: apps/admin/src/pages/GroupsPage.tsx:55
 msgid "Members"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:198
+msgid "Metadata"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:37
@@ -317,11 +529,32 @@ msgstr ""
 msgid "Mixed"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:79
+#: apps/admin/src/pages/ParticipantsPage.tsx:53
+#: apps/admin/src/pages/SeasonsPage.tsx:58
 msgid "Name"
 msgstr ""
 
-#: apps/admin/src/components/LoginPage.tsx:66
+#: apps/admin/src/pages/ReviewPage.tsx:36
+msgid "Needs Revision"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:154
+msgid "No active groups found."
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:23
+msgid "No active season. Create and activate a season to assign tasks."
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:47
+msgid "No active tasks available. Create a task first."
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:50
+msgid "No assignments found."
+msgstr ""
+
+#: apps/admin/src/components/LoginPage.tsx:67
 msgid "No credential received. Please try again."
 msgstr ""
 
@@ -337,27 +570,44 @@ msgstr ""
 msgid "No groups yet."
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:72
+#: apps/admin/src/pages/ParticipantsPage.tsx:46
 msgid "No participants found."
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:74
+#: apps/admin/src/pages/SeasonsPage.tsx:51
+msgid "No seasons found."
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:67
+msgid "No tasks found."
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:72
 msgid "No tickets found."
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:58
+#: apps/admin/src/pages/ParticipantsPage.tsx:32
 msgid "North"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:128
+#: apps/admin/src/pages/MatchingPage.tsx:127
 msgid "North and South regions are never matched together (Center acts as bridge)"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:126
+#: apps/admin/src/pages/ReviewPage.tsx:38
+msgid "Not Completed"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:189
+#: apps/admin/src/pages/TasksPage.tsx:289
+msgid "Online Instructions"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:125
 msgid "Only active participants not already in groups are matched"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:60
+#: apps/admin/src/pages/SupportPage.tsx:58
 msgid "Open"
 msgstr ""
 
@@ -365,25 +615,67 @@ msgstr ""
 msgid "Open Tickets"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:85
+#: apps/admin/src/components/Sidebar.tsx:67
+msgid "Operations"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:272
+msgid "Optional feedback for the participant"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:58
 msgid "Paid Until"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:30
+#: apps/admin/src/pages/ParticipantsPage.tsx:17
 msgid "Participants"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:127
+#: apps/admin/src/pages/MatchingPage.tsx:126
 msgid "Participants on pause are excluded"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:84
+#: apps/admin/src/pages/ParticipantsPage.tsx:57
 msgid "Paused"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:34
+msgid "Pending Review"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:55
+#: apps/admin/src/pages/TasksPage.tsx:316
+msgid "Philosophy"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:197
+msgid "photo(s) submitted"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:195
+msgid "Photos"
 msgstr ""
 
 #. placeholder {0}: f.photoUrls.length
 #: apps/admin/src/pages/FeedbackPage.tsx:157
 msgid "Photos ({0}):"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:62
+msgid "Points"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:250
+msgid "Points to Award"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:77
+#: apps/admin/src/pages/TasksPage.tsx:328
+msgid "Purpose"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:202
+msgid "Purpose:"
 msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:45
@@ -392,75 +684,207 @@ msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:59
 #: apps/admin/src/pages/GroupsPage.tsx:54
-#: apps/admin/src/pages/ParticipantsPage.tsx:82
+#: apps/admin/src/pages/ParticipantsPage.tsx:56
 msgid "Region"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:51
+#: apps/admin/src/pages/ParticipantsPage.tsx:25
 msgid "Region:"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:46
+#: apps/admin/src/pages/ReviewPage.tsx:37
+msgid "Rejected"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:194
+#: apps/admin/src/pages/TasksPage.tsx:299
+msgid "Report Instructions"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:91
+msgid "Review"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:266
+msgid "Review Comment"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:204
+msgid "Review Decision"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:164
+msgid "Review Task Completion"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:331
+msgid "Romantic"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:45
 msgid "Run Matching"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:131
+#: apps/admin/src/components/Sidebar.tsx:40
+msgid "Season Flow"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:200
+msgid "Season Name"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:19
+msgid "Seasons"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:141
+msgid "Select Groups"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:40
+msgid "Select Task to Assign"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:141
+msgid "selected"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:129
 msgid "Send Answer"
 msgstr ""
 
-#: apps/admin/src/components/LoginPage.tsx:159
+#: apps/admin/src/components/LoginPage.tsx:163
 msgid "Sign in with your Google account to continue"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:60
+#: apps/admin/src/pages/ParticipantsPage.tsx:34
 msgid "South"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:60
+#: apps/admin/src/pages/SeasonsPage.tsx:225
+msgid "Start Date"
 msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:58
 #: apps/admin/src/pages/GroupsPage.tsx:53
-#: apps/admin/src/pages/ParticipantsPage.tsx:83
+#: apps/admin/src/pages/ReviewPage.tsx:61
+#: apps/admin/src/pages/SeasonsPage.tsx:59
+#: apps/admin/src/pages/TasksPage.tsx:78
 msgid "Status"
 msgstr ""
 
 #: apps/admin/src/pages/GroupsPage.tsx:24
-#: apps/admin/src/pages/ParticipantsPage.tsx:38
-#: apps/admin/src/pages/SupportPage.tsx:53
+#: apps/admin/src/pages/ReviewPage.tsx:27
+#: apps/admin/src/pages/SeasonsPage.tsx:30
+#: apps/admin/src/pages/SupportPage.tsx:51
+#: apps/admin/src/pages/TasksPage.tsx:33
+#: apps/admin/src/pages/TasksPage.tsx:203
 msgid "Status:"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:45
+#: apps/admin/src/pages/ReviewPage.tsx:290
+msgid "Submit Review"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:60
+msgid "Submitted At"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:175
+msgid "Submitted at:"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:59
+msgid "Submitted By"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:172
+msgid "Submitted by:"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:290
+msgid "Submitting..."
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:261
+msgid "Suggested: 5 points for text only, 10 points with photos"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:43
 msgid "Support Tickets"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:57
+msgid "Task"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:17
+msgid "Task Assignments"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:168
+msgid "Task Details"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:144
 msgid "Task effect:"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:52
+#: apps/admin/src/pages/TasksPage.tsx:22
+msgid "Task Library"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:176
+msgid "Task not found"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:19
+msgid "Task Review"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:51
 msgid "This will run the matching algorithm to create new groups for this week. The algorithm works in 5 stages:"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:74
+#: apps/admin/src/pages/TasksPage.tsx:180
+#: apps/admin/src/pages/TasksPage.tsx:267
+msgid "Title"
 msgstr ""
 
 #: apps/admin/src/pages/DashboardPage.tsx:24
 msgid "Total Participants"
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:126
+#: apps/admin/src/pages/TasksPage.tsx:75
+#: apps/admin/src/pages/TasksPage.tsx:311
+msgid "Type"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:124
 msgid "Type your answer..."
 msgstr ""
 
-#: apps/admin/src/pages/SupportPage.tsx:89
+#: apps/admin/src/pages/TasksPage.tsx:45
+#: apps/admin/src/pages/TasksPage.tsx:200
+msgid "Type:"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:87
 msgid "Unknown User"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:103
+#: apps/admin/src/pages/MatchingPage.tsx:102
 msgid "Unpaired Participants"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:110
+#: apps/admin/src/pages/MatchingPage.tsx:109
 msgid "Unpaired Participants:"
 msgstr ""
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:117
+#: apps/admin/src/pages/ParticipantsPage.tsx:85
+#: apps/admin/src/pages/TasksPage.tsx:108
 msgid "View"
 msgstr ""
 
@@ -469,7 +893,16 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: apps/admin/src/pages/MatchingPage.tsx:50
+#: apps/admin/src/pages/AssignmentsPage.tsx:175
+#: apps/admin/src/pages/ReviewPage.tsx:58
+msgid "Week"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:171
+msgid "Week:"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:49
 msgid "Weekly Matching Algorithm"
 msgstr ""
 

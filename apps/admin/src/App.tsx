@@ -7,6 +7,10 @@ import GroupsPage from './pages/GroupsPage';
 import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import MatchingPage from './pages/MatchingPage';
+import SeasonsPage from './pages/SeasonsPage';
+import TasksPage from './pages/TasksPage';
+import AssignmentsPage from './pages/AssignmentsPage';
+import ReviewPage from './pages/ReviewPage';
 import Sidebar from './components/Sidebar';
 import LoginPage from './components/LoginPage';
 import { useAdminAuth } from './hooks/useAdminAuth';
@@ -34,7 +38,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 function App() {
     const { login } = useAdminAuth();
     const { isAuthenticated } = useConvexAuth();
-    const { isLoading } = useLanguage();
+    const { isLoading, locale } = useLanguage();
 
     if (isLoading) {
         return (
@@ -45,7 +49,7 @@ function App() {
     }
 
     return (
-        <I18nProvider i18n={i18n}>
+        <I18nProvider i18n={i18n} key={locale}>
             <BrowserRouter>
                 <Routes>
                 <Route
@@ -64,6 +68,10 @@ function App() {
                                         <Route path="/dashboard" element={<DashboardPage />} />
                                         <Route path="/participants" element={<ParticipantsPage />} />
                                         <Route path="/groups" element={<GroupsPage />} />
+                                        <Route path="/seasons" element={<SeasonsPage />} />
+                                        <Route path="/tasks" element={<TasksPage />} />
+                                        <Route path="/assignments" element={<AssignmentsPage />} />
+                                        <Route path="/review" element={<ReviewPage />} />
                                         <Route path="/feedback" element={<FeedbackPage />} />
                                         <Route path="/support" element={<SupportPage />} />
                                         <Route path="/matching" element={<MatchingPage />} />

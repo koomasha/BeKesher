@@ -36,17 +36,47 @@ function Sidebar() {
                 >
                     <Trans>🎯 Groups</Trans>
                 </NavLink>
+                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+                    <Trans>Season Flow</Trans>
+                </div>
                 <NavLink
-                    to="/feedback"
+                    to="/seasons"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
-                    <Trans>⭐ Feedback</Trans>
+                    <Trans>📅 Seasons</Trans>
                 </NavLink>
+                <NavLink
+                    to="/tasks"
+                    className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                    <Trans>📝 Task Library</Trans>
+                </NavLink>
+                <NavLink
+                    to="/assignments"
+                    className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                    <Trans>📌 Assign Tasks</Trans>
+                </NavLink>
+                <NavLink
+                    to="/review"
+                    className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                    <Trans>✅ Review Tasks</Trans>
+                </NavLink>
+                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+                    <Trans>Operations</Trans>
+                </div>
                 <NavLink
                     to="/matching"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
                     <Trans>🔄 Run Matching</Trans>
+                </NavLink>
+                <NavLink
+                    to="/feedback"
+                    className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                    <Trans>⭐ Feedback</Trans>
                 </NavLink>
                 <NavLink
                     to="/support"

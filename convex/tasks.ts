@@ -52,7 +52,19 @@ export const list = adminQuery({
       tasks = tasks.filter((t) => t.type === args.type);
     }
 
-    return tasks;
+    return tasks.map((task) => ({
+      _id: task._id,
+      title: task.title,
+      description: task.description,
+      onlineInstructions: task.onlineInstructions,
+      reportInstructions: task.reportInstructions,
+      type: task.type,
+      difficulty: task.difficulty,
+      purpose: task.purpose,
+      status: task.status,
+      createdAt: task.createdAt,
+      createdByEmail: task.createdByEmail,
+    }));
   },
 });
 
@@ -78,7 +90,22 @@ export const get = adminQuery({
     v.null()
   ),
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.taskId);
+    const task = await ctx.db.get(args.taskId);
+    if (!task) return null;
+
+    return {
+      _id: task._id,
+      title: task.title,
+      description: task.description,
+      onlineInstructions: task.onlineInstructions,
+      reportInstructions: task.reportInstructions,
+      type: task.type,
+      difficulty: task.difficulty,
+      purpose: task.purpose,
+      status: task.status,
+      createdAt: task.createdAt,
+      createdByEmail: task.createdByEmail,
+    };
   },
 });
 

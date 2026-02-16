@@ -227,6 +227,52 @@ export const list = adminQuery({
     },
 });
 
+/**
+ * List active groups with participant names (for assignments page)
+ */
+export const listActive = adminQuery({
+    args: {},
+    returns: v.array(
+        v.object({
+            _id: v.id("groups"),
+            participant1Name: v.string(),
+            participant2Name: v.string(),
+            participant3Name: v.optional(v.string()),
+            participant4Name: v.optional(v.string()),
+            weekInSeason: v.optional(weekInSeasonValidator),
+            taskId: v.optional(v.id("tasks")),
+        })
+    ),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        // Enrich with participant names
+        const enriched = await Promise.all(
+            activeGroups.map(async (group) => {
+                const p1 = await ctx.db.get(group.participant1);
+                const p2 = await ctx.db.get(group.participant2);
+                const p3 = group.participant3 ? await ctx.db.get(group.participant3) : null;
+                const p4 = group.participant4 ? await ctx.db.get(group.participant4) : null;
+
+                return {
+                    _id: group._id,
+                    participant1Name: p1?.name || "Unknown",
+                    participant2Name: p2?.name || "Unknown",
+                    participant3Name: p3?.name,
+                    participant4Name: p4?.name,
+                    weekInSeason: group.weekInSeason,
+                    taskId: group.taskId,
+                };
+            })
+        );
+
+        return enriched;
+    },
+});
+
 // ============================================
 // INTERNAL QUERIES (for matching algorithm)
 // ============================================

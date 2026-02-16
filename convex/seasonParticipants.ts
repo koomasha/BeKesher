@@ -98,9 +98,12 @@ export const listForSeason = adminQuery({
       enrollments.map(async (enrollment) => {
         const participant = await ctx.db.get(enrollment.participantId);
         return {
-          ...enrollment,
+          _id: enrollment._id,
+          participantId: enrollment.participantId,
           participantName: participant?.name || "Unknown",
           participantEmail: participant?.email,
+          status: enrollment.status,
+          enrolledAt: enrollment.enrolledAt,
         };
       })
     );

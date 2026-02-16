@@ -54,7 +54,14 @@ export const list = adminQuery({
           .collect();
 
         return {
-          ...season,
+          _id: season._id,
+          name: season.name,
+          description: season.description,
+          startDate: season.startDate,
+          endDate: season.endDate,
+          status: season.status,
+          createdAt: season.createdAt,
+          createdByEmail: season.createdByEmail,
           enrolledCount: enrolled.length,
         };
       })
@@ -83,7 +90,19 @@ export const get = adminQuery({
     v.null()
   ),
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.seasonId);
+    const season = await ctx.db.get(args.seasonId);
+    if (!season) return null;
+
+    return {
+      _id: season._id,
+      name: season.name,
+      description: season.description,
+      startDate: season.startDate,
+      endDate: season.endDate,
+      status: season.status,
+      createdAt: season.createdAt,
+      createdByEmail: season.createdByEmail,
+    };
   },
 });
 
@@ -111,7 +130,18 @@ export const getActive = adminQuery({
       .withIndex("by_status", (q) => q.eq("status", "Active"))
       .first();
 
-    return activeSeason;
+    if (!activeSeason) return null;
+
+    return {
+      _id: activeSeason._id,
+      name: activeSeason.name,
+      description: activeSeason.description,
+      startDate: activeSeason.startDate,
+      endDate: activeSeason.endDate,
+      status: activeSeason.status,
+      createdAt: activeSeason.createdAt,
+      createdByEmail: activeSeason.createdByEmail,
+    };
   },
 });
 
