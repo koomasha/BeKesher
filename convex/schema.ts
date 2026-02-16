@@ -91,7 +91,8 @@ export default defineSchema({
     })
         .index("by_seasonId", ["seasonId"])
         .index("by_participantId", ["participantId"])
-        .index("by_seasonId_and_status", ["seasonId", "status"]),
+        .index("by_seasonId_and_status", ["seasonId", "status"])
+        .index("by_seasonId_and_participantId", ["seasonId", "participantId"]),
 
     tasks: defineTable({
         title: v.string(),
@@ -112,6 +113,7 @@ export default defineSchema({
         groupId: v.id("groups"),
         taskId: v.id("tasks"),
         weekInSeason: weekInSeasonValidator,
+        seasonId: v.id("seasons"),
 
         // Assignment tracking
         assignedAt: v.number(),
@@ -138,7 +140,8 @@ export default defineSchema({
         .index("by_taskId", ["taskId"])
         .index("by_reviewStatus", ["reviewStatus"])
         .index("by_submittedBy", ["submittedBy"])
-        .index("by_weekInSeason", ["weekInSeason"]),
+        .index("by_weekInSeason", ["weekInSeason"])
+        .index("by_seasonId", ["seasonId"]),
 
     groups: defineTable({
         createdAt: v.number(),
@@ -158,7 +161,11 @@ export default defineSchema({
         .index("by_createdAt", ["createdAt"])
         .index("by_seasonId", ["seasonId"])
         .index("by_seasonId_and_weekInSeason", ["seasonId", "weekInSeason"])
-        .index("by_seasonId_and_status", ["seasonId", "status"]),
+        .index("by_seasonId_and_status", ["seasonId", "status"])
+        .index("by_participant1", ["participant1"])
+        .index("by_participant2", ["participant2"])
+        .index("by_participant3", ["participant3"])
+        .index("by_participant4", ["participant4"]),
 
     feedback: defineTable({
         groupId: v.id("groups"),

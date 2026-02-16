@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { adminAction } from "./authAdmin";
-import { calculateAge } from "./utils";
+import { calculateAge, calculateWeekInSeason } from "./utils";
 import type { Region } from "./validators";
 
 // ============================================
@@ -78,10 +78,7 @@ export const runWeeklyMatching = internalAction({
 
         // 2. Calculate current week in season
         const currentTime = Date.now();
-        const weekNumber = await ctx.runQuery(internal.seasons.calculateWeekInSeason, {
-            seasonStartDate: activeSeason.startDate,
-            currentTimestamp: currentTime,
-        });
+        const weekNumber = calculateWeekInSeason(activeSeason.startDate, currentTime);
 
         if (!weekNumber || weekNumber < 1 || weekNumber > 4) {
             console.log("❌ Current time is outside season bounds!");

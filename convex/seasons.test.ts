@@ -1,6 +1,7 @@
 import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
 import { setupTest, withAdminIdentity, makeSeason, makeParticipant, makeSeasonParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { calculateWeekInSeason } from "./utils";
 
 describe("seasons", () => {
     // ============================================
@@ -75,6 +76,69 @@ describe("seasons", () => {
             await expect(
                 admin.mutation(api.seasons.activate, { seasonId: season2Id })
             ).rejects.toThrow();
+        });
+
+        test("activate prevents duplicate active", async () => {
+            const t = setupTest();
+            const admin = withAdminIdentity(t);
+
+            // Create and activate first season
+            const season1Id = await t.run(async (ctx) => {
+                return await ctx.db.insert("seasons", makeSeason({ name: "First Active" }));
+            });
+            await admin.mutation(api.seasons.activate, { seasonId: season1Id });
+
+            // Create a second draft season and try to activate it
+            const season2Id = await t.run(async (ctx) => {
+                return await ctx.db.insert("seasons", makeSeason({ name: "Second Draft" }));
+            });
+
+            await expect(
+                admin.mutation(api.seasons.activate, { seasonId: season2Id })
+            ).rejects.toThrow("Another season is already active");
+        });
+    });
+
+    describe("update", () => {
+        test("draft-only guard for update — rejects Active season", async () => {
+            const t = setupTest();
+            const admin = withAdminIdentity(t);
+
+            // Create a season and activate it
+            const seasonId = await t.run(async (ctx) => {
+                return await ctx.db.insert("seasons", makeSeason({ name: "Original Name" }));
+            });
+            await admin.mutation(api.seasons.activate, { seasonId });
+
+            // Verify it is Active
+            const season = await admin.query(api.seasons.get, { seasonId });
+            expect(season?.status).toBe("Active");
+
+            // Attempt to update should throw
+            await expect(
+                admin.mutation(api.seasons.update, { seasonId, name: "New Name" })
+            ).rejects.toThrow("Can only edit seasons in Draft status");
+        });
+
+        test("draft-only guard for update — rejects Completed season", async () => {
+            const t = setupTest();
+            const admin = withAdminIdentity(t);
+
+            // Create a season, activate it, then complete it
+            const seasonId = await t.run(async (ctx) => {
+                return await ctx.db.insert("seasons", makeSeason({ name: "Original Name" }));
+            });
+            await admin.mutation(api.seasons.activate, { seasonId });
+            await admin.mutation(api.seasons.complete, { seasonId });
+
+            // Verify it is Completed
+            const season = await admin.query(api.seasons.get, { seasonId });
+            expect(season?.status).toBe("Completed");
+
+            // Attempt to update should throw
+            await expect(
+                admin.mutation(api.seasons.update, { seasonId, name: "New Name" })
+            ).rejects.toThrow("Can only edit seasons in Draft status");
         });
     });
 
@@ -186,71 +250,26 @@ describe("seasons", () => {
     });
 
     // ============================================
-    // INTERNAL QUERY TESTS
+    // PURE FUNCTION TESTS
     // ============================================
 
     describe("calculateWeekInSeason", () => {
-        test("calculates week 1 correctly", async () => {
-            const t = setupTest();
+        test("returns correct week number", () => {
+            const weekMs = 7 * 24 * 60 * 60 * 1000;
+            const startDate = Date.now();
 
-            const seasonStart = Date.now();
-            const currentTime = seasonStart + (2 * 24 * 60 * 60 * 1000); // 2 days later
-
-            const week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: currentTime,
-            });
-
-            expect(week).toBe(1);
+            expect(calculateWeekInSeason(startDate, startDate)).toBe(1);
+            expect(calculateWeekInSeason(startDate, startDate + weekMs)).toBe(2);
+            expect(calculateWeekInSeason(startDate, startDate + 2 * weekMs)).toBe(3);
+            expect(calculateWeekInSeason(startDate, startDate + 3 * weekMs)).toBe(4);
         });
 
-        test("calculates week 2-4 correctly", async () => {
-            const t = setupTest();
+        test("returns null outside bounds", () => {
+            const weekMs = 7 * 24 * 60 * 60 * 1000;
+            const startDate = Date.now();
 
-            const seasonStart = Date.now();
-            const oneWeek = 7 * 24 * 60 * 60 * 1000;
-
-            // Week 2
-            let week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: seasonStart + oneWeek + 1000,
-            });
-            expect(week).toBe(2);
-
-            // Week 3
-            week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: seasonStart + (2 * oneWeek) + 1000,
-            });
-            expect(week).toBe(3);
-
-            // Week 4
-            week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: seasonStart + (3 * oneWeek) + 1000,
-            });
-            expect(week).toBe(4);
-        });
-
-        test("returns null for times outside season bounds", async () => {
-            const t = setupTest();
-
-            const seasonStart = Date.now();
-            const fourWeeks = 4 * 7 * 24 * 60 * 60 * 1000;
-
-            // Before season
-            let week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: seasonStart - 1000,
-            });
-            expect(week).toBeNull();
-
-            // After season (week 5)
-            week = await t.query(internal.seasons.calculateWeekInSeason, {
-                seasonStartDate: seasonStart,
-                currentTimestamp: seasonStart + fourWeeks + 1000,
-            });
-            expect(week).toBeNull();
+            expect(calculateWeekInSeason(startDate, startDate - weekMs)).toBeNull();
+            expect(calculateWeekInSeason(startDate, startDate + 4 * weekMs)).toBeNull();
         });
     });
 });

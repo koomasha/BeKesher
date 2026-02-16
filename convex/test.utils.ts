@@ -328,7 +328,9 @@ export function makeTask(
 export function makeTaskAssignment(
     groupId: Id<"groups">,
     taskId: Id<"tasks">,
-    overrides: Partial<{
+    overrides: {
+        seasonId: Id<"seasons">;
+    } & Partial<{
         weekInSeason: WeekInSeason;
         assignedAt: number;
         assignedByEmail: string;
@@ -343,16 +345,18 @@ export function makeTaskAssignment(
         reviewComment: string;
         pointsAwarded: number;
         notCompletedReason: string;
-    }> = {}
+    }>
 ) {
+    const { seasonId, ...rest } = overrides;
     return {
         groupId,
         taskId,
         weekInSeason: 1 as const,
+        seasonId,
         assignedAt: Date.now(),
         assignedByEmail: "admin@example.com",
         reviewStatus: "Pending" as const,
         pointsAwarded: 0,
-        ...overrides,
+        ...rest,
     };
 }

@@ -3,6 +3,7 @@ import { userQuery, userMutation } from "./authUser";
 import { internalMutation } from "./_generated/server";
 import { v, ConvexError } from "convex/values";
 import { taskReviewStatusValidator, weekInSeasonValidator } from "./validators";
+import { getSundayRevealTimeIsrael } from "./utils";
 
 // ============================================
 // ADMIN QUERIES
@@ -122,6 +123,73 @@ export const listForGroup = adminQuery({
   },
 });
 
+/**
+ * Get a single task assignment by ID (with photo URLs)
+ */
+export const getAssignment = adminQuery({
+  args: { assignmentId: v.id("taskAssignments") },
+  returns: v.union(
+    v.object({
+      _id: v.id("taskAssignments"),
+      groupId: v.id("groups"),
+      taskId: v.id("tasks"),
+      taskTitle: v.string(),
+      weekInSeason: weekInSeasonValidator,
+      reviewStatus: taskReviewStatusValidator,
+      completionNotes: v.optional(v.string()),
+      completionPhotoUrls: v.optional(v.array(v.string())),
+      submittedAt: v.optional(v.number()),
+      submittedBy: v.optional(v.id("participants")),
+      submittedByName: v.optional(v.string()),
+      pointsAwarded: v.number(),
+      reviewComment: v.optional(v.string()),
+      assignedAt: v.number(),
+      assignedByEmail: v.string(),
+    }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    const assignment = await ctx.db.get(args.assignmentId);
+    if (!assignment) return null;
+
+    const task = await ctx.db.get(assignment.taskId);
+
+    let submittedByName: string | undefined;
+    if (assignment.submittedBy) {
+      const participant = await ctx.db.get(assignment.submittedBy);
+      submittedByName = participant?.name;
+    }
+
+    // Resolve photo storage IDs to URLs
+    const completionPhotoUrls = assignment.completionPhotos
+      ? await Promise.all(
+            assignment.completionPhotos.map(async (storageId) => {
+              const url = await ctx.storage.getUrl(storageId);
+              return url || "";
+            })
+        )
+      : undefined;
+
+    return {
+      _id: assignment._id,
+      groupId: assignment.groupId,
+      taskId: assignment.taskId,
+      taskTitle: task?.title || "Unknown",
+      weekInSeason: assignment.weekInSeason,
+      reviewStatus: assignment.reviewStatus,
+      completionNotes: assignment.completionNotes,
+      completionPhotoUrls,
+      submittedAt: assignment.submittedAt,
+      submittedBy: assignment.submittedBy,
+      submittedByName,
+      pointsAwarded: assignment.pointsAwarded,
+      reviewComment: assignment.reviewComment,
+      assignedAt: assignment.assignedAt,
+      assignedByEmail: assignment.assignedByEmail,
+    };
+  },
+});
+
 // ============================================
 // USER QUERIES
 // ============================================
@@ -181,12 +249,8 @@ export const getForActiveGroup = userQuery({
 
     if (!assignment) return null;
 
-    // Calculate reveal time: Sunday 8:00 AM after group creation
-    const groupCreated = new Date(myGroup.createdAt);
-    const nextSunday = new Date(groupCreated);
-    nextSunday.setDate(groupCreated.getDate() + (groupCreated.getDay() === 6 ? 1 : 0));
-    nextSunday.setHours(8, 0, 0, 0);
-    const revealTime = nextSunday.getTime();
+    // Calculate reveal time: Sunday 8:00 AM Israel time after group creation
+    const revealTime = getSundayRevealTimeIsrael(myGroup.createdAt);
 
     // Get task details
     const task = await ctx.db.get(assignment.taskId);
@@ -229,7 +293,7 @@ export const assignToGroups = adminMutation({
 
     for (const groupId of args.groupIds) {
       const group = await ctx.db.get(groupId);
-      if (!group || !group.weekInSeason) continue;
+      if (!group || !group.weekInSeason || !group.seasonId) continue;
 
       // Check if assignment already exists
       const existing = await ctx.db
@@ -239,13 +303,17 @@ export const assignToGroups = adminMutation({
 
       if (existing) {
         // Update existing assignment
-        await ctx.db.patch(existing._id, { taskId: args.taskId });
+        await ctx.db.patch(existing._id, {
+          taskId: args.taskId,
+          seasonId: group.seasonId,
+        });
       } else {
         // Create new assignment
         await ctx.db.insert("taskAssignments", {
           groupId,
           taskId: args.taskId,
           weekInSeason: group.weekInSeason,
+          seasonId: group.seasonId,
           assignedAt: Date.now(),
           assignedByEmail: ctx.adminEmail,
           reviewStatus: "Pending",
@@ -282,6 +350,13 @@ export const reviewCompletion = adminMutation({
     const assignment = await ctx.db.get(args.assignmentId);
     if (!assignment) {
       throw new ConvexError("Assignment not found");
+    }
+
+    // Prevent double-approval or reviewing already-reviewed assignments
+    if (assignment.reviewStatus === "Approved" || assignment.reviewStatus === "Rejected") {
+      throw new ConvexError(
+        `Assignment already ${assignment.reviewStatus.toLowerCase()}. Cannot review again.`
+      );
     }
 
     // Update assignment
@@ -332,17 +407,54 @@ export const submitCompletion = userMutation({
       throw new ConvexError("Participant not found");
     }
 
+    // Verify participant is member of the assignment's group
+    const assignment = await ctx.db.get(args.assignmentId);
+    if (!assignment) {
+      throw new ConvexError("Assignment not found");
+    }
+
+    const group = await ctx.db.get(assignment.groupId);
+    if (!group) {
+      throw new ConvexError("Group not found");
+    }
+
+    const isGroupMember = [
+      group.participant1,
+      group.participant2,
+      group.participant3,
+      group.participant4,
+    ].includes(participant._id);
+
+    if (!isGroupMember) {
+      throw new ConvexError("You are not a member of this group");
+    }
+
+    // Check assignment is in a submittable state
+    if (assignment.reviewStatus !== "Pending" && assignment.reviewStatus !== "Revision") {
+      throw new ConvexError("This assignment cannot be submitted to");
+    }
+
     await ctx.db.patch(args.assignmentId, {
       completedAt: Date.now(),
       completionNotes: args.completionNotes,
       completionPhotos: args.completionPhotos,
       submittedBy: participant._id,
       submittedAt: Date.now(),
-      // reviewStatus remains "Pending"
     });
 
     console.log("✅ Task completion submitted");
     return null;
+  },
+});
+
+/**
+ * Generate a URL for uploading a task completion photo
+ */
+export const generateUploadUrl = userMutation({
+  args: {},
+  returns: v.string(),
+  handler: async (ctx) => {
+    return await ctx.storage.generateUploadUrl();
   },
 });
 

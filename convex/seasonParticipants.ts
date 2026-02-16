@@ -42,8 +42,9 @@ export const getMyEnrollment = userQuery({
     // Get enrollment
     const enrollment = await ctx.db
       .query("seasonParticipants")
-      .withIndex("by_seasonId", (q) => q.eq("seasonId", activeSeason._id))
-      .filter((q) => q.eq(q.field("participantId"), participant._id))
+      .withIndex("by_seasonId_and_participantId", (q) =>
+        q.eq("seasonId", activeSeason._id).eq("participantId", participant._id)
+      )
       .first();
 
     if (!enrollment) return null;
@@ -127,8 +128,9 @@ export const enroll = adminMutation({
     // Check if already enrolled
     const existing = await ctx.db
       .query("seasonParticipants")
-      .withIndex("by_seasonId", (q) => q.eq("seasonId", args.seasonId))
-      .filter((q) => q.eq(q.field("participantId"), args.participantId))
+      .withIndex("by_seasonId_and_participantId", (q) =>
+        q.eq("seasonId", args.seasonId).eq("participantId", args.participantId)
+      )
       .first();
 
     if (existing) {

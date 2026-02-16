@@ -36,19 +36,31 @@ export const list = adminQuery({
   handler: async (ctx, args) => {
     let tasks;
 
-    if (args.status !== undefined) {
+    if (args.status !== undefined && args.type !== undefined) {
+      // Both filters: use status index, filter type in memory (small dataset)
       const status = args.status;
       tasks = await ctx.db
         .query("tasks")
         .withIndex("by_status", (q) => q.eq("status", status))
         .order("desc")
         .collect();
+      tasks = tasks.filter((t) => t.type === args.type);
+    } else if (args.status !== undefined) {
+      const status = args.status;
+      tasks = await ctx.db
+        .query("tasks")
+        .withIndex("by_status", (q) => q.eq("status", status))
+        .order("desc")
+        .collect();
+    } else if (args.type !== undefined) {
+      const type = args.type;
+      tasks = await ctx.db
+        .query("tasks")
+        .withIndex("by_type", (q) => q.eq("type", type))
+        .order("desc")
+        .collect();
     } else {
       tasks = await ctx.db.query("tasks").order("desc").collect();
-    }
-
-    if (args.type) {
-      tasks = tasks.filter((t) => t.type === args.type);
     }
 
     return tasks.map((task) => ({

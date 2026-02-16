@@ -117,8 +117,7 @@ function ReviewModal({
     onClose: () => void;
 }) {
     const { _ } = useLingui();
-    const assignment = useQuery(api.taskAssignments.listForReview, {});
-    const currentAssignment = assignment?.find(a => a._id === assignmentId);
+    const currentAssignment = useQuery(api.taskAssignments.getAssignment, { assignmentId });
 
     const [reviewStatus, setReviewStatus] = useState<'Approved' | 'Revision' | 'Rejected'>('Approved');
     const [reviewComment, setReviewComment] = useState('');
@@ -190,11 +189,30 @@ function ReviewModal({
                     </div>
                 </div>
 
-                {currentAssignment.completionPhotos && currentAssignment.completionPhotos.length > 0 && (
+                {currentAssignment.completionPhotoUrls && currentAssignment.completionPhotoUrls.length > 0 && (
                     <div className="form-group">
                         <label className="form-label"><Trans>Photos</Trans></label>
-                        <div style={{ color: 'var(--text-secondary)' }}>
-                            {currentAssignment.completionPhotos.length} <Trans>photo(s) submitted</Trans>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                            gap: 'var(--spacing-sm)',
+                        }}>
+                            {currentAssignment.completionPhotoUrls.map((url, index) => (
+                                url && (
+                                    <a key={index} href={url} target="_blank" rel="noopener noreferrer">
+                                        <img
+                                            src={url}
+                                            alt={`Completion photo ${index + 1}`}
+                                            style={{
+                                                width: '100%',
+                                                borderRadius: 'var(--radius-md)',
+                                                objectFit: 'cover',
+                                                aspectRatio: '1',
+                                            }}
+                                        />
+                                    </a>
+                                )
+                            ))}
                         </div>
                     </div>
                 )}
@@ -211,7 +229,7 @@ function ReviewModal({
                                     onChange={(e) => {
                                         setReviewStatus(e.target.value as 'Approved' | 'Revision' | 'Rejected');
                                         if (e.target.value === 'Approved') {
-                                            setPointsAwarded(currentAssignment.completionPhotos?.length ? 10 : 5);
+                                            setPointsAwarded(currentAssignment.completionPhotoUrls?.length ? 10 : 5);
                                         } else {
                                             setPointsAwarded(0);
                                         }

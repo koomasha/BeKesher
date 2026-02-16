@@ -1,5 +1,5 @@
 import { adminQuery, adminMutation } from "./authAdmin";
-import { internalQuery, internalMutation } from "./_generated/server";
+import { internalQuery } from "./_generated/server";
 import { v, ConvexError } from "convex/values";
 import { seasonStatusValidator } from "./validators";
 
@@ -191,6 +191,15 @@ export const update = adminMutation({
   handler: async (ctx, args) => {
     const { seasonId, ...updates } = args;
 
+    const season = await ctx.db.get(seasonId);
+    if (!season) {
+      throw new ConvexError("Season not found");
+    }
+
+    if (season.status !== "Draft") {
+      throw new ConvexError("Can only edit seasons in Draft status");
+    }
+
     // If startDate is updated, recalculate endDate
     if (updates.startDate) {
       const fourWeeks = 4 * 7 * 24 * 60 * 60 * 1000;
@@ -282,24 +291,3 @@ export const getActiveInternal = internalQuery({
   },
 });
 
-/**
- * Calculate which week in season (1-4) based on timestamp
- */
-export const calculateWeekInSeason = internalQuery({
-  args: {
-    seasonStartDate: v.number(),
-    currentTimestamp: v.number(),
-  },
-  returns: v.union(v.number(), v.null()),
-  handler: async (_ctx, args) => {
-    const elapsed = args.currentTimestamp - args.seasonStartDate;
-    const weekMs = 7 * 24 * 60 * 60 * 1000;
-    const weekNumber = Math.floor(elapsed / weekMs) + 1;
-
-    if (weekNumber < 1 || weekNumber > 4) {
-      return null;  // Outside season bounds
-    }
-
-    return weekNumber;
-  },
-});
