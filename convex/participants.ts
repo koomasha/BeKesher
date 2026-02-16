@@ -6,6 +6,11 @@ import { v } from "convex/values";
 import { userQuery, userMutation, publicMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
 import { calculateAge } from "./utils";
+import {
+    participantStatusValidator,
+    genderValidator,
+    regionValidator,
+} from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -27,21 +32,14 @@ export const getByTelegramId = userQuery({
             tgLastName: v.optional(v.string()),
             photo: v.optional(v.string()),
             birthDate: v.string(),
-            gender: v.string(),
-            region: v.string(),
+            gender: genderValidator,
+            region: regionValidator,
             city: v.optional(v.string()),
-            familyStatus: v.optional(v.string()),
-            targetGender: v.optional(v.string()),
-            targetAgeFrom: v.optional(v.number()),
-            targetAgeTo: v.optional(v.number()),
-            formatPreference: v.optional(v.string()),
             aboutMe: v.optional(v.string()),
             profession: v.optional(v.string()),
             purpose: v.optional(v.string()),
             expectations: v.optional(v.string()),
-            values: v.optional(v.array(v.string())),
-            interests: v.optional(v.array(v.string())),
-            status: v.string(),
+            status: participantStatusValidator,
             onPause: v.boolean(),
             totalPoints: v.number(),
             registrationDate: v.number(),
@@ -71,14 +69,14 @@ export const getMyProfile = userQuery({
             name: v.string(),
             phone: v.string(),
             birthDate: v.string(),
-            gender: v.string(),
-            region: v.string(),
+            gender: genderValidator,
+            region: regionValidator,
             city: v.optional(v.string()),
             aboutMe: v.optional(v.string()),
             profession: v.optional(v.string()),
             purpose: v.optional(v.string()),
             expectations: v.optional(v.string()),
-            status: v.string(),
+            status: participantStatusValidator,
             onPause: v.boolean(),
             totalPoints: v.number(),
             paidUntil: v.optional(v.number()),
@@ -119,8 +117,8 @@ export const getMyProfile = userQuery({
  */
 export const list = adminQuery({
     args: {
-        status: v.optional(v.string()),
-        region: v.optional(v.string()),
+        status: v.optional(participantStatusValidator),
+        region: v.optional(regionValidator),
     },
     returns: v.array(
         v.object({
@@ -128,9 +126,9 @@ export const list = adminQuery({
             name: v.string(),
             telegramId: v.string(),
             birthDate: v.string(),
-            gender: v.string(),
-            region: v.string(),
-            status: v.string(),
+            gender: genderValidator,
+            region: regionValidator,
+            status: participantStatusValidator,
             onPause: v.boolean(),
             paidUntil: v.optional(v.number()),
         })
@@ -186,20 +184,13 @@ export const register = publicMutation({
         tgLastName: v.optional(v.string()),
         photo: v.optional(v.string()),
         birthDate: v.string(),
-        gender: v.string(),
-        region: v.string(),
+        gender: genderValidator,
+        region: regionValidator,
         city: v.optional(v.string()),
-        familyStatus: v.optional(v.string()),
-        targetGender: v.optional(v.string()),
-        targetAgeFrom: v.optional(v.number()),
-        targetAgeTo: v.optional(v.number()),
-        formatPreference: v.optional(v.string()),
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
-        values: v.optional(v.array(v.string())),
-        interests: v.optional(v.array(v.string())),
     },
     returns: v.id("participants"),
     handler: async (ctx, args) => {
@@ -235,20 +226,13 @@ export const updateProfile = userMutation({
         name: v.optional(v.string()),
         phone: v.optional(v.string()),
         birthDate: v.optional(v.string()),
-        gender: v.optional(v.string()),
-        region: v.optional(v.string()),
+        gender: v.optional(genderValidator),
+        region: v.optional(regionValidator),
         city: v.optional(v.string()),
-        familyStatus: v.optional(v.string()),
-        targetGender: v.optional(v.string()),
-        targetAgeFrom: v.optional(v.number()),
-        targetAgeTo: v.optional(v.number()),
-        formatPreference: v.optional(v.string()),
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
-        values: v.optional(v.array(v.string())),
-        interests: v.optional(v.array(v.string())),
     },
     returns: v.null(),
     handler: async (ctx, args) => {
@@ -364,11 +348,8 @@ export const getActiveForMatching = internalQuery({
             name: v.string(),
             telegramId: v.string(),
             birthDate: v.string(),
-            gender: v.string(),
-            region: v.string(),
-            targetGender: v.optional(v.string()),
-            targetAgeFrom: v.optional(v.number()),
-            targetAgeTo: v.optional(v.number()),
+            gender: genderValidator,
+            region: regionValidator,
         })
     ),
     handler: async (ctx) => {
@@ -396,9 +377,6 @@ export const getActiveForMatching = internalQuery({
             birthDate: p.birthDate,
             gender: p.gender,
             region: p.region,
-            targetGender: p.targetGender,
-            targetAgeFrom: p.targetAgeFrom,
-            targetAgeTo: p.targetAgeTo,
         }));
     },
 });
@@ -413,7 +391,7 @@ export const getActiveForMatching = internalQuery({
 export const updateStatus = internalMutation({
     args: {
         participantId: v.id("participants"),
-        status: v.string(),
+        status: participantStatusValidator,
     },
     returns: v.null(),
     handler: async (ctx, args) => {

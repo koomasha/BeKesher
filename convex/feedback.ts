@@ -2,6 +2,7 @@ import { internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import { userQuery, userMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
+import { wouldMeetAgainValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -18,7 +19,7 @@ export const getForParticipant = userQuery({
             groupId: v.id("groups"),
             rating: v.number(),
             textFeedback: v.optional(v.string()),
-            wouldMeetAgain: v.optional(v.string()),
+            wouldMeetAgain: v.optional(wouldMeetAgainValidator),
             taskEffect: v.optional(v.string()),
             improvementSuggestion: v.optional(v.string()),
             submittedAt: v.number(),
@@ -153,7 +154,7 @@ export const list = adminQuery({
             groupStatus: v.string(),
             rating: v.number(),
             textFeedback: v.optional(v.string()),
-            wouldMeetAgain: v.optional(v.string()),
+            wouldMeetAgain: v.optional(wouldMeetAgainValidator),
             photoUrls: v.optional(v.array(v.string())),
             taskEffect: v.optional(v.string()),
             improvementSuggestion: v.optional(v.string()),
@@ -226,7 +227,7 @@ export const getForGroup = adminQuery({
             participantName: v.string(),
             rating: v.number(),
             textFeedback: v.optional(v.string()),
-            wouldMeetAgain: v.optional(v.string()),
+            wouldMeetAgain: v.optional(wouldMeetAgainValidator),
             photos: v.optional(v.array(v.string())),
             taskEffect: v.optional(v.string()),
             improvementSuggestion: v.optional(v.string()),
@@ -283,7 +284,7 @@ export const submitFeedback = userMutation({
         groupId: v.id("groups"),
         rating: v.number(),
         textFeedback: v.optional(v.string()),
-        wouldMeetAgain: v.optional(v.string()),
+        wouldMeetAgain: v.optional(wouldMeetAgainValidator),
         photos: v.optional(v.array(v.id("_storage"))),
         taskEffect: v.optional(v.string()),
         improvementSuggestion: v.optional(v.string()),

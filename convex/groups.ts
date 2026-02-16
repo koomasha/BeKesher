@@ -6,6 +6,7 @@ import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { userQuery } from "./authUser";
 import { adminQuery } from "./authAdmin";
+import { groupStatusValidator, regionValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -20,8 +21,8 @@ export const getForParticipant = userQuery({
         v.object({
             _id: v.id("groups"),
             createdAt: v.number(),
-            status: v.string(),
-            region: v.optional(v.string()),
+            status: groupStatusValidator,
+            region: v.optional(regionValidator),
             members: v.array(
                 v.object({
                     _id: v.id("participants"),
@@ -103,7 +104,7 @@ export const getActiveForParticipant = userQuery({
         v.object({
             _id: v.id("groups"),
             createdAt: v.number(),
-            region: v.optional(v.string()),
+            region: v.optional(regionValidator),
             members: v.array(
                 v.object({
                     _id: v.id("participants"),
@@ -183,14 +184,14 @@ export const getActiveForParticipant = userQuery({
  */
 export const list = adminQuery({
     args: {
-        status: v.optional(v.string()),
+        status: v.optional(groupStatusValidator),
     },
     returns: v.array(
         v.object({
             _id: v.id("groups"),
             createdAt: v.number(),
-            status: v.string(),
-            region: v.optional(v.string()),
+            status: groupStatusValidator,
+            region: v.optional(regionValidator),
             memberCount: v.number(),
         })
     ),
@@ -302,7 +303,7 @@ export const create = internalMutation({
         participant2: v.id("participants"),
         participant3: v.optional(v.id("participants")),
         participant4: v.optional(v.id("participants")),
-        region: v.optional(v.string()),
+        region: v.optional(regionValidator),
     },
     returns: v.id("groups"),
     handler: async (ctx, args) => {
@@ -322,7 +323,7 @@ export const create = internalMutation({
 export const updateStatus = internalMutation({
     args: {
         groupId: v.id("groups"),
-        status: v.string(),
+        status: groupStatusValidator,
     },
     returns: v.null(),
     handler: async (ctx, args) => {

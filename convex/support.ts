@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { userQuery, userMutation } from "./authUser";
 import { adminQuery, adminMutation } from "./authAdmin";
+import { supportStatusValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -16,7 +17,7 @@ export const getMyTickets = userQuery({
             _id: v.id("supportTickets"),
             question: v.string(),
             answer: v.optional(v.string()),
-            status: v.string(),
+            status: supportStatusValidator,
             createdAt: v.number(),
         })
     ),
@@ -53,7 +54,7 @@ export const getMyTickets = userQuery({
  */
 export const list = adminQuery({
     args: {
-        status: v.optional(v.string()),
+        status: v.optional(supportStatusValidator),
     },
     returns: v.array(
         v.object({
@@ -62,7 +63,7 @@ export const list = adminQuery({
             participantName: v.optional(v.string()),
             question: v.string(),
             answer: v.optional(v.string()),
-            status: v.string(),
+            status: supportStatusValidator,
             createdAt: v.number(),
         })
     ),

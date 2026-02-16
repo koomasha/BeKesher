@@ -2,6 +2,16 @@ import { convexTest } from "convex-test";
 import schema from "./schema";
 import { Id } from "./_generated/dataModel";
 import { internal } from "./_generated/api";
+import type {
+    ParticipantStatus,
+    Gender,
+    Region,
+    GroupStatus,
+    SupportStatus,
+    PaymentStatus,
+    Currency,
+    WouldMeetAgain,
+} from "./validators";
 
 /**
  * Create a fresh convexTest instance with schema.
@@ -63,21 +73,14 @@ export function makeParticipant(
         photo: string;
         birthDate: string;
         age: number; // Virtual field for testing convenience
-        gender: string;
-        region: string;
+        gender: Gender;
+        region: Region;
         city: string;
-        familyStatus: string;
-        targetGender: string;
-        targetAgeFrom: number;
-        targetAgeTo: number;
-        formatPreference: string;
         aboutMe: string;
         profession: string;
         purpose: string;
         expectations: string;
-        values: string[];
-        interests: string[];
-        status: string;
+        status: ParticipantStatus;
         onPause: boolean;
         totalPoints: number;
         registrationDate: number;
@@ -100,9 +103,9 @@ export function makeParticipant(
         phone: "+972501234567",
         telegramId: "100001",
         birthDate: defaultBirthDate,
-        gender: "Male",
-        region: "Center",
-        status: "Active",
+        gender: "Male" as const,
+        region: "Center" as const,
+        status: "Active" as const,
         onPause: false,
         totalPoints: 0,
         registrationDate: Date.now(),
@@ -121,8 +124,8 @@ export function makeGroup(
     overrides: Partial<{
         participant3: Id<"participants">;
         participant4: Id<"participants">;
-        status: string;
-        region: string;
+        status: GroupStatus;
+        region: Region;
         createdAt: number;
     }> = {}
 ) {
@@ -144,7 +147,7 @@ export function makeSupportTicket(
         telegramId: string;
         question: string;
         answer: string;
-        status: string;
+        status: SupportStatus;
         createdAt: number;
     }> = {}
 ) {
@@ -166,7 +169,7 @@ export function makeFeedback(
     overrides: Partial<{
         rating: number;
         textFeedback: string;
-        wouldMeetAgain: string;
+        wouldMeetAgain: WouldMeetAgain;
         photos: Id<"_storage">[];
         taskEffect: string;
         improvementSuggestion: string;
@@ -189,8 +192,8 @@ export function makePaymentLog(
     participantId: Id<"participants">,
     overrides: Partial<{
         amount: number;
-        currency: string;
-        status: string;
+        currency: Currency;
+        status: PaymentStatus;
         payPlusTransactionId: string;
         createdAt: number;
     }> = {}

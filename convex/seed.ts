@@ -1,4 +1,5 @@
 import { internalMutation } from "./_generated/server";
+import type { ParticipantStatus, Gender, Region } from "./validators";
 
 export const resetAndSeed = internalMutation({
     args: {},
@@ -28,9 +29,9 @@ export const resetAndSeed = internalMutation({
         // 2. Seed Participants
         const firstNames = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hannah", "Ivan", "Judy", "Kevin", "Laura", "Michael", "Nina", "Oscar", "Pam", "Quinn", "Rachel", "Steve", "Tina"];
         const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"];
-        const regions = ["North", "Center", "South"];
-        const genders = ["Male", "Female"];
-        const statuses = ["Active", "Lead", "Inactive"];
+        const regions: Region[] = ["North", "Center", "South"];
+        const genders: Gender[] = ["Male", "Female", "Other"];
+        const statuses: ParticipantStatus[] = ["Active", "Lead", "Inactive"];
 
         const participantIds = [];
         console.log("Seeding participants...");
@@ -56,7 +57,6 @@ export const resetAndSeed = internalMutation({
                 gender: gender,
                 region: region,
                 city: "Tel Aviv",
-                familyStatus: "Single",
                 status: status,
                 onPause: Math.random() < 0.1,
                 totalPoints: Math.floor(Math.random() * 100),
@@ -64,17 +64,9 @@ export const resetAndSeed = internalMutation({
                 inChannel: Math.random() > 0.5,
                 periodsPaid: Math.floor(Math.random() * 5),
 
-                // Preferences
-                targetGender: gender === "Male" ? "Female" : "Male",
-                targetAgeFrom: 20,
-                targetAgeTo: 40,
-                formatPreference: "In Person",
-
                 // Profile
                 profession: "Software Engineer",
                 aboutMe: "I love coding and hiking.",
-                values: ["Family", "Health"],
-                interests: ["Travel", "Cooking"],
             });
             participantIds.push(participantId);
         }

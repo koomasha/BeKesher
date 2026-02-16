@@ -1,5 +1,16 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import {
+    participantStatusValidator,
+    genderValidator,
+    regionValidator,
+    groupStatusValidator,
+    paymentStatusValidator,
+    currencyValidator,
+    supportStatusValidator,
+    sessionSourceValidator,
+    wouldMeetAgainValidator,
+} from "./validators";
 
 export default defineSchema({
     participants: defineTable({
@@ -13,27 +24,18 @@ export default defineSchema({
 
         // Demographics
         birthDate: v.string(), // YYYY-MM-DD format
-        gender: v.string(),
-        region: v.string(), // "North" | "Center" | "South"
+        gender: genderValidator,
+        region: regionValidator,
         city: v.optional(v.string()),
-        familyStatus: v.optional(v.string()),
-
-        // Preferences
-        targetGender: v.optional(v.string()),
-        targetAgeFrom: v.optional(v.number()),
-        targetAgeTo: v.optional(v.number()),
-        formatPreference: v.optional(v.string()),
 
         // Profile
         aboutMe: v.optional(v.string()),
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
-        values: v.optional(v.array(v.string())),
-        interests: v.optional(v.array(v.string())),
 
         // Status
-        status: v.string(), // "Lead" | "Active" | "Inactive"
+        status: participantStatusValidator,
         onPause: v.boolean(),
         totalPoints: v.number(),
         registrationDate: v.number(),
@@ -51,8 +53,8 @@ export default defineSchema({
 
     groups: defineTable({
         createdAt: v.number(),
-        status: v.string(), // "Active" | "Completed" | "Cancelled"
-        region: v.optional(v.string()),
+        status: groupStatusValidator,
+        region: v.optional(regionValidator),
         participant1: v.id("participants"),
         participant2: v.id("participants"),
         participant3: v.optional(v.id("participants")),
@@ -66,7 +68,7 @@ export default defineSchema({
         participantId: v.id("participants"),
         rating: v.number(),
         textFeedback: v.optional(v.string()),
-        wouldMeetAgain: v.optional(v.string()),
+        wouldMeetAgain: v.optional(wouldMeetAgainValidator),
         photos: v.optional(v.array(v.id("_storage"))),
         taskEffect: v.optional(v.string()),
         improvementSuggestion: v.optional(v.string()),
@@ -78,8 +80,8 @@ export default defineSchema({
     paymentLogs: defineTable({
         participantId: v.id("participants"),
         amount: v.number(),
-        currency: v.string(),
-        status: v.string(),
+        currency: currencyValidator,
+        status: paymentStatusValidator,
         payPlusTransactionId: v.optional(v.string()),
         createdAt: v.number(),
     }).index("by_participantId", ["participantId"]),
@@ -89,7 +91,7 @@ export default defineSchema({
         telegramId: v.string(),
         question: v.string(),
         answer: v.optional(v.string()),
-        status: v.string(), // "Open" | "Answered" | "Closed"
+        status: supportStatusValidator,
         createdAt: v.number(),
     }).index("by_status", ["status"]),
 
@@ -97,7 +99,7 @@ export default defineSchema({
         telegramId: v.string(),
         token: v.string(),
         expiresAt: v.number(),
-        source: v.string(), // "ai" | "cicd" | "dev"
+        source: sessionSourceValidator,
     }).index("by_token", ["token"]),
 
 
