@@ -76,19 +76,15 @@ export const runWeeklyMatching = internalAction({
         }
         console.log(`✅ Active season: ${activeSeason.name}`);
 
-        // 2. Calculate current week in season
+        // 2. Calculate current week in season (clamp to valid range for manual runs)
         const currentTime = Date.now();
-        const weekNumber = calculateWeekInSeason(activeSeason.startDate, currentTime);
-
-        if (!weekNumber || weekNumber < 1 || weekNumber > 4) {
-            console.log("❌ Current time is outside season bounds!");
-            return {
-                success: false,
-                groupsCreated: 0,
-                unpaired: 0,
-                unpairedNames: [],
-                message: "Outside season bounds",
-            };
+        const rawWeek = calculateWeekInSeason(activeSeason.startDate, currentTime);
+        let weekNumber: 1 | 2 | 3 | 4;
+        if (!rawWeek) {
+            weekNumber = currentTime < activeSeason.startDate ? 1 : 4;
+            console.log(`⚠️ Current time is outside season bounds, using week ${weekNumber}`);
+        } else {
+            weekNumber = rawWeek as 1 | 2 | 3 | 4;
         }
         console.log(`✅ Week ${weekNumber} of season`);
 
@@ -235,7 +231,7 @@ export const runWeeklyMatching = internalAction({
                     participant4: participants[3]?._id,
                     region: group.region,
                     seasonId: activeSeason._id,
-                    weekInSeason: weekNumber as 1 | 2 | 3 | 4,
+                    weekInSeason: weekNumber,
                 });
                 createdCount++;
             }

@@ -284,10 +284,18 @@ export const getActiveInternal = internalQuery({
     v.null()
   ),
   handler: async (ctx) => {
-    return await ctx.db
+    const season = await ctx.db
       .query("seasons")
       .withIndex("by_status", (q) => q.eq("status", "Active"))
       .first();
+    if (!season) return null;
+    return {
+      _id: season._id,
+      name: season.name,
+      startDate: season.startDate,
+      endDate: season.endDate,
+      status: season.status,
+    };
   },
 });
 
