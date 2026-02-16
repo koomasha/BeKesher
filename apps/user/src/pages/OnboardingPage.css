@@ -57,6 +57,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -406,4 +407,64 @@ select.form-input {
     .onboarding-page .btn {
         padding: 12px 20px;
     }
+}
+
+/* Checkbox Label */
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    /* 14px - smaller text per styleguide */
+}
+
+.checkbox-label input[type="checkbox"] {
+    appearance: none;
+    margin-top: 3px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    position: relative;
+    transition: all var(--transition-base);
+    background: var(--bg-card);
+}
+
+.checkbox-label input[type="checkbox"]:hover {
+    border-color: var(--color-accent);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+    border-color: var(--color-accent);
+    /* #33BECC - Blue Curaçao per styleguide */
+    background: var(--color-accent);
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.checkbox-label span {
+    flex: 1;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.form-hint {
+    margin-top: 8px;
+    font-size: var(--font-size-xs);
+    /* 12px - caption size per styleguide */
+    color: var(--text-secondary, #6b7280);
+    font-style: italic;
 }

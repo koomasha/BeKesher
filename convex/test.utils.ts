@@ -80,6 +80,8 @@ export function makeParticipant(
         profession: string;
         purpose: string;
         expectations: string;
+        email: string;
+        socialMediaConsent: boolean;
         status: ParticipantStatus;
         onPause: boolean;
         totalPoints: number;
@@ -112,6 +114,8 @@ export function makeParticipant(
         inChannel: false,
         periodsPaid: 0,
         ...otherOverrides,
+        // Ensure socialMediaConsent is always defined (can be overridden above)
+        socialMediaConsent: otherOverrides.socialMediaConsent ?? true,
     };
 }
 
