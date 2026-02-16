@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeKesher — Твоя связь с новым сообществом</title>
+    <meta name="description"
+        content="Социальная игра для новых репатриантов в Израиле. Найди друзей, выполняй задания и чувствуй себя как дома.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables from Brand Guide Section 13 */
+        :root {
+            /* Brand Colors */
+            --color-primary: #005871;
+            --color-primary-hover: #004559;
+            --color-accent: #33BECC;
+            --color-warm: #FF7F50;
+            --color-warm-hover: #E5673D;
+            --color-highlight: #DCD494;
+
+            /* Backgrounds — WARM, never sterile */
+            --color-bg: #F7F4F0;
+            /* warm cream — primary page bg */
+            --color-bg-alt: #EDF8F9;
+            /* teal tint — alternating sections */
+            --color-bg-warm: rgba(255, 127, 80, 0.06);
+            /* mocha whisper for warm sections */
+            --color-surface: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #6B7280;
+            --color-border: #E8E2DC;
+            /* warm-tinted border, not cold gray */
+
+            /* Typography */
+            --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Shadows — warm-tinted, never cold */
+            --shadow-default: 0 2px 12px rgba(0, 88, 113, 0.06);
+            --shadow-raised: 0 4px 16px rgba(0, 88, 113, 0.10);
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            /* Min body text 16px */
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* COMPONENT PATTERNS */
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #005871 0%, #004559 100%);
+            color: #FFFFFF;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 16px;
+            padding: 14px 32px;
+            border-radius: 22px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #004559 0%, #003A4C 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 88, 113, 0.25);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Warm / Social action */
+        .btn-warm {
+            background: linear-gradient(135deg, #FF7F50 0%, #FF6B4A 100%);
+            color: #FFFFFF;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 16px;
+            padding: 14px 32px;
+            border-radius: 22px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-warm:hover {
+            background: linear-gradient(135deg, #FF6B4A 0%, #E5673D 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 127, 80, 0.3);
+        }
+
+        .btn-warm:active {
+            transform: translateY(0);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-surface);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-default);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 88, 113, 0.08);
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+            box-shadow: var(--shadow-raised);
+        }
+
+        /* Decorative Background Texture (Plus / Cross Grid) */
+        .bg-plus {
+            background-image:
+                linear-gradient(var(--color-primary) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-primary) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0;
+            opacity: 0.04;
+        }
+
+        /* Utilities */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-alt {
+            background-color: var(--color-bg-alt);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 88, 113, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-modal);
+            border: 1px solid rgba(0, 88, 113, 0.08);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #F7F4F0 0%, #EDF8F9 100%);
+            padding: 24px 32px;
+            border-bottom: 2px solid rgba(255, 127, 80, 0.15);
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            color: var(--color-primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 127, 80, 0.1);
+            border: 2px solid rgba(255, 127, 80, 0.3);
+            color: var(--color-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--color-warm);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 32px;
+            color: var(--color-text);
+        }
+
+        .modal-body h3 {
+            color: var(--color-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            line-height: 1.7;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+
+        .modal-body ul {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        .modal-body li {
+            line-height: 1.7;
+            margin-bottom: 8px;
+            color: var(--color-text);
+        }
+
+        .modal-body strong {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        /* Scrollbar styling for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255, 127, 80, 0.05);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 127, 80, 0.3);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 127, 80, 0.5);
+        }
+
+        /* Pyramid Rules Layout */
+        @media (max-width: 768px) {
+            .pyramid-row {
+                flex-direction: column !important;
+                align-items: center;
+                gap: 0 !important;
+                margin-bottom: 0 !important;
+                position: relative;
+            }
+
+            .pyramid-row .card {
+                max-width: 100% !important;
+                margin-bottom: 3rem;
+                position: relative;
+            }
+
+            /* Hide desktop connecting lines */
+            .connecting-lines {
+                display: none !important;
+            }
+
+            /* Show mobile vertical connecting lines */
+            .pyramid-row .card::after {
+                content: '';
+                position: absolute;
+                bottom: -3rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 2px;
+                height: 3rem;
+                background: linear-gradient(to bottom, #FF7F50 0%, transparent 100%);
+                opacity: 0.3;
+            }
+
+            /* Dot in the middle of the line */
+            .pyramid-row .card::before {
+                content: '';
+                position: absolute;
+                bottom: -1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 8px;
+                height: 8px;
+                background: #FF7F50;
+                border-radius: 50%;
+                opacity: 0.6;
+                z-index: 1;
+            }
+
+            /* Remove line and dot from last row */
+            .pyramid-row:last-child .card::after,
+            .pyramid-row:last-child .card::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-[#E8E2DC]">
+        <div class="max-w-6xl mx-auto px-6 py-3 md:py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2 md:gap-3">
+                <!-- LOGO SVG (Exact from Brand Guide) -->
+                <svg width="42" height="38" viewBox="38 40 128 115" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="v6-nav-glow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#33BECC" stop-opacity="0.15" />
+                            <stop offset="100%" stop-color="#33BECC" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+                    <circle cx="105" cy="95" r="80" fill="url(#v6-nav-glow)" />
+                    <circle cx="105" cy="88" r="20" fill="#005871" />
+                    <circle cx="105" cy="88" r="23" fill="none" stroke="#FF7F50" stroke-width="1.5" opacity="0.4" />
+                    <circle cx="60" cy="58" r="11" fill="#FF7F50" />
+                    <circle cx="150" cy="58" r="9" fill="#FF7F50" />
+                    <circle cx="55" cy="115" r="8" fill="#DCD494" />
+                    <circle cx="148" cy="120" r="10" fill="#FF7F50" opacity="0.7" />
+                    <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.6" />
+                    <circle cx="68" cy="82" r="5" fill="#005871" opacity="0.4" />
+                    <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.5" />
+                    <line x1="105" y1="88" x2="60" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.35" />
+                    <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.35" />
+                    <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5" opacity="0.35" />
+                    <line x1="105" y1="88" x2="148" y2="120" stroke="#FF7F50" stroke-width="1.2" opacity="0.3" />
+                    <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.3" />
+                    <line x1="60" y1="58" x2="55" y2="115" stroke="#005871" stroke-width="1" opacity="0.15" />
+                    <line x1="150" y1="58" x2="148" y2="120" stroke="#005871" stroke-width="1" opacity="0.15" />
+                    <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#fff"
+                        text-anchor="middle">B</text>
+                </svg>
+                <!-- Wordmark -->
+                <div class="hidden md:block">
+                    <span class="block text-xl font-bold text-[#005871] leading-none">BeKesher</span>
+                    <span class="block text-xs text-[#FF7F50] mt-1 font-normal">Твоя связь с новым сообществом</span>
+                </div>
+                <!-- Mobile Wordmark (just title) -->
+                <span class="md:hidden text-lg font-bold text-[#005871]">BeKesher</span>
+            </div>
+
+            <!-- Mobile Nav -->
+            <div class="md:hidden flex items-center gap-2">
+                <!-- Mobile Telegram Button (round icon) -->
+                <a href="https://t.me/bekesher_bot/bekesher" target="_blank"
+                    class="w-10 h-10 rounded-full bg-[#005871] flex items-center justify-center text-white hover:bg-[#004559] transition ease-in-out duration-200 shadow-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="w-10 h-10 rounded-full bg-[#EDF8F9] flex items-center justify-center text-[#005871] hover:bg-[#FF7F50] hover:text-white transition ease-in-out duration-200 shadow-sm border border-[#FF7F50]/20">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-6">
+                <!-- Navigation Links -->
+                <nav class="flex items-center gap-6">
+                    <a href="#how-it-works"
+                        class="text-sm font-medium text-[#005871] hover:text-[#33BECC] transition">Как работает</a>
+                    <a href="#values" class="text-sm font-medium text-[#005871] hover:text-[#33BECC] transition">О
+                        проекте</a>
+                    <a href="#rules"
+                        class="text-sm font-medium text-[#005871] hover:text-[#33BECC] transition">Правила</a>
+                </nav>
+
+                <!-- Socials -->
+                <div class="flex gap-2">
+                    <a href="https://www.facebook.com/groups/868695575482071/" target="_blank"
+                        class="w-10 h-10 rounded-full bg-[#EDF8F9] flex items-center justify-center text-[#005871] hover:bg-[#33BECC] hover:text-white transition ease-in-out duration-200 shadow-sm border border-[#33BECC]/20">
+                        <!-- Facebook -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/game_bekesher" target="_blank"
+                        class="w-10 h-10 rounded-full bg-[#EDF8F9] flex items-center justify-center text-[#005871] hover:bg-[#33BECC] hover:text-white transition ease-in-out duration-200 shadow-sm border border-[#33BECC]/20">
+                        <!-- Instagram -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Telegram Button -->
+                <a href="https://t.me/bekesher_bot/bekesher" target="_blank" class="btn-primary !py-2.5 !px-6 !text-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Играть в Telegram
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-[#E8E2DC] shadow-lg">
+            <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-3">
+                <a href="#how-it-works"
+                    class="mobile-menu-link text-sm font-medium text-[#005871] hover:text-[#FF7F50] transition py-2 border-b border-[#E8E2DC]/50">Как
+                    работает</a>
+                <a href="#values"
+                    class="mobile-menu-link text-sm font-medium text-[#005871] hover:text-[#FF7F50] transition py-2 border-b border-[#E8E2DC]/50">О
+                    проекте</a>
+                <a href="#rules"
+                    class="mobile-menu-link text-sm font-medium text-[#005871] hover:text-[#FF7F50] transition py-2">Правила</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-20 lg:py-32">
+        <!-- Background Assets -->
+        <div class="absolute inset-0 bg-plus"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-[#33BECC] opacity-10 rounded-full blur-3xl"></div>
+        <div class="absolute top-20 -left-20 w-72 h-72 bg-[#FF7F50] opacity-10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="text-center lg:text-left">
+                <span
+                    class="inline-block py-1 px-4 rounded-full bg-[#EDF8F9] text-[#005871] text-sm font-semibold mb-6 border border-[#33BECC]/20 shadow-sm">🌿
+                    Социальная адаптация - комфортно и уверенно</span>
+                <h1 class="text-4xl lg:text-6xl font-bold text-[#005871] mb-6 leading-tight">
+                    Найди своих людей. <br>
+                    <span class="text-gradient">Легко. В игре.</span>
+                </h1>
+                <p class="text-lg text-[#6B7280] mb-8 max-w-lg mx-auto lg:mx-0">
+                    BeKesher превращает поиск друзей в Израиле в увлекательный квест. Никаких неловких пауз — только
+                    живое общение и поддержка, когда она так нужна.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="https://t.me/bekesher_bot/bekesher" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        Играть в Telegram
+                    </a>
+                    <a href="#how-it-works"
+                        class="inline-flex items-center justify-center px-8 py-3 rounded-[22px] border-2 border-[#33BECC] text-[#33BECC] font-semibold hover:bg-[#33BECC] hover:text-white transition ease-in-out duration-200">
+                        Как это работает?
+                    </a>
+                </div>
+            </div>
+
+            <!-- Visual "Living Room" Element -->
+            <div class="relative hidden lg:block">
+                <!-- Main Card (Slight Tilt) -->
+                <div
+                    class="bg-white p-8 rounded-[24px] shadow-[0_8px_28px_rgba(0,88,113,0.12)] transform rotate-2 max-w-md mx-auto border border-[#E8E2DC]">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-full bg-[#EDF8F9] flex items-center justify-center text-2xl">👋
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-[#005871] text-lg">Задание на неделю</h3>
+                            <p class="text-sm text-[#6B7280]">Тема: Твой любимый город</p>
+                        </div>
+                    </div>
+                    <div class="bg-[#F7F4F0] p-6 rounded-[16px] mb-6 relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 text-6xl opacity-10">📍</div>
+                        <p class="text-[#1A1A1A] font-medium leading-relaxed">
+                            "Встреться со своим напарником и покажи ему место, где ты чувствуешь себя как дома. Это
+                            может быть парк, кафе или скамейка у моря."
+                        </p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex -space-x-3">
+                            <div
+                                class="w-10 h-10 rounded-full border-2 border-white bg-[#FF7F50] flex items-center justify-center text-white text-xs font-bold">
+                                А</div>
+                            <div
+                                class="w-10 h-10 rounded-full border-2 border-white bg-[#33BECC] flex items-center justify-center text-white text-xs font-bold">
+                                М</div>
+                            <div
+                                class="w-10 h-10 rounded-full border-2 border-white bg-[#DCD494] flex items-center justify-center text-[#005871] text-xs font-bold">
+                                +2</div>
+                        </div>
+                        <span class="text-sm font-semibold text-[#33BECC] bg-[#EDF8F9] px-3 py-1 rounded-full">Активно
+                            до четверга</span>
+                    </div>
+                </div>
+
+                <!-- Decorative elements -->
+                <div
+                    class="absolute top-10 right-10 w-16 h-16 bg-[#DCD494] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse">
+                </div>
+                <div
+                    class="absolute bottom-10 left-10 w-20 h-20 bg-[#33BECC] rounded-full mix-blend-multiply filter blur-xl opacity-70">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 section-alt relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-[#005871] mb-4">Как работает BeKesher?</h2>
+                <p class="text-[#6B7280] max-w-2xl mx-auto">
+                    Мы убрали всё лишнее. Никаких сложных регистраций и установки новых приложений.
+                    Ваша новая социальная жизнь начинается там, где вы уже есть.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <article class="card hover:-translate-y-2">
+                    <div
+                        class="w-14 h-14 bg-[rgba(51,190,204,0.1)] rounded-2xl flex items-center justify-center text-3xl mb-6 text-[#005871]">
+                        🤖</div>
+                    <h3 class="text-xl font-bold text-[#005871] mb-3">Всё в Telegram</h3>
+                    <p class="text-[#6B7280] text-sm">
+                        Взаимодействие происходит через удобный бот. Минимум трения, максимум пользы.
+                    </p>
+                </article>
+
+                <!-- Step 2 -->
+                <article class="card hover:-translate-y-2">
+                    <div
+                        class="w-14 h-14 bg-[rgba(51,190,204,0.1)] rounded-2xl flex items-center justify-center text-3xl mb-6 text-[#FF7F50]">
+                        🧩</div>
+                    <h3 class="text-xl font-bold text-[#005871] mb-3">Умный подбор</h3>
+                    <p class="text-[#6B7280] text-sm">
+                        Алгоритм находит людей рядом с вами (Север, Центр, Юг) и схожего возраста (±10 лет).
+                    </p>
+                </article>
+
+                <!-- Step 3 -->
+                <article class="card hover:-translate-y-2">
+                    <div
+                        class="w-14 h-14 bg-[rgba(51,190,204,0.1)] rounded-2xl flex items-center justify-center text-3xl mb-6 text-[#33BECC]">
+                        🎲</div>
+                    <h3 class="text-xl font-bold text-[#005871] mb-3">Геймификация</h3>
+                    <p class="text-[#6B7280] text-sm">
+                        Вместо "Привет, как дела?" — интересные задания каждую неделю, которые ломают лед.
+                    </p>
+                </article>
+
+                <!-- Step 4 -->
+                <article class="card hover:-translate-y-2">
+                    <div
+                        class="w-14 h-14 bg-[rgba(51,190,204,0.1)] rounded-2xl flex items-center justify-center text-3xl mb-6 text-[#DCD494]">
+                        💬</div>
+                    <h3 class="text-xl font-bold text-[#005871] mb-3">Сообщество</h3>
+                    <p class="text-[#6B7280] text-sm">
+                        Доступ к закрытому чату участников для поддержки, нетворкинга и простого общения.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values / Emotional Section -->
+    <section id="values" class="py-24 bg-[#F7F4F0] relative overflow-hidden">
+        <div class="absolute inset-0 bg-plus opacity-20"></div>
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
+            <div>
+                <span class="text-[#FF7F50] font-bold tracking-wider uppercase text-sm mb-2 block">Миссия проекта</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#005871] mb-6">Больше, чем просто знакомства</h2>
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50]">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1A1A1A] text-lg">Победа над одиночеством</h4>
+                            <p class="text-[#6B7280]">Мы понимаем, как трудно быть одному в новой стране. BeKesher
+                                создает безопасное пространство для первых шагов.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#33BECC]/10 flex items-center justify-center text-[#33BECC]">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1A1A1A] text-lg">Глубокие связи</h4>
+                            <p class="text-[#6B7280]">Наши вопросы созданы психологами, чтобы вы могли узнать человека
+                                по-настоящему, минуя поверхностные разговоры.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <a href="#" class="btn-warm">
+                        Присоединиться к сообществу
+                    </a>
+                </div>
+            </div>
+
+            <!-- Abstract Visual -->
+            <div class="relative">
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-[#33BECC]/20 to-[#FF7F50]/20 rounded-full blur-3xl -z-10">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="card bg-[#FFFFFF] p-6 transform translate-y-8">
+                        <div class="text-4xl mb-2">☕</div>
+                        <p class="font-bold text-[#005871]">Кофе в Хайфе</p>
+                        <p class="text-xs text-gray-500 mt-1">Оля и Марк встретились вчера</p>
+                    </div>
+                    <div class="card bg-[#FFFFFF] p-6">
+                        <div class="text-4xl mb-2">🏄‍♂️</div>
+                        <p class="font-bold text-[#005871]">Серфинг</p>
+                        <p class="text-xs text-gray-500 mt-1">Группа Тель-Авив собралась на пляже</p>
+                    </div>
+                    <div
+                        class="card bg-[#FFFFFF] p-6 col-span-2 mx-auto w-3/4 -mt-4 transform -rotate-1 shadow-lg border-2 border-[#DCD494]/30">
+                        <p class="text-center italic text-[#FF7F50] font-medium">"Наконец-то я не чувствую себя
+                            туристом."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Rules Section -->
+    <section id="rules" class="py-16 section-alt relative overflow-hidden">
+        <!-- Decorative colorful accents -->
+        <div class="absolute top-10 right-10 w-20 h-20 rounded-full bg-[#FF7F50] opacity-20 blur-2xl"></div>
+        <div class="absolute bottom-20 left-10 w-24 h-24 rounded-full bg-[#DCD494] opacity-25 blur-2xl"></div>
+        <div class="absolute top-1/3 left-1/4 w-16 h-16 rounded-full bg-[#FF7F50] opacity-15 blur-xl"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-20 h-20 rounded-full bg-[#DCD494] opacity-15 blur-xl"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    <span class="text-gradient">Правила игры</span>
+                </h2>
+                <p class="text-[#6B7280] max-w-2xl mx-auto">
+                    Простые шаги для участия в сезоне. Мы сделали всё, чтобы вам было комфортно.
+                </p>
+            </div>
+
+            <!-- Pyramid Layout with Connecting Lines -->
+            <div class="rules-pyramid max-w-5xl mx-auto">
+                <!-- Row 1: 3 cards -->
+                <div class="pyramid-row flex justify-center gap-6 mb-16 relative">
+                    <!-- Rule 1 -->
+                    <article class="card flex-1 max-w-xs">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                1</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Регистрация и оплата</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed">
+                            Регистрация открывается за 3 недели до начала сезона. Оплата гарантирует осознанное участие.
+                        </p>
+                    </article>
+
+                    <!-- Rule 2 -->
+                    <article class="card flex-1 max-w-xs">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                2</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Старт сезона</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed mb-3">
+                            Каждое воскресенье вы получаете новую группу (2–4 человека) и задание недели.
+                        </p>
+                        <ul class="text-xs text-[#6B7280] space-y-1 list-disc list-inside">
+                            <li>Подбор по региону (Север/Центр/Юг)</li>
+                            <li>Возраст ±10 лет</li>
+                        </ul>
+                    </article>
+
+                    <!-- Rule 3 -->
+                    <article class="card flex-1 max-w-xs">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                3</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Встреча</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed">
+                            Вы сами решаете: онлайн или офлайн. Главное — выполнить общее задание, которое поможет
+                            узнать друг друга лучше.
+                        </p>
+                    </article>
+
+                    <!-- Connecting lines from row 1 to row 2 -->
+                    <svg class="connecting-lines absolute top-full left-0 w-full h-16 -mt-8 pointer-events-none"
+                        style="overflow: visible;">
+                        <!-- Lines from card 1 & 2 to card 4 -->
+                        <line x1="16%" y1="0" x2="33%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <line x1="50%" y1="0" x2="33%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <!-- Lines from card 2 & 3 to card 5 -->
+                        <line x1="50%" y1="0" x2="67%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <line x1="84%" y1="0" x2="67%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <!-- Dots on lines -->
+                        <circle cx="24%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                        <circle cx="42%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                        <circle cx="59%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                        <circle cx="76%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                    </svg>
+                </div>
+
+                <!-- Row 2: 2 cards -->
+                <div class="pyramid-row flex justify-center gap-12 mb-16 relative">
+                    <!-- Rule 4 -->
+                    <article class="card flex-1 max-w-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                4</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Обратная связь</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed mb-3">
+                            Оставьте отзыв до вторника. Это важно для рейтингов и будущих подборов.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-medium text-[#33BECC] bg-[#33BECC]/10 px-2 py-1 rounded">📸 Фото:
+                                +10 баллов</span>
+                            <span class="text-xs font-medium text-[#6B7280] bg-gray-100 px-2 py-1 rounded">📝 Текст: +5
+                                баллов</span>
+                        </div>
+                    </article>
+
+                    <!-- Rule 5 -->
+                    <article class="card flex-1 max-w-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                5</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Пропуски и Продление</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed">
+                            Пропустили? В следующей группе будет больше людей для подстраховки. В конце месяца продлите
+                            участие, чтобы попасть в новые группы. Если нет — остаетесь только в общем чате.
+                        </p>
+                    </article>
+
+                    <!-- Connecting lines from row 2 to row 3 -->
+                    <svg class="connecting-lines absolute top-full left-0 w-full h-16 -mt-8 pointer-events-none"
+                        style="overflow: visible;">
+                        <!-- Lines from cards 4 & 5 to card 6 -->
+                        <line x1="30%" y1="0" x2="50%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <line x1="70%" y1="0" x2="50%" y2="100%" stroke="#FF7F50" stroke-width="2" opacity="0.3" />
+                        <!-- Dots on lines -->
+                        <circle cx="40%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                        <circle cx="60%" cy="50%" r="4" fill="#FF7F50" opacity="0.6" />
+                    </svg>
+                </div>
+
+                <!-- Row 3: 1 card -->
+                <div class="pyramid-row flex justify-center">
+                    <!-- Rule 6 -->
+                    <article class="card max-w-md">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#FF7F50]/10 flex items-center justify-center text-[#FF7F50] font-bold text-lg shrink-0">
+                                🎉</div>
+                            <h3 class="font-bold text-[#005871] text-lg">Выпускной праздник</h3>
+                        </div>
+                        <p class="text-[#6B7280] text-sm leading-relaxed">
+                            Раз в 6 месяцев мы устраиваем большую встречу для всех выпускников сезонов — это шанс
+                            встретить ещё больше людей и отпраздновать ваш путь вместе!
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#005871] text-[#E8E2DC] py-10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <!-- Footer Logo (Dark Variant per Section 2B) -->
+                        <svg width="36" height="32" viewBox="38 40 128 115" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="v6-footer-glow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#33BECC" stop-opacity="0.2" />
+                                    <stop offset="100%" stop-color="#33BECC" stop-opacity="0" />
+                                </radialGradient>
+                            </defs>
+                            <circle cx="105" cy="95" r="80" fill="url(#v6-footer-glow)" />
+                            <circle cx="105" cy="88" r="20" fill="#FFFFFF" />
+                            <circle cx="105" cy="88" r="23" fill="none" stroke="#FF7F50" stroke-width="1.5"
+                                opacity="0.5" />
+                            <circle cx="60" cy="58" r="11" fill="#FF7F50" />
+                            <circle cx="150" cy="58" r="9" fill="#FF7F50" />
+                            <circle cx="55" cy="115" r="8" fill="#DCD494" />
+                            <circle cx="148" cy="120" r="10" fill="#FF7F50" opacity="0.8" />
+                            <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.7" />
+                            <circle cx="68" cy="82" r="5" fill="#FFFFFF" opacity="0.3" />
+                            <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.6" />
+                            <line x1="105" y1="88" x2="60" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.45" />
+                            <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5"
+                                opacity="0.45" />
+                            <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5"
+                                opacity="0.45" />
+                            <line x1="105" y1="88" x2="148" y2="120" stroke="#FF7F50" stroke-width="1.2"
+                                opacity="0.4" />
+                            <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2"
+                                opacity="0.4" />
+                            <line x1="60" y1="58" x2="55" y2="115" stroke="#FFFFFF" stroke-width="1" opacity="0.1" />
+                            <line x1="150" y1="58" x2="148" y2="120" stroke="#FFFFFF" stroke-width="1" opacity="0.1" />
+                            <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22"
+                                fill="#005871" text-anchor="middle">B</text>
+                        </svg>
+                        <span class="text-2xl font-bold text-white">BeKesher</span>
+                    </div>
+                    <p class="max-w-md text-[#E8E2DC]/80 leading-relaxed text-sm">
+                        Твой социальный навигатор в Израиле. Мы помогаем найти друзей, поддержку и ощущение дома в новой
+                        стране.
+                    </p>
+                </div>
+
+                <!-- Socials -->
+                <div class="flex gap-3">
+                    <a href="https://www.facebook.com/groups/868695575482071/" target="_blank"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#33BECC] transition ease-in-out duration-200">
+                        <!-- Facebook -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/game_bekesher" target="_blank"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#33BECC] transition ease-in-out duration-200">
+                        <!-- Instagram -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-[#E8E2DC]/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs opacity-60">
+                <p>&copy; 2026 BeKesher. Все права защищены.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="javascript:void(0)" onclick="openModal('privacy-modal')"
+                        class="hover:text-white cursor-pointer">Политика конфиденциальности</a>
+                    <a href="javascript:void(0)" onclick="openModal('terms-modal')"
+                        class="hover:text-white cursor-pointer">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Политика конфиденциальности</h2>
+                <button class="modal-close" onclick="closeModal('privacy-modal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Настоящая Политика конфиденциальности описывает, как проект BeKesher (далее — «мы», «проект»)
+                        собирает, использует и защищает информацию об участниках игры.</strong> Мы ответственно подходим
+                    к защите ваших данных и используем их исключительно для обеспечения работы игровых механик и
+                    улучшения качества нашего сервиса.</p>
+
+                <h3>1. Какую информацию мы собираем</h3>
+                <p>Для участия в игре и работы алгоритмов подбора групп мы собираем следующие данные:</p>
+                <ul>
+                    <li><strong>Идентификационные данные:</strong> Имя, фамилия (из профиля Telegram), номер телефона и
+                        ваш уникальный Telegram ID.</li>
+                    <li><strong>Профильные данные (Анкета):</strong> Возраст, пол, регион и город проживания в Израиле,
+                        сфера деятельности, интересы и ценности.</li>
+                    <li><strong>Игровые данные:</strong> История ваших встреч, отзывы о прошедших неделях, заработанные
+                        баллы и статус подписки.</li>
+                </ul>
+
+                <h3>2. Как мы используем ваши данные</h3>
+                <p>Ваша информация используется строго в следующих целях:</p>
+                <ul>
+                    <li><strong>Обеспечение работы алгоритмов игры:</strong> Мы используем ваши данные (регион, возраст,
+                        интересы) для автоматизированного подбора наиболее подходящих напарников и групп (от 2 до 4
+                        человек).</li>
+                    <li><strong>Взаимодействие внутри групп:</strong> Когда система подбирает вам группу, ваши данные
+                        (включая имя, возраст, информацию «о себе» и фотографию из анкеты) становятся видны вашим
+                        напарникам для возможности знакомства и связи. Эти данные также доступны вам и вашим напарникам
+                        в истории встреч.</li>
+                    <li><strong>Внутренняя аналитика:</strong> Анализ предпочтений участников для улучшения механики
+                        заданий и персонализации игрового опыта.</li>
+                    <li><strong>Маркетинг и реклама:</strong> Мы используем обезличенные или обобщенные данные для
+                        настройки рекламных кампаний в сервисах (например, Meta Ads, Google Ads) с целью привлечения
+                        новых участников в сообщество.</li>
+                    <li><strong>Связь с участниками:</strong> Отправка уведомлений о напарниках, заданиях недели и
+                        напоминаний об оплате через Telegram-бота.</li>
+                </ul>
+
+                <h3>3. Фотографии и визуальный контент</h3>
+                <ul>
+                    <li><strong>Фото из анкеты:</strong> Используются внутри системы для того, чтобы напарники могли
+                        узнать друг друга. Фотография отображается только участникам вашей текущей или прошлых групп и
+                        не подлежит публичному распространению.</li>
+                    <li><strong>Фото со встреч (отчёты):</strong> Фотографии, которые вы добровольно загружаете в
+                        отчётах после выполнения заданий, используются для продвижения проекта в социальных сетях только
+                        в случае, если вы дали на это прямое согласие при заполнении анкеты.</li>
+                </ul>
+
+                <h3>4. Хранение и защита данных</h3>
+                <ul>
+                    <li>Ваши данные хранятся в защищенной облачной инфраструктуре.</li>
+                    <li>Мы принимаем необходимые технические меры для предотвращения несанкционированного доступа к
+                        вашей личной информации.</li>
+                    <li>Мы не продаем ваши личные данные третьим лицам.</li>
+                </ul>
+
+                <h3>5. Ваши права</h3>
+                <p>Вы можете в любой момент:</p>
+                <ul>
+                    <li>Обновить или изменить информацию в своей анкетe через меню бота.</li>
+                    <li>Приостановить участие в игре, перейдя в режим «Пауза».</li>
+                </ul>
+
+                <h3>6. Согласие на обработку</h3>
+                <p>Регистрируясь в боте и заполняя анкету, вы подтверждаете свое согласие с данной Политикой
+                    конфиденциальности и Условиями использования сервиса.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Use Modal -->
+    <div id="terms-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Условия использования BeKesher</h2>
+                <button class="modal-close" onclick="closeModal('terms-modal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Добро пожаловать в BeKesher — проект для социальной адаптации в атмосфере комфорта и
+                        уверенности.</strong> Настоящие Условия регулируют порядок вашего участия в игре и
+                    взаимодействия внутри сообщества.</p>
+
+                <h3>1. Общие положения</h3>
+                <ul>
+                    <li>BeKesher — это ежемесячный игровой проект, направленный на создание связей между участниками
+                        через выполнение совместных заданий в малых группах.</li>
+                    <li>Один игровой сезон длится 1 месяц.</li>
+                    <li>Основная цель проекта — помощь в адаптации и формирование первичного круга общения в Израиле.
+                    </li>
+                </ul>
+
+                <h3>2. Регистрация и оплата</h3>
+                <ul>
+                    <li>Регистрация на новый сезон открывается за 3 недели до его начала.</li>
+                    <li>Для участия необходимо заполнить анкету и внести оплату.</li>
+                    <li>В проекте отсутствует бесплатный период, что обеспечивает осознанный и ответственный подход
+                        участников к процессу.</li>
+                </ul>
+
+                <h3>3. Формирование групп и игровой процесс</h3>
+                <ul>
+                    <li>Группы численностью от 2 до 4 человек формируются еженедельно по воскресеньям.</li>
+                    <li>Основные критерии подбора: регион проживания (Север, Центр, Юг) и возраст (±10 лет от возраста
+                        участника).</li>
+                    <li>В случае отсутствия точного совпадения система может расширить возрастной диапазон для
+                        обеспечения участия каждого игрока.</li>
+                    <li>Участники самостоятельно согласовывают время и формат встречи (онлайн или личная встреча).</li>
+                    <li>Каждое воскресенье в боте и общем канале публикуется общее задание недели.</li>
+                </ul>
+
+                <h3>4. Обратная связь и система баллов</h3>
+                <ul>
+                    <li>После встречи участники оставляют отзыв и выставляют оценку в боте.</li>
+                    <li>Начисление баллов: 10 баллов за отзыв с фотографией, 5 баллов — без фотографии.</li>
+                    <li>Срок подачи обратной связи — до вторника следующей недели.</li>
+                    <li>Накопленные баллы определяют вашу активность и могут давать привилегии при проведении живых
+                        мероприятий проекта.</li>
+                </ul>
+
+                <h3>5. Пропуск встреч и статусы</h3>
+                <ul>
+                    <li>Если вы пропускаете встречу, на следующей неделе система распределит вас в группу из 3–4 человек
+                        для сохранения динамики игры.</li>
+                    <li>Вы можете временно приостановить участие, активировав режим «Пауза».</li>
+                    <li>Если участие не продлено на следующий сезон, вы сохраняете доступ к общему чату, но исключаетесь
+                        из алгоритмов еженедельного распределения в группы.</li>
+                </ul>
+
+                <h3>6. Ответственность участников</h3>
+                <ul>
+                    <li>Участники обязуются соблюдать принципы уважительного и доброжелательного общения.</li>
+                    <li>Личные данные напарников (имя, телефон, фото из анкеты) предоставляются исключительно для
+                        организации встреч в рамках игры и не подлежат распространению.</li>
+                </ul>
+
+                <p style="margin-top: 24px; padding-top: 24px; border-top: 2px solid rgba(255, 127, 80, 0.15);">
+                    <strong>Регистрируясь в BeKesher, вы подтверждаете, что ознакомлены и согласны с данными
+                        Правилами.</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Toggle & Modal Scripts -->
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close menu when clicking on a link
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        // Close modal when clicking on overlay
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal(e.target.id);
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal.id);
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
