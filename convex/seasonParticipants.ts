@@ -1,9 +1,7 @@
 import { adminQuery, adminMutation } from "./authAdmin";
 import { userQuery, userMutation } from "./authUser";
 import { internalQuery } from "./_generated/server";
-import { v } from "convex/values";
-import { Id } from "./_generated/dataModel";
-import { ConvexError } from "convex/values";
+import { v, ConvexError } from "convex/values";
 import { seasonParticipantStatusValidator } from "./validators";
 
 // ============================================

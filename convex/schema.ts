@@ -198,6 +198,4 @@ export default defineSchema({
         expiresAt: v.number(),
         source: sessionSourceValidator,
     }).index("by_token", ["token"]),
-
-
 });

@@ -28,7 +28,7 @@ function ReviewPage() {
                     <select
                         className="input"
                         value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
+                        onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
                     >
                         <option value=""><Trans>All</Trans></option>
                         <option value="Pending"><Trans>Pending Review</Trans></option>

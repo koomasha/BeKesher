@@ -1,6 +1,5 @@
 import { adminQuery, adminMutation } from "./authAdmin";
 import { v } from "convex/values";
-import { Id } from "./_generated/dataModel";
 import {
   taskTypeValidator,
   taskDifficultyValidator,

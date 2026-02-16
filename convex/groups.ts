@@ -380,10 +380,8 @@ export const create = internalMutation({
             region: args.region,
             status: "Active",
             createdAt: Date.now(),
-            // Season fields
             seasonId: args.seasonId,
             weekInSeason: args.weekInSeason,
-            taskId: undefined,  // Will be assigned by admin later
         });
 
         return groupId;
