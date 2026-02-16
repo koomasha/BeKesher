@@ -35,7 +35,13 @@
       "Bash(npx lingui compile:*)",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "WebFetch(domain:docs.convex.dev)"
+      "WebFetch(domain:docs.convex.dev)",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_console_messages",
+      "Bash(ls:*)",
+      "Bash(npm run:*)",
+      "Bash(node -e:*)",
+      "mcp__playwright__browser_close"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\bekesher"

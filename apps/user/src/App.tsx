@@ -6,6 +6,7 @@ import GroupsPage from './pages/GroupsPage';
 import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
+import TaskPage from './pages/TaskPage';
 import { UserHeader } from './components/UserHeader';
 import { UserFooter } from './components/UserFooter';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/onboarding" element={<OnboardingPage />} />
                         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                         <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
+                        <Route path="/task" element={<ProtectedRoute><TaskPage /></ProtectedRoute>} />
                         <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
                         <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
                     </Routes>

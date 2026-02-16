@@ -17,6 +17,16 @@ function GroupsPage() {
         isAuthenticated ? authArgs : 'skip'
     );
 
+    const enrollment = useQuery(
+        api.seasonParticipants.getMyEnrollment,
+        isAuthenticated ? authArgs : 'skip'
+    );
+
+    const taskAssignment = useQuery(
+        api.taskAssignments.getForActiveGroup,
+        isAuthenticated ? authArgs : 'skip'
+    );
+
     if (!isAuthenticated) {
         return (
             <div className="page">
@@ -46,6 +56,15 @@ function GroupsPage() {
                 <p><Trans>Общайся с новыми друзьями</Trans></p>
             </div>
 
+            {enrollment && (
+                <div className="card animate-fade-in" style={{ background: 'var(--bg-warm)' }}>
+                    <div className="card-header">
+                        <span className="card-title">{enrollment.seasonName}</span>
+                        <span className="badge badge-active">{enrollment.status}</span>
+                    </div>
+                </div>
+            )}
+
             {activeGroup && (
                 <div className="card animate-fade-in">
                     <div className="card-header">
@@ -68,6 +87,11 @@ function GroupsPage() {
                             </li>
                         ))}
                     </ul>
+                    {taskAssignment && (
+                        <Link to="/task" className="btn btn-warm btn-full" style={{ marginTop: 'var(--spacing-md)' }}>
+                            <Trans>Перейти к заданию</Trans>
+                        </Link>
+                    )}
                 </div>
             )}
 

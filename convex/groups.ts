@@ -6,7 +6,7 @@ import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { userQuery } from "./authUser";
 import { adminQuery } from "./authAdmin";
-import { groupStatusValidator, regionValidator } from "./validators";
+import { groupStatusValidator, regionValidator, weekInSeasonValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -43,18 +43,32 @@ export const getForParticipant = userQuery({
             return [];
         }
 
-        // Get all groups and filter for this participant
-        // Note: In production, we'd want an index for this
-        const allGroups = await ctx.db.query("groups").collect();
+        // Query using all 4 participant indexes instead of full table scan
+        const [asP1, asP2, asP3, asP4] = await Promise.all([
+            ctx.db
+                .query("groups")
+                .withIndex("by_participant1", (q) => q.eq("participant1", participant._id))
+                .collect(),
+            ctx.db
+                .query("groups")
+                .withIndex("by_participant2", (q) => q.eq("participant2", participant._id))
+                .collect(),
+            ctx.db
+                .query("groups")
+                .withIndex("by_participant3", (q) => q.eq("participant3", participant._id))
+                .collect(),
+            ctx.db
+                .query("groups")
+                .withIndex("by_participant4", (q) => q.eq("participant4", participant._id))
+                .collect(),
+        ]);
 
-        const participantGroups = allGroups.filter((g) => {
-            return (
-                g.participant1 === participant._id ||
-                g.participant2 === participant._id ||
-                g.participant3 === participant._id ||
-                g.participant4 === participant._id
-            );
-        });
+        // Combine and deduplicate
+        const groupMap = new Map<string, typeof asP1[0]>();
+        for (const g of [...asP1, ...asP2, ...asP3, ...asP4]) {
+            groupMap.set(g._id, g);
+        }
+        const participantGroups = Array.from(groupMap.values());
 
         // Enrich with member details
         const enrichedGroups = await Promise.all(
@@ -227,6 +241,52 @@ export const list = adminQuery({
     },
 });
 
+/**
+ * List active groups with participant names (for assignments page)
+ */
+export const listActive = adminQuery({
+    args: {},
+    returns: v.array(
+        v.object({
+            _id: v.id("groups"),
+            participant1Name: v.string(),
+            participant2Name: v.string(),
+            participant3Name: v.optional(v.string()),
+            participant4Name: v.optional(v.string()),
+            weekInSeason: v.optional(weekInSeasonValidator),
+            taskId: v.optional(v.id("tasks")),
+        })
+    ),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        // Enrich with participant names
+        const enriched = await Promise.all(
+            activeGroups.map(async (group) => {
+                const p1 = await ctx.db.get(group.participant1);
+                const p2 = await ctx.db.get(group.participant2);
+                const p3 = group.participant3 ? await ctx.db.get(group.participant3) : null;
+                const p4 = group.participant4 ? await ctx.db.get(group.participant4) : null;
+
+                return {
+                    _id: group._id,
+                    participant1Name: p1?.name || "Unknown",
+                    participant2Name: p2?.name || "Unknown",
+                    participant3Name: p3?.name,
+                    participant4Name: p4?.name,
+                    weekInSeason: group.weekInSeason,
+                    taskId: group.taskId,
+                };
+            })
+        );
+
+        return enriched;
+    },
+});
+
 // ============================================
 // INTERNAL QUERIES (for matching algorithm)
 // ============================================
@@ -257,6 +317,22 @@ export const getParticipantsInActiveGroups = internalQuery({
 });
 
 /**
+ * Get IDs of all active groups (for cron)
+ */
+export const getActiveGroupIds = internalQuery({
+    args: {},
+    returns: v.array(v.id("groups")),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        return activeGroups.map((g) => g._id);
+    },
+});
+
+/**
  * Get group history for the last N weeks (for repeat checking)
  */
 export const getHistoryLastWeeks = internalQuery({
@@ -272,16 +348,13 @@ export const getHistoryLastWeeks = internalQuery({
     handler: async (ctx, args) => {
         const weeksAgo = Date.now() - args.weeks * 7 * 24 * 60 * 60 * 1000;
 
-        // Get groups created after the cutoff
+        // Use index with range filter instead of collecting all + filtering
         const recentGroups = await ctx.db
             .query("groups")
-            .withIndex("by_createdAt")
+            .withIndex("by_createdAt", (q) => q.gte("createdAt", weeksAgo))
             .collect();
 
-        // Filter by date (can't do this in index query directly)
-        const filteredGroups = recentGroups.filter((g) => g.createdAt >= weeksAgo);
-
-        return filteredGroups.map((g) => ({
+        return recentGroups.map((g) => ({
             participant1: g.participant1,
             participant2: g.participant2,
             participant3: g.participant3,
@@ -304,13 +377,22 @@ export const create = internalMutation({
         participant3: v.optional(v.id("participants")),
         participant4: v.optional(v.id("participants")),
         region: v.optional(regionValidator),
+        // Season fields
+        seasonId: v.optional(v.id("seasons")),
+        weekInSeason: v.optional(weekInSeasonValidator),
     },
     returns: v.id("groups"),
     handler: async (ctx, args) => {
         const groupId = await ctx.db.insert("groups", {
-            ...args,
+            participant1: args.participant1,
+            participant2: args.participant2,
+            participant3: args.participant3,
+            participant4: args.participant4,
+            region: args.region,
             status: "Active",
             createdAt: Date.now(),
+            seasonId: args.seasonId,
+            weekInSeason: args.weekInSeason,
         });
 
         return groupId;
