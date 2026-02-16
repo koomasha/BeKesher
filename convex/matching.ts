@@ -64,16 +64,66 @@ export const runWeeklyMatching = internalAction({
         message: v.optional(v.string()),
     }),
     handler: async (ctx) => {
-        console.log("🚀 Starting weekly matching v3.1...");
+        console.log("🚀 Starting weekly matching v4.0 (with seasons)...");
 
-        // 1. Get active participants
-        const participants: Participant[] = await ctx.runQuery(
-            internal.participants.getActiveForMatching,
-            {}
+        // 1. Check for active season
+        const activeSeason = await ctx.runQuery(internal.seasons.getActiveInternal, {});
+        if (!activeSeason) {
+            console.log("❌ No active season found!");
+            return {
+                success: false,
+                groupsCreated: 0,
+                unpaired: 0,
+                unpairedNames: [],
+                message: "No active season",
+            };
+        }
+        console.log(`✅ Active season: ${activeSeason.name}`);
+
+        // 2. Calculate current week in season
+        const currentTime = Date.now();
+        const weekNumber = await ctx.runQuery(internal.seasons.calculateWeekInSeason, {
+            seasonStartDate: activeSeason.startDate,
+            currentTimestamp: currentTime,
+        });
+
+        if (!weekNumber || weekNumber < 1 || weekNumber > 4) {
+            console.log("❌ Current time is outside season bounds!");
+            return {
+                success: false,
+                groupsCreated: 0,
+                unpaired: 0,
+                unpairedNames: [],
+                message: "Outside season bounds",
+            };
+        }
+        console.log(`✅ Week ${weekNumber} of season`);
+
+        // 3. Get enrolled participants for this season
+        const enrolledIds = await ctx.runQuery(
+            internal.seasonParticipants.getEnrolledForMatching,
+            { seasonId: activeSeason._id }
         );
-        console.log(`✅ Found ${participants.length} active participants`);
+        console.log(`✅ Enrolled participants: ${enrolledIds.length}`);
 
-        if (participants.length < 2) {
+        // 4. Get full participant data for enrolled participants
+        const allParticipants: Participant[] = [];
+        for (const id of enrolledIds) {
+            const p = await ctx.runQuery(internal.participants.get, { participantId: id });
+            if (p && p.status === "Active" && !p.onPause) {
+                allParticipants.push({
+                    _id: p._id,
+                    name: p.name,
+                    telegramId: p.telegramId,
+                    birthDate: p.birthDate,
+                    gender: p.gender,
+                    region: p.region,
+                });
+            }
+        }
+        console.log(`✅ Active enrolled participants: ${allParticipants.length}`);
+
+        if (allParticipants.length < 2) {
             console.log("❌ Not enough participants for matching!");
             return {
                 success: false,
@@ -84,7 +134,7 @@ export const runWeeklyMatching = internalAction({
             };
         }
 
-        // 2. Get participants in active groups (they're busy)
+        // 5. Get participants in active groups (they're busy)
         const busyParticipantIds: Id<"participants">[] = await ctx.runQuery(
             internal.groups.getParticipantsInActiveGroups,
             {}
@@ -92,8 +142,8 @@ export const runWeeklyMatching = internalAction({
         const busySet = new Set(busyParticipantIds);
         console.log(`✅ Already in active groups: ${busySet.size} people`);
 
-        // 3. Filter available participants
-        const availableParticipants = participants.filter(
+        // 6. Filter available participants
+        const availableParticipants = allParticipants.filter(
             (p) => !busySet.has(p._id)
         );
         console.log(`✅ Available for matching: ${availableParticipants.length}`);
@@ -109,7 +159,7 @@ export const runWeeklyMatching = internalAction({
             };
         }
 
-        // 4. Get group history for the last 4 weeks (for repeat checking)
+        // 7. Get group history for the last 4 weeks (for repeat checking)
         const groupHistory = await ctx.runQuery(internal.groups.getHistoryLastWeeks, {
             weeks: HISTORY_WEEKS,
         });
@@ -180,7 +230,7 @@ export const runWeeklyMatching = internalAction({
             `✅ Stage E: ${resultE.groups.length} groups, ${unpaired.length} remaining`
         );
 
-        // Save groups to database
+        // Save groups to database WITH SEASON CONTEXT
         let createdCount = 0;
         for (const group of allGroups) {
             const participants = group.participants;
@@ -191,6 +241,8 @@ export const runWeeklyMatching = internalAction({
                     participant3: participants[2]?._id,
                     participant4: participants[3]?._id,
                     region: group.region,
+                    seasonId: activeSeason._id,
+                    weekInSeason: weekNumber as 1 | 2 | 3 | 4,
                 });
                 createdCount++;
             }

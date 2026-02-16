@@ -10,6 +10,13 @@ import {
     supportStatusValidator,
     sessionSourceValidator,
     wouldMeetAgainValidator,
+    seasonStatusValidator,
+    seasonParticipantStatusValidator,
+    taskTypeValidator,
+    taskDifficultyValidator,
+    taskPurposeValidator,
+    taskReviewStatusValidator,
+    weekInSeasonValidator,
 } from "./validators";
 
 export default defineSchema({
@@ -64,6 +71,75 @@ export default defineSchema({
         .index("by_participantId", ["participantId"])
         .index("by_participantId_and_changedAt", ["participantId", "changedAt"]),
 
+    seasons: defineTable({
+        name: v.string(),
+        description: v.optional(v.string()),
+        startDate: v.number(),  // First Saturday 18:00 timestamp
+        endDate: v.number(),    // Last Saturday 23:00 (4 weeks later)
+        status: seasonStatusValidator,
+        createdAt: v.number(),
+        createdByEmail: v.string(),  // Admin email from ctx.adminEmail
+    })
+        .index("by_status", ["status"])
+        .index("by_createdAt", ["createdAt"]),
+
+    seasonParticipants: defineTable({
+        seasonId: v.id("seasons"),
+        participantId: v.id("participants"),
+        enrolledAt: v.number(),
+        status: seasonParticipantStatusValidator,
+    })
+        .index("by_seasonId", ["seasonId"])
+        .index("by_participantId", ["participantId"])
+        .index("by_seasonId_and_status", ["seasonId", "status"]),
+
+    tasks: defineTable({
+        title: v.string(),
+        description: v.string(),
+        onlineInstructions: v.optional(v.string()),
+        reportInstructions: v.string(),
+        type: taskTypeValidator,
+        difficulty: taskDifficultyValidator,
+        purpose: taskPurposeValidator,
+        status: v.union(v.literal("Active"), v.literal("Archive")),
+        createdAt: v.number(),
+        createdByEmail: v.optional(v.string()),
+    })
+        .index("by_status", ["status"])
+        .index("by_type", ["type"]),
+
+    taskAssignments: defineTable({
+        groupId: v.id("groups"),
+        taskId: v.id("tasks"),
+        weekInSeason: weekInSeasonValidator,
+
+        // Assignment tracking
+        assignedAt: v.number(),
+        assignedByEmail: v.string(),
+
+        // Participant submission
+        completedAt: v.optional(v.number()),
+        completionNotes: v.optional(v.string()),
+        completionPhotos: v.optional(v.array(v.id("_storage"))),
+        submittedBy: v.optional(v.id("participants")),
+        submittedAt: v.optional(v.number()),
+
+        // Admin review
+        reviewStatus: taskReviewStatusValidator,
+        reviewedAt: v.optional(v.number()),
+        reviewedByEmail: v.optional(v.string()),
+        reviewComment: v.optional(v.string()),
+        pointsAwarded: v.number(),
+
+        // Analytics
+        notCompletedReason: v.optional(v.string()),
+    })
+        .index("by_groupId", ["groupId"])
+        .index("by_taskId", ["taskId"])
+        .index("by_reviewStatus", ["reviewStatus"])
+        .index("by_submittedBy", ["submittedBy"])
+        .index("by_weekInSeason", ["weekInSeason"]),
+
     groups: defineTable({
         createdAt: v.number(),
         status: groupStatusValidator,
@@ -72,9 +148,17 @@ export default defineSchema({
         participant2: v.id("participants"),
         participant3: v.optional(v.id("participants")),
         participant4: v.optional(v.id("participants")),
+
+        // Season integration fields
+        seasonId: v.optional(v.id("seasons")),
+        weekInSeason: v.optional(weekInSeasonValidator),
+        taskId: v.optional(v.id("tasks")),
     })
         .index("by_status", ["status"])
-        .index("by_createdAt", ["createdAt"]),
+        .index("by_createdAt", ["createdAt"])
+        .index("by_seasonId", ["seasonId"])
+        .index("by_seasonId_and_weekInSeason", ["seasonId", "weekInSeason"])
+        .index("by_seasonId_and_status", ["seasonId", "status"]),
 
     feedback: defineTable({
         groupId: v.id("groups"),

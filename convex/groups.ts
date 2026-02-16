@@ -6,7 +6,7 @@ import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { userQuery } from "./authUser";
 import { adminQuery } from "./authAdmin";
-import { groupStatusValidator, regionValidator } from "./validators";
+import { groupStatusValidator, regionValidator, weekInSeasonValidator } from "./validators";
 
 // ============================================
 // PUBLIC QUERIES
@@ -257,6 +257,22 @@ export const getParticipantsInActiveGroups = internalQuery({
 });
 
 /**
+ * Get IDs of all active groups (for cron)
+ */
+export const getActiveGroupIds = internalQuery({
+    args: {},
+    returns: v.array(v.id("groups")),
+    handler: async (ctx) => {
+        const activeGroups = await ctx.db
+            .query("groups")
+            .withIndex("by_status", (q) => q.eq("status", "Active"))
+            .collect();
+
+        return activeGroups.map((g) => g._id);
+    },
+});
+
+/**
  * Get group history for the last N weeks (for repeat checking)
  */
 export const getHistoryLastWeeks = internalQuery({
@@ -304,13 +320,24 @@ export const create = internalMutation({
         participant3: v.optional(v.id("participants")),
         participant4: v.optional(v.id("participants")),
         region: v.optional(regionValidator),
+        // Season fields
+        seasonId: v.optional(v.id("seasons")),
+        weekInSeason: v.optional(weekInSeasonValidator),
     },
     returns: v.id("groups"),
     handler: async (ctx, args) => {
         const groupId = await ctx.db.insert("groups", {
-            ...args,
+            participant1: args.participant1,
+            participant2: args.participant2,
+            participant3: args.participant3,
+            participant4: args.participant4,
+            region: args.region,
             status: "Active",
             createdAt: Date.now(),
+            // Season fields
+            seasonId: args.seasonId,
+            weekInSeason: args.weekInSeason,
+            taskId: undefined,  // Will be assigned by admin later
         });
 
         return groupId;

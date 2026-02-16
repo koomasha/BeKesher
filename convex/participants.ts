@@ -510,6 +510,29 @@ export const getActiveForMatching = internalQuery({
 // ============================================
 
 /**
+ * Get participant by ID (internal)
+ */
+export const get = internalQuery({
+    args: { participantId: v.id("participants") },
+    returns: v.union(
+        v.object({
+            _id: v.id("participants"),
+            name: v.string(),
+            telegramId: v.string(),
+            birthDate: v.string(),
+            gender: genderValidator,
+            region: regionValidator,
+            status: participantStatusValidator,
+            onPause: v.boolean(),
+        }),
+        v.null()
+    ),
+    handler: async (ctx, args) => {
+        return await ctx.db.get(args.participantId);
+    },
+});
+
+/**
  * Update participant status (used by payment processing)
  */
 export const updateStatus = internalMutation({

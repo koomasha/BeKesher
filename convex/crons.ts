@@ -6,14 +6,14 @@ import { v } from "convex/values";
 const crons = cronJobs();
 
 // ============================================
-// WEEKLY MATCHING - Every Sunday at 18:00 Israel time
+// WEEKLY MATCHING - Every Saturday at 18:00 Israel time
 // ============================================
 
 crons.cron(
     "weekly-matching",
-    // Sunday at 18:00 Israel time (UTC+2/+3)
+    // Saturday at 18:00 Israel time (UTC+2/+3)
     // Using 16:00 UTC to approximate 18:00 Israel time
-    "0 16 * * 0",
+    "0 16 * * 6",  // Changed from 0 (Sunday) to 6 (Saturday)
     internal.matching.runWeeklyMatching,
     {}
 );
@@ -68,6 +68,21 @@ export const closeWeekAndRequestFeedback = internalAction({
     args: {},
     returns: v.null(),
     handler: async (ctx) => {
+        // Get all active groups before closing
+        const activeGroups = await ctx.runQuery(
+            internal.groups.getActiveGroupIds,
+            {}
+        );
+
+        // Mark incomplete task assignments as "NotCompleted"
+        if (activeGroups.length > 0) {
+            const markedCount = await ctx.runMutation(
+                internal.taskAssignments.markIncompleteAsNotCompleted,
+                { groupIds: activeGroups }
+            );
+            console.log(`✅ Marked ${markedCount} incomplete tasks as NotCompleted`);
+        }
+
         // Close all active groups
         await ctx.runMutation(
             internal.groups.closeActiveGroups,
