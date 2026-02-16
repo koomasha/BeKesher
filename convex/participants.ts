@@ -29,6 +29,7 @@ export const getByTelegramId = userQuery({
             telegramId: v.string(),
             tgFirstName: v.optional(v.string()),
             tgLastName: v.optional(v.string()),
+            tgUsername: v.optional(v.string()),
             photo: v.optional(v.string()),
             birthDate: v.string(),
             gender: genderValidator,
@@ -170,6 +171,56 @@ export const list = adminQuery({
 // ============================================
 
 /**
+ * Create a minimal Lead participant when user first opens the bot.
+ * This captures Telegram data for follow-up even if they don't complete registration.
+ * Public because user isn't authenticated yet.
+ */
+export const createLeadParticipant = publicMutation({
+    args: {
+        telegramId: v.string(),
+        tgFirstName: v.optional(v.string()),
+        tgLastName: v.optional(v.string()),
+        tgUsername: v.optional(v.string()),
+        photo: v.optional(v.string()),
+    },
+    returns: v.union(v.id("participants"), v.null()),
+    handler: async (ctx, args) => {
+        // Check if participant already exists
+        const existing = await ctx.db
+            .query("participants")
+            .withIndex("by_telegramId", (q) => q.eq("telegramId", args.telegramId))
+            .unique();
+
+        if (existing) {
+            return null; // Already exists, no need to create
+        }
+
+        // Create minimal participant with placeholder values for required fields
+        const participantId = await ctx.db.insert("participants", {
+            telegramId: args.telegramId,
+            tgFirstName: args.tgFirstName,
+            tgLastName: args.tgLastName,
+            tgUsername: args.tgUsername,
+            photo: args.photo,
+            // Placeholder values for required fields
+            name: args.tgFirstName || "Пользователь",
+            phone: "",
+            birthDate: "2000-01-01",
+            gender: "Male",
+            region: "Center",
+            status: "Lead",
+            onPause: false,
+            totalPoints: 0,
+            registrationDate: Date.now(),
+            inChannel: false,
+            periodsPaid: 0,
+        });
+
+        return participantId;
+    },
+});
+
+/**
  * Register a new participant
  * Public because user isn't authenticated yet during registration.
  * Still accepts telegramId as an explicit arg.
@@ -181,6 +232,7 @@ export const register = publicMutation({
         telegramId: v.string(),
         tgFirstName: v.optional(v.string()),
         tgLastName: v.optional(v.string()),
+        tgUsername: v.optional(v.string()),
         photo: v.optional(v.string()),
         birthDate: v.string(),
         gender: genderValidator,
@@ -200,7 +252,24 @@ export const register = publicMutation({
             .unique();
 
         if (existing) {
-            throw new Error("Participant with this Telegram ID already exists");
+            // Update existing Lead participant instead of throwing error
+            await ctx.db.patch(existing._id, {
+                name: args.name,
+                phone: args.phone,
+                tgFirstName: args.tgFirstName,
+                tgLastName: args.tgLastName,
+                tgUsername: args.tgUsername,
+                photo: args.photo,
+                birthDate: args.birthDate,
+                gender: args.gender,
+                region: args.region,
+                city: args.city,
+                aboutMe: args.aboutMe,
+                profession: args.profession,
+                purpose: args.purpose,
+                expectations: args.expectations,
+            });
+            return existing._id;
         }
 
         const participantId = await ctx.db.insert("participants", {

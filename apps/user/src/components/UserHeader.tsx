@@ -30,9 +30,6 @@ export function UserHeader() {
         .slice(0, 2)
         .toUpperCase();
 
-    const status = profile?.status || 'Guest';
-    const statusClass = status.toLowerCase();
-
     return (
         <div className="user-header animate-fade-in">
             <div className="header-brand">
@@ -49,9 +46,6 @@ export function UserHeader() {
                 </div>
                 <div className="user-details">
                     <span className="user-name">{displayName}</span>
-                    <span className={`user-status badge-${statusClass}`}>
-                        {status}
-                    </span>
                 </div>
             </div>
             {profile && (

@@ -20,6 +20,7 @@ export default defineSchema({
         telegramId: v.string(),
         tgFirstName: v.optional(v.string()),
         tgLastName: v.optional(v.string()),
+        tgUsername: v.optional(v.string()),
         photo: v.optional(v.string()),
 
         // Demographics

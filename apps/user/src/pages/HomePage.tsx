@@ -1,13 +1,16 @@
-import { Link } from 'react-router-dom';
-import { useQuery } from 'convex/react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
 import { Logo } from '../components/Logo';
 import { User2, Heart, LifeBuoy } from 'lucide-react';
 import { Trans } from '@lingui/macro';
+import { useEffect } from 'react';
 
 function HomePage() {
+    const navigate = useNavigate();
     const { authArgs, isAuthenticated, telegramUser } = useTelegramAuth();
+    const createLeadParticipant = useMutation(api.participants.createLeadParticipant);
 
     // Fetch user profile if authenticated
     const profile = useQuery(
@@ -16,6 +19,64 @@ function HomePage() {
     );
 
     const firstName = telegramUser?.first_name || 'Friend';
+
+    // Auto-create Lead participant and redirect to onboarding for new users
+    useEffect(() => {
+        const initializeUser = async () => {
+            if (!isAuthenticated || !telegramUser) return;
+
+            // Wait for profile to load
+            if (profile === undefined) return;
+
+            // If no profile exists, create a Lead participant
+            if (profile === null && telegramUser.id) {
+                try {
+                    await createLeadParticipant({
+                        telegramId: telegramUser.id.toString(),
+                        tgFirstName: telegramUser.first_name,
+                        tgLastName: telegramUser.last_name,
+                        tgUsername: telegramUser.username,
+                        photo: telegramUser.photo_url,
+                    });
+                    // Redirect to onboarding immediately after creating lead
+                    navigate('/onboarding');
+                } catch (error) {
+                    console.error('Failed to create lead participant:', error);
+                }
+                return;
+            }
+
+            // If profile exists but is incomplete (has placeholder values), redirect to onboarding
+            if (profile && isProfileIncomplete(profile)) {
+                navigate('/onboarding');
+            }
+        };
+
+        initializeUser();
+    }, [isAuthenticated, telegramUser, profile, createLeadParticipant, navigate]);
+
+    // Helper function to check if profile is incomplete
+    const isProfileIncomplete = (p: {
+        phone?: string;
+        birthDate?: string;
+        aboutMe?: string;
+        profession?: string;
+        purpose?: string;
+        expectations?: string;
+    } | null) => {
+        if (!p) return true;
+
+        // Check for placeholder values that indicate an incomplete profile
+        return (
+            !p.phone || // Empty phone
+            p.phone === "" || // Empty phone
+            p.birthDate === "2000-01-01" || // Placeholder birthDate
+            !p.aboutMe || // No aboutMe
+            !p.profession || // No profession
+            !p.purpose || // No purpose
+            !p.expectations // No expectations
+        );
+    };
 
     return (
         <div className="page">
@@ -34,12 +95,6 @@ function HomePage() {
 
             {profile && (
                 <div className="card animate-fade-in section-warm" style={{ background: 'var(--bg-warm)' }}>
-                    <div className="card-header">
-                        <span className="card-title"><Trans>Твой статус</Trans></span>
-                        <span className={`badge badge-${profile.status.toLowerCase()}`}>
-                            {profile.status}
-                        </span>
-                    </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
                         <span className="points-badge">
                             <Trans>{profile.totalPoints} баллов</Trans>

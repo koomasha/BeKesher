@@ -5,11 +5,9 @@ import { Trans } from '@lingui/macro';
 import { calculateAge } from '../utils/dateUtils';
 
 function ParticipantsPage() {
-    const [statusFilter, setStatusFilter] = useState<string>('');
     const [regionFilter, setRegionFilter] = useState<string>('');
 
     const participants = useQuery(api.participants.list, {
-        status: statusFilter || undefined,
         region: regionFilter || undefined,
     });
 
@@ -23,19 +21,6 @@ function ParticipantsPage() {
             </div>
 
             <div className="filter-bar">
-                <div className="filter-group">
-                    <label className="filter-label"><Trans>Status:</Trans></label>
-                    <select
-                        className="input"
-                        value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                        <option value=""><Trans>All</Trans></option>
-                        <option value="Active"><Trans>Active</Trans></option>
-                        <option value="Lead"><Trans>Lead</Trans></option>
-                        <option value="Inactive"><Trans>Inactive</Trans></option>
-                    </select>
-                </div>
                 <div className="filter-group">
                     <label className="filter-label"><Trans>Region:</Trans></label>
                     <select
@@ -69,7 +54,6 @@ function ParticipantsPage() {
                                     <th><Trans>Age</Trans></th>
                                     <th><Trans>Gender</Trans></th>
                                     <th><Trans>Region</Trans></th>
-                                    <th><Trans>Status</Trans></th>
                                     <th><Trans>Paused</Trans></th>
                                     <th><Trans>Paid Until</Trans></th>
                                     <th><Trans>Actions</Trans></th>
@@ -89,11 +73,6 @@ function ParticipantsPage() {
                                         <td>{calculateAge(p.birthDate)}</td>
                                         <td>{p.gender}</td>
                                         <td>{p.region}</td>
-                                        <td>
-                                            <span className={`badge badge-${p.status.toLowerCase()}`}>
-                                                {p.status}
-                                            </span>
-                                        </td>
                                         <td>{p.onPause ? <Trans>⏸️ Yes</Trans> : '-'}</td>
                                         <td>
                                             {p.paidUntil

@@ -165,10 +165,17 @@ function OnboardingPage() {
         if (validateStep(currentStep)) {
             try {
                 // Map region names to English
-                const regionMap: { [key: string]: string } = {
+                const regionMap: { [key: string]: 'North' | 'Center' | 'South' } = {
                     [t`Север`]: 'North',
                     [t`Центр`]: 'Center',
                     [t`Юг`]: 'South'
+                };
+
+                // Map gender names to English
+                const genderMap: { [key: string]: 'Male' | 'Female' | 'Other' } = {
+                    [t`Мужчина`]: 'Male',
+                    [t`Женщина`]: 'Female',
+                    [t`Другое`]: 'Other'
                 };
 
                 const isEditing = (location.state as LocationState)?.editMode;
@@ -179,7 +186,7 @@ function OnboardingPage() {
                         name: formData.name,
                         phone: formData.phone,
                         birthDate: formData.birthDate,
-                        gender: formData.gender,
+                        gender: genderMap[formData.gender] || 'Male',
                         region: regionMap[formData.city] || 'Center',
                         aboutMe: formData.aboutMe,
                         profession: formData.profession,
@@ -208,15 +215,16 @@ function OnboardingPage() {
                     phone: formData.phone,
                     telegramId: telegramId,
                     tgFirstName: telegramUser?.first_name,
-                    tgLastName: telegramUser?.last_name || telegramUser?.username, // fallback to username if last name missing
+                    tgLastName: telegramUser?.last_name,
+                    tgUsername: telegramUser?.username,
                     birthDate: formData.birthDate,
-                    gender: formData.gender,
+                    gender: genderMap[formData.gender] || 'Male',
                     region: regionMap[formData.city] || 'Center',
                     aboutMe: formData.aboutMe,
                     profession: formData.profession,
                     purpose: formData.purpose,
                     expectations: formData.expectations,
-                } as LocationState);
+                });
 
                 // Also save to localStorage for ProfilePage compatibility
                 localStorage.setItem('userProfile', JSON.stringify(formData));
