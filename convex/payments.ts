@@ -23,7 +23,7 @@ export const getPaymentHistory = userQuery({
             createdAt: v.number(),
         })
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))

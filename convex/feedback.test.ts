@@ -105,7 +105,7 @@ describe("feedback", () => {
         test("throws if participant was not in the group", async () => {
             const t = setupTest();
 
-            const [p1, p2, outsider] = await seedParticipants(t, [
+            const [p1, p2] = await seedParticipants(t, [
                 makeParticipant({ telegramId: uniqueTelegramId(1) }),
                 makeParticipant({ telegramId: uniqueTelegramId(2) }),
                 makeParticipant({ telegramId: "outsider" }),

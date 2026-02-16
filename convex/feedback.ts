@@ -1,4 +1,3 @@
-import { internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import { userQuery, userMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
@@ -25,7 +24,7 @@ export const getForParticipant = userQuery({
             submittedAt: v.number(),
         })
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -68,7 +67,7 @@ export const getPendingFeedback = userQuery({
             members: v.array(v.string()),
         })
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))

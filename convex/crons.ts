@@ -69,7 +69,7 @@ export const closeWeekAndRequestFeedback = internalAction({
     returns: v.null(),
     handler: async (ctx) => {
         // Close all active groups
-        const closedCount: number = await ctx.runMutation(
+        await ctx.runMutation(
             internal.groups.closeActiveGroups,
             {}
         );

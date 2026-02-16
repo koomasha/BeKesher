@@ -1,4 +1,4 @@
-import { expect, test, describe, vi } from "vitest";
+import { expect, test, describe } from "vitest";
 import { api, internal } from "./_generated/api";
 import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, withAdminIdentity } from "./test.utils";
 

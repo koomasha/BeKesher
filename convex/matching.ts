@@ -1,4 +1,4 @@
-import { internalMutation, internalAction } from "./_generated/server";
+import { internalAction } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
@@ -45,12 +45,6 @@ interface MatchingStageResult {
 // ============================================
 
 const HISTORY_WEEKS = 4;
-
-const NEIGHBORING_REGIONS: Record<Region, Region[]> = {
-    North: ["Center"],
-    Center: ["North", "South"],
-    South: ["Center"],
-};
 
 // ============================================
 // MAIN MATCHING FUNCTION

@@ -5,7 +5,6 @@ import {
 import { v } from "convex/values";
 import { userQuery, userMutation, publicMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
-import { calculateAge } from "./utils";
 import {
     participantStatusValidator,
     genderValidator,
@@ -50,7 +49,7 @@ export const getByTelegramId = userQuery({
         }),
         v.null()
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -84,7 +83,7 @@ export const getMyProfile = userQuery({
         }),
         v.null()
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -269,7 +268,7 @@ export const updateProfile = userMutation({
 export const togglePause = userMutation({
     args: {},
     returns: v.boolean(),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -292,7 +291,7 @@ export const togglePause = userMutation({
 export const deactivate = userMutation({
     args: {},
     returns: v.null(),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
@@ -317,7 +316,7 @@ export const deactivate = userMutation({
 export const deleteParticipant = userMutation({
     args: {},
     returns: v.null(),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))

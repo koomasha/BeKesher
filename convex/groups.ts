@@ -32,7 +32,7 @@ export const getForParticipant = userQuery({
             ),
         })
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         // First get the participant
         const participant = await ctx.db
             .query("participants")
@@ -116,7 +116,7 @@ export const getActiveForParticipant = userQuery({
         }),
         v.null()
     ),
-    handler: async (ctx, args) => {
+    handler: async (ctx) => {
         const participant = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
