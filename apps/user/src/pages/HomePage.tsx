@@ -35,6 +35,7 @@ function HomePage() {
                         telegramId: telegramUser.id.toString(),
                         tgFirstName: telegramUser.first_name,
                         tgLastName: telegramUser.last_name,
+                        tgUsername: telegramUser.username,
                         photo: telegramUser.photo_url,
                     });
                     // Redirect to onboarding immediately after creating lead
