@@ -28,6 +28,9 @@ interface FormData {
 
     // Step 4: Expectations
     expectations: string;
+
+    email: string;
+    socialMediaConsent: boolean;
 }
 
 interface FormErrors {
@@ -50,7 +53,9 @@ function OnboardingPage() {
         aboutMe: '',
         profession: '',
         purpose: '',
-        expectations: ''
+        expectations: '',
+        email: '',
+        socialMediaConsent: true
     });
     const [errors, setErrors] = useState<FormErrors>({});
 
@@ -192,6 +197,8 @@ function OnboardingPage() {
                         profession: formData.profession,
                         purpose: formData.purpose,
                         expectations: formData.expectations,
+                        email: formData.email,
+                        socialMediaConsent: formData.socialMediaConsent,
                     });
 
                     // Update localStorage
@@ -224,6 +231,8 @@ function OnboardingPage() {
                     profession: formData.profession,
                     purpose: formData.purpose,
                     expectations: formData.expectations,
+                    email: formData.email,
+                    socialMediaConsent: formData.socialMediaConsent,
                 });
 
                 // Also save to localStorage for ProfilePage compatibility
@@ -243,7 +252,7 @@ function OnboardingPage() {
         }
     };
 
-    const handleInputChange = (field: keyof FormData, value: string) => {
+    const handleInputChange = (field: keyof FormData, value: string | boolean) => {
         setFormData({ ...formData, [field]: value });
     };
 
@@ -291,6 +300,18 @@ function OnboardingPage() {
                     placeholder="0501234567"
                 />
                 {errors.phone && <div className="error-text">{errors.phone}</div>}
+            </div>
+
+            <div className="form-group">
+                <label className="form-label"><Trans>Email (опционально)</Trans></label>
+                <input
+                    type="email"
+                    className={`form-input ${errors.email ? 'error' : ''}`}
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder={t`example@email.com`}
+                />
+                {errors.email && <div className="error-text">{errors.email}</div>}
             </div>
 
             <div className="form-group">
@@ -355,6 +376,22 @@ function OnboardingPage() {
                     </label>
                 </div>
                 {errors.gender && <div className="error-text">{errors.gender}</div>}
+            </div>
+
+            <div className="form-group">
+                <label className="checkbox-label">
+                    <input
+                        type="checkbox"
+                        checked={formData.socialMediaConsent}
+                        onChange={(e) => handleInputChange('socialMediaConsent', e.target.checked)}
+                    />
+                    <span>
+                        <Trans>Я согласен(на) на размещение моих фотографий в социальных сетях BeKesher</Trans>
+                    </span>
+                </label>
+                <p className="form-hint">
+                    <Trans>Вы можете изменить это в любое время в настройках профиля</Trans>
+                </p>
             </div>
         </div>
     );

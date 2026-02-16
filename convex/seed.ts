@@ -67,6 +67,7 @@ export const resetAndSeed = internalMutation({
                 // Profile
                 profession: "Software Engineer",
                 aboutMe: "I love coding and hiking.",
+                socialMediaConsent: Math.random() > 0.3, // 70% consent to social media posting
             });
             participantIds.push(participantId);
         }

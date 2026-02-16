@@ -152,6 +152,19 @@ function ProfilePage() {
                             <span className="info-label"><Trans>Пол</Trans></span>
                             <span className="info-value">{profile?.gender}</span>
                         </div>
+                        <div className="info-item">
+                            <span className="info-label"><Trans>Email</Trans></span>
+                            <span className="info-value">{profile?.email || '\u2014'}</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="info-label"><Trans>Согласие на публикацию фото</Trans></span>
+                            <span className="info-value">
+                                {profile?.socialMediaConsent ?
+                                    <Trans>Разрешено</Trans> :
+                                    <Trans>Не разрешено</Trans>
+                                }
+                            </span>
+                        </div>
                     </div>
                 </CollapsibleProfileCard>
 
@@ -212,7 +225,9 @@ function ProfilePage() {
                                 aboutMe: profile?.aboutMe || '',
                                 profession: profile?.profession || '',
                                 purpose: profile?.purpose || '',
-                                expectations: profile?.expectations || ''
+                                expectations: profile?.expectations || '',
+                                email: profile?.email || '',
+                                socialMediaConsent: profile?.socialMediaConsent ?? true,
                             }
                         }
                     })}

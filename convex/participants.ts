@@ -5,11 +5,30 @@ import {
 import { v } from "convex/values";
 import { userQuery, userMutation, publicMutation } from "./authUser";
 import { adminQuery } from "./authAdmin";
+import { internal } from "./_generated/api";
 import {
     participantStatusValidator,
     genderValidator,
     regionValidator,
 } from "./validators";
+
+/**
+ * Fields that should be logged in participantChangeLogs when changed
+ */
+const TRACKED_FIELDS = [
+    "name",
+    "phone",
+    "email",
+    "birthDate",
+    "gender",
+    "region",
+    "city",
+    "aboutMe",
+    "profession",
+    "purpose",
+    "expectations",
+    "socialMediaConsent",
+] as const;
 
 // ============================================
 // PUBLIC QUERIES
@@ -39,6 +58,8 @@ export const getByTelegramId = userQuery({
             profession: v.optional(v.string()),
             purpose: v.optional(v.string()),
             expectations: v.optional(v.string()),
+            email: v.optional(v.string()),
+            socialMediaConsent: v.boolean(),
             status: participantStatusValidator,
             onPause: v.boolean(),
             totalPoints: v.number(),
@@ -76,6 +97,8 @@ export const getMyProfile = userQuery({
             profession: v.optional(v.string()),
             purpose: v.optional(v.string()),
             expectations: v.optional(v.string()),
+            email: v.optional(v.string()),
+            socialMediaConsent: v.boolean(),
             status: participantStatusValidator,
             onPause: v.boolean(),
             totalPoints: v.number(),
@@ -103,6 +126,8 @@ export const getMyProfile = userQuery({
             profession: participant.profession,
             purpose: participant.purpose,
             expectations: participant.expectations,
+            email: participant.email,
+            socialMediaConsent: participant.socialMediaConsent,
             status: participant.status,
             onPause: participant.onPause,
             totalPoints: participant.totalPoints,
@@ -214,6 +239,7 @@ export const createLeadParticipant = publicMutation({
             registrationDate: Date.now(),
             inChannel: false,
             periodsPaid: 0,
+            socialMediaConsent: true,
         });
 
         return participantId;
@@ -242,6 +268,8 @@ export const register = publicMutation({
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
+        email: v.optional(v.string()),
+        socialMediaConsent: v.optional(v.boolean()),
     },
     returns: v.id("participants"),
     handler: async (ctx, args) => {
@@ -268,12 +296,16 @@ export const register = publicMutation({
                 profession: args.profession,
                 purpose: args.purpose,
                 expectations: args.expectations,
+                email: args.email,
+                socialMediaConsent: args.socialMediaConsent ?? true,
             });
             return existing._id;
         }
 
         const participantId = await ctx.db.insert("participants", {
             ...args,
+            email: args.email,
+            socialMediaConsent: args.socialMediaConsent ?? true,
             status: "Lead", // New participants start as Lead
             onPause: false,
             totalPoints: 0,
@@ -301,6 +333,8 @@ export const updateProfile = userMutation({
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
+        email: v.optional(v.string()),
+        socialMediaConsent: v.optional(v.boolean()),
     },
     returns: v.null(),
     handler: async (ctx, args) => {
@@ -311,6 +345,28 @@ export const updateProfile = userMutation({
 
         if (!participant) {
             throw new Error("Participant not found");
+        }
+
+        // Log changes to tracked fields
+        for (const field of TRACKED_FIELDS) {
+            if (args[field as keyof typeof args] !== undefined) {
+                const oldValue = participant[field as keyof typeof participant];
+                const newValue = args[field as keyof typeof args];
+
+                // Convert values to strings for storage, handle null/undefined
+                const oldValueStr = oldValue !== undefined && oldValue !== null ? String(oldValue) : null;
+                const newValueStr = newValue !== undefined && newValue !== null ? String(newValue) : null;
+
+                // Only log if value actually changed
+                if (oldValueStr !== newValueStr) {
+                    await ctx.runMutation(internal.participants.logParticipantChange, {
+                        participantId: participant._id,
+                        field: field,
+                        oldValue: oldValueStr,
+                        newValue: newValueStr,
+                    });
+                }
+            }
         }
 
         const updates = args;
@@ -538,5 +594,62 @@ export const addPoints = internalMutation({
         });
 
         return null;
+    },
+});
+
+/**
+ * Log a participant profile field change
+ * Internal mutation called by updateProfile to create audit trail
+ */
+export const logParticipantChange = internalMutation({
+    args: {
+        participantId: v.id("participants"),
+        field: v.string(),
+        oldValue: v.union(v.string(), v.null()),
+        newValue: v.union(v.string(), v.null()),
+    },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        await ctx.db.insert("participantChangeLogs", {
+            participantId: args.participantId,
+            field: args.field,
+            oldValue: args.oldValue,
+            newValue: args.newValue,
+            changedAt: Date.now(),
+        });
+        return null;
+    },
+});
+
+/**
+ * One-time migration: Add socialMediaConsent field to existing participants
+ * Run this once after deploying the schema change
+ */
+export const migrateSocialMediaConsent = internalMutation({
+    args: {},
+    returns: v.object({
+        updated: v.number(),
+        skipped: v.number(),
+    }),
+    handler: async (ctx) => {
+        const allParticipants = await ctx.db.query("participants").collect();
+
+        let updated = 0;
+        let skipped = 0;
+
+        for (const participant of allParticipants) {
+            if (participant.socialMediaConsent === undefined) {
+                await ctx.db.patch(participant._id, {
+                    socialMediaConsent: true, // Default to true (opt-in)
+                });
+                updated++;
+            } else {
+                skipped++;
+            }
+        }
+
+        console.log(`Migration complete: ${updated} participants updated, ${skipped} already had the field`);
+
+        return { updated, skipped };
     },
 });

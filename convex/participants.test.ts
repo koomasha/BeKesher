@@ -37,11 +37,11 @@ describe("participants", () => {
             expect(participant?.inChannel).toBe(false);
         });
 
-        test("throws on duplicate telegramId", async () => {
+        test("updates existing participant on duplicate telegramId", async () => {
             const t = setupTest();
 
             // Register first participant
-            await t.mutation(api.participants.register, {
+            const firstId = await t.mutation(api.participants.register, {
                 name: "First User",
                 phone: "+972501111111",
                 telegramId: "duplicate123",
@@ -50,17 +50,28 @@ describe("participants", () => {
                 region: "North",
             });
 
-            // Attempt to register with same telegramId
-            await expect(
-                t.mutation(api.participants.register, {
-                    name: "Second User",
-                    phone: "+972502222222",
-                    telegramId: "duplicate123",
-                    birthDate: `${new Date().getFullYear() - 25}-01-01`,
-                    gender: "Female",
-                    region: "South",
-                })
-            ).rejects.toThrowError("Participant with this Telegram ID already exists");
+            // Register with same telegramId - should update existing
+            const secondId = await t.mutation(api.participants.register, {
+                name: "Second User",
+                phone: "+972502222222",
+                telegramId: "duplicate123",
+                birthDate: `${new Date().getFullYear() - 25}-01-01`,
+                gender: "Female",
+                region: "South",
+            });
+
+            // Should return same ID
+            expect(secondId).toBe(firstId);
+
+            // Verify data was updated
+            const token = await createTestSession(t, "duplicate123");
+            const participant = await t.query(api.participants.getByTelegramId, {
+                sessionToken: token,
+            });
+
+            expect(participant?.name).toBe("Second User");
+            expect(participant?.phone).toBe("+972502222222");
+            expect(participant?.gender).toBe("Female");
         });
 
         test("registers participant with all optional fields", async () => {
@@ -86,6 +97,48 @@ describe("participants", () => {
             expect(participant?.city).toBe("Tel Aviv");
             expect(participant?.aboutMe).toBe("I love coding");
             expect(participant?.profession).toBe("Developer");
+        });
+
+        test("registers participant with explicit socialMediaConsent", async () => {
+            const t = setupTest();
+
+            // Test with consent = false
+            const participantId = await t.mutation(api.participants.register, {
+                name: "Privacy User",
+                phone: "+972509999999",
+                telegramId: "privacyuser",
+                birthDate: `${new Date().getFullYear() - 30}-01-01`,
+                gender: "Female",
+                region: "Center",
+                socialMediaConsent: false,
+            });
+
+            const token = await createTestSession(t, "privacyuser");
+            const participant = await t.query(api.participants.getByTelegramId, {
+                sessionToken: token,
+            });
+
+            expect(participant?.socialMediaConsent).toBe(false);
+        });
+
+        test("defaults socialMediaConsent to true when not provided", async () => {
+            const t = setupTest();
+
+            const participantId = await t.mutation(api.participants.register, {
+                name: "Default Consent User",
+                phone: "+972508888888",
+                telegramId: "defaultuser",
+                birthDate: `${new Date().getFullYear() - 25}-01-01`,
+                gender: "Male",
+                region: "North",
+            });
+
+            const token = await createTestSession(t, "defaultuser");
+            const participant = await t.query(api.participants.getByTelegramId, {
+                sessionToken: token,
+            });
+
+            expect(participant?.socialMediaConsent).toBe(true);
         });
     });
 

@@ -22,6 +22,7 @@ export default defineSchema({
         tgLastName: v.optional(v.string()),
         tgUsername: v.optional(v.string()),
         photo: v.optional(v.string()),
+        email: v.optional(v.string()),
 
         // Demographics
         birthDate: v.string(), // YYYY-MM-DD format
@@ -34,6 +35,7 @@ export default defineSchema({
         profession: v.optional(v.string()),
         purpose: v.optional(v.string()),
         expectations: v.optional(v.string()),
+        socialMediaConsent: v.boolean(),
 
         // Status
         status: participantStatusValidator,
@@ -51,6 +53,16 @@ export default defineSchema({
         .index("by_status", ["status"])
         .index("by_status_and_region", ["status", "region"])
         .index("by_status_and_onPause", ["status", "onPause"]),
+
+    participantChangeLogs: defineTable({
+        participantId: v.id("participants"),
+        field: v.string(), // Name of the field that changed
+        oldValue: v.union(v.string(), v.null()), // Previous value as string
+        newValue: v.union(v.string(), v.null()), // New value as string
+        changedAt: v.number(), // Timestamp
+    })
+        .index("by_participantId", ["participantId"])
+        .index("by_participantId_and_changedAt", ["participantId", "changedAt"]),
 
     groups: defineTable({
         createdAt: v.number(),
