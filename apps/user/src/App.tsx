@@ -8,6 +8,7 @@ import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
 import { UserHeader } from './components/UserHeader';
 import { UserFooter } from './components/UserFooter';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { useTelegramAuth } from './hooks/useTelegramAuth';
 import { useLanguage } from './hooks/useLanguage';
 import { i18n } from './i18n';
@@ -52,10 +53,10 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/onboarding" element={<OnboardingPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/groups" element={<GroupsPage />} />
-                        <Route path="/feedback" element={<FeedbackPage />} />
-                        <Route path="/support" element={<SupportPage />} />
+                        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                        <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
+                        <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
+                        <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
                     </Routes>
                     <UserFooter />
                 </div>
