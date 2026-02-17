@@ -4,8 +4,11 @@ import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Id } from 'convex/_generated/dataModel';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function SeasonsPage() {
+    const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<'Draft' | 'Active' | 'Completed' | ''>('');
     const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -76,7 +79,7 @@ function SeasonsPage() {
                                         </td>
                                         <td>
                                             <span className={`status-badge status-${season.status.toLowerCase()}`}>
-                                                {season.status}
+                                                {label(locale, season.status)}
                                             </span>
                                         </td>
                                         <td>{new Date(season.startDate).toLocaleDateString()}</td>

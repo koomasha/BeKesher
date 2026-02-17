@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans } from '@lingui/macro';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function GroupsPage() {
+    const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<string>('');
 
     const groups = useQuery(api.groups.list, {
@@ -62,10 +65,10 @@ function GroupsPage() {
                                         <td>{new Date(g.createdAt).toLocaleDateString()}</td>
                                         <td>
                                             <span className={`badge badge-${g.status.toLowerCase()}`}>
-                                                {g.status}
+                                                {label(locale, g.status)}
                                             </span>
                                         </td>
-                                        <td>{g.region || <Trans>Mixed</Trans>}</td>
+                                        <td>{g.region ? label(locale, g.region) : <Trans>Mixed</Trans>}</td>
                                         <td><Trans>{g.memberCount} people</Trans></td>
                                         <td>
                                             <button className="btn btn-secondary">

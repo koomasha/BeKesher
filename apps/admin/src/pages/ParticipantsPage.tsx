@@ -3,8 +3,11 @@ import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans } from '@lingui/macro';
 import { calculateAge } from '../utils/dateUtils';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function ParticipantsPage() {
+    const { locale } = useLanguage();
     const [regionFilter, setRegionFilter] = useState<string>('');
 
     const participants = useQuery(api.participants.list, {
@@ -71,8 +74,8 @@ function ParticipantsPage() {
                                             </div>
                                         </td>
                                         <td>{calculateAge(p.birthDate)}</td>
-                                        <td>{p.gender}</td>
-                                        <td>{p.region}</td>
+                                        <td>{label(locale, p.gender)}</td>
+                                        <td>{label(locale, p.region)}</td>
                                         <td>{p.onPause ? <Trans>⏸️ Yes</Trans> : '-'}</td>
                                         <td>
                                             {p.paidUntil
