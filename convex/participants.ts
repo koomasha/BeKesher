@@ -66,7 +66,6 @@ export const getByTelegramId = userQuery({
             registrationDate: v.number(),
             paidUntil: v.optional(v.number()),
             paymentDate: v.optional(v.number()),
-            inChannel: v.boolean(),
             periodsPaid: v.number(),
         }),
         v.null()
@@ -237,7 +236,6 @@ export const createLeadParticipant = publicMutation({
             onPause: false,
             totalPoints: 0,
             registrationDate: Date.now(),
-            inChannel: false,
             periodsPaid: 0,
             socialMediaConsent: true,
         });
@@ -310,7 +308,6 @@ export const register = publicMutation({
             onPause: false,
             totalPoints: 0,
             registrationDate: Date.now(),
-            inChannel: false,
             periodsPaid: 0,
         });
 

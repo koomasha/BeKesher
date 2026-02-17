@@ -53,7 +53,6 @@ export default defineSchema({
         // Subscription
         paidUntil: v.optional(v.number()),
         paymentDate: v.optional(v.number()),
-        inChannel: v.boolean(),
         periodsPaid: v.number(),
     })
         .index("by_telegramId", ["telegramId"])

@@ -95,7 +95,6 @@ export function makeParticipant(
         registrationDate: number;
         paidUntil: number;
         paymentDate: number;
-        inChannel: boolean;
         periodsPaid: number;
     }> = {}
 ) {
@@ -118,7 +117,6 @@ export function makeParticipant(
         onPause: false,
         totalPoints: 0,
         registrationDate: Date.now(),
-        inChannel: false,
         periodsPaid: 0,
         ...otherOverrides,
         // Ensure socialMediaConsent is always defined (can be overridden above)
