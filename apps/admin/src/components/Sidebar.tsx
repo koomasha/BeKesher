@@ -101,8 +101,8 @@ function Sidebar() {
                         try {
                             await cleanAll();
                             alert('All data cleaned.');
-                        } catch (e: any) {
-                            alert('Error: ' + e.message);
+                        } catch (e: unknown) {
+                            alert('Error: ' + (e instanceof Error ? e.message : String(e)));
                         } finally {
                             setLoading(null);
                         }
@@ -123,8 +123,8 @@ function Sidebar() {
                         try {
                             await seedData();
                             alert('Database seeded!');
-                        } catch (e: any) {
-                            alert('Error: ' + e.message);
+                        } catch (e: unknown) {
+                            alert('Error: ' + (e instanceof Error ? e.message : String(e)));
                         } finally {
                             setLoading(null);
                         }
