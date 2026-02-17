@@ -41,7 +41,8 @@
       "Bash(ls:*)",
       "Bash(npm run:*)",
       "Bash(node -e:*)",
-      "mcp__playwright__browser_close"
+      "mcp__playwright__browser_close",
+      "Bash(npx vitest run:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\bekesher"

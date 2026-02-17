@@ -13,6 +13,7 @@
     "test:once": "vitest run",
     "test:coverage": "vitest run --coverage --coverage.reporter=text",
     "seed": "convex run seed:resetAndSeed",
+    "clean": "convex run seed:cleanAll",
     "tunnel:user": "npx -y ngrok http 5173",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
