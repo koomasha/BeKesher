@@ -1,33 +1,43 @@
 /* BeKesher Admin Dashboard - Global Styles */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
 
 :root {
     /* Primary Colors */
-    --primary: #667eea;
-    --primary-dark: #5a67d8;
-    --primary-light: #a3bffa;
+    --primary: #005871;
+    --primary-dark: #004559;
+    --primary-light: #33BECC;
 
     /* Accent Colors */
-    --accent-success: #48bb78;
-    --accent-warning: #ed8936;
-    --accent-error: #f56565;
+    --accent-success: #4CAF50;
+    --accent-warning: #FFA726;
+    --accent-error: #E53935;
+    --accent-warm: #FF7F50;
+    --accent-info: #33BECC;
 
     /* Neutral Colors */
-    --bg-primary: #f7fafc;
-    --bg-secondary: #ffffff;
-    --bg-sidebar: #1a202c;
-    --text-primary: #1a202c;
-    --text-secondary: #718096;
-    --text-light: #e2e8f0;
-    --border-color: #e2e8f0;
+    --bg-primary: #F7F4F0;
+    --bg-secondary: #FFFFFF;
+    --bg-alt: #EDF8F9;
+    --bg-sidebar: #005871;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B7280;
+    --text-light: #F0F0F0;
+    --border-color: #E8E2DC;
 
     /* Sidebar */
     --sidebar-width: 250px;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    /* Shadows — brand-tinted */
+    --shadow-sm: 0 2px 12px rgba(0, 88, 113, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 88, 113, 0.10);
+    --shadow-modal: 0 16px 48px rgba(0, 88, 113, 0.15);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #005871, #004559);
+
+    /* Focus */
+    --focus-ring: 0 0 0 3px rgba(51, 190, 204, 0.15);
 
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -37,9 +47,9 @@
     --spacing-xl: 2rem;
 
     /* Border Radius */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 1rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1.25rem;
 }
 
 * {
@@ -49,7 +59,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Rubik', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -116,13 +126,13 @@ body {
 }
 
 .nav-link.active {
-    background: var(--primary);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .sidebar-footer {
     padding: var(--spacing-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 69, 89, 0.3);
 }
 
 .user-profile {
@@ -199,6 +209,7 @@ body {
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 88, 113, 0.08);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
 }
@@ -223,6 +234,7 @@ body {
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 88, 113, 0.08);
 }
 
 .stat-value {
@@ -263,7 +275,7 @@ body {
 }
 
 .table tr:hover {
-    background: var(--bg-primary);
+    background: var(--bg-alt);
 }
 
 /* Buttons */
@@ -274,7 +286,7 @@ body {
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-md);
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 20px;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -282,12 +294,13 @@ body {
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: var(--gradient-primary);
     color: white;
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
+    background: linear-gradient(135deg, #004559, #003A4C);
+    box-shadow: 0 4px 12px rgba(0, 88, 113, 0.2);
 }
 
 .btn-secondary {
@@ -320,27 +333,27 @@ body {
 }
 
 .badge-active {
-    background: rgba(72, 187, 120, 0.1);
+    background: rgba(76, 175, 80, 0.1);
     color: var(--accent-success);
 }
 
 .badge-lead {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(0, 88, 113, 0.1);
     color: var(--primary);
 }
 
 .badge-inactive {
-    background: rgba(160, 174, 192, 0.1);
+    background: rgba(107, 114, 128, 0.08);
     color: var(--text-secondary);
 }
 
 .badge-open {
-    background: rgba(237, 137, 54, 0.1);
+    background: rgba(255, 167, 38, 0.1);
     color: var(--accent-warning);
 }
 
 .badge-answered {
-    background: rgba(72, 187, 120, 0.1);
+    background: rgba(76, 175, 80, 0.1);
     color: var(--accent-success);
 }
 
@@ -515,7 +528,7 @@ select.input {
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 40px -5px rgba(0, 88, 113, 0.15), 0 10px 20px -5px rgba(0, 88, 113, 0.08);
 }
 
 .modal-header {
@@ -593,8 +606,8 @@ textarea.input {
 .input:focus,
 textarea.input:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--primary-light);
+    box-shadow: var(--focus-ring);
 }
 
 textarea.input {
@@ -613,54 +626,54 @@ textarea.input {
 }
 
 .status-draft {
-    background: rgba(160, 174, 192, 0.1);
+    background: rgba(107, 114, 128, 0.08);
     color: var(--text-secondary);
 }
 
 .status-active {
-    background: rgba(72, 187, 120, 0.1);
+    background: rgba(76, 175, 80, 0.1);
     color: var(--accent-success);
 }
 
 .status-completed {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(0, 88, 113, 0.1);
     color: var(--primary);
 }
 
 .status-archive {
-    background: rgba(160, 174, 192, 0.1);
+    background: rgba(107, 114, 128, 0.08);
     color: var(--text-secondary);
 }
 
 .status-pending {
-    background: rgba(237, 137, 54, 0.1);
+    background: rgba(255, 167, 38, 0.1);
     color: var(--accent-warning);
 }
 
 .status-approved {
-    background: rgba(72, 187, 120, 0.1);
+    background: rgba(76, 175, 80, 0.1);
     color: var(--accent-success);
 }
 
 .status-revision {
-    background: rgba(102, 126, 234, 0.1);
-    color: var(--primary);
+    background: rgba(51, 190, 204, 0.1);
+    color: var(--primary-light);
 }
 
 .status-rejected {
-    background: rgba(245, 101, 101, 0.1);
+    background: rgba(229, 57, 53, 0.1);
     color: var(--accent-error);
 }
 
 .status-notcompleted {
-    background: rgba(160, 174, 192, 0.1);
+    background: rgba(107, 114, 128, 0.08);
     color: var(--text-secondary);
 }
 
 /* Card Selected State */
 .card-selected {
     border: 2px solid var(--primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: var(--focus-ring);
 }
 
 /* Color Variables */

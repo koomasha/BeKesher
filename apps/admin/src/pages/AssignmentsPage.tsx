@@ -100,6 +100,7 @@ function AssignToGroupsSection({
         taskId?: Id<"tasks">;
     }>;
 }) {
+    const { locale } = useLanguage();
     const [selectedGroups, setSelectedGroups] = useState<Set<Id<"groups">>>(new Set());
     const assignToGroups = useMutation(api.taskAssignments.assignToGroups);
     const [isAssigning, setIsAssigning] = useState(false);

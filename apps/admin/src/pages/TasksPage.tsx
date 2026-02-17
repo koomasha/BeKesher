@@ -134,6 +134,7 @@ function TasksPage() {
 
 function TaskArchiveButton({ taskId, status }: { taskId: Id<"tasks">; status: string }) {
     const archiveTask = useMutation(api.tasks.archive);
+    const unarchiveTask = useMutation(api.tasks.unarchive);
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleArchive = async () => {
@@ -148,7 +149,29 @@ function TaskArchiveButton({ taskId, status }: { taskId: Id<"tasks">; status: st
         }
     };
 
-    if (status === 'Archive') return null;
+    const handleUnarchive = async () => {
+        if (!confirm('Restore this task from archive?')) return;
+        setIsProcessing(true);
+        try {
+            await unarchiveTask({ taskId });
+        } catch (error) {
+            alert(`Error: ${error}`);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    if (status === 'Archive') {
+        return (
+            <button
+                className="btn btn-primary"
+                onClick={handleUnarchive}
+                disabled={isProcessing}
+            >
+                <Trans>Activate</Trans>
+            </button>
+        );
+    }
 
     return (
         <button

@@ -5,7 +5,7 @@ import {
 import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { userQuery } from "./authUser";
-import { adminQuery } from "./authAdmin";
+import { adminQuery, adminMutation } from "./authAdmin";
 import { groupStatusValidator, regionValidator, weekInSeasonValidator } from "./validators";
 
 // ============================================
@@ -199,6 +199,7 @@ export const getActiveForParticipant = userQuery({
 export const list = adminQuery({
     args: {
         status: v.optional(groupStatusValidator),
+        seasonId: v.optional(v.id("seasons")),
     },
     returns: v.array(
         v.object({
@@ -207,12 +208,19 @@ export const list = adminQuery({
             status: groupStatusValidator,
             region: v.optional(regionValidator),
             memberCount: v.number(),
+            seasonId: v.optional(v.id("seasons")),
+            seasonName: v.optional(v.string()),
+            weekInSeason: v.optional(weekInSeasonValidator),
         })
     ),
     handler: async (ctx, args) => {
         let groupQuery;
 
-        if (args.status) {
+        if (args.seasonId) {
+            groupQuery = ctx.db
+                .query("groups")
+                .withIndex("by_seasonId", (q) => q.eq("seasonId", args.seasonId!));
+        } else if (args.status) {
             groupQuery = ctx.db
                 .query("groups")
                 .withIndex("by_status", (q) => q.eq("status", args.status!));
@@ -220,7 +228,24 @@ export const list = adminQuery({
             groupQuery = ctx.db.query("groups").order("desc");
         }
 
-        const groups = await groupQuery.collect();
+        let groups = await groupQuery.collect();
+
+        // Apply status filter in memory when combined with seasonId
+        if (args.seasonId && args.status) {
+            groups = groups.filter((g) => g.status === args.status);
+        }
+
+        // Batch-fetch season names
+        const seasonIds = [...new Set(
+            groups.map((g) => g.seasonId).filter((id): id is Id<"seasons"> => id !== undefined)
+        )];
+        const seasonMap = new Map<string, string>();
+        await Promise.all(
+            seasonIds.map(async (id) => {
+                const season = await ctx.db.get(id);
+                if (season) seasonMap.set(id, season.name);
+            })
+        );
 
         return groups.map((g) => {
             const memberCount = [
@@ -236,6 +261,9 @@ export const list = adminQuery({
                 status: g.status,
                 region: g.region,
                 memberCount,
+                seasonId: g.seasonId,
+                seasonName: g.seasonId ? seasonMap.get(g.seasonId) : undefined,
+                weekInSeason: g.weekInSeason,
             };
         });
     },
@@ -284,6 +312,109 @@ export const listActive = adminQuery({
         );
 
         return enriched;
+    },
+});
+
+/**
+ * Get full group details by ID with participant names (admin only)
+ */
+export const getById = adminQuery({
+    args: {
+        groupId: v.id("groups"),
+    },
+    returns: v.union(
+        v.object({
+            _id: v.id("groups"),
+            createdAt: v.number(),
+            status: groupStatusValidator,
+            region: v.optional(regionValidator),
+            seasonId: v.optional(v.id("seasons")),
+            seasonName: v.optional(v.string()),
+            weekInSeason: v.optional(weekInSeasonValidator),
+            taskId: v.optional(v.id("tasks")),
+            taskTitle: v.optional(v.string()),
+            taskType: v.optional(v.string()),
+            taskDifficulty: v.optional(v.string()),
+            members: v.array(
+                v.object({
+                    _id: v.id("participants"),
+                    name: v.string(),
+                    telegramId: v.string(),
+                    region: regionValidator,
+                })
+            ),
+        }),
+        v.null()
+    ),
+    handler: async (ctx, args) => {
+        const group = await ctx.db.get(args.groupId);
+        if (!group) return null;
+
+        const participantIds = [
+            group.participant1,
+            group.participant2,
+            group.participant3,
+            group.participant4,
+        ].filter((id): id is Id<"participants"> => id !== undefined);
+
+        const members = await Promise.all(
+            participantIds.map(async (id) => {
+                const p = await ctx.db.get(id);
+                return {
+                    _id: id,
+                    name: p?.name || "Unknown",
+                    telegramId: p?.telegramId || "",
+                    region: p?.region || ("Center" as const),
+                };
+            })
+        );
+
+        const seasonName = group.seasonId ? (await ctx.db.get(group.seasonId))?.name : undefined;
+
+        // Fetch task details if assigned
+        let taskTitle: string | undefined;
+        let taskType: string | undefined;
+        let taskDifficulty: string | undefined;
+        if (group.taskId) {
+            const task = await ctx.db.get(group.taskId);
+            if (task) {
+                taskTitle = task.title;
+                taskType = task.type;
+                taskDifficulty = task.difficulty;
+            }
+        }
+
+        return {
+            _id: group._id,
+            createdAt: group.createdAt,
+            status: group.status,
+            region: group.region,
+            seasonId: group.seasonId,
+            seasonName,
+            weekInSeason: group.weekInSeason,
+            taskId: group.taskId,
+            taskTitle,
+            taskType,
+            taskDifficulty,
+            members,
+        };
+    },
+});
+
+/**
+ * Admin update group status
+ */
+export const adminUpdateStatus = adminMutation({
+    args: {
+        groupId: v.id("groups"),
+        status: groupStatusValidator,
+    },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        const group = await ctx.db.get(args.groupId);
+        if (!group) throw new Error("Group not found");
+        await ctx.db.patch(args.groupId, { status: args.status });
+        return null;
     },
 });
 

@@ -185,3 +185,15 @@ export const archive = adminMutation({
     return null;
   },
 });
+
+/**
+ * Unarchive a task (restore to Active)
+ */
+export const unarchive = adminMutation({
+  args: { taskId: v.id("tasks") },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.taskId, { status: "Active" });
+    return null;
+  },
+});

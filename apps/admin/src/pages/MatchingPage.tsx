@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { useAction } from 'convex/react';
+import { useAction, useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
 
 function MatchingPage() {
     const runMatching = useAction(api.matching.runWeeklyMatchingPublic);
+    const activeSeason = useQuery(api.seasons.getActive);
+    const unmatched = useQuery(
+        api.seasonParticipants.getUnmatchedForSeason,
+        activeSeason ? { seasonId: activeSeason._id } : "skip"
+    );
 
     const [isRunning, setIsRunning] = useState(false);
     const [result, setResult] = useState<{
@@ -39,11 +44,75 @@ function MatchingPage() {
         }
     };
 
+    const availableForMatching = unmatched?.filter((p) => !p.onPause) ?? [];
+    const onPause = unmatched?.filter((p) => p.onPause) ?? [];
+
     return (
         <div>
             <div className="page-header">
                 <h1 className="page-title"><Trans>Run Matching</Trans></h1>
             </div>
+
+            {activeSeason && unmatched && (
+                <div className="card">
+                    <h2 className="card-title">
+                        <Trans>Participants Without Active Group</Trans>
+                    </h2>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--spacing-md)' }}>
+                        <Trans>Season: {activeSeason.name}</Trans>
+                    </p>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                        <div>
+                            <div style={{ fontSize: '2rem', fontWeight: 700, color: availableForMatching.length > 0 ? 'var(--accent-warning)' : 'var(--text-secondary)' }}>
+                                {availableForMatching.length}
+                            </div>
+                            <div style={{ color: 'var(--text-secondary)' }}><Trans>Available for Matching</Trans></div>
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                                {onPause.length}
+                            </div>
+                            <div style={{ color: 'var(--text-secondary)' }}><Trans>On Pause</Trans></div>
+                        </div>
+                    </div>
+
+                    {availableForMatching.length > 0 && (
+                        <div className="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><Trans>Name</Trans></th>
+                                        <th><Trans>Region</Trans></th>
+                                        <th><Trans>Gender</Trans></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {availableForMatching.map((p) => (
+                                        <tr key={p.participantId}>
+                                            <td>{p.participantName}</td>
+                                            <td>
+                                                {p.participantRegion && (
+                                                    <span className={`badge badge-${p.participantRegion.toLowerCase()}`}>
+                                                        {p.participantRegion}
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td>{p.participantGender}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    {availableForMatching.length === 0 && (
+                        <p style={{ color: 'var(--text-secondary)' }}>
+                            <Trans>All enrolled participants are in active groups.</Trans>
+                        </p>
+                    )}
+                </div>
+            )}
 
             <div className="card">
                 <h2 className="card-title"><Trans>Weekly Matching Algorithm</Trans></h2>
@@ -74,7 +143,7 @@ function MatchingPage() {
                 <div
                     className="card"
                     style={{
-                        background: result.success ? 'rgba(72, 187, 120, 0.1)' : 'rgba(245, 101, 101, 0.1)',
+                        background: result.success ? 'rgba(76, 175, 80, 0.1)' : 'rgba(229, 57, 53, 0.1)',
                         border: `1px solid ${result.success ? 'var(--accent-success)' : 'var(--accent-error)'}`,
                     }}
                 >

@@ -219,6 +219,26 @@ export const runWeeklyMatching = internalAction({
             `✅ Stage E: ${resultE.groups.length} groups, ${unpaired.length} remaining`
         );
 
+        // FINAL FALLBACK: If 1 person remains, try to add to ANY group from all stages
+        if (unpaired.length === 1 && allGroups.length > 0) {
+            const loner = unpaired[0];
+            const lonerRegion = loner.region || "Center";
+            console.log(`🔄 Final fallback: trying to add ${loner.name} (${lonerRegion}) to an existing group`);
+
+            for (const group of allGroups) {
+                if (group.participants.length < 4) {
+                    const hasNorth = group.participants.some((p) => (p.region || "Center") === "North");
+                    const hasSouth = group.participants.some((p) => (p.region || "Center") === "South");
+                    if ((lonerRegion === "North" && hasSouth) || (lonerRegion === "South" && hasNorth)) continue;
+
+                    group.participants.push(loner);
+                    console.log(`✅ Added ${loner.name} to group: ${group.participants.map((p) => p.name).join(" + ")}`);
+                    unpaired = [];
+                    break;
+                }
+            }
+        }
+
         // Save groups to database WITH SEASON CONTEXT
         let createdCount = 0;
         for (const group of allGroups) {

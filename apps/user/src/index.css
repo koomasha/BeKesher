@@ -1213,3 +1213,51 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* ==============================
+   SEASON CARDS
+   ============================== */
+
+/* Top accent gradient stripe */
+.season-card-top-accent {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--color-warm), var(--color-accent));
+  margin-bottom: var(--spacing-lg);
+}
+
+.season-card-draft,
+.season-card-active {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Countdown number */
+.season-countdown {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+/* Thin divider */
+.season-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: var(--spacing-md) 0;
+}
+
+/* Week progress bar */
+.season-progress-track {
+  height: 4px;
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.season-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-warm), var(--color-accent));
+  transition: width 0.5s ease;
+}

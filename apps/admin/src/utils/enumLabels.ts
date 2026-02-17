@@ -14,6 +14,13 @@ const ru: Record<string, string> = {
     NotCompleted: "Не выполнено",
     Archive: "Архив",
 
+    // Participant statuses
+    Lead: "Лид",
+    Inactive: "Неактивен",
+    Enrolled: "Зачислён",
+    Paused: "На паузе",
+    Dropped: "Выбыл",
+
     // Regions
     North: "Север",
     Center: "Центр",

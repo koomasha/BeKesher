@@ -1,7 +1,49 @@
 import { adminQuery, adminMutation } from "./authAdmin";
+import { userQuery } from "./authUser";
 import { internalQuery } from "./_generated/server";
 import { v, ConvexError } from "convex/values";
 import { seasonStatusValidator } from "./validators";
+
+// ============================================
+// USER QUERIES
+// ============================================
+
+/**
+ * Get the nearest Draft season for enrollment invitation.
+ */
+export const getUpcomingDraft = userQuery({
+  args: {},
+  returns: v.union(
+    v.object({
+      _id: v.id("seasons"),
+      name: v.string(),
+      description: v.optional(v.string()),
+      startDate: v.number(),
+      endDate: v.number(),
+    }),
+    v.null()
+  ),
+  handler: async (ctx) => {
+    const draftSeasons = await ctx.db
+      .query("seasons")
+      .withIndex("by_status", (q) => q.eq("status", "Draft"))
+      .collect();
+
+    if (draftSeasons.length === 0) return null;
+
+    const nearest = draftSeasons.reduce((a, b) =>
+      a.startDate < b.startDate ? a : b
+    );
+
+    return {
+      _id: nearest._id,
+      name: nearest.name,
+      description: nearest.description,
+      startDate: nearest.startDate,
+      endDate: nearest.endDate,
+    };
+  },
+});
 
 // ============================================
 // ADMIN QUERIES
@@ -42,14 +84,30 @@ export const list = adminQuery({
     }
 
     // Enrich with enrollment count
+    // For completed seasons, count "Completed" enrollments (since they were changed from "Enrolled" on completion)
+    // For active/draft seasons, count "Enrolled" enrollments
     const enriched = await Promise.all(
       seasons.map(async (season) => {
-        const enrolled = await ctx.db
-          .query("seasonParticipants")
-          .withIndex("by_seasonId_and_status", (q) =>
-            q.eq("seasonId", season._id).eq("status", "Enrolled")
-          )
-          .collect();
+        let enrolledCount: number;
+
+        if (season.status === "Completed") {
+          // Count all participants that were part of this season (Enrolled + Completed)
+          const allEnrollments = await ctx.db
+            .query("seasonParticipants")
+            .withIndex("by_seasonId", (q) => q.eq("seasonId", season._id))
+            .collect();
+          enrolledCount = allEnrollments.filter(
+            (e) => e.status === "Enrolled" || e.status === "Completed"
+          ).length;
+        } else {
+          const enrolled = await ctx.db
+            .query("seasonParticipants")
+            .withIndex("by_seasonId_and_status", (q) =>
+              q.eq("seasonId", season._id).eq("status", "Enrolled")
+            )
+            .collect();
+          enrolledCount = enrolled.length;
+        }
 
         return {
           _id: season._id,
@@ -60,7 +118,7 @@ export const list = adminQuery({
           status: season.status,
           createdAt: season.createdAt,
           createdByEmail: season.createdByEmail,
-          enrolledCount: enrolled.length,
+          enrolledCount,
         };
       })
     );
@@ -230,8 +288,24 @@ export const activate = adminMutation({
       throw new ConvexError("Another season is already active. Please complete it first.");
     }
 
-    // Activate the season
-    await ctx.db.patch(args.seasonId, { status: "Active" });
+    // When activating before the planned start date, move start to now
+    // and recalculate end date accordingly (4 weeks from now)
+    const season = await ctx.db.get(args.seasonId);
+    if (!season) throw new ConvexError("Season not found");
+
+    const now = Date.now();
+    const fourWeeks = 4 * 7 * 24 * 60 * 60 * 1000;
+
+    if (season.startDate > now) {
+      await ctx.db.patch(args.seasonId, {
+        status: "Active",
+        startDate: now,
+        endDate: now + fourWeeks,
+      });
+    } else {
+      await ctx.db.patch(args.seasonId, { status: "Active" });
+    }
+
     console.log("✅ Season activated");
 
     return null;
@@ -257,6 +331,37 @@ export const complete = adminMutation({
 
     for (const enrollment of enrollments) {
       await ctx.db.patch(enrollment._id, { status: "Completed" });
+
+      // Set the participant to Inactive only if not enrolled in another active/draft season
+      const participant = await ctx.db.get(enrollment.participantId);
+      if (participant && participant.status === "Active") {
+        const otherEnrollments = await ctx.db
+          .query("seasonParticipants")
+          .withIndex("by_participantId", (q) =>
+            q.eq("participantId", enrollment.participantId)
+          )
+          .collect();
+
+        const enrolledElsewhere = otherEnrollments.some((e) =>
+          e._id !== enrollment._id && e.status === "Enrolled"
+        );
+
+        if (!enrolledElsewhere) {
+          await ctx.db.patch(enrollment.participantId, { status: "Inactive", onPause: false });
+        }
+      }
+    }
+
+    // Close all active groups in this season
+    const groups = await ctx.db
+      .query("groups")
+      .withIndex("by_seasonId", (q) => q.eq("seasonId", args.seasonId))
+      .collect();
+
+    for (const group of groups) {
+      if (group.status === "Active") {
+        await ctx.db.patch(group._id, { status: "Completed" });
+      }
     }
 
     console.log("✅ Season completed");

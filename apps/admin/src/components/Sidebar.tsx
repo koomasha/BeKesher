@@ -36,7 +36,7 @@ function Sidebar() {
                 >
                     <Trans>🎯 Groups</Trans>
                 </NavLink>
-                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase' }}>
                     <Trans>Season Flow</Trans>
                 </div>
                 <NavLink
@@ -63,7 +63,7 @@ function Sidebar() {
                 >
                     <Trans>✅ Review Tasks</Trans>
                 </NavLink>
-                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+                <div style={{ margin: 'var(--spacing-sm) 0', padding: '0 var(--spacing-md)', fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase' }}>
                     <Trans>Operations</Trans>
                 </div>
                 <NavLink

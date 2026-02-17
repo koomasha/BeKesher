@@ -11,6 +11,7 @@ function SeasonsPage() {
     const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<'Draft' | 'Active' | 'Completed' | ''>('');
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [selectedSeasonId, setSelectedSeasonId] = useState<Id<"seasons"> | null>(null);
 
     const seasons = useQuery(api.seasons.list,
         statusFilter ? { status: statusFilter } : {}
@@ -86,7 +87,15 @@ function SeasonsPage() {
                                         <td>{new Date(season.endDate).toLocaleDateString()}</td>
                                         <td>{season.enrolledCount}</td>
                                         <td>
-                                            <SeasonActions seasonId={season._id} status={season.status} />
+                                            <div style={{ display: 'flex', gap: 'var(--spacing-xs)' }}>
+                                                <button
+                                                    className="btn btn-secondary"
+                                                    onClick={() => setSelectedSeasonId(season._id)}
+                                                >
+                                                    <Trans>View</Trans>
+                                                </button>
+                                                <SeasonActions seasonId={season._id} status={season.status} seasonName={season.name} />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -99,14 +108,22 @@ function SeasonsPage() {
             {showCreateModal && (
                 <CreateSeasonModal onClose={() => setShowCreateModal(false)} />
             )}
+
+            {selectedSeasonId && (
+                <SeasonDetailModal
+                    seasonId={selectedSeasonId}
+                    onClose={() => setSelectedSeasonId(null)}
+                />
+            )}
         </div>
     );
 }
 
-function SeasonActions({ seasonId, status }: { seasonId: Id<"seasons">; status: string }) {
+function SeasonActions({ seasonId, status, seasonName }: { seasonId: Id<"seasons">; status: string; seasonName: string }) {
     const activateSeason = useMutation(api.seasons.activate);
     const completeSeason = useMutation(api.seasons.complete);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [showCloseConfirm, setShowCloseConfirm] = useState(false);
 
     const handleActivate = async () => {
         if (!confirm('Activate this season? Only one season can be active at a time.')) return;
@@ -122,7 +139,6 @@ function SeasonActions({ seasonId, status }: { seasonId: Id<"seasons">; status: 
     };
 
     const handleComplete = async () => {
-        if (!confirm('Complete this season? This will mark all enrollments as completed.')) return;
         setIsProcessing(true);
         try {
             await completeSeason({ seasonId });
@@ -131,29 +147,108 @@ function SeasonActions({ seasonId, status }: { seasonId: Id<"seasons">; status: 
             alert(`Error: ${error}`);
         } finally {
             setIsProcessing(false);
+            setShowCloseConfirm(false);
         }
     };
 
     return (
-        <div style={{ display: 'flex', gap: 'var(--spacing-xs)' }}>
-            {status === 'Draft' && (
-                <button
-                    className="btn btn-primary"
-                    onClick={handleActivate}
-                    disabled={isProcessing}
-                >
-                    <Trans>Activate</Trans>
-                </button>
+        <>
+            <div style={{ display: 'flex', gap: 'var(--spacing-xs)' }}>
+                {status === 'Draft' && (
+                    <button
+                        className="btn btn-primary"
+                        onClick={handleActivate}
+                        disabled={isProcessing}
+                    >
+                        <Trans>Activate</Trans>
+                    </button>
+                )}
+                {status === 'Active' && (
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => setShowCloseConfirm(true)}
+                        disabled={isProcessing}
+                    >
+                        <Trans>Complete</Trans>
+                    </button>
+                )}
+            </div>
+            {showCloseConfirm && (
+                <CloseSeasonConfirmModal
+                    seasonName={seasonName}
+                    isProcessing={isProcessing}
+                    onConfirm={handleComplete}
+                    onClose={() => setShowCloseConfirm(false)}
+                />
             )}
-            {status === 'Active' && (
-                <button
-                    className="btn btn-secondary"
-                    onClick={handleComplete}
-                    disabled={isProcessing}
-                >
-                    <Trans>Complete</Trans>
-                </button>
-            )}
+        </>
+    );
+}
+
+function CloseSeasonConfirmModal({
+    seasonName,
+    isProcessing,
+    onConfirm,
+    onClose,
+}: {
+    seasonName: string;
+    isProcessing: boolean;
+    onConfirm: () => void;
+    onClose: () => void;
+}) {
+    const [confirmText, setConfirmText] = useState('');
+    const expectedText = `закрыть ${seasonName}`;
+    const isMatch = confirmText.trim().toLowerCase() === expectedText.toLowerCase();
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" style={{ maxWidth: '450px' }} onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                    <div>
+                        <h2 style={{ marginBottom: '2px' }}><Trans>Закрыть сезон</Trans></h2>
+                        <span style={{ fontSize: '0.85em', color: 'var(--color-text-secondary, #888)' }}>Close Season</span>
+                    </div>
+                    <button className="modal-close" onClick={onClose}>×</button>
+                </div>
+                <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                    <p style={{ marginBottom: 'var(--spacing-xs, 4px)' }}>
+                        <Trans>Это завершит сезон, отметит все записи как завершённые и закроет все активные группы.</Trans>
+                    </p>
+                    <p style={{ marginBottom: 'var(--spacing-md)', fontSize: '0.85em', color: 'var(--color-text-secondary, #888)' }}>
+                        This will complete the season, mark all enrollments as completed, and close all active groups.
+                    </p>
+                    <p style={{ marginBottom: 'var(--spacing-sm)' }}>
+                        <Trans>Введите <strong style={{ fontFamily: 'monospace' }}>закрыть {seasonName}</strong> для подтверждения:</Trans>
+                    </p>
+                    <input
+                        type="text"
+                        className="input"
+                        value={confirmText}
+                        onChange={(e) => setConfirmText(e.target.value)}
+                        placeholder={`закрыть ${seasonName}`}
+                        autoFocus
+                    />
+                </div>
+                <div className="modal-actions">
+                    <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={onClose}
+                        disabled={isProcessing}
+                    >
+                        <Trans>Отмена</Trans>
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={onConfirm}
+                        disabled={!isMatch || isProcessing}
+                        style={{ background: isMatch ? 'var(--color-error, #e53e3e)' : undefined }}
+                    >
+                        {isProcessing ? <Trans>Закрытие...</Trans> : <Trans>Закрыть сезон</Trans>}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
@@ -256,6 +351,118 @@ function CreateSeasonModal({ onClose }: { onClose: () => void }) {
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    );
+}
+
+function SeasonDetailModal({
+    seasonId,
+    onClose,
+}: {
+    seasonId: Id<"seasons">;
+    onClose: () => void;
+}) {
+    const { locale } = useLanguage();
+
+    const season = useQuery(api.seasons.get, { seasonId });
+    const enrollments = useQuery(api.seasonParticipants.listForSeason, { seasonId });
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h2>{season?.name || <Trans>Season Details</Trans>}</h2>
+                    <button className="modal-close" onClick={onClose}>×</button>
+                </div>
+                <div>
+                    {season === undefined || enrollments === undefined ? (
+                        <div className="loading">
+                            <div className="spinner"></div>
+                        </div>
+                    ) : season === null ? (
+                        <p style={{ color: 'var(--text-secondary)' }}><Trans>Season not found.</Trans></p>
+                    ) : (
+                        <>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                                <div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                        <Trans>Status</Trans>
+                                    </div>
+                                    <span className={`status-badge status-${season.status.toLowerCase()}`}>
+                                        {label(locale, season.status)}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                        <Trans>Start Date</Trans>
+                                    </div>
+                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                        {new Date(season.startDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                        <Trans>End Date</Trans>
+                                    </div>
+                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                        {new Date(season.endDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                        <Trans>Enrolled</Trans>
+                                    </div>
+                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                        {enrollments.length}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+                                <div style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>
+                                    <Trans>Enrolled Participants</Trans> ({enrollments.length})
+                                </div>
+                                {enrollments.length === 0 ? (
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                                        <Trans>No participants enrolled yet.</Trans>
+                                    </p>
+                                ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sm)', maxHeight: '400px', overflowY: 'auto' }}>
+                                        {enrollments.map((enrollment) => (
+                                            <div
+                                                key={enrollment._id}
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    padding: 'var(--spacing-sm) var(--spacing-md)',
+                                                    background: 'var(--bg-primary)',
+                                                    borderRadius: 'var(--radius-md)',
+                                                }}
+                                            >
+                                                <div>
+                                                    <div style={{ fontWeight: 500, fontSize: '0.875rem' }}>
+                                                        {enrollment.participantName}
+                                                    </div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                                        {[
+                                                            enrollment.participantRegion ? label(locale, enrollment.participantRegion) : null,
+                                                            enrollment.participantEmail,
+                                                        ].filter(Boolean).join(' · ') || ''}
+                                                    </div>
+                                                </div>
+                                                <span className={`badge badge-${enrollment.status.toLowerCase()}`}>
+                                                    {label(locale, enrollment.status)}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
