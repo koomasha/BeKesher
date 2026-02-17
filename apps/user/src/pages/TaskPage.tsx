@@ -123,10 +123,6 @@ function TaskPage() {
         );
     }
 
-    // Check if task is revealed
-    const now = Date.now();
-    const isRevealed = now >= assignment.revealTime;
-
     // Success state after submission
     if (submitted) {
         return (
@@ -157,167 +153,151 @@ function TaskPage() {
                 <p><Trans>Выполни задание вместе с группой</Trans></p>
             </div>
 
-            {!isRevealed ? (
-                /* Task not yet revealed - show countdown */
-                <div className="card animate-fade-in">
+            {/* Task details */}
+            <div className="card animate-fade-in">
+                <div className="card-header">
+                    <span className="card-title">{assignment.task.title}</span>
+                    <span className={`badge badge-${assignment.reviewStatus.toLowerCase()}`}>
+                        {assignment.reviewStatus === 'Pending' && <Trans>Ожидает</Trans>}
+                        {assignment.reviewStatus === 'Approved' && <Trans>Принято</Trans>}
+                        {assignment.reviewStatus === 'Revision' && <Trans>На доработку</Trans>}
+                        {assignment.reviewStatus === 'Rejected' && <Trans>Отклонено</Trans>}
+                        {assignment.reviewStatus === 'NotCompleted' && <Trans>Не выполнено</Trans>}
+                    </span>
+                </div>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--spacing-md)' }}>
+                    {assignment.task.description}
+                </p>
+                {assignment.task.onlineInstructions && (
+                    <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                        <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
+                            <Trans>Инструкции:</Trans>
+                        </div>
+                        <div style={{
+                            padding: 'var(--spacing-md)',
+                            backgroundColor: 'var(--bg-alt)',
+                            borderRadius: 'var(--radius-md)',
+                            whiteSpace: 'pre-wrap',
+                            fontSize: 'var(--font-size-sm)',
+                        }}>
+                            {assignment.task.onlineInstructions}
+                        </div>
+                    </div>
+                )}
+                <div>
+                    <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
+                        <Trans>Как отчитаться:</Trans>
+                    </div>
+                    <div style={{
+                        padding: 'var(--spacing-md)',
+                        backgroundColor: 'var(--bg-warm)',
+                        borderRadius: 'var(--radius-md)',
+                        whiteSpace: 'pre-wrap',
+                        fontSize: 'var(--font-size-sm)',
+                    }}>
+                        {assignment.task.reportInstructions}
+                    </div>
+                </div>
+            </div>
+
+            {/* Review feedback (if revision/rejected) */}
+            {assignment.reviewComment && (assignment.reviewStatus === 'Revision' || assignment.reviewStatus === 'Rejected') && (
+                <div className="card animate-fade-in" style={{ borderLeft: '3px solid var(--color-warning)' }}>
+                    <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
+                        <Trans>Комментарий проверяющего:</Trans>
+                    </div>
+                    <p style={{ color: 'var(--text-secondary)' }}>{assignment.reviewComment}</p>
+                </div>
+            )}
+
+            {/* Approved state */}
+            {assignment.reviewStatus === 'Approved' && (
+                <div className="card animate-fade-in" style={{ background: 'var(--bg-warm)' }}>
                     <div className="empty-state">
-                        <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600 }}>
-                            <Trans>Задание скоро откроется</Trans>
-                        </p>
-                        <p style={{ color: 'var(--text-secondary)', marginTop: 'var(--spacing-sm)' }}>
-                            <Trans>Откроется: {new Date(assignment.revealTime).toLocaleString('ru-RU')}</Trans>
+                        <p style={{ fontWeight: 600 }}>
+                            <Trans>Задание выполнено! +{assignment.pointsAwarded} баллов</Trans>
                         </p>
                     </div>
                 </div>
-            ) : (
-                <>
-                    {/* Task details */}
-                    <div className="card animate-fade-in">
-                        <div className="card-header">
-                            <span className="card-title">{assignment.task.title}</span>
-                            <span className={`badge badge-${assignment.reviewStatus.toLowerCase()}`}>
-                                {assignment.reviewStatus === 'Pending' && <Trans>Ожидает</Trans>}
-                                {assignment.reviewStatus === 'Approved' && <Trans>Принято</Trans>}
-                                {assignment.reviewStatus === 'Revision' && <Trans>На доработку</Trans>}
-                                {assignment.reviewStatus === 'Rejected' && <Trans>Отклонено</Trans>}
-                                {assignment.reviewStatus === 'NotCompleted' && <Trans>Не выполнено</Trans>}
-                            </span>
-                        </div>
-                        <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--spacing-md)' }}>
-                            {assignment.task.description}
-                        </p>
-                        {assignment.task.onlineInstructions && (
-                            <div style={{ marginBottom: 'var(--spacing-md)' }}>
-                                <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
-                                    <Trans>Инструкции:</Trans>
-                                </div>
-                                <div style={{
-                                    padding: 'var(--spacing-md)',
-                                    backgroundColor: 'var(--bg-alt)',
-                                    borderRadius: 'var(--radius-md)',
-                                    whiteSpace: 'pre-wrap',
-                                    fontSize: 'var(--font-size-sm)',
-                                }}>
-                                    {assignment.task.onlineInstructions}
-                                </div>
-                            </div>
-                        )}
-                        <div>
-                            <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
-                                <Trans>Как отчитаться:</Trans>
-                            </div>
-                            <div style={{
-                                padding: 'var(--spacing-md)',
-                                backgroundColor: 'var(--bg-warm)',
-                                borderRadius: 'var(--radius-md)',
-                                whiteSpace: 'pre-wrap',
-                                fontSize: 'var(--font-size-sm)',
-                            }}>
-                                {assignment.task.reportInstructions}
-                            </div>
-                        </div>
+            )}
+
+            {/* Submission form (show when Pending or Revision) */}
+            {(assignment.reviewStatus === 'Pending' || assignment.reviewStatus === 'Revision') && (
+                <div className="card animate-fade-in">
+                    <span className="card-title"><Trans>Отчёт о выполнении</Trans></span>
+
+                    <div style={{ marginTop: 'var(--spacing-md)' }}>
+                        <textarea
+                            className="input"
+                            rows={4}
+                            value={completionNotes}
+                            onChange={(e) => setCompletionNotes(e.target.value)}
+                            placeholder={t`Расскажи, как вы выполнили задание...`}
+                        />
                     </div>
 
-                    {/* Review feedback (if revision/rejected) */}
-                    {assignment.reviewComment && (assignment.reviewStatus === 'Revision' || assignment.reviewStatus === 'Rejected') && (
-                        <div className="card animate-fade-in" style={{ borderLeft: '3px solid var(--color-warning)' }}>
-                            <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)' }}>
-                                <Trans>Комментарий проверяющего:</Trans>
-                            </div>
-                            <p style={{ color: 'var(--text-secondary)' }}>{assignment.reviewComment}</p>
+                    <div style={{ marginTop: 'var(--spacing-md)' }}>
+                        <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)', fontSize: 'var(--font-size-sm)' }}>
+                            <Trans>Фотографии (необязательно)</Trans>
                         </div>
-                    )}
-
-                    {/* Approved state */}
-                    {assignment.reviewStatus === 'Approved' && (
-                        <div className="card animate-fade-in" style={{ background: 'var(--bg-warm)' }}>
-                            <div className="empty-state">
-                                <p style={{ fontWeight: 600 }}>
-                                    <Trans>Задание выполнено! +{assignment.pointsAwarded} баллов</Trans>
-                                </p>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Submission form (show when Pending or Revision) */}
-                    {(assignment.reviewStatus === 'Pending' || assignment.reviewStatus === 'Revision') && (
-                        <div className="card animate-fade-in">
-                            <span className="card-title"><Trans>Отчёт о выполнении</Trans></span>
-
-                            <div style={{ marginTop: 'var(--spacing-md)' }}>
-                                <textarea
-                                    className="input"
-                                    rows={4}
-                                    value={completionNotes}
-                                    onChange={(e) => setCompletionNotes(e.target.value)}
-                                    placeholder={t`Расскажи, как вы выполнили задание...`}
-                                />
-                            </div>
-
-                            <div style={{ marginTop: 'var(--spacing-md)' }}>
-                                <div style={{ fontWeight: 500, marginBottom: 'var(--spacing-xs)', fontSize: 'var(--font-size-sm)' }}>
-                                    <Trans>Фотографии (необязательно)</Trans>
-                                </div>
-                                {photos.length > 0 && (
-                                    <div className="photo-grid">
-                                        {photos.map((photo, index) => (
-                                            <div key={index} className="photo-preview">
-                                                <img src={photo.preview} alt={t`Фото ${index + 1}`} />
-                                                <button className="remove-photo" onClick={() => handleRemovePhoto(index)}>
-                                                    &times;
-                                                </button>
-                                            </div>
-                                        ))}
+                        {photos.length > 0 && (
+                            <div className="photo-grid">
+                                {photos.map((photo, index) => (
+                                    <div key={index} className="photo-preview">
+                                        <img src={photo.preview} alt={t`Фото ${index + 1}`} />
+                                        <button className="remove-photo" onClick={() => handleRemovePhoto(index)}>
+                                            &times;
+                                        </button>
                                     </div>
-                                )}
-                                {photos.length < MAX_PHOTOS && (
-                                    <label className="photo-upload-button">
-                                        <div className="upload-icon">
-                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                                <rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5"/>
-                                                <circle cx="12" cy="12" r="3" stroke="var(--color-accent)" strokeWidth="1.5"/>
-                                                <circle cx="17" cy="8" r="1" fill="var(--color-accent)"/>
-                                            </svg>
-                                        </div>
-                                        <span><Trans>Загрузить фото</Trans></span>
-                                        <input
-                                            ref={fileInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            multiple
-                                            onChange={handlePhotoSelect}
-                                        />
-                                    </label>
-                                )}
-                                <p className="photo-count">
-                                    <Trans>{photos.length} / {MAX_PHOTOS} фото</Trans>
-                                </p>
+                                ))}
                             </div>
+                        )}
+                        {photos.length < MAX_PHOTOS && (
+                            <label className="photo-upload-button">
+                                <div className="upload-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5"/>
+                                        <circle cx="12" cy="12" r="3" stroke="var(--color-accent)" strokeWidth="1.5"/>
+                                        <circle cx="17" cy="8" r="1" fill="var(--color-accent)"/>
+                                    </svg>
+                                </div>
+                                <span><Trans>Загрузить фото</Trans></span>
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handlePhotoSelect}
+                                />
+                            </label>
+                        )}
+                        <p className="photo-count">
+                            <Trans>{photos.length} / {MAX_PHOTOS} фото</Trans>
+                        </p>
+                    </div>
 
-                            <button
-                                className="btn btn-warm btn-full"
-                                style={{ marginTop: 'var(--spacing-md)' }}
-                                onClick={handleSubmit}
-                                disabled={isSubmitting || !completionNotes.trim()}
-                            >
-                                {isSubmitting ? <Trans>Отправка...</Trans> : <Trans>Отправить отчёт</Trans>}
-                            </button>
+                    <button
+                        className="btn btn-warm btn-full"
+                        style={{ marginTop: 'var(--spacing-md)' }}
+                        onClick={handleSubmit}
+                        disabled={isSubmitting || !completionNotes.trim()}
+                    >
+                        {isSubmitting ? <Trans>Отправка...</Trans> : <Trans>Отправить отчёт</Trans>}
+                    </button>
 
-                            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginTop: 'var(--spacing-sm)', textAlign: 'center' }}>
-                                <Trans>С фото: 10 баллов | Только текст: 5 баллов</Trans>
-                            </p>
-                        </div>
-                    )}
+                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginTop: 'var(--spacing-sm)', textAlign: 'center' }}>
+                        <Trans>С фото: 10 баллов | Только текст: 5 баллов</Trans>
+                    </p>
+                </div>
+            )}
 
-                    {/* Already submitted, waiting for review */}
-                    {assignment.completionNotes && assignment.reviewStatus === 'Pending' && (
-                        <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
-                            <div className="empty-state">
-                                <p><Trans>Отчёт отправлен, ожидает проверки</Trans></p>
-                            </div>
-                        </div>
-                    )}
-                </>
+            {/* Already submitted, waiting for review */}
+            {assignment.completionNotes && assignment.reviewStatus === 'Pending' && (
+                <div className="card animate-fade-in" style={{ background: 'var(--bg-alt)' }}>
+                    <div className="empty-state">
+                        <p><Trans>Отчёт отправлен, ожидает проверки</Trans></p>
+                    </div>
+                </div>
             )}
 
             <Link to="/groups" className="btn btn-secondary btn-full" style={{ marginTop: 'var(--spacing-md)' }}>

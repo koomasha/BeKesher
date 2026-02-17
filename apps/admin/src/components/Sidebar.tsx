@@ -1,13 +1,17 @@
 import { NavLink } from 'react-router-dom';
-import { useQuery } from 'convex/react';
+import { useQuery, useAction } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Trans } from '@lingui/macro';
+import { useState } from 'react';
 
 function Sidebar() {
     const user = useQuery(api.authAdmin.getAdminIdentity);
     const { logout } = useAdminAuth();
+    const cleanAll = useAction(api.seed.cleanAllPublic);
+    const seedData = useAction(api.seed.resetAndSeedPublic);
+    const [loading, setLoading] = useState<string | null>(null);
 
     return (
         <aside className="sidebar">
@@ -85,6 +89,56 @@ function Sidebar() {
                     <Trans>💬 Support Tickets</Trans>
                 </NavLink>
             </nav>
+
+            <div style={{ padding: '0 var(--spacing-md) var(--spacing-md)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ fontSize: '0.7rem', fontWeight: 600, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: '2px' }}>
+                    Dev Tools
+                </div>
+                <button
+                    onClick={async () => {
+                        if (!confirm('Are you sure? This will DELETE ALL DATA.')) return;
+                        setLoading('clean');
+                        try {
+                            await cleanAll();
+                            alert('All data cleaned.');
+                        } catch (e: any) {
+                            alert('Error: ' + e.message);
+                        } finally {
+                            setLoading(null);
+                        }
+                    }}
+                    disabled={loading !== null}
+                    style={{
+                        padding: '8px 12px', borderRadius: '6px', border: '1px solid rgba(255,100,100,0.5)',
+                        background: 'rgba(255,60,60,0.15)', color: '#ff9999', cursor: 'pointer',
+                        fontSize: '0.8rem', fontWeight: 600, opacity: loading ? 0.5 : 1,
+                    }}
+                >
+                    {loading === 'clean' ? 'Cleaning...' : '🗑 Clean All Data'}
+                </button>
+                <button
+                    onClick={async () => {
+                        if (!confirm('This will RESET and SEED the database. Continue?')) return;
+                        setLoading('seed');
+                        try {
+                            await seedData();
+                            alert('Database seeded!');
+                        } catch (e: any) {
+                            alert('Error: ' + e.message);
+                        } finally {
+                            setLoading(null);
+                        }
+                    }}
+                    disabled={loading !== null}
+                    style={{
+                        padding: '8px 12px', borderRadius: '6px', border: '1px solid rgba(100,200,100,0.5)',
+                        background: 'rgba(60,180,60,0.15)', color: '#99dd99', cursor: 'pointer',
+                        fontSize: '0.8rem', fontWeight: 600, opacity: loading ? 0.5 : 1,
+                    }}
+                >
+                    {loading === 'seed' ? 'Seeding...' : '🌱 Seed Data'}
+                </button>
+            </div>
 
             <div className="sidebar-footer">
                 {user && (
