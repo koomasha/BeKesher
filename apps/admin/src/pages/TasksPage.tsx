@@ -4,8 +4,11 @@ import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Id } from 'convex/_generated/dataModel';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function TasksPage() {
+    const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<'Active' | 'Archive' | ''>('Active');
     const [typeFilter, setTypeFilter] = useState<'Activity' | 'Conversation' | 'Creative' | 'Philosophy' | ''>('');
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -91,12 +94,12 @@ function TasksPage() {
                                                 }
                                             </div>
                                         </td>
-                                        <td>{task.type}</td>
-                                        <td>{task.difficulty}</td>
-                                        <td>{task.purpose}</td>
+                                        <td>{label(locale, task.type)}</td>
+                                        <td>{label(locale, task.difficulty)}</td>
+                                        <td>{label(locale, task.purpose)}</td>
                                         <td>
                                             <span className={`status-badge status-${task.status.toLowerCase()}`}>
-                                                {task.status}
+                                                {label(locale, task.status)}
                                             </span>
                                         </td>
                                         <td>
@@ -131,6 +134,7 @@ function TasksPage() {
 
 function TaskArchiveButton({ taskId, status }: { taskId: Id<"tasks">; status: string }) {
     const archiveTask = useMutation(api.tasks.archive);
+    const unarchiveTask = useMutation(api.tasks.unarchive);
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleArchive = async () => {
@@ -145,7 +149,29 @@ function TaskArchiveButton({ taskId, status }: { taskId: Id<"tasks">; status: st
         }
     };
 
-    if (status === 'Archive') return null;
+    const handleUnarchive = async () => {
+        if (!confirm('Restore this task from archive?')) return;
+        setIsProcessing(true);
+        try {
+            await unarchiveTask({ taskId });
+        } catch (error) {
+            alert(`Error: ${error}`);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    if (status === 'Archive') {
+        return (
+            <button
+                className="btn btn-primary"
+                onClick={handleUnarchive}
+                disabled={isProcessing}
+            >
+                <Trans>Activate</Trans>
+            </button>
+        );
+    }
 
     return (
         <button
@@ -159,6 +185,7 @@ function TaskArchiveButton({ taskId, status }: { taskId: Id<"tasks">; status: st
 }
 
 function TaskDetailModal({ taskId, onClose }: { taskId: Id<"tasks">; onClose: () => void }) {
+    const { locale } = useLanguage();
     const task = useQuery(api.tasks.get, { taskId });
 
     return (
@@ -197,10 +224,10 @@ function TaskDetailModal({ taskId, onClose }: { taskId: Id<"tasks">; onClose: ()
                         <div className="form-group">
                             <label className="form-label"><Trans>Metadata</Trans></label>
                             <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-                                <div><Trans>Type:</Trans> {task.type}</div>
-                                <div><Trans>Difficulty:</Trans> {task.difficulty}</div>
-                                <div><Trans>Purpose:</Trans> {task.purpose}</div>
-                                <div><Trans>Status:</Trans> {task.status}</div>
+                                <div><Trans>Type:</Trans> {label(locale, task.type)}</div>
+                                <div><Trans>Difficulty:</Trans> {label(locale, task.difficulty)}</div>
+                                <div><Trans>Purpose:</Trans> {label(locale, task.purpose)}</div>
+                                <div><Trans>Status:</Trans> {label(locale, task.status)}</div>
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,6 @@ import { userQuery, userMutation } from "./authUser";
 import { internalMutation } from "./_generated/server";
 import { v, ConvexError } from "convex/values";
 import { taskReviewStatusValidator, weekInSeasonValidator } from "./validators";
-import { getSundayRevealTimeIsrael } from "./utils";
 
 // ============================================
 // ADMIN QUERIES
@@ -214,7 +213,6 @@ export const getForActiveGroup = userQuery({
       completionPhotos: v.optional(v.array(v.id("_storage"))),
       pointsAwarded: v.number(),
       reviewComment: v.optional(v.string()),
-      revealTime: v.number(),  // Sunday 8:00 AM timestamp
     }),
     v.null()
   ),
@@ -249,9 +247,6 @@ export const getForActiveGroup = userQuery({
 
     if (!assignment) return null;
 
-    // Calculate reveal time: Sunday 8:00 AM Israel time after group creation
-    const revealTime = getSundayRevealTimeIsrael(myGroup.createdAt);
-
     // Get task details
     const task = await ctx.db.get(assignment.taskId);
     if (!task) return null;
@@ -270,7 +265,6 @@ export const getForActiveGroup = userQuery({
       completionPhotos: assignment.completionPhotos,
       pointsAwarded: assignment.pointsAwarded,
       reviewComment: assignment.reviewComment,
-      revealTime,
     };
   },
 });

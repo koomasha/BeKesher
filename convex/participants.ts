@@ -4,7 +4,7 @@ import {
 } from "./_generated/server";
 import { v } from "convex/values";
 import { userQuery, userMutation, publicMutation } from "./authUser";
-import { adminQuery } from "./authAdmin";
+import { adminQuery, adminMutation } from "./authAdmin";
 import { internal } from "./_generated/api";
 import {
     participantStatusValidator,
@@ -71,11 +71,39 @@ export const getByTelegramId = userQuery({
         v.null()
     ),
     handler: async (ctx) => {
-        const participant = await ctx.db
+        const p = await ctx.db
             .query("participants")
             .withIndex("by_telegramId", (q) => q.eq("telegramId", ctx.telegramId))
             .unique();
-        return participant;
+        if (!p) return null;
+        return {
+            _id: p._id,
+            _creationTime: p._creationTime,
+            name: p.name,
+            phone: p.phone,
+            telegramId: p.telegramId,
+            tgFirstName: p.tgFirstName,
+            tgLastName: p.tgLastName,
+            tgUsername: p.tgUsername,
+            photo: p.photo,
+            birthDate: p.birthDate,
+            gender: p.gender,
+            region: p.region,
+            city: p.city,
+            aboutMe: p.aboutMe,
+            profession: p.profession,
+            purpose: p.purpose,
+            expectations: p.expectations,
+            email: p.email,
+            socialMediaConsent: p.socialMediaConsent,
+            status: p.status,
+            onPause: p.onPause,
+            totalPoints: p.totalPoints,
+            registrationDate: p.registrationDate,
+            paidUntil: p.paidUntil,
+            paymentDate: p.paymentDate,
+            periodsPaid: p.periodsPaid,
+        };
     },
 });
 
@@ -174,7 +202,12 @@ export const list = adminQuery({
             query = ctx.db.query("participants");
         }
 
-        const participants = await query.collect();
+        // Apply region filter in memory if only region is specified (no index for region-only)
+        let participants = await query.collect();
+
+        if (args.region && !args.status) {
+            participants = participants.filter((p) => p.region === args.region);
+        }
 
         return participants.map((p) => ({
             _id: p._id,
@@ -187,6 +220,100 @@ export const list = adminQuery({
             onPause: p.onPause,
             paidUntil: p.paidUntil,
         }));
+    },
+});
+
+/**
+ * Get full participant details by ID (admin only)
+ */
+export const getById = adminQuery({
+    args: {
+        participantId: v.id("participants"),
+    },
+    returns: v.union(
+        v.object({
+            _id: v.id("participants"),
+            name: v.string(),
+            phone: v.string(),
+            telegramId: v.string(),
+            tgFirstName: v.optional(v.string()),
+            tgLastName: v.optional(v.string()),
+            tgUsername: v.optional(v.string()),
+            email: v.optional(v.string()),
+            birthDate: v.string(),
+            gender: genderValidator,
+            region: regionValidator,
+            city: v.optional(v.string()),
+            aboutMe: v.optional(v.string()),
+            profession: v.optional(v.string()),
+            status: participantStatusValidator,
+            onPause: v.boolean(),
+            paidUntil: v.optional(v.number()),
+            totalPoints: v.number(),
+            registrationDate: v.optional(v.number()),
+        }),
+        v.null()
+    ),
+    handler: async (ctx, args) => {
+        const p = await ctx.db.get(args.participantId);
+        if (!p) return null;
+        return {
+            _id: p._id,
+            name: p.name,
+            phone: p.phone,
+            telegramId: p.telegramId,
+            tgFirstName: p.tgFirstName,
+            tgLastName: p.tgLastName,
+            tgUsername: p.tgUsername,
+            email: p.email,
+            birthDate: p.birthDate,
+            gender: p.gender,
+            region: p.region,
+            city: p.city,
+            aboutMe: p.aboutMe,
+            profession: p.profession,
+            status: p.status,
+            onPause: p.onPause,
+            paidUntil: p.paidUntil,
+            totalPoints: p.totalPoints,
+            registrationDate: p.registrationDate,
+        };
+    },
+});
+
+/**
+ * Admin update participant fields
+ */
+export const adminUpdate = adminMutation({
+    args: {
+        participantId: v.id("participants"),
+        name: v.optional(v.string()),
+        phone: v.optional(v.string()),
+        email: v.optional(v.string()),
+        region: v.optional(regionValidator),
+        city: v.optional(v.string()),
+        gender: v.optional(genderValidator),
+        status: v.optional(participantStatusValidator),
+        onPause: v.optional(v.boolean()),
+    },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        const { participantId, ...updates } = args;
+        const participant = await ctx.db.get(participantId);
+        if (!participant) throw new Error("Participant not found");
+
+        // Build patch object with only provided fields
+        const patch: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(updates)) {
+            if (value !== undefined) {
+                patch[key] = value;
+            }
+        }
+
+        if (Object.keys(patch).length > 0) {
+            await ctx.db.patch(participantId, patch);
+        }
+        return null;
     },
 });
 
@@ -525,7 +652,18 @@ export const get = internalQuery({
         v.null()
     ),
     handler: async (ctx, args) => {
-        return await ctx.db.get(args.participantId);
+        const p = await ctx.db.get(args.participantId);
+        if (!p) return null;
+        return {
+            _id: p._id,
+            name: p.name,
+            telegramId: p.telegramId,
+            birthDate: p.birthDate,
+            gender: p.gender,
+            region: p.region,
+            status: p.status,
+            onPause: p.onPause,
+        };
     },
 });
 

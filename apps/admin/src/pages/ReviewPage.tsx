@@ -4,8 +4,11 @@ import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Id } from 'convex/_generated/dataModel';
+import { useLanguage } from '../hooks/useLanguage';
+import { label, weekLabel } from '../utils/enumLabels';
 
 function ReviewPage() {
+    const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<'Pending' | 'Approved' | 'Revision' | 'Rejected' | 'NotCompleted' | ''>('Pending');
     const [selectedAssignment, setSelectedAssignment] = useState<Id<"taskAssignments"> | null>(null);
 
@@ -69,7 +72,7 @@ function ReviewPage() {
                                         <td>
                                             <div style={{ fontWeight: 500 }}>{assignment.taskTitle}</div>
                                         </td>
-                                        <td>Week {assignment.weekInSeason}</td>
+                                        <td>{weekLabel(locale, assignment.weekInSeason)}</td>
                                         <td>{assignment.submittedByName || '-'}</td>
                                         <td>
                                             {assignment.submittedAt
@@ -79,7 +82,7 @@ function ReviewPage() {
                                         </td>
                                         <td>
                                             <span className={`status-badge status-${assignment.reviewStatus.toLowerCase()}`}>
-                                                {assignment.reviewStatus}
+                                                {label(locale, assignment.reviewStatus)}
                                             </span>
                                         </td>
                                         <td>{assignment.pointsAwarded}</td>

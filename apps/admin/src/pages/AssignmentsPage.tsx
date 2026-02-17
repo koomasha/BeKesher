@@ -3,8 +3,11 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans } from '@lingui/macro';
 import { Id } from 'convex/_generated/dataModel';
+import { useLanguage } from '../hooks/useLanguage';
+import { label, weekLabel } from '../utils/enumLabels';
 
 function AssignmentsPage() {
+    const { locale } = useLanguage();
     const [selectedTask, setSelectedTask] = useState<Id<"tasks"> | null>(null);
 
     const activeSeason = useQuery(api.seasons.getActive);
@@ -59,7 +62,7 @@ function AssignmentsPage() {
                                             {task.title}
                                         </div>
                                         <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                                            {task.type} • {task.difficulty}
+                                            {label(locale, task.type)} • {label(locale, task.difficulty)}
                                         </div>
                                         <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: 'var(--spacing-xs)' }}>
                                             {task.description.substring(0, 60)}...
@@ -97,6 +100,7 @@ function AssignToGroupsSection({
         taskId?: Id<"tasks">;
     }>;
 }) {
+    const { locale } = useLanguage();
     const [selectedGroups, setSelectedGroups] = useState<Set<Id<"groups">>>(new Set());
     const assignToGroups = useMutation(api.taskAssignments.assignToGroups);
     const [isAssigning, setIsAssigning] = useState(false);
@@ -194,7 +198,7 @@ function AssignToGroupsSection({
                                         </div>
                                     </td>
                                     <td>
-                                        {group.weekInSeason ? `Week ${group.weekInSeason}` : '-'}
+                                        {weekLabel(locale, group.weekInSeason)}
                                     </td>
                                     <td>
                                         {group.taskId ? (
