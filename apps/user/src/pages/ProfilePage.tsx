@@ -100,6 +100,17 @@ function ProfilePage() {
     // Calculate age from birthDate
     const displayAge = profile ? calculateAge(profile.birthDate) : 0;
 
+    // Check subscription status
+    const now = Date.now();
+    const isSubscriptionActive = profile.paidUntil && profile.paidUntil > now;
+    const subscriptionEndDate = profile.paidUntil
+        ? new Date(profile.paidUntil).toLocaleDateString('ru-RU', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+          })
+        : null;
+
     return (
         <div className="profile-page">
             <div className="profile-container">
@@ -110,6 +121,39 @@ function ProfilePage() {
                         <p className="profile-subtitle">BeKesher</p>
                     </div>
                     <Logo size={64} />
+                </div>
+
+                {/* Subscription Status Section */}
+                <div className="profile-card subscription-card">
+                    <div className="card-header">
+                        <span className="section-icon">💳</span>
+                        <h2 className="section-title">Подписка</h2>
+                    </div>
+                    {isSubscriptionActive ? (
+                        <div className="subscription-active">
+                            <div className="subscription-status">
+                                <span className="status-icon">✅</span>
+                                <span className="status-text">Подписка активна</span>
+                            </div>
+                            <p className="subscription-date">
+                                Действительна до: <strong>{subscriptionEndDate}</strong>
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="subscription-inactive">
+                            <p className="subscription-message">
+                                {profile.paidUntil
+                                    ? '⚠️ Ваша подписка истекла'
+                                    : 'Оформите подписку для участия в играх'}
+                            </p>
+                            <button
+                                className="btn btn-primary btn-subscription"
+                                onClick={() => navigate('/payment')}
+                            >
+                                💳 Оплатить подписку
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Main Info Section */}

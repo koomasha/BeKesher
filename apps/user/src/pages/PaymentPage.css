@@ -1,0 +1,254 @@
+/* PaymentPage Styles - BeKesher Design System */
+
+.payment-page {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--spacing-xl) + env(safe-area-inset-bottom));
+}
+
+.payment-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Header */
+.payment-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+}
+
+.payment-logo {
+    margin-bottom: var(--spacing-md);
+    animation: fadeIn 0.5s ease;
+}
+
+.payment-header h1 {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.2;
+}
+
+.payment-subtitle {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+/* Pricing Card */
+.pricing-card {
+    background: var(--primary-gradient);
+    border-radius: var(--radius-card);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.5s ease 0.1s backwards;
+}
+
+.price-section {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.price {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+.price-period {
+    font-size: var(--font-size-lg);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* Benefits Card */
+.benefits-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(0, 88, 113, 0.08);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    animation: fadeIn 0.5s ease 0.2s backwards;
+}
+
+.benefits-card h2 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.benefits-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.benefit-icon {
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Error Message */
+.error-message {
+    background: rgba(229, 57, 53, 0.1);
+    border: 1px solid var(--accent-error);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: fadeIn 0.3s ease;
+}
+
+.error-icon {
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+}
+
+.error-message span:last-child {
+    color: var(--accent-error);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+/* Payment Button */
+.btn-payment {
+    width: 100%;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-btn);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    transition: all var(--transition-base);
+    margin-bottom: var(--spacing-md);
+    animation: fadeIn 0.5s ease 0.3s backwards;
+    min-height: 44px;
+}
+
+.btn-payment:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-raised);
+}
+
+.btn-payment:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-payment:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Small Spinner for Button */
+.spinner-small {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Back Button */
+.btn-back {
+    width: 100%;
+    animation: fadeIn 0.5s ease 0.4s backwards;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+}
+
+.empty-logo {
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.empty-state p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dark theme support */
+.dark .pricing-card {
+    background: linear-gradient(135deg, #33BECC 0%, #33BECC 100%);
+}
+
+.dark .benefits-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .payment-header h1 {
+        font-size: var(--font-size-xl);
+    }
+
+    .price {
+        font-size: 3rem;
+    }
+
+    .benefit-text {
+        font-size: var(--font-size-sm);
+    }
+}

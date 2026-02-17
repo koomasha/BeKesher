@@ -35,7 +35,14 @@
       "Bash(npx lingui compile:*)",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "WebFetch(domain:docs.convex.dev)"
+      "WebFetch(domain:docs.convex.dev)",
+      "Bash(curl -X POST https://little-kingfisher-681.convex.cloud/auth/bypass-session -H \"Content-Type: application/json\" -d '{\"\"secret\"\":\"\"d3v-byp4ss-s3cr3t-2024\"\",\"\"telegramId\"\":\"\"6444544226\"\",\"\"source\"\":\"\"dev\"\"}')",
+      "Bash(curl -s -X POST https://little-kingfisher-681.convex.cloud/auth/bypass-session -H \"Content-Type: application/json\" -d '{\"\"secret\"\":\"\"d3v-byp4ss-s3cr3t-2024\"\",\"\"telegramId\"\":\"\"6444544226\"\",\"\"source\"\":\"\"dev\"\"}')",
+      "Bash(curl -X POST \"https://little-kingfisher-681.convex.cloud/auth/bypass-session\" -H \"Content-Type: application/json\" -d \"{\"\"secret\"\":\"\"d3v-byp4ss-s3cr3t-2024\"\",\"\"telegramId\"\":\"\"6444544226\"\",\"\"source\"\":\"\"dev\"\"}\")",
+      "WebFetch(domain:docs.payplus.co.il)",
+      "WebFetch(domain:jsapi.apiary.io)",
+      "mcp__convex__envGet",
+      "Bash(curl:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\bekesher"

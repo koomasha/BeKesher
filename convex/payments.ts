@@ -1,4 +1,4 @@
-import { internalMutation, internalQuery } from "./_generated/server";
+import { internalMutation, internalQuery, query } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
@@ -8,6 +8,19 @@ import { paymentStatusValidator, currencyValidator } from "./validators";
 // ============================================
 // PUBLIC QUERIES
 // ============================================
+
+/**
+ * Get the default payment amount from environment variable
+ * Defaults to 100 shekels if not set
+ */
+export const getPaymentAmount = query({
+    args: {},
+    returns: v.number(),
+    handler: async () => {
+        const amount = process.env.PAYMENT_AMOUNT;
+        return amount ? parseFloat(amount) : 100;
+    },
+});
 
 /**
  * Get payment history for a participant
@@ -82,7 +95,7 @@ export const createPaymentLink = userAction({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handler: async (ctx: any, args: any): Promise<{ success: boolean; paymentUrl?: string; error?: string }> => {
         // Get participant
-        const participant: { _id: Id<"participants">; name: string; phone: string } | null = await ctx.runQuery(
+        const participant: { _id: Id<"participants">; name: string; phone: string; email?: string } | null = await ctx.runQuery(
             internal.payments.getParticipantByTelegramId,
             { telegramId: ctx.telegramId }
         );
@@ -95,8 +108,9 @@ export const createPaymentLink = userAction({
         const apiKey = process.env.PAYPLUS_API_KEY;
         const secretKey = process.env.PAYPLUS_SECRET_KEY;
         const paymentPageUid = process.env.PAYPLUS_PAGE_UID;
+        const callbackUrl = process.env.PAYPLUS_CALLBACK_URL;
 
-        if (!apiKey || !secretKey || !paymentPageUid) {
+        if (!apiKey || !secretKey || !paymentPageUid || !callbackUrl) {
             console.error("PayPlus credentials not configured");
             return { success: false, error: "Payment system not configured" };
         }
@@ -104,24 +118,28 @@ export const createPaymentLink = userAction({
         try {
             // Create payment request to PayPlus
             const response: Response = await fetch(
-                "https://restapidev.payplus.co.il/api/v1.0/PaymentPages/generateLink",
+                "https://restapi.payplus.co.il/api/v1.0/PaymentPages/generateLink",
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: JSON.stringify({
-                            api_key: apiKey,
-                            secret_key: secretKey,
-                        }),
+                        "api-key": apiKey,
+                        "secret-key": secretKey,
                     },
                     body: JSON.stringify({
                         payment_page_uid: paymentPageUid,
                         amount: args.amount,
                         currency_code: "ILS",
+                        charge_method: 1,
+                        sendEmailApproval: true,
+                        sendEmailFailure: false,
+                        initial_invoice: true,
                         more_info: participant._id,
+                        refURL_callback: callbackUrl,
                         customer: {
                             customer_name: participant.name,
                             phone: participant.phone,
+                            email: participant.email || "",
                         },
                         items: [
                             {
@@ -176,6 +194,7 @@ export const getParticipantByTelegramId = internalQuery({
             _id: v.id("participants"),
             name: v.string(),
             phone: v.string(),
+            email: v.optional(v.string()),
         }),
         v.null()
     ),
@@ -191,6 +210,7 @@ export const getParticipantByTelegramId = internalQuery({
             _id: participant._id,
             name: participant.name,
             phone: participant.phone,
+            email: participant.email,
         };
     },
 });
