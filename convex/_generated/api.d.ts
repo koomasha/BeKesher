@@ -19,8 +19,12 @@ import type * as matching from "../matching.js";
 import type * as notifications from "../notifications.js";
 import type * as participants from "../participants.js";
 import type * as payments from "../payments.js";
+import type * as seasonParticipants from "../seasonParticipants.js";
+import type * as seasons from "../seasons.js";
 import type * as seed from "../seed.js";
 import type * as support from "../support.js";
+import type * as taskAssignments from "../taskAssignments.js";
+import type * as tasks from "../tasks.js";
 import type * as utils from "../utils.js";
 import type * as validators from "../validators.js";
 
@@ -42,8 +46,12 @@ declare const fullApi: ApiFromModules<{
   notifications: typeof notifications;
   participants: typeof participants;
   payments: typeof payments;
+  seasonParticipants: typeof seasonParticipants;
+  seasons: typeof seasons;
   seed: typeof seed;
   support: typeof support;
+  taskAssignments: typeof taskAssignments;
+  tasks: typeof tasks;
   utils: typeof utils;
   validators: typeof validators;
 }>;

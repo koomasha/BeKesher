@@ -1,8 +1,11 @@
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans } from '@lingui/macro';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function DashboardPage() {
+    const { locale } = useLanguage();
     const participants = useQuery(api.participants.list, {});
     const groups = useQuery(api.groups.list, {});
     const openTickets = useQuery(api.support.list, { status: 'Open' });
@@ -66,10 +69,10 @@ function DashboardPage() {
                                         <td>{new Date(group.createdAt).toLocaleDateString()}</td>
                                         <td>
                                             <span className={`badge badge-${group.status.toLowerCase()}`}>
-                                                {group.status}
+                                                {label(locale, group.status)}
                                             </span>
                                         </td>
-                                        <td>{group.region || <Trans>Mixed</Trans>}</td>
+                                        <td>{group.region ? label(locale, group.region) : <Trans>Mixed</Trans>}</td>
                                         <td><Trans>{group.memberCount} people</Trans></td>
                                     </tr>
                                 ))}

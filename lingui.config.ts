@@ -1,8 +1,8 @@
 import type { LinguiConfig } from '@lingui/conf';
 
 const config: LinguiConfig = {
-  locales: ['ru', 'en'],
-  sourceLocale: 'ru',
+  locales: ['en', 'ru'],
+  sourceLocale: 'en',
   catalogs: [
     {
       path: 'apps/user/src/locales/{locale}/messages',

@@ -15,8 +15,8 @@ msgstr ""
 
 #. placeholder {0}: g.memberCount
 #. placeholder {0}: group.memberCount
-#: apps/admin/src/pages/DashboardPage.tsx:73
-#: apps/admin/src/pages/GroupsPage.tsx:69
+#: apps/admin/src/pages/DashboardPage.tsx:76
+#: apps/admin/src/pages/GroupsPage.tsx:99
 msgid "{0} people"
 msgstr "{0} чел."
 
@@ -26,58 +26,78 @@ msgid "{0} submissions • Avg: {avgRating}/10"
 msgstr "{0} отзывов • Средняя оценка: {avgRating}/10"
 
 #. placeholder {0}: tickets?.length || 0
-#: apps/admin/src/pages/SupportPage.tsx:47
+#: apps/admin/src/pages/SupportPage.tsx:48
 msgid "{0} tickets"
 msgstr "{0} обращений"
 
+#. placeholder {0}: filteredParticipants?.length || 0
 #. placeholder {0}: groups?.length || 0
-#. placeholder {0}: participants?.length || 0
-#: apps/admin/src/pages/GroupsPage.tsx:18
-#: apps/admin/src/pages/ParticipantsPage.tsx:32
+#: apps/admin/src/pages/GroupsPage.tsx:29
+#: apps/admin/src/pages/ParticipantsPage.tsx:45
 msgid "{0} total"
 msgstr "Всего: {0}"
 
-#: apps/admin/src/pages/MatchingPage.tsx:57
+#: apps/admin/src/pages/SeasonsPage.tsx:28
+msgid "+ Create Season"
+msgstr "+ Создать сезон"
+
+#: apps/admin/src/pages/TasksPage.tsx:30
+msgid "+ Create Task"
+msgstr "+ Создать задание"
+
+#: apps/admin/src/pages/MatchingPage.tsx:56
 msgid "<0>Stage A:</0> Strict matching (same region, ±10 years, no repeats)"
 msgstr "<0>Этап A:</0> Строгое совпадение (тот же регион, ±10 лет, без повторов)"
 
-#: apps/admin/src/pages/MatchingPage.tsx:58
+#: apps/admin/src/pages/MatchingPage.tsx:57
 msgid "<0>Stage B:</0> Expanded age (same region, ±15 years, no repeats)"
 msgstr "<0>Этап B:</0> Расширенный возраст (тот же регион, ±15 лет, без повторов)"
 
-#: apps/admin/src/pages/MatchingPage.tsx:59
+#: apps/admin/src/pages/MatchingPage.tsx:58
 msgid "<0>Stage C:</0> Allow repeats (same region, ±15 years)"
 msgstr "<0>Этап C:</0> Допускаются повторы (тот же регион, ±15 лет)"
 
-#: apps/admin/src/pages/MatchingPage.tsx:60
+#: apps/admin/src/pages/MatchingPage.tsx:59
 msgid "<0>Stage D:</0> Neighboring regions"
 msgstr "<0>Этап D:</0> Соседние регионы"
 
-#: apps/admin/src/pages/MatchingPage.tsx:61
+#: apps/admin/src/pages/MatchingPage.tsx:60
 msgid "<0>Stage E:</0> Force majeure (no one left behind)"
 msgstr "<0>Этап E:</0> Форс-мажор (никто не остается без группы)"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:108
-msgid "⏸️ Yes"
-msgstr "⏸️ Да"
+#: apps/admin/src/pages/ParticipantsPage.tsx:76
+#~ msgid "⏸️ Yes"
+#~ msgstr "⏸️ Да"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:149
 msgid "⚠️ Didn't fit"
 msgstr "⚠️ Не подошло"
 
-#: apps/admin/src/pages/MatchingPage.tsx:123
+#: apps/admin/src/pages/MatchingPage.tsx:122
 msgid "⚠️ Important Notes"
 msgstr "⚠️ Важные примечания"
 
-#: apps/admin/src/pages/MatchingPage.tsx:83
+#: apps/admin/src/pages/ReviewPage.tsx:241
+msgid "✅ Approve"
+msgstr "✅ Одобрить"
+
+#: apps/admin/src/pages/MatchingPage.tsx:82
 msgid "✅ Matching Complete"
 msgstr "✅ Подбор завершен"
 
-#: apps/admin/src/pages/MatchingPage.tsx:83
+#: apps/admin/src/components/Sidebar.tsx:64
+msgid "✅ Review Tasks"
+msgstr "✅ Проверка заданий"
+
+#: apps/admin/src/pages/MatchingPage.tsx:82
 msgid "❌ Matching Failed"
 msgstr "❌ Подбор не удался"
 
-#: apps/admin/src/components/Sidebar.tsx:43
+#: apps/admin/src/pages/ReviewPage.tsx:265
+msgid "❌ Reject"
+msgstr "❌ Отклонить"
+
+#: apps/admin/src/components/Sidebar.tsx:79
 msgid "⭐ Feedback"
 msgstr "⭐ Отзывы"
 
@@ -93,19 +113,35 @@ msgstr "🎯 Группы"
 msgid "👥 Participants"
 msgstr "👥 Участники"
 
-#: apps/admin/src/components/Sidebar.tsx:55
+#: apps/admin/src/components/Sidebar.tsx:85
 msgid "💬 Support Tickets"
 msgstr "💬 Обращения в поддержку"
+
+#: apps/admin/src/components/Sidebar.tsx:46
+msgid "📅 Seasons"
+msgstr "📅 Сезоны"
 
 #: apps/admin/src/components/Sidebar.tsx:25
 msgid "📊 Dashboard"
 msgstr "📊 Панель управления"
 
-#: apps/admin/src/components/Sidebar.tsx:49
+#: apps/admin/src/components/Sidebar.tsx:58
+msgid "📌 Assign Tasks"
+msgstr "📌 Назначить задания"
+
+#: apps/admin/src/components/Sidebar.tsx:52
+msgid "📝 Task Library"
+msgstr "📝 Библиотека заданий"
+
+#: apps/admin/src/pages/ReviewPage.tsx:253
+msgid "🔄 Needs Revision"
+msgstr "🔄 Требует доработки"
+
+#: apps/admin/src/components/Sidebar.tsx:73
 msgid "🔄 Run Matching"
 msgstr "🔄 Запустить подбор"
 
-#: apps/admin/src/pages/MatchingPage.tsx:70
+#: apps/admin/src/pages/MatchingPage.tsx:69
 msgid "🔄 Running..."
 msgstr "🔄 Выполняется..."
 
@@ -117,7 +153,7 @@ msgstr "🔗 BeKesher"
 msgid "🤝 Made it deeper"
 msgstr "🤝 Углубило связь"
 
-#: apps/admin/src/pages/MatchingPage.tsx:70
+#: apps/admin/src/pages/MatchingPage.tsx:69
 msgid "🚀 Run Matching Algorithm"
 msgstr "🚀 Запустить алгоритм подбора"
 
@@ -137,113 +173,325 @@ msgstr "6+ (Хорошо)"
 msgid "8+ (Great)"
 msgstr "8+ (Отлично)"
 
-#: apps/admin/src/pages/GroupsPage.tsx:56
-#: apps/admin/src/pages/ParticipantsPage.tsx:86
+#: apps/admin/src/pages/ParticipantsPage.tsx:429
+msgid "About"
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:84
+#: apps/admin/src/pages/ParticipantsPage.tsx:110
+#: apps/admin/src/pages/ReviewPage.tsx:66
+#: apps/admin/src/pages/SeasonsPage.tsx:67
+#: apps/admin/src/pages/TasksPage.tsx:82
 msgid "Actions"
 msgstr "Действия"
 
+#: apps/admin/src/pages/SeasonsPage.tsx:161
+#: apps/admin/src/pages/TasksPage.tsx:171
+msgid "Activate"
+msgstr "Активировать"
+
 #: apps/admin/src/pages/FeedbackPage.tsx:59
-#: apps/admin/src/pages/GroupsPage.tsx:31
-#: apps/admin/src/pages/ParticipantsPage.tsx:45
+#: apps/admin/src/pages/GroupsPage.tsx:42
+#: apps/admin/src/pages/GroupsPage.tsx:295
+#: apps/admin/src/pages/ParticipantsPage.tsx:72
+#: apps/admin/src/pages/SeasonsPage.tsx:42
+#: apps/admin/src/pages/TasksPage.tsx:43
 msgid "Active"
 msgstr "Активный"
 
-#: apps/admin/src/pages/DashboardPage.tsx:36
+#: apps/admin/src/pages/DashboardPage.tsx:39
 msgid "Active Groups"
 msgstr "Активные группы"
 
-#: apps/admin/src/pages/DashboardPage.tsx:28
+#: apps/admin/src/pages/DashboardPage.tsx:31
 msgid "Active Participants"
 msgstr "Активные участники"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:34
+msgid "Active Season:"
+msgstr "Активный сезон:"
+
+#: apps/admin/src/pages/TasksPage.tsx:55
+#: apps/admin/src/pages/TasksPage.tsx:340
+msgid "Activity"
+msgstr "Активность"
 
 #: apps/admin/src/components/Sidebar.tsx:16
 msgid "Admin Dashboard"
 msgstr "Панель администратора"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:80
+#: apps/admin/src/pages/ParticipantsPage.tsx:103
+#: apps/admin/src/pages/ParticipantsPage.tsx:409
 msgid "Age"
 msgstr "Возраст"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:43
 #: apps/admin/src/pages/FeedbackPage.tsx:57
-#: apps/admin/src/pages/GroupsPage.tsx:30
-#: apps/admin/src/pages/ParticipantsPage.tsx:44
+#: apps/admin/src/pages/GroupsPage.tsx:41
+#: apps/admin/src/pages/GroupsPage.tsx:54
 #: apps/admin/src/pages/ParticipantsPage.tsx:57
-#: apps/admin/src/pages/SupportPage.tsx:59
+#: apps/admin/src/pages/ParticipantsPage.tsx:70
+#: apps/admin/src/pages/ReviewPage.tsx:36
+#: apps/admin/src/pages/SeasonsPage.tsx:40
+#: apps/admin/src/pages/SupportPage.tsx:60
+#: apps/admin/src/pages/TasksPage.tsx:42
+#: apps/admin/src/pages/TasksPage.tsx:54
 msgid "All"
 msgstr "Все"
 
-#: apps/admin/src/pages/SupportPage.tsx:145
+#: apps/admin/src/pages/AssignmentsPage.tsx:205
+msgid "Already assigned"
+msgstr "Уже назначено"
+
+#: apps/admin/src/pages/SupportPage.tsx:146
 msgid "Answer"
 msgstr "Ответить"
 
-#: apps/admin/src/pages/SupportPage.tsx:114
+#: apps/admin/src/pages/SupportPage.tsx:115
 msgid "Answer: "
 msgstr "Ответ: "
 
-#: apps/admin/src/pages/SupportPage.tsx:61
+#: apps/admin/src/pages/SupportPage.tsx:62
 msgid "Answered"
 msgstr "Отвечено"
+
+#: apps/admin/src/pages/ReviewPage.tsx:38
+msgid "Approved"
+msgstr "Одобрено"
+
+#: apps/admin/src/pages/TasksPage.tsx:44
+#: apps/admin/src/pages/TasksPage.tsx:182
+msgid "Archive"
+msgstr "Архив"
 
 #: apps/admin/src/pages/MatchingPage.tsx:19
 msgid "Are you sure you want to run the matching algorithm? This will create new groups."
 msgstr "Вы уверены, что хотите запустить алгоритм подбора? Это создаст новые группы."
 
-#: apps/admin/src/components/LoginPage.tsx:150
+#: apps/admin/src/pages/AssignmentsPage.tsx:151
+msgid "Assign to Selected Groups"
+msgstr "Назначить выбранным группам"
+
+#: apps/admin/src/pages/GroupsPage.tsx:234
+msgid "Assigned Task"
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:151
+msgid "Assigning..."
+msgstr "Назначение..."
+
+#: apps/admin/src/pages/ReviewPage.tsx:24
+msgid "assignments"
+msgstr "назначений"
+
+#: apps/admin/src/components/LoginPage.tsx:149
 msgid "BeKesher Admin"
 msgstr "BeKesher Администратор"
 
-#: apps/admin/src/pages/SupportPage.tsx:134
+#: apps/admin/src/pages/ParticipantsPage.tsx:410
+msgid "Birth Date"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:238
+msgid "Brief description of the season (optional)"
+msgstr "Краткое описание сезона (необязательно)"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:391
+#: apps/admin/src/pages/ReviewPage.tsx:304
+#: apps/admin/src/pages/SeasonsPage.tsx:264
+#: apps/admin/src/pages/SupportPage.tsx:135
+#: apps/admin/src/pages/TasksPage.tsx:365
 msgid "Cancel"
 msgstr "Отмена"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:60
-#: apps/admin/src/pages/GroupsPage.tsx:33
+#: apps/admin/src/pages/GroupsPage.tsx:44
+#: apps/admin/src/pages/GroupsPage.tsx:297
 msgid "Cancelled"
 msgstr "Отменено"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:59
+#: apps/admin/src/pages/ParticipantsPage.tsx:335
 msgid "Center"
 msgstr "Центр"
 
-#: apps/admin/src/pages/SupportPage.tsx:153
+#: apps/admin/src/pages/ParticipantsPage.tsx:340
+#: apps/admin/src/pages/ParticipantsPage.tsx:413
+msgid "City"
+msgstr ""
+
+#: apps/admin/src/pages/SupportPage.tsx:154
+#: apps/admin/src/pages/TasksPage.tsx:237
 msgid "Close"
 msgstr "Закрыть"
 
-#: apps/admin/src/pages/SupportPage.tsx:62
+#: apps/admin/src/pages/SupportPage.tsx:63
 msgid "Closed"
 msgstr "Закрыто"
 
+#: apps/admin/src/pages/SeasonsPage.tsx:170
+msgid "Complete"
+msgstr "Завершить"
+
 #: apps/admin/src/pages/FeedbackPage.tsx:58
-#: apps/admin/src/pages/GroupsPage.tsx:32
+#: apps/admin/src/pages/GroupsPage.tsx:43
+#: apps/admin/src/pages/GroupsPage.tsx:296
+#: apps/admin/src/pages/SeasonsPage.tsx:43
 msgid "Completed"
 msgstr "Завершено"
 
-#: apps/admin/src/pages/GroupsPage.tsx:52
+#: apps/admin/src/pages/ReviewPage.tsx:184
+msgid "Completion Notes"
+msgstr "Заметки о выполнении"
+
+#: apps/admin/src/pages/TasksPage.tsx:54
+#: apps/admin/src/pages/TasksPage.tsx:314
+#~ msgid "Connection"
+#~ msgstr "Связь"
+
+#: apps/admin/src/pages/TasksPage.tsx:56
+#: apps/admin/src/pages/TasksPage.tsx:341
+msgid "Conversation"
+msgstr "Conversation"
+
+#: apps/admin/src/pages/TasksPage.tsx:330
+#~ msgid "Couples"
+#~ msgstr "Пары"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:213
+msgid "Create New Season"
+msgstr "Создать новый сезон"
+
+#: apps/admin/src/pages/TasksPage.tsx:289
+msgid "Create New Task"
+msgstr "Создать новое задание"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:271
+msgid "Create Season"
+msgstr "Создать сезон"
+
+#: apps/admin/src/pages/TasksPage.tsx:368
+msgid "Create Task"
+msgstr "Создать задание"
+
+#: apps/admin/src/pages/GroupsPage.tsx:78
+#: apps/admin/src/pages/GroupsPage.tsx:198
 msgid "Created"
 msgstr "Создано"
 
-#: apps/admin/src/pages/DashboardPage.tsx:18
+#: apps/admin/src/pages/SeasonsPage.tsx:271
+#: apps/admin/src/pages/TasksPage.tsx:368
+msgid "Creating..."
+msgstr "Создание..."
+
+#: apps/admin/src/pages/TasksPage.tsx:57
+#: apps/admin/src/pages/TasksPage.tsx:342
+msgid "Creative"
+msgstr "Creative"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:179
+msgid "Current Task"
+msgstr "Текущее задание"
+
+#: apps/admin/src/pages/DashboardPage.tsx:21
 msgid "Dashboard"
 msgstr "Панель управления"
 
-#: apps/admin/src/pages/DashboardPage.tsx:57
+#: apps/admin/src/pages/DashboardPage.tsx:60
 msgid "Date"
 msgstr "Дата"
 
-#: apps/admin/src/pages/SupportPage.tsx:29
+#: apps/admin/src/pages/TasksPage.tsx:311
+msgid "Describe what participants will do in this task"
+msgstr "Опишите, что участники будут делать в этом задании"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:232
+#: apps/admin/src/pages/TasksPage.tsx:211
+#: apps/admin/src/pages/TasksPage.tsx:305
+msgid "Description"
+msgstr "Описание"
+
+#: apps/admin/src/pages/TasksPage.tsx:79
+#: apps/admin/src/pages/TasksPage.tsx:347
+msgid "Difficulty"
+msgstr "Сложность"
+
+#: apps/admin/src/pages/TasksPage.tsx:228
+msgid "Difficulty:"
+msgstr "Сложность:"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:41
+msgid "Draft"
+msgstr "Черновик"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:226
+msgid "e.g., Winter 2026"
+msgstr "например, Зима 2026"
+
+#: apps/admin/src/pages/TasksPage.tsx:349
+msgid "Easy"
+msgstr "Легкая"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:496
+msgid "Edit"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:287
+msgid "Edit Participant"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:318
+#: apps/admin/src/pages/ParticipantsPage.tsx:408
+msgid "Email"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:65
+#: apps/admin/src/pages/SeasonsPage.tsx:327
+msgid "End Date"
+msgstr "Дата окончания"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:254
+msgid "End date will be automatically set to 4 weeks after start date"
+msgstr "Дата окончания будет автоматически установлена на 4 недели после даты начала"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:491
+msgid "Enroll in"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:66
+#: apps/admin/src/pages/SeasonsPage.tsx:335
+msgid "Enrolled"
+msgstr "Записано"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:345
+msgid "Enrolled Participants"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:490
+msgid "Enrolling..."
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:300
+msgid "Enter a descriptive task title"
+msgstr "Введите описательное название задания"
+
+#: apps/admin/src/pages/TasksPage.tsx:357
+msgid "Everyone"
+msgstr "Для всех"
+
+#: apps/admin/src/pages/SupportPage.tsx:31
 msgid "Failed to answer ticket"
 msgstr "Не удалось ответить на обращение"
 
-#: apps/admin/src/pages/SupportPage.tsx:38
+#: apps/admin/src/pages/SupportPage.tsx:39
 msgid "Failed to close ticket"
 msgstr "Не удалось закрыть обращение"
 
-#: apps/admin/src/components/LoginPage.tsx:109
+#: apps/admin/src/components/LoginPage.tsx:108
 msgid "Failed to load Google Sign-In script."
 msgstr "Не удалось загрузить скрипт Google Sign-In."
 
-#: apps/admin/src/components/LoginPage.tsx:83
+#: apps/admin/src/components/LoginPage.tsx:82
 msgid "Failed to load Google Sign-In. Please refresh."
 msgstr "Не удалось загрузить Google Sign-In. Пожалуйста, обновите страницу."
 
@@ -251,21 +499,43 @@ msgstr "Не удалось загрузить Google Sign-In. Пожалуйс�
 msgid "Feedback"
 msgstr "Отзывы"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:81
+#: apps/admin/src/pages/ParticipantsPage.tsx:358
+msgid "Female"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:359
+msgid "Friendship"
+msgstr "Friendship"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:104
+#: apps/admin/src/pages/ParticipantsPage.tsx:351
+#: apps/admin/src/pages/ParticipantsPage.tsx:411
 msgid "Gender"
 msgstr "Пол"
+
+#: apps/admin/src/pages/GroupsPage.tsx:175
+msgid "Group Details"
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:184
+msgid "Group not found."
+msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:51
 msgid "Group Status:"
 msgstr "Статус группы:"
 
-#: apps/admin/src/pages/GroupsPage.tsx:16
+#: apps/admin/src/pages/GroupsPage.tsx:27
 msgid "Groups"
 msgstr "Группы"
 
-#: apps/admin/src/pages/MatchingPage.tsx:97
+#: apps/admin/src/pages/MatchingPage.tsx:96
 msgid "Groups Created"
 msgstr "Создано групп"
+
+#: apps/admin/src/pages/TasksPage.tsx:351
+msgid "Hard"
+msgstr "Сложная"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:121
 msgid "Hide Details"
@@ -275,51 +545,102 @@ msgstr "Скрыть детали"
 msgid "Improvement suggestions:"
 msgstr "Предложения по улучшению:"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:47
+#: apps/admin/src/pages/ParticipantsPage.tsx:73
 msgid "Inactive"
 msgstr "Неактивный"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:46
-msgid "Lead"
-msgstr "Лид"
+#: apps/admin/src/pages/TasksPage.tsx:322
+msgid "Instructions for completing online (optional)"
+msgstr "Инструкции для выполнения онлайн (необязательно)"
 
-#: apps/admin/src/pages/DashboardPage.tsx:32
+#: apps/admin/src/pages/TasksPage.tsx:332
+msgid "Instructions for how participants should report completion"
+msgstr "Инструкции о том, как участники должны отчитаться о выполнении"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:46
+#~ msgid "Lead"
+#~ msgstr "Лид"
+
+#: apps/admin/src/pages/DashboardPage.tsx:35
 msgid "Leads (New)"
 msgstr "Лиды (Новые)"
 
-#: apps/admin/src/components/LoginPage.tsx:176
+#: apps/admin/src/pages/TasksPage.tsx:53
+#: apps/admin/src/pages/TasksPage.tsx:313
+#~ msgid "Learning"
+#~ msgstr "Обучение"
+
+#: apps/admin/src/components/LoginPage.tsx:175
+#: apps/admin/src/pages/ReviewPage.tsx:156
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: apps/admin/src/pages/MatchingPage.tsx:36
+#: apps/admin/src/pages/ParticipantsPage.tsx:357
+msgid "Male"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:35
 msgid "Matching failed. Check console for details."
 msgstr "Подбор не удался. Проверьте консоль для подробностей."
 
-#: apps/admin/src/pages/MatchingPage.tsx:125
+#: apps/admin/src/pages/MatchingPage.tsx:124
 msgid "Matching runs automatically every Sunday at 18:00 Israel time"
 msgstr "Подбор запускается автоматически каждое воскресенье в 18:00 по израильскому времени"
 
-#: apps/admin/src/pages/MatchingPage.tsx:129
+#: apps/admin/src/pages/TasksPage.tsx:350
+msgid "Medium"
+msgstr "Средняя"
+
+#: apps/admin/src/pages/MatchingPage.tsx:128
 msgid "Meeting history from the last 4 weeks is considered to avoid repeats"
 msgstr "История встреч за последние 4 недели учитывается для избежания повторов"
 
-#: apps/admin/src/pages/DashboardPage.tsx:60
-#: apps/admin/src/pages/GroupsPage.tsx:55
+#: apps/admin/src/pages/AssignmentsPage.tsx:177
+#: apps/admin/src/pages/DashboardPage.tsx:63
+#: apps/admin/src/pages/GroupsPage.tsx:83
+#: apps/admin/src/pages/GroupsPage.tsx:252
 msgid "Members"
 msgstr "Участники"
+
+#: apps/admin/src/pages/TasksPage.tsx:225
+msgid "Metadata"
+msgstr "Метаданные"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:37
 msgid "Min Rating:"
 msgstr "Мин. оценка:"
 
-#: apps/admin/src/pages/DashboardPage.tsx:72
-#: apps/admin/src/pages/GroupsPage.tsx:68
+#: apps/admin/src/pages/DashboardPage.tsx:75
+#: apps/admin/src/pages/GroupsPage.tsx:96
 msgid "Mixed"
 msgstr "Смешанная"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:79
+#: apps/admin/src/pages/ParticipantsPage.tsx:102
+#: apps/admin/src/pages/ParticipantsPage.tsx:300
+#: apps/admin/src/pages/ParticipantsPage.tsx:405
+#: apps/admin/src/pages/SeasonsPage.tsx:62
 msgid "Name"
 msgstr "Имя"
+
+#: apps/admin/src/pages/ReviewPage.tsx:39
+msgid "Needs Revision"
+msgstr "Требует доработки"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:157
+msgid "No active groups found."
+msgstr "Активные группы не найдены."
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:26
+msgid "No active season. Create and activate a season to assign tasks."
+msgstr "Нет активного сезона. Создайте и активируйте сезон для назначения заданий."
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:50
+msgid "No active tasks available. Create a task first."
+msgstr "Нет доступных активных заданий. Сначала создайте задание."
+
+#: apps/admin/src/pages/ReviewPage.tsx:53
+msgid "No assignments found."
+msgstr "Назначения не найдены."
 
 #: apps/admin/src/components/LoginPage.tsx:66
 msgid "No credential received. Please try again."
@@ -329,70 +650,169 @@ msgstr "Учетные данные не получены. Пожалуйста,
 msgid "No feedback found."
 msgstr "Отзывы не найдены."
 
-#: apps/admin/src/pages/GroupsPage.tsx:45
+#: apps/admin/src/pages/GroupsPage.tsx:71
 msgid "No groups found."
 msgstr "Группы не найдены."
 
-#: apps/admin/src/pages/DashboardPage.tsx:51
+#: apps/admin/src/pages/DashboardPage.tsx:54
 msgid "No groups yet."
 msgstr "Групп пока нет."
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:72
+#: apps/admin/src/pages/SeasonsPage.tsx:349
+msgid "No participants enrolled yet."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:95
 msgid "No participants found."
 msgstr "Участники не найдены."
 
-#: apps/admin/src/pages/SupportPage.tsx:74
+#: apps/admin/src/pages/SeasonsPage.tsx:55
+msgid "No seasons found."
+msgstr "Сезоны не найдены."
+
+#: apps/admin/src/pages/TasksPage.tsx:70
+msgid "No tasks found."
+msgstr "Задания не найдены."
+
+#: apps/admin/src/pages/SupportPage.tsx:75
 msgid "No tickets found."
 msgstr "Обращения не найдены."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:58
+#: apps/admin/src/pages/ParticipantsPage.tsx:334
 msgid "North"
 msgstr "Север"
 
-#: apps/admin/src/pages/MatchingPage.tsx:128
+#: apps/admin/src/pages/MatchingPage.tsx:127
 msgid "North and South regions are never matched together (Center acts as bridge)"
 msgstr "Регионы Север и Юг никогда не объединяются вместе (Центр выступает как мост)"
 
-#: apps/admin/src/pages/MatchingPage.tsx:126
+#: apps/admin/src/pages/ReviewPage.tsx:41
+msgid "Not Completed"
+msgstr "Не завершено"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:450
+msgid "Not enrolled in any season."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:382
+#: apps/admin/src/pages/ParticipantsPage.tsx:415
+msgid "On Pause"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:216
+#: apps/admin/src/pages/TasksPage.tsx:316
+msgid "Online Instructions"
+msgstr "Инструкции для онлайн"
+
+#: apps/admin/src/pages/MatchingPage.tsx:125
 msgid "Only active participants not already in groups are matched"
 msgstr "Подбираются только активные участники, не состоящие в группах"
 
-#: apps/admin/src/pages/SupportPage.tsx:60
+#: apps/admin/src/pages/SupportPage.tsx:61
 msgid "Open"
 msgstr "Открыто"
 
-#: apps/admin/src/pages/DashboardPage.tsx:40
+#: apps/admin/src/pages/DashboardPage.tsx:43
 msgid "Open Tickets"
 msgstr "Открытые обращения"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:85
+#: apps/admin/src/components/Sidebar.tsx:67
+msgid "Operations"
+msgstr "Операции"
+
+#: apps/admin/src/pages/ReviewPage.tsx:293
+msgid "Optional feedback for the participant"
+msgstr "Необязательный отзыв для участника"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:359
+msgid "Other"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:109
+#: apps/admin/src/pages/ParticipantsPage.tsx:418
 msgid "Paid Until"
 msgstr "Оплачено до"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:30
+#: apps/admin/src/pages/ParticipantsPage.tsx:287
+msgid "Participant Details"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:296
+msgid "Participant not found."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:43
 msgid "Participants"
 msgstr "Участники"
 
-#: apps/admin/src/pages/MatchingPage.tsx:127
+#: apps/admin/src/pages/MatchingPage.tsx:126
 msgid "Participants on pause are excluded"
 msgstr "Участники на паузе исключаются"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:84
+#: apps/admin/src/pages/ParticipantsPage.tsx:108
 msgid "Paused"
 msgstr "На паузе"
+
+#: apps/admin/src/pages/ReviewPage.tsx:37
+msgid "Pending Review"
+msgstr "Ожидает проверки"
+
+#: apps/admin/src/pages/TasksPage.tsx:58
+#: apps/admin/src/pages/TasksPage.tsx:343
+msgid "Philosophy"
+msgstr "Philosophy"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:309
+#: apps/admin/src/pages/ParticipantsPage.tsx:407
+msgid "Phone"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:197
+#~ msgid "photo(s) submitted"
+#~ msgstr "фото отправлено"
+
+#: apps/admin/src/pages/ReviewPage.tsx:197
+msgid "Photos"
+msgstr "Фото"
 
 #. placeholder {0}: f.photoUrls.length
 #: apps/admin/src/pages/FeedbackPage.tsx:157
 msgid "Photos ({0}):"
 msgstr "Фото ({0}):"
 
-#: apps/admin/src/pages/DashboardPage.tsx:45
+#: apps/admin/src/pages/ParticipantsPage.tsx:416
+#: apps/admin/src/pages/ReviewPage.tsx:65
+msgid "Points"
+msgstr "Баллы"
+
+#: apps/admin/src/pages/ReviewPage.tsx:271
+msgid "Points to Award"
+msgstr "Баллы для награждения"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:437
+msgid "Profession"
+msgstr ""
+
+#: apps/admin/src/pages/TasksPage.tsx:80
+#: apps/admin/src/pages/TasksPage.tsx:355
+msgid "Purpose"
+msgstr "Назначение"
+
+#: apps/admin/src/pages/TasksPage.tsx:229
+msgid "Purpose:"
+msgstr "Назначение:"
+
+#: apps/admin/src/pages/DashboardPage.tsx:48
 msgid "Recent Activity"
 msgstr "Недавняя активность"
 
-#: apps/admin/src/pages/DashboardPage.tsx:59
-#: apps/admin/src/pages/GroupsPage.tsx:54
-#: apps/admin/src/pages/ParticipantsPage.tsx:82
+#: apps/admin/src/pages/DashboardPage.tsx:62
+#: apps/admin/src/pages/GroupsPage.tsx:80
+#: apps/admin/src/pages/GroupsPage.tsx:206
+#: apps/admin/src/pages/ParticipantsPage.tsx:105
+#: apps/admin/src/pages/ParticipantsPage.tsx:328
+#: apps/admin/src/pages/ParticipantsPage.tsx:412
 msgid "Region"
 msgstr "Регион"
 
@@ -400,76 +820,294 @@ msgstr "Регион"
 msgid "Region:"
 msgstr "Регион:"
 
-#: apps/admin/src/pages/MatchingPage.tsx:46
+#: apps/admin/src/pages/ParticipantsPage.tsx:422
+msgid "Registered"
+msgstr ""
+
+#: apps/admin/src/pages/ReviewPage.tsx:40
+msgid "Rejected"
+msgstr "Отклонено"
+
+#: apps/admin/src/pages/TasksPage.tsx:221
+#: apps/admin/src/pages/TasksPage.tsx:326
+msgid "Report Instructions"
+msgstr "Инструкции для отчёта"
+
+#: apps/admin/src/pages/ReviewPage.tsx:94
+msgid "Review"
+msgstr "Проверить"
+
+#: apps/admin/src/pages/ReviewPage.tsx:287
+msgid "Review Comment"
+msgstr "Комментарий проверки"
+
+#: apps/admin/src/pages/ReviewPage.tsx:225
+msgid "Review Decision"
+msgstr "Решение по проверке"
+
+#: apps/admin/src/pages/ReviewPage.tsx:166
+msgid "Review Task Completion"
+msgstr "Проверка выполнения задания"
+
+#: apps/admin/src/pages/TasksPage.tsx:358
+msgid "Romantic"
+msgstr "Romantic"
+
+#: apps/admin/src/pages/MatchingPage.tsx:45
 msgid "Run Matching"
 msgstr "Запустить подбор"
 
-#: apps/admin/src/pages/SupportPage.tsx:131
+#: apps/admin/src/pages/ParticipantsPage.tsx:398
+msgid "Save"
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:398
+msgid "Saving..."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:83
+msgid "Search by name..."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:77
+msgid "Search:"
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:81
+#: apps/admin/src/pages/GroupsPage.tsx:214
+#: apps/admin/src/pages/ParticipantsPage.tsx:107
+msgid "Season"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:296
+msgid "Season Details"
+msgstr ""
+
+#: apps/admin/src/components/Sidebar.tsx:40
+msgid "Season Flow"
+msgstr "Поток сезонов"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:444
+msgid "Season History"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:219
+msgid "Season Name"
+msgstr "Название сезона"
+
+#: apps/admin/src/pages/SeasonsPage.tsx:305
+msgid "Season not found."
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:48
+msgid "Season:"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx:23
+msgid "Seasons"
+msgstr "Сезоны"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:144
+msgid "Select Groups"
+msgstr "Выбрать группы"
+
+#: apps/admin/src/pages/GroupsPage.tsx:294
+msgid "Select status..."
+msgstr ""
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:43
+msgid "Select Task to Assign"
+msgstr "Выберите задание для назначения"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:144
+msgid "selected"
+msgstr "выбрано"
+
+#: apps/admin/src/pages/SupportPage.tsx:132
 msgid "Send Answer"
 msgstr "Отправить ответ"
 
-#: apps/admin/src/components/LoginPage.tsx:159
+#: apps/admin/src/components/LoginPage.tsx:158
 msgid "Sign in with your Google account to continue"
 msgstr "Войдите через Google, чтобы продолжить"
 
+#: apps/admin/src/pages/TasksPage.tsx:329
+#~ msgid "Singles"
+#~ msgstr "Одиночки"
+
 #: apps/admin/src/pages/ParticipantsPage.tsx:60
+#: apps/admin/src/pages/ParticipantsPage.tsx:336
 msgid "South"
 msgstr "Юг"
 
-#: apps/admin/src/pages/DashboardPage.tsx:58
-#: apps/admin/src/pages/GroupsPage.tsx:53
-#: apps/admin/src/pages/ParticipantsPage.tsx:83
+#: apps/admin/src/pages/SeasonsPage.tsx:64
+#: apps/admin/src/pages/SeasonsPage.tsx:244
+#: apps/admin/src/pages/SeasonsPage.tsx:319
+msgid "Start Date"
+msgstr "Дата начала"
+
+#: apps/admin/src/pages/DashboardPage.tsx:61
+#: apps/admin/src/pages/GroupsPage.tsx:79
+#: apps/admin/src/pages/GroupsPage.tsx:190
+#: apps/admin/src/pages/ParticipantsPage.tsx:106
+#: apps/admin/src/pages/ParticipantsPage.tsx:363
+#: apps/admin/src/pages/ParticipantsPage.tsx:414
+#: apps/admin/src/pages/ReviewPage.tsx:64
+#: apps/admin/src/pages/SeasonsPage.tsx:63
+#: apps/admin/src/pages/SeasonsPage.tsx:311
+#: apps/admin/src/pages/TasksPage.tsx:81
 msgid "Status"
 msgstr "Статус"
 
-#: apps/admin/src/pages/GroupsPage.tsx:24
-#: apps/admin/src/pages/ParticipantsPage.tsx:38
-#: apps/admin/src/pages/SupportPage.tsx:53
+#: apps/admin/src/pages/GroupsPage.tsx:35
+#: apps/admin/src/pages/ParticipantsPage.tsx:64
+#: apps/admin/src/pages/ReviewPage.tsx:30
+#: apps/admin/src/pages/SeasonsPage.tsx:34
+#: apps/admin/src/pages/SupportPage.tsx:54
+#: apps/admin/src/pages/TasksPage.tsx:36
+#: apps/admin/src/pages/TasksPage.tsx:230
 msgid "Status:"
 msgstr "Статус:"
 
-#: apps/admin/src/pages/SupportPage.tsx:45
+#: apps/admin/src/pages/ReviewPage.tsx:311
+msgid "Submit Review"
+msgstr "Отправить проверку"
+
+#: apps/admin/src/pages/ReviewPage.tsx:63
+msgid "Submitted At"
+msgstr "Отправлено в"
+
+#: apps/admin/src/pages/ReviewPage.tsx:177
+msgid "Submitted at:"
+msgstr "Отправлено в:"
+
+#: apps/admin/src/pages/ReviewPage.tsx:62
+msgid "Submitted By"
+msgstr "Отправлено"
+
+#: apps/admin/src/pages/ReviewPage.tsx:174
+msgid "Submitted by:"
+msgstr "Отправлено:"
+
+#: apps/admin/src/pages/ReviewPage.tsx:311
+msgid "Submitting..."
+msgstr "Отправка..."
+
+#: apps/admin/src/pages/ReviewPage.tsx:282
+msgid "Suggested: 5 points for text only, 10 points with photos"
+msgstr "Рекомендуется: 5 баллов за текст, 10 баллов с фото"
+
+#: apps/admin/src/pages/SupportPage.tsx:46
 msgid "Support Tickets"
 msgstr "Обращения в поддержку"
+
+#: apps/admin/src/pages/ReviewPage.tsx:60
+msgid "Task"
+msgstr "Задание"
+
+#: apps/admin/src/pages/AssignmentsPage.tsx:20
+msgid "Task Assignments"
+msgstr "Назначение заданий"
+
+#: apps/admin/src/pages/TasksPage.tsx:195
+msgid "Task Details"
+msgstr "Детали задания"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:144
 msgid "Task effect:"
 msgstr "Эффект задания:"
 
-#: apps/admin/src/pages/MatchingPage.tsx:52
+#: apps/admin/src/pages/TasksPage.tsx:25
+msgid "Task Library"
+msgstr "Библиотека заданий"
+
+#: apps/admin/src/pages/TasksPage.tsx:203
+msgid "Task not found"
+msgstr "Задание не найдено"
+
+#: apps/admin/src/pages/ReviewPage.tsx:22
+msgid "Task Review"
+msgstr "Проверка заданий"
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:406
+msgid "Telegram ID"
+msgstr ""
+
+#: apps/admin/src/pages/MatchingPage.tsx:51
 msgid "This will run the matching algorithm to create new groups for this week. The algorithm works in 5 stages:"
 msgstr "Это запустит алгоритм подбора для создания новых групп на эту неделю. Алгоритм работает в 5 этапов:"
 
-#: apps/admin/src/pages/DashboardPage.tsx:24
+#: apps/admin/src/pages/TasksPage.tsx:77
+#: apps/admin/src/pages/TasksPage.tsx:207
+#: apps/admin/src/pages/TasksPage.tsx:294
+msgid "Title"
+msgstr "Название"
+
+#: apps/admin/src/pages/DashboardPage.tsx:27
 msgid "Total Participants"
 msgstr "Всего участников"
 
-#: apps/admin/src/pages/SupportPage.tsx:126
+#: apps/admin/src/pages/TasksPage.tsx:78
+#: apps/admin/src/pages/TasksPage.tsx:338
+msgid "Type"
+msgstr "Тип"
+
+#: apps/admin/src/pages/SupportPage.tsx:127
 msgid "Type your answer..."
 msgstr "Введите ваш ответ..."
 
-#: apps/admin/src/pages/SupportPage.tsx:89
+#: apps/admin/src/pages/TasksPage.tsx:48
+#: apps/admin/src/pages/TasksPage.tsx:227
+msgid "Type:"
+msgstr "Тип:"
+
+#: apps/admin/src/pages/SupportPage.tsx:90
 msgid "Unknown User"
 msgstr "Неизвестный пользователь"
 
-#: apps/admin/src/pages/MatchingPage.tsx:103
+#: apps/admin/src/pages/MatchingPage.tsx:102
 msgid "Unpaired Participants"
 msgstr "Не подобранные участники"
 
-#: apps/admin/src/pages/MatchingPage.tsx:110
+#: apps/admin/src/pages/MatchingPage.tsx:109
 msgid "Unpaired Participants:"
 msgstr "Не подобранные участники:"
 
-#: apps/admin/src/pages/ParticipantsPage.tsx:117
+#: apps/admin/src/pages/GroupsPage.tsx:304
+msgid "Update"
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:285
+msgid "Update Status"
+msgstr ""
+
+#: apps/admin/src/pages/GroupsPage.tsx:304
+msgid "Updating..."
+msgstr ""
+
+#: apps/admin/src/pages/ParticipantsPage.tsx:164
+#: apps/admin/src/pages/SeasonsPage.tsx:95
+#: apps/admin/src/pages/TasksPage.tsx:111
 msgid "View"
 msgstr "Просмотр"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:121
-#: apps/admin/src/pages/GroupsPage.tsx:72
+#: apps/admin/src/pages/GroupsPage.tsx:105
 msgid "View Details"
 msgstr "Подробнее"
 
-#: apps/admin/src/pages/MatchingPage.tsx:50
+#: apps/admin/src/pages/AssignmentsPage.tsx:178
+#: apps/admin/src/pages/GroupsPage.tsx:82
+#: apps/admin/src/pages/GroupsPage.tsx:222
+#: apps/admin/src/pages/ReviewPage.tsx:61
+msgid "Week"
+msgstr "Неделя"
+
+#: apps/admin/src/pages/ReviewPage.tsx:173
+msgid "Week:"
+msgstr "Неделя:"
+
+#: apps/admin/src/pages/MatchingPage.tsx:49
 msgid "Weekly Matching Algorithm"
 msgstr "Еженедельный алгоритм подбора"
 
@@ -481,3 +1119,24 @@ msgstr "Что понравилось:"
 #: apps/admin/src/pages/FeedbackPage.tsx:98
 msgid "Would meet again: {0}"
 msgstr "Готовы встретиться снова: {0}"
+
+#: apps/admin/src/pages/SeasonsPage.tsx
+msgid "Закрыть сезон"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx
+msgid "Это завершит сезон, отметит все записи как завершённые и закроет все активные группы."
+msgstr ""
+
+#. placeholder {seasonName}: season name
+#: apps/admin/src/pages/SeasonsPage.tsx
+msgid "Введите <0>закрыть {seasonName}</0> для подтверждения:"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx
+msgid "Отмена"
+msgstr ""
+
+#: apps/admin/src/pages/SeasonsPage.tsx
+msgid "Закрытие..."
+msgstr ""

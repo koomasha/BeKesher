@@ -6,28 +6,18 @@ import { v } from "convex/values";
 const crons = cronJobs();
 
 // ============================================
-// WEEKLY MATCHING - Every Sunday at 18:00 Israel time
+// WEEKLY CYCLE - Every Saturday at 18:00 Israel time
+// Step 1: Close current week's groups + mark incomplete tasks
+// Step 2: Run matching for next week
+// Both run sequentially in a single action to avoid ordering bugs
 // ============================================
 
 crons.cron(
-    "weekly-matching",
-    // Sunday at 18:00 Israel time (UTC+2/+3)
+    "weekly-cycle",
+    // Saturday at 18:00 Israel time (UTC+2/+3)
     // Using 16:00 UTC to approximate 18:00 Israel time
-    "0 16 * * 0",
-    internal.matching.runWeeklyMatching,
-    {}
-);
-
-// ============================================
-// WEEK CLOSE - Every Saturday at 23:00 Israel time
-// Close active groups and request feedback
-// ============================================
-
-crons.cron(
-    "weekly-close",
-    // Saturday at 21:00 UTC (23:00 Israel time)
-    "0 21 * * 6",
-    internal.crons.closeWeekAndRequestFeedback,
+    "0 16 * * 6",
+    internal.crons.weeklyCloseAndMatch,
     {}
 );
 
@@ -62,20 +52,51 @@ crons.cron(
 // ============================================
 
 /**
- * Close active groups and request feedback from participants
+ * Weekly cycle: close current week, then run matching for next week.
+ * Runs as a single sequential action to ensure groups are closed
+ * BEFORE matching runs (otherwise participants in active groups
+ * would be filtered out as "busy" and matching creates 0 groups).
  */
-export const closeWeekAndRequestFeedback = internalAction({
+export const weeklyCloseAndMatch = internalAction({
     args: {},
     returns: v.null(),
     handler: async (ctx) => {
-        // Close all active groups
-        await ctx.runMutation(
-            internal.groups.closeActiveGroups,
+        // === STEP 1: Close current week ===
+        console.log("📦 Step 1: Closing current week...");
+
+        // Get all active groups before closing
+        const activeGroups = await ctx.runQuery(
+            internal.groups.getActiveGroupIds,
             {}
         );
 
+        // Mark incomplete task assignments as "NotCompleted"
+        if (activeGroups.length > 0) {
+            const markedCount = await ctx.runMutation(
+                internal.taskAssignments.markIncompleteAsNotCompleted,
+                { groupIds: activeGroups }
+            );
+            console.log(`✅ Marked ${markedCount} incomplete tasks as NotCompleted`);
+        }
+
+        // Close all active groups
+        const closedCount = await ctx.runMutation(
+            internal.groups.closeActiveGroups,
+            {}
+        );
+        console.log(`✅ Closed ${closedCount} active groups`);
+
         // TODO: Send feedback request notifications to all group members
-        // This would use internal.notifications.sendFeedbackRequest
+
+        // === STEP 2: Run matching for next week ===
+        console.log("🚀 Step 2: Running matching for next week...");
+
+        const result = await ctx.runAction(
+            internal.matching.runWeeklyMatching,
+            {}
+        );
+
+        console.log(`✅ Matching complete: ${result.groupsCreated} groups created, ${result.unpaired} unpaired`);
 
         return null;
     },

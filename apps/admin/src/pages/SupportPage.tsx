@@ -3,8 +3,11 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { Trans, t } from '@lingui/macro';
+import { useLanguage } from '../hooks/useLanguage';
+import { label } from '../utils/enumLabels';
 
 function SupportPage() {
+    const { locale } = useLanguage();
     const [statusFilter, setStatusFilter] = useState<string>('Open');
 
     const tickets = useQuery(api.support.list, {
@@ -92,7 +95,7 @@ function SupportPage() {
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
                                         <span className={`badge badge-${ticket.status.toLowerCase()}`}>
-                                            {ticket.status}
+                                            {label(locale, ticket.status)}
                                         </span>
                                         <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                                             {new Date(ticket.createdAt).toLocaleDateString()}

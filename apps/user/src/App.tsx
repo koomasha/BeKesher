@@ -56,6 +56,7 @@ function App() {
                         <Route path="/onboarding" element={<OnboardingPage />} />
                         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                         <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
+                        <Route path="/task" element={<ProtectedRoute><TaskPage /></ProtectedRoute>} />
                         <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
                         <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
                         <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
