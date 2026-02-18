@@ -11,6 +11,13 @@ import type {
     PaymentStatus,
     Currency,
     WouldMeetAgain,
+    SeasonStatus,
+    SeasonParticipantStatus,
+    TaskType,
+    TaskDifficulty,
+    TaskPurpose,
+    TaskReviewStatus,
+    WeekInSeason,
 } from "./validators";
 
 /**
@@ -88,7 +95,6 @@ export function makeParticipant(
         registrationDate: number;
         paidUntil: number;
         paymentDate: number;
-        inChannel: boolean;
         periodsPaid: number;
     }> = {}
 ) {
@@ -111,7 +117,6 @@ export function makeParticipant(
         onPause: false,
         totalPoints: 0,
         registrationDate: Date.now(),
-        inChannel: false,
         periodsPaid: 0,
         ...otherOverrides,
         // Ensure socialMediaConsent is always defined (can be overridden above)
@@ -236,4 +241,120 @@ export async function seedParticipants(
  */
 export function uniqueTelegramId(index: number): string {
     return `test_user_${100000 + index}`;
+}
+
+/**
+ * Default season data for testing.
+ */
+export function makeSeason(
+    overrides: Partial<{
+        name: string;
+        description: string;
+        startDate: number;
+        endDate: number;
+        status: SeasonStatus;
+        createdAt: number;
+        createdByEmail: string;
+    }> = {}
+) {
+    const now = Date.now();
+    const fourWeeks = 4 * 7 * 24 * 60 * 60 * 1000;
+    return {
+        name: "Test Season",
+        startDate: now,
+        endDate: now + fourWeeks,
+        status: "Draft" as const,
+        createdAt: now,
+        createdByEmail: "test@example.com",
+        ...overrides,
+    };
+}
+
+/**
+ * Default season participant data for testing.
+ */
+export function makeSeasonParticipant(
+    seasonId: Id<"seasons">,
+    participantId: Id<"participants">,
+    overrides: Partial<{
+        enrolledAt: number;
+        status: SeasonParticipantStatus;
+    }> = {}
+) {
+    return {
+        seasonId,
+        participantId,
+        enrolledAt: Date.now(),
+        status: "Enrolled" as const,
+        ...overrides,
+    };
+}
+
+/**
+ * Default task data for testing.
+ */
+export function makeTask(
+    overrides: Partial<{
+        title: string;
+        description: string;
+        onlineInstructions: string;
+        reportInstructions: string;
+        type: TaskType;
+        difficulty: TaskDifficulty;
+        purpose: TaskPurpose;
+        status: "Active" | "Archive";
+        createdAt: number;
+        createdByEmail: string;
+    }> = {}
+) {
+    return {
+        title: "Test Task",
+        description: "Test task description",
+        reportInstructions: "Submit photos",
+        type: "Activity" as const,
+        difficulty: "Medium" as const,
+        purpose: "Everyone" as const,
+        status: "Active" as const,
+        createdAt: Date.now(),
+        ...overrides,
+    };
+}
+
+/**
+ * Default task assignment data for testing.
+ */
+export function makeTaskAssignment(
+    groupId: Id<"groups">,
+    taskId: Id<"tasks">,
+    overrides: {
+        seasonId: Id<"seasons">;
+    } & Partial<{
+        weekInSeason: WeekInSeason;
+        assignedAt: number;
+        assignedByEmail: string;
+        completedAt: number;
+        completionNotes: string;
+        completionPhotos: Id<"_storage">[];
+        submittedBy: Id<"participants">;
+        submittedAt: number;
+        reviewStatus: TaskReviewStatus;
+        reviewedAt: number;
+        reviewedByEmail: string;
+        reviewComment: string;
+        pointsAwarded: number;
+        notCompletedReason: string;
+    }>
+) {
+    const { seasonId, ...rest } = overrides;
+    return {
+        groupId,
+        taskId,
+        weekInSeason: 1 as const,
+        seasonId,
+        assignedAt: Date.now(),
+        assignedByEmail: "admin@example.com",
+        reviewStatus: "Pending" as const,
+        pointsAwarded: 0,
+        ...rest,
+    };
 }

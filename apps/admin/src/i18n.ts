@@ -19,7 +19,7 @@ export async function loadCatalog(locale: string) {
 /**
  * Initialize i18n with default locale
  */
-export async function initI18n(locale: string = 'ru') {
+export async function initI18n(locale: string = 'en') {
   await loadCatalog(locale);
 }
 

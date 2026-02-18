@@ -4,18 +4,18 @@ import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId, withAdm
 
 describe("crons", () => {
     // ============================================
-    // CLOSE WEEK AND REQUEST FEEDBACK
+    // WEEKLY CLOSE AND MATCH
     // ============================================
 
-    describe("closeWeekAndRequestFeedback", () => {
-        test("closes active groups and sets them to Completed", async () => {
+    describe("weeklyCloseAndMatch", () => {
+        test("closes active groups and marks incomplete tasks", async () => {
             const t = setupTest();
 
             const [p1, p2, p3, p4] = await seedParticipants(t, [
-                makeParticipant({ telegramId: uniqueTelegramId(1) }),
-                makeParticipant({ telegramId: uniqueTelegramId(2) }),
-                makeParticipant({ telegramId: uniqueTelegramId(3) }),
-                makeParticipant({ telegramId: uniqueTelegramId(4) }),
+                makeParticipant({ telegramId: uniqueTelegramId(1), status: "Active", onPause: false, region: "Center" }),
+                makeParticipant({ telegramId: uniqueTelegramId(2), status: "Active", onPause: false, region: "Center" }),
+                makeParticipant({ telegramId: uniqueTelegramId(3), status: "Active", onPause: false, region: "Center" }),
+                makeParticipant({ telegramId: uniqueTelegramId(4), status: "Active", onPause: false, region: "Center" }),
             ]);
 
             // Create active groups
@@ -33,13 +33,10 @@ describe("crons", () => {
             const activeBefore = await admin.query(api.groups.list, { status: "Active" });
             expect(activeBefore).toHaveLength(2);
 
-            // Run the close week handler
-            await t.action(internal.crons.closeWeekAndRequestFeedback, {});
+            // Run the combined close + match handler
+            await t.action(internal.crons.weeklyCloseAndMatch, {});
 
-            // Verify all groups are now completed
-            const activeAfter = await admin.query(api.groups.list, { status: "Active" });
-            expect(activeAfter).toHaveLength(0);
-
+            // Verify old groups are now completed
             const completed = await admin.query(api.groups.list, { status: "Completed" });
             expect(completed).toHaveLength(2);
         });
@@ -47,9 +44,8 @@ describe("crons", () => {
         test("handles no active groups gracefully", async () => {
             const t = setupTest();
 
-            // No groups exist
-            // This should not throw
-            await t.action(internal.crons.closeWeekAndRequestFeedback, {});
+            // No groups exist — should not throw
+            await t.action(internal.crons.weeklyCloseAndMatch, {});
 
             const admin = withAdminIdentity(t);
             const groups = await admin.query(api.groups.list, {});

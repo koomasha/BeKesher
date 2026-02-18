@@ -34,7 +34,6 @@ describe("participants", () => {
             expect(participant?.onPause).toBe(false);
             expect(participant?.totalPoints).toBe(0);
             expect(participant?.periodsPaid).toBe(0);
-            expect(participant?.inChannel).toBe(false);
         });
 
         test("updates existing participant on duplicate telegramId", async () => {

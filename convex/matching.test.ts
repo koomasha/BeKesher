@@ -1,6 +1,32 @@
 import { expect, test, describe } from "vitest";
 import { internal } from "./_generated/api";
-import { setupTest, makeParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import { setupTest, makeParticipant, makeSeason, makeSeasonParticipant, seedParticipants, uniqueTelegramId } from "./test.utils";
+import type { Id } from "./_generated/dataModel";
+
+/**
+ * Helper to create an active season and enroll participants for matching tests
+ */
+async function setupSeasonWithParticipants(
+    t: ReturnType<typeof setupTest>,
+    participantIds: Id<"participants">[]
+) {
+    const now = Date.now();
+    const seasonId = await t.run(async (ctx) => {
+        return await ctx.db.insert("seasons", makeSeason({
+            status: "Active",
+            startDate: now,
+        }));
+    });
+
+    // Enroll all participants
+    for (const pid of participantIds) {
+        await t.run(async (ctx) => {
+            await ctx.db.insert("seasonParticipants", makeSeasonParticipant(seasonId, pid));
+        });
+    }
+
+    return seasonId;
+}
 
 describe("matching", () => {
     // ============================================
@@ -12,7 +38,7 @@ describe("matching", () => {
             const t = setupTest();
 
             // Only 1 participant
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     status: "Active",
@@ -20,6 +46,9 @@ describe("matching", () => {
                     region: "Center",
                 }),
             ]);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -31,7 +60,7 @@ describe("matching", () => {
         test("returns success=true with 0 groups when all participants are busy", async () => {
             const t = setupTest();
 
-            const [p1, p2] = await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     status: "Active",
@@ -46,10 +75,13 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             // Put them in an active group
             await t.mutation(internal.groups.create, {
-                participant1: p1,
-                participant2: p2,
+                participant1: participantIds[0],
+                participant2: participantIds[1],
                 region: "Center",
             });
 
@@ -69,7 +101,7 @@ describe("matching", () => {
         test("matches participants in same region with close age", async () => {
             const t = setupTest();
 
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "Alice",
@@ -88,6 +120,9 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
             expect(result.success).toBe(true);
@@ -98,7 +133,7 @@ describe("matching", () => {
         test("respects history - participants who met within 4 weeks are NOT matched in Stage A", async () => {
             const t = setupTest();
 
-            const [p1, p2] = await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "User1",
@@ -133,10 +168,13 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             // User1 and User2 met recently (create a completed group in history)
             const historyGroupId = await t.mutation(internal.groups.create, {
-                participant1: p1,
-                participant2: p2,
+                participant1: participantIds[0],
+                participant2: participantIds[1],
                 region: "Center",
             });
             await t.mutation(internal.groups.updateStatus, {
@@ -161,7 +199,7 @@ describe("matching", () => {
         test("matches participants with wider age range (±15 years)", async () => {
             const t = setupTest();
 
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "Young",
@@ -180,6 +218,9 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
             expect(result.success).toBe(true);
@@ -195,7 +236,7 @@ describe("matching", () => {
         test("matches North+Center participants", async () => {
             const t = setupTest();
 
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "NorthPerson",
@@ -214,6 +255,9 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
             expect(result.success).toBe(true);
@@ -224,7 +268,7 @@ describe("matching", () => {
         test("matches Center+South participants", async () => {
             const t = setupTest();
 
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "CenterPerson",
@@ -243,6 +287,9 @@ describe("matching", () => {
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
             expect(result.success).toBe(true);
@@ -260,7 +307,7 @@ describe("matching", () => {
             const t = setupTest();
 
             // Only North and South participants, no Center
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     name: "North1",
@@ -278,6 +325,9 @@ describe("matching", () => {
                     age: 30,
                 }),
             ]);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -311,7 +361,10 @@ describe("matching", () => {
                 );
             }
 
-            await seedParticipants(t, participants);
+            const participantIds = await seedParticipants(t, participants);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -330,7 +383,7 @@ describe("matching", () => {
             const t = setupTest();
 
             // 3 participants - should form 1 group of 3, not 1 group of 2 + 1 unpaired
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
                     status: "Active",
@@ -353,6 +406,9 @@ describe("matching", () => {
                     age: 34,
                 }),
             ]);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -456,7 +512,10 @@ describe("matching", () => {
                 }),
             ];
 
-            await seedParticipants(t, participants);
+            const participantIds = await seedParticipants(t, participants);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -469,10 +528,10 @@ describe("matching", () => {
         test("respects participant status and pause", async () => {
             const t = setupTest();
 
-            await seedParticipants(t, [
+            const participantIds = await seedParticipants(t, [
                 makeParticipant({
                     telegramId: uniqueTelegramId(1),
-                    name: "ActiveNotPaused",
+                    name: "ActiveNotPaused1",
                     status: "Active",
                     onPause: false,
                     region: "Center",
@@ -480,6 +539,14 @@ describe("matching", () => {
                 }),
                 makeParticipant({
                     telegramId: uniqueTelegramId(2),
+                    name: "ActiveNotPaused2",
+                    status: "Active",
+                    onPause: false,
+                    region: "Center",
+                    age: 30,
+                }),
+                makeParticipant({
+                    telegramId: uniqueTelegramId(3),
                     name: "ActivePaused",
                     status: "Active",
                     onPause: true, // Should be excluded
@@ -487,7 +554,7 @@ describe("matching", () => {
                     age: 30,
                 }),
                 makeParticipant({
-                    telegramId: uniqueTelegramId(3),
+                    telegramId: uniqueTelegramId(4),
                     name: "InactiveNotPaused",
                     status: "Inactive", // Should be excluded
                     onPause: false,
@@ -495,18 +562,22 @@ describe("matching", () => {
                     age: 30,
                 }),
                 makeParticipant({
-                    telegramId: uniqueTelegramId(4),
+                    telegramId: uniqueTelegramId(5),
                     name: "LeadNotPaused",
-                    status: "Lead",
+                    status: "Lead", // Should be excluded
                     onPause: false,
                     region: "Center",
                     age: 30,
                 }),
             ]);
 
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
+
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
-            // Only 2 participants are available (ActiveNotPaused and LeadNotPaused)
+            // Only 2 participants should be matched (ActiveNotPaused1 and ActiveNotPaused2)
+            // The others are excluded due to pause or inactive/lead status
             expect(result.success).toBe(true);
             expect(result.groupsCreated).toBe(1);
         });
@@ -521,8 +592,9 @@ describe("matching", () => {
             const t = setupTest();
 
             // 5 participants
+            const participants = [];
             for (let i = 1; i <= 5; i++) {
-                await seedParticipants(t, [
+                participants.push(
                     makeParticipant({
                         telegramId: uniqueTelegramId(i * 100),
                         name: `User${i}`,
@@ -530,9 +602,14 @@ describe("matching", () => {
                         onPause: false,
                         region: "Center",
                         age: 30,
-                    }),
-                ]);
+                    })
+                );
             }
+
+            const participantIds = await seedParticipants(t, participants);
+
+            // Setup season and enroll participants
+            await setupSeasonWithParticipants(t, participantIds);
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
@@ -543,6 +620,14 @@ describe("matching", () => {
 
         test("empty database returns not enough participants", async () => {
             const t = setupTest();
+
+            // Create an active season with no enrolled participants
+            await t.run(async (ctx) => {
+                await ctx.db.insert("seasons", makeSeason({
+                    status: "Active",
+                    startDate: Date.now(),
+                }));
+            });
 
             const result = await t.action(internal.matching.runWeeklyMatching, {});
 
