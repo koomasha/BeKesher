@@ -108,9 +108,9 @@ export const createPaymentLink = userAction({
         const apiKey = process.env.PAYPLUS_API_KEY;
         const secretKey = process.env.PAYPLUS_SECRET_KEY;
         const paymentPageUid = process.env.PAYPLUS_PAGE_UID;
-        const callbackUrl = process.env.PAYPLUS_CALLBACK_URL;
+        const callbackUrl = process.env.PAYPLUS_CALLBACK_URL || `${process.env.CONVEX_CLOUD_URL}/payplus-callback`;
 
-        if (!apiKey || !secretKey || !paymentPageUid || !callbackUrl) {
+        if (!apiKey || !secretKey || !paymentPageUid) {
             console.error("PayPlus credentials not configured");
             return { success: false, error: "Payment system not configured" };
         }
