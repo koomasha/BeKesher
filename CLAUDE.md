@@ -67,7 +67,14 @@ Both frontend apps share the same path alias: `convex/_generated/*` maps to `../
 
 ## Environment Variables
 
-Backend (set in Convex dashboard): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHANNEL_ID`, `PAYPLUS_API_KEY`, `PAYPLUS_SECRET_KEY`, `PAYPLUS_PAGE_UID`
+Backend (set in Convex dashboard):
+- `TELEGRAM_BOT_TOKEN` — Telegram bot token for notifications
+- `TELEGRAM_CHANNEL_ID` — Telegram channel for announcements
+- `PAYPLUS_API_KEY` — PayPlus payment gateway API key
+- `PAYPLUS_SECRET_KEY` — PayPlus payment gateway secret key
+- `PAYPLUS_PAGE_UID` — PayPlus payment page UID
+- `PAYMENT_AMOUNT` — Monthly subscription price in shekels (default: 100)
+- `PAYPLUS_CALLBACK_URL` — PayPlus webhook callback URL (differs per environment)
 
 Frontend (`.env.local` in each app): `VITE_CONVEX_URL`
 

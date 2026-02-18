@@ -6,7 +6,7 @@ import GroupsPage from './pages/GroupsPage';
 import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
-import TaskPage from './pages/TaskPage';
+import PaymentPage from './pages/PaymentPage';
 import { UserHeader } from './components/UserHeader';
 import { UserFooter } from './components/UserFooter';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -59,6 +59,7 @@ function App() {
                         <Route path="/task" element={<ProtectedRoute><TaskPage /></ProtectedRoute>} />
                         <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
                         <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
+                        <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
                     </Routes>
                     <UserFooter />
                 </div>
