@@ -54,6 +54,9 @@ export default defineSchema({
         paidUntil: v.optional(v.number()),
         paymentDate: v.optional(v.number()),
         periodsPaid: v.number(),
+
+        // Admin only
+        adminNotes: v.optional(v.string()),
     })
         .index("by_telegramId", ["telegramId"])
         .index("by_status", ["status"])
@@ -204,4 +207,24 @@ export default defineSchema({
         expiresAt: v.number(),
         source: sessionSourceValidator,
     }).index("by_token", ["token"]),
+
+    taskComments: defineTable({
+        taskId: v.id("tasks"),
+        authorId: v.string(), // admin email or id
+        authorName: v.string(),
+        text: v.string(),
+        createdAt: v.number(),
+    })
+        .index("by_taskId", ["taskId"])
+        .index("by_createdAt", ["createdAt"]),
+
+    seasonComments: defineTable({
+        seasonId: v.id("seasons"),
+        authorId: v.string(), // admin email or id
+        authorName: v.string(),
+        text: v.string(),
+        createdAt: v.number(),
+    })
+        .index("by_seasonId", ["seasonId"])
+        .index("by_createdAt", ["createdAt"]),
 });

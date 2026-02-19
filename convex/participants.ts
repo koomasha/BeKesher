@@ -251,6 +251,7 @@ export const getById = adminQuery({
             paidUntil: v.optional(v.number()),
             totalPoints: v.number(),
             registrationDate: v.optional(v.number()),
+            adminNotes: v.optional(v.string()),
         }),
         v.null()
     ),
@@ -277,6 +278,7 @@ export const getById = adminQuery({
             paidUntil: p.paidUntil,
             totalPoints: p.totalPoints,
             registrationDate: p.registrationDate,
+            adminNotes: p.adminNotes,
         };
     },
 });
@@ -313,6 +315,28 @@ export const adminUpdate = adminMutation({
         if (Object.keys(patch).length > 0) {
             await ctx.db.patch(participantId, patch);
         }
+        return null;
+    },
+});
+
+/**
+ * Update admin notes for a participant
+ * These notes are only visible to admins and never exposed to users
+ */
+export const updateAdminNotes = adminMutation({
+    args: {
+        participantId: v.id("participants"),
+        adminNotes: v.string(),
+    },
+    returns: v.null(),
+    handler: async (ctx, args) => {
+        const participant = await ctx.db.get(args.participantId);
+        if (!participant) throw new Error("Participant not found");
+
+        await ctx.db.patch(args.participantId, {
+            adminNotes: args.adminNotes,
+        });
+
         return null;
     },
 });
