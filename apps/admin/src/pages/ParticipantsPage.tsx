@@ -15,6 +15,7 @@ function ParticipantsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('');
     const [seasonFilter, setSeasonFilter] = useState<string>('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [numberFilter, setNumberFilter] = useState<string>('');
     const [selectedParticipantId, setSelectedParticipantId] = useState<Id<"participants"> | null>(null);
 
     const participants = useQuery(api.participants.list, {
@@ -66,8 +67,17 @@ function ParticipantsPage() {
             result = result.filter((p) => enrolledIds.has(p._id));
         }
 
+        if (numberFilter.trim()) {
+            const targetNumber = parseInt(numberFilter.trim(), 10);
+            if (!isNaN(targetNumber) && targetNumber > 0 && targetNumber <= result.length) {
+                result = [result[targetNumber - 1]];
+            } else {
+                result = [];
+            }
+        }
+
         return result;
-    }, [participants, searchQuery, seasonFilter, openSeasonEnrollments]);
+    }, [participants, searchQuery, seasonFilter, numberFilter, openSeasonEnrollments]);
 
     return (
         <div>
@@ -79,6 +89,17 @@ function ParticipantsPage() {
             </div>
 
             <div className="filter-bar">
+                <div className="filter-group">
+                    <label className="filter-label">#:</label>
+                    <input
+                        type="number"
+                        className="input"
+                        value={numberFilter}
+                        onChange={(e) => setNumberFilter(e.target.value)}
+                        placeholder={_(t`Filter by #...`)}
+                        min="1"
+                    />
+                </div>
                 <div className="filter-group">
                     <label className="filter-label"><Trans>Region:</Trans></label>
                     <select
@@ -146,6 +167,7 @@ function ParticipantsPage() {
                         <table className="table">
                             <thead>
                                 <tr>
+                                    <th style={{ width: '60px' }}>#</th>
                                     <th><Trans>Name</Trans></th>
                                     <th><Trans>Age</Trans></th>
                                     <th><Trans>Gender</Trans></th>
@@ -158,11 +180,14 @@ function ParticipantsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredParticipants.map((p) => {
+                                {filteredParticipants.map((p, index) => {
                                     const seasons = participantSeasonMap.get(p._id);
                                     const isEnrolled = !!seasons && seasons.length > 0;
                                     return (
                                         <tr key={p._id}>
+                                            <td style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>
+                                                {index + 1}
+                                            </td>
                                             <td>
                                                 <div>
                                                     <div style={{ fontWeight: 500 }}>{p.name}</div>
