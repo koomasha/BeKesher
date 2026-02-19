@@ -7,6 +7,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import SupportPage from './pages/SupportPage';
 import OnboardingPage from './pages/OnboardingPage';
 import PaymentPage from './pages/PaymentPage';
+import TaskPage from './pages/TaskPage';
 import { UserHeader } from './components/UserHeader';
 import { UserFooter } from './components/UserFooter';
 import { ProtectedRoute } from './components/ProtectedRoute';
