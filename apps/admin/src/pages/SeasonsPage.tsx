@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
@@ -364,104 +364,320 @@ function SeasonDetailModal({
     onClose: () => void;
 }) {
     const { locale } = useLanguage();
+    const { _ } = useLingui();
 
     const season = useQuery(api.seasons.get, { seasonId });
     const enrollments = useQuery(api.seasonParticipants.listForSeason, { seasonId });
+    const comments = useQuery(api.seasonComments.listBySeason, { seasonId });
+    const addComment = useMutation(api.seasonComments.addComment);
+    const deleteComment = useMutation(api.seasonComments.deleteComment);
+
+    const [newCommentText, setNewCommentText] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const commentsEndRef = useRef<HTMLDivElement>(null);
+
+    // Auto-scroll to bottom when comments change
+    useEffect(() => {
+        if (comments && comments.length > 0) {
+            commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [comments]);
+
+    const handleAddComment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newCommentText.trim()) return;
+
+        setIsSubmitting(true);
+        try {
+            await addComment({
+                seasonId,
+                authorName: 'Admin',
+                text: newCommentText.trim(),
+            });
+            setNewCommentText('');
+        } catch (error) {
+            alert(`Error: ${error}`);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleDeleteComment = async (commentId: Id<"seasonComments">) => {
+        if (!confirm('Delete this comment?')) return;
+        try {
+            await deleteComment({ commentId });
+        } catch (error) {
+            alert(`Error: ${error}`);
+        }
+    };
+
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2);
+    };
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '900px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div className="modal-header">
                     <h2>{season?.name || <Trans>Season Details</Trans>}</h2>
                     <button className="modal-close" onClick={onClose}>×</button>
                 </div>
-                <div>
-                    {season === undefined || enrollments === undefined ? (
-                        <div className="loading">
-                            <div className="spinner"></div>
-                        </div>
-                    ) : season === null ? (
-                        <p style={{ color: 'var(--text-secondary)' }}><Trans>Season not found.</Trans></p>
-                    ) : (
-                        <>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
-                                <div>
-                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
-                                        <Trans>Status</Trans>
-                                    </div>
-                                    <span className={`status-badge status-${season.status.toLowerCase()}`}>
-                                        {label(locale, season.status)}
-                                    </span>
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
-                                        <Trans>Start Date</Trans>
-                                    </div>
-                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                                        {new Date(season.startDate).toLocaleDateString()}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
-                                        <Trans>End Date</Trans>
-                                    </div>
-                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                                        {new Date(season.endDate).toLocaleDateString()}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
-                                        <Trans>Enrolled</Trans>
-                                    </div>
-                                    <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                                        {enrollments.length}
-                                    </div>
-                                </div>
+                <div style={{ display: 'flex', flex: 1, overflow: 'hidden', gap: 'var(--spacing-lg)' }}>
+                    {/* Left side - Season details */}
+                    <div style={{ flex: 1, overflowY: 'auto', paddingRight: 'var(--spacing-md)' }}>
+                        {season === undefined || enrollments === undefined ? (
+                            <div className="loading">
+                                <div className="spinner"></div>
                             </div>
-
-                            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
-                                <div style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>
-                                    <Trans>Enrolled Participants</Trans> ({enrollments.length})
+                        ) : season === null ? (
+                            <p style={{ color: 'var(--text-secondary)' }}><Trans>Season not found.</Trans></p>
+                        ) : (
+                            <>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                                    <div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                            <Trans>Status</Trans>
+                                        </div>
+                                        <span className={`status-badge status-${season.status.toLowerCase()}`}>
+                                            {label(locale, season.status)}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                            <Trans>Start Date</Trans>
+                                        </div>
+                                        <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                            {new Date(season.startDate).toLocaleDateString()}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                            <Trans>End Date</Trans>
+                                        </div>
+                                        <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                            {new Date(season.endDate).toLocaleDateString()}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                            <Trans>Enrolled</Trans>
+                                        </div>
+                                        <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                            {enrollments.length}
+                                        </div>
+                                    </div>
                                 </div>
-                                {enrollments.length === 0 ? (
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                                        <Trans>No participants enrolled yet.</Trans>
-                                    </p>
-                                ) : (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sm)', maxHeight: '400px', overflowY: 'auto' }}>
-                                        {enrollments.map((enrollment) => (
-                                            <div
-                                                key={enrollment._id}
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center',
-                                                    padding: 'var(--spacing-sm) var(--spacing-md)',
-                                                    background: 'var(--bg-primary)',
-                                                    borderRadius: 'var(--radius-md)',
-                                                }}
-                                            >
-                                                <div>
-                                                    <div style={{ fontWeight: 500, fontSize: '0.875rem' }}>
-                                                        {enrollment.participantName}
-                                                    </div>
-                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                                                        {[
-                                                            enrollment.participantRegion ? label(locale, enrollment.participantRegion) : null,
-                                                            enrollment.participantEmail,
-                                                        ].filter(Boolean).join(' · ') || ''}
-                                                    </div>
-                                                </div>
-                                                <span className={`badge badge-${enrollment.status.toLowerCase()}`}>
-                                                    {label(locale, enrollment.status)}
-                                                </span>
-                                            </div>
-                                        ))}
+
+                                {season.description && (
+                                    <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
+                                            <Trans>Description</Trans>
+                                        </div>
+                                        <div style={{ fontSize: '0.875rem' }}>{season.description}</div>
                                     </div>
                                 )}
-                            </div>
-                        </>
-                    )}
+
+                                <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+                                    <div style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>
+                                        <Trans>Enrolled Participants</Trans> ({enrollments.length})
+                                    </div>
+                                    {enrollments.length === 0 ? (
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                                            <Trans>No participants enrolled yet.</Trans>
+                                        </p>
+                                    ) : (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sm)', maxHeight: '400px', overflowY: 'auto' }}>
+                                            {enrollments.map((enrollment) => (
+                                                <div
+                                                    key={enrollment._id}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: 'var(--spacing-sm) var(--spacing-md)',
+                                                        background: 'var(--bg-primary)',
+                                                        borderRadius: 'var(--radius-md)',
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <div style={{ fontWeight: 500, fontSize: '0.875rem' }}>
+                                                            {enrollment.participantName}
+                                                        </div>
+                                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                                            {[
+                                                                enrollment.participantRegion ? label(locale, enrollment.participantRegion) : null,
+                                                                enrollment.participantEmail,
+                                                            ].filter(Boolean).join(' · ') || ''}
+                                                        </div>
+                                                    </div>
+                                                    <span className={`badge badge-${enrollment.status.toLowerCase()}`}>
+                                                        {label(locale, enrollment.status)}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Right side - Comments section */}
+                    <div style={{
+                        width: '400px',
+                        borderLeft: '1px solid var(--border-color)',
+                        paddingLeft: 'var(--spacing-lg)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        overflow: 'hidden',
+                    }}>
+                        <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                            <h3 style={{ fontSize: '1rem', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--spacing-xs)' }}>
+                                📝 <Trans>Admin Comments</Trans>
+                                {comments && comments.length > 0 && (
+                                    <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontWeight: 400 }}>
+                                        ({comments.length})
+                                    </span>
+                                )}
+                            </h3>
+                        </div>
+
+                        {/* Comments list */}
+                        <div style={{
+                            flex: 1,
+                            overflowY: 'auto',
+                            marginBottom: 'var(--spacing-md)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 'var(--spacing-sm)',
+                        }}>
+                            {comments === undefined ? (
+                                <div className="loading">
+                                    <div className="spinner"></div>
+                                </div>
+                            ) : comments.length === 0 ? (
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', textAlign: 'center', padding: 'var(--spacing-md)' }}>
+                                    <Trans>No comments yet</Trans>
+                                </p>
+                            ) : (
+                                <>
+                                    {comments.map((comment) => (
+                                        <div
+                                            key={comment._id}
+                                            style={{
+                                                background: 'var(--bg-secondary)',
+                                                borderRadius: '8px',
+                                                padding: 'var(--spacing-md)',
+                                                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                                                position: 'relative',
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                const deleteBtn = e.currentTarget.querySelector('.delete-comment-btn') as HTMLElement;
+                                                if (deleteBtn) deleteBtn.style.opacity = '1';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                const deleteBtn = e.currentTarget.querySelector('.delete-comment-btn') as HTMLElement;
+                                                if (deleteBtn) deleteBtn.style.opacity = '0';
+                                            }}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-sm)', marginBottom: 'var(--spacing-xs)' }}>
+                                                {/* Avatar with initials */}
+                                                <div style={{
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    borderRadius: '50%',
+                                                    background: '#6B5DD3',
+                                                    color: 'white',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 600,
+                                                    flexShrink: 0,
+                                                }}>
+                                                    {getInitials(comment.authorName)}
+                                                </div>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                        <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                                                            {comment.authorName}
+                                                        </span>
+                                                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                                            {new Date(comment.createdAt).toLocaleString('ru-RU', {
+                                                                day: '2-digit',
+                                                                month: '2-digit',
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                            })}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                {/* Delete button */}
+                                                <button
+                                                    className="delete-comment-btn"
+                                                    onClick={() => handleDeleteComment(comment._id)}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 'var(--spacing-xs)',
+                                                        right: 'var(--spacing-xs)',
+                                                        background: 'transparent',
+                                                        border: 'none',
+                                                        cursor: 'pointer',
+                                                        padding: '4px',
+                                                        opacity: 0,
+                                                        transition: 'opacity 0.2s',
+                                                        fontSize: '1.2rem',
+                                                    }}
+                                                    title="Delete comment"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
+                                            <div style={{ fontSize: '0.875rem', whiteSpace: 'pre-wrap', paddingLeft: '40px' }}>
+                                                {comment.text}
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <div ref={commentsEndRef} />
+                                </>
+                            )}
+                        </div>
+
+                        {/* Add comment form */}
+                        <form onSubmit={handleAddComment} style={{ borderTop: '1px solid var(--border-color)', paddingTop: 'var(--spacing-md)' }}>
+                            <textarea
+                                className="input"
+                                value={newCommentText}
+                                onChange={(e) => setNewCommentText(e.target.value)}
+                                placeholder={_(t`Write a comment...`)}
+                                rows={3}
+                                style={{ marginBottom: 'var(--spacing-sm)', resize: 'none' }}
+                                disabled={isSubmitting}
+                            />
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={isSubmitting || !newCommentText.trim()}
+                                style={{
+                                    width: '100%',
+                                    background: '#6B5DD3',
+                                    borderColor: '#6B5DD3',
+                                }}
+                            >
+                                {isSubmitting ? <Trans>Sending...</Trans> : <Trans>Send</Trans>}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div className="modal-actions" style={{ borderTop: '1px solid var(--border-color)', paddingTop: 'var(--spacing-md)', marginTop: 'var(--spacing-md)' }}>
+                    <button className="btn btn-secondary" onClick={onClose}>
+                        <Trans>Close</Trans>
+                    </button>
                 </div>
             </div>
         </div>

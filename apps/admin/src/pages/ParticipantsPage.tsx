@@ -279,6 +279,7 @@ function ParticipantDetailModal({
     const seasonHistory = useQuery(api.seasonParticipants.listForParticipant, { participantId });
     const adminUpdate = useMutation(api.participants.adminUpdate);
     const enrollInSeason = useMutation(api.seasonParticipants.enroll);
+    const updateAdminNotes = useMutation(api.participants.updateAdminNotes);
 
     // Close on ESC key
     useEffect(() => {
@@ -290,6 +291,45 @@ function ParticipantDetailModal({
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [onClose]);
+
+    // Initialize admin notes when participant loads
+    useEffect(() => {
+        if (participant) {
+            setAdminNotes(participant.adminNotes || '');
+        }
+    }, [participant]);
+
+    // Auto-save admin notes with debounce
+    useEffect(() => {
+        if (!participant) return;
+        if (adminNotes === (participant.adminNotes || '')) return; // No change
+
+        // Clear previous timeout
+        if (saveTimeout) {
+            clearTimeout(saveTimeout);
+        }
+
+        // Set new timeout for auto-save
+        const timeout = setTimeout(async () => {
+            setIsSavingNotes(true);
+            try {
+                await updateAdminNotes({
+                    participantId,
+                    adminNotes,
+                });
+            } catch (error) {
+                console.error('Failed to save admin notes:', error);
+            } finally {
+                setIsSavingNotes(false);
+            }
+        }, 1000);
+
+        setSaveTimeout(timeout);
+
+        return () => {
+            if (timeout) clearTimeout(timeout);
+        };
+    }, [adminNotes, participant, participantId, updateAdminNotes]);
 
     // Check if participant is already enrolled in the active season
     const isAlreadyEnrolled = activeSeason && seasonHistory?.some(
@@ -306,6 +346,11 @@ function ParticipantDetailModal({
     const [editStatus, setEditStatus] = useState('');
     const [editOnPause, setEditOnPause] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+
+    // Admin notes state
+    const [adminNotes, setAdminNotes] = useState('');
+    const [isSavingNotes, setIsSavingNotes] = useState(false);
+    const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const startEditing = () => {
         if (!participant) return;
@@ -558,6 +603,57 @@ function ParticipantDetailModal({
                                     </div>
                                 )}
                             </div>
+
+                            {/* Admin Notes Section */}
+                            <div style={{
+                                marginTop: 'var(--spacing-lg)',
+                                padding: 'var(--spacing-md)',
+                                background: '#f5f5f5',
+                                borderRadius: 'var(--radius-md)',
+                                border: '2px dashed #d0d0d0',
+                            }}>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 'var(--spacing-xs)',
+                                    marginBottom: 'var(--spacing-sm)',
+                                }}>
+                                    <span style={{ fontSize: '1rem' }}>🔒</span>
+                                    <h3 style={{ fontSize: '0.875rem', fontWeight: 600, margin: 0 }}>
+                                        <Trans>Admin Notes</Trans>
+                                    </h3>
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                        (<Trans>Private - visible only to admins</Trans>)
+                                    </span>
+                                    {isSavingNotes && (
+                                        <span style={{ fontSize: '0.75rem', color: '#6B5DD3', marginLeft: 'auto' }}>
+                                            <Trans>Saving...</Trans>
+                                        </span>
+                                    )}
+                                </div>
+                                <textarea
+                                    className="input"
+                                    value={adminNotes}
+                                    onChange={(e) => setAdminNotes(e.target.value)}
+                                    placeholder={_(t`Add private notes about this participant...`)}
+                                    rows={6}
+                                    style={{
+                                        width: '100%',
+                                        resize: 'vertical',
+                                        fontFamily: 'inherit',
+                                        fontSize: '0.875rem',
+                                        background: 'white',
+                                    }}
+                                />
+                                <div style={{
+                                    fontSize: '0.75rem',
+                                    color: 'var(--text-secondary)',
+                                    marginTop: 'var(--spacing-xs)',
+                                }}>
+                                    <Trans>Auto-saves 1 second after you stop typing</Trans>
+                                </div>
+                            </div>
+
                             <div className="modal-actions">
                                 {activeSeason && !isAlreadyEnrolled && (
                                     <button
