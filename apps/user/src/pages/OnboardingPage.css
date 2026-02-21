@@ -468,3 +468,9 @@ select.form-input {
     color: var(--text-secondary, #6b7280);
     font-style: italic;
 }
+
+.privacy-link {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-style: normal;
+}

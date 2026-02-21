@@ -1,4 +1,4 @@
-/** Brand SVG logo — network graph with central "B" node (styleguide Section 2A) */
+/** Brand SVG logo — network graph with central "T" node (styleguide Section 2A) */
 export function Logo({ size = 48, className }: { size?: number; className?: string }) {
     const height = Math.round(size * (115 / 128));
     return (
@@ -33,7 +33,7 @@ export function Logo({ size = 48, className }: { size?: number; className?: stri
             <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" strokeWidth="1.2" opacity="0.3" />
             <line x1="60" y1="58" x2="55" y2="115" stroke="#005871" strokeWidth="1" opacity="0.15" />
             <line x1="150" y1="58" x2="148" y2="120" stroke="#005871" strokeWidth="1" opacity="0.15" />
-            <text x="105" y="96" fontFamily="Rubik, sans-serif" fontWeight="700" fontSize="22" fill="#fff" textAnchor="middle">B</text>
+            <text x="105" y="96" fontFamily="Rubik, sans-serif" fontWeight="700" fontSize="22" fill="#fff" textAnchor="middle">T</text>
         </svg>
     );
 }

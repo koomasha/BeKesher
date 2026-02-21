@@ -55,7 +55,7 @@ function OnboardingPage() {
         purpose: '',
         expectations: '',
         email: '',
-        socialMediaConsent: true
+        socialMediaConsent: false
     });
     const [errors, setErrors] = useState<FormErrors>({});
 
@@ -77,7 +77,7 @@ function OnboardingPage() {
         t`Найти друзей и единомышленников`,
         t`Расширить круг общения / нетворкинг`,
         t`Провести время интересно и с пользой`,
-        t`Познать себя и людей рядом`,
+        t`Узнать себя и других с новой стороны`,
         t`И дружбу, и романтическое знакомство`
     ];
 
@@ -386,13 +386,24 @@ function OnboardingPage() {
                         onChange={(e) => handleInputChange('socialMediaConsent', e.target.checked)}
                     />
                     <span>
-                        <Trans>Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk</Trans>
+                        <Trans>Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk</Trans>
                     </span>
                 </label>
                 <p className="form-hint">
                     <Trans>Вы можете изменить это в любое время в настройках профиля</Trans>
                 </p>
             </div>
+
+            <p className="form-hint" style={{ marginTop: 'var(--spacing-md)' }}>
+                <Trans>Регистрируясь, вы соглашаетесь с</Trans>{' '}
+                <a href="/privacy.html" target="_blank" rel="noopener noreferrer" className="privacy-link">
+                    <Trans>Политикой конфиденциальности</Trans>
+                </a>{' '}
+                <Trans>и</Trans>{' '}
+                <a href="/terms.html" target="_blank" rel="noopener noreferrer" className="privacy-link">
+                    <Trans>Условиями использования</Trans>
+                </a>
+            </p>
         </div>
     );
 

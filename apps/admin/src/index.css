@@ -105,6 +105,7 @@ body {
 .sidebar-nav {
     flex: 1;
     padding: var(--spacing-md);
+    overflow-y: auto;
 }
 
 .nav-link {
