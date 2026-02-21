@@ -28,9 +28,9 @@ function getWaitingPhrases() {
 function getPricingTier(seasonStartDate: number) {
     const daysUntilStart = (seasonStartDate - Date.now()) / (1000 * 60 * 60 * 24);
     const tiers = [
-        { label: "Early Bird", price: 100, minDays: 14 },
-        { label: "Regular", price: 150, minDays: 3 },
-        { label: "Late", price: 200, minDays: -Infinity },
+        { label: t`Ранняя пташка`, price: 80, minDays: 21 },
+        { label: t`Стандарт`, price: 90, minDays: 7 },
+        { label: t`Последний вагон`, price: 100, minDays: -Infinity },
     ];
     const current = tiers.find(t => daysUntilStart >= t.minDays) || tiers[2];
     return { current, all: tiers.map(t => ({ ...t, isCurrent: t === current })) };
@@ -57,8 +57,6 @@ function HomePage() {
         isAuthenticated && enrollment === null ? authArgs : 'skip'
     );
 
-    const selfEnroll = useMutation(api.seasonParticipants.selfEnroll);
-    const [isEnrolling, setIsEnrolling] = useState(false);
     const [phraseIndex, setPhraseIndex] = useState(0);
     const { locale } = useLanguage();
     const waitingPhrases = getWaitingPhrases();
@@ -71,16 +69,17 @@ function HomePage() {
         return () => clearInterval(timer);
     }, [waitingPhrases.length]);
 
-    const handleEnroll = async () => {
+    const handleEnroll = () => {
         if (!upcomingDraft) return;
-        setIsEnrolling(true);
-        try {
-            await selfEnroll({ ...authArgs, seasonId: upcomingDraft._id });
-        } catch (error) {
-            console.error('Failed to enroll:', error);
-        } finally {
-            setIsEnrolling(false);
-        }
+        const pricing = getPricingTier(upcomingDraft.startDate);
+        navigate('/payment', {
+            state: {
+                seasonId: upcomingDraft._id,
+                seasonName: upcomingDraft.name,
+                price: pricing.current.price,
+                tierLabel: pricing.current.label,
+            },
+        });
     };
 
     const firstName = telegramUser?.first_name || 'Friend';
@@ -257,9 +256,9 @@ function HomePage() {
                                     </div>
                                 );
                             })()}
-                            <button className="btn btn-primary btn-full" onClick={handleEnroll} disabled={isEnrolling}>
+                            <button className="btn btn-primary btn-full" onClick={handleEnroll}>
                                 <UserPlus size={18} />
-                                {isEnrolling ? <Trans>Записываемся...</Trans> : <Trans>Записаться</Trans>}
+                                <Trans>Записаться</Trans>
                             </button>
                         </div>
                     )}

@@ -35,8 +35,8 @@ msgstr "{0} / {MAX_PHOTOS} фотографий"
 
 #. placeholder {0}: formData.aboutMe.length
 #. placeholder {0}: formData.expectations.length
-#: apps/user/src/pages/OnboardingPage.tsx:416
-#: apps/user/src/pages/OnboardingPage.tsx:480
+#: apps/user/src/pages/OnboardingPage.tsx:427
+#: apps/user/src/pages/OnboardingPage.tsx:491
 msgid "{0} / минимум 20 символов"
 msgstr "{0} / минимум 20 символов"
 
@@ -157,7 +157,7 @@ msgid "Дай оценку этой недели"
 msgstr "Дай оценку этой недели"
 
 #: apps/user/src/pages/FeedbackPage.tsx:546
-#: apps/user/src/pages/OnboardingPage.tsx:524
+#: apps/user/src/pages/OnboardingPage.tsx:535
 msgid "Далее"
 msgstr "Далее"
 
@@ -199,7 +199,7 @@ msgstr "Другое"
 msgid "Женщина"
 msgstr "Женщина"
 
-#: apps/user/src/pages/OnboardingPage.tsx:531
+#: apps/user/src/pages/OnboardingPage.tsx:542
 msgid "Завершить"
 msgstr "Завершить"
 
@@ -262,13 +262,17 @@ msgstr "Заряжаем атмосферу..."
 msgid "Зачем пришёл(а) в игру"
 msgstr "Зачем пришёл(а) в игру"
 
-#: apps/user/src/pages/OnboardingPage.tsx:443
+#: apps/user/src/pages/OnboardingPage.tsx:454
 msgid "Зачем ты пришёл(а) в игру? *"
 msgstr "Зачем ты пришёл(а) в игру? *"
 
 #: apps/user/src/pages/ProfilePage.tsx:188
 msgid "Знак зодиака"
 msgstr "Знак зодиака"
+
+#: apps/user/src/pages/OnboardingPage.tsx:402
+msgid "и"
+msgstr "и"
 
 #: apps/user/src/pages/OnboardingPage.tsx:81
 msgid "И дружбу, и романтическое знакомство"
@@ -307,7 +311,7 @@ msgstr "Как задание повлияло на ваше общение?"
 msgid "Как отчитаться:"
 msgstr "Как отчитаться:"
 
-#: apps/user/src/pages/OnboardingPage.tsx:471
+#: apps/user/src/pages/OnboardingPage.tsx:482
 msgid "Каких людей хочешь встретить, что важно, ожидания *"
 msgstr "Каких людей хочешь встретить, что важно, ожидания *"
 
@@ -384,7 +388,7 @@ msgid "Нажми для загрузки"
 msgstr "Нажми для загрузки"
 
 #: apps/user/src/pages/FeedbackPage.tsx:537
-#: apps/user/src/pages/OnboardingPage.tsx:515
+#: apps/user/src/pages/OnboardingPage.tsx:526
 msgid "Назад"
 msgstr "Назад"
 
@@ -400,11 +404,11 @@ msgstr "Назад к выбору группы"
 msgid "Найти друзей и единомышленников"
 msgstr "Найти друзей и единомышленников"
 
-#: apps/user/src/pages/OnboardingPage.tsx:407
+#: apps/user/src/pages/OnboardingPage.tsx:418
 msgid "Напиши о себе *"
 msgstr "Напиши о себе *"
 
-#: apps/user/src/pages/OnboardingPage.tsx:427
+#: apps/user/src/pages/OnboardingPage.tsx:438
 msgid "Например: Разработчик, Дизайнер, Учитель"
 msgstr "Например: Разработчик, Дизайнер, Учитель"
 
@@ -465,7 +469,7 @@ msgstr "Нет активных сезонов. Скоро объявим нов
 msgid "Нет ожидающих отзывов"
 msgstr "Нет ожидающих отзывов"
 
-#: apps/user/src/pages/OnboardingPage.tsx:412
+#: apps/user/src/pages/OnboardingPage.tsx:423
 msgid "Никто не знает обо мне, что..."
 msgstr "Никто не знает обо мне, что..."
 
@@ -473,7 +477,7 @@ msgstr "Никто не знает обо мне, что..."
 msgid "Новый сезон"
 msgstr "Новый сезон"
 
-#: apps/user/src/pages/OnboardingPage.tsx:402
+#: apps/user/src/pages/OnboardingPage.tsx:413
 #: apps/user/src/pages/ProfilePage.tsx:217
 #: apps/user/src/pages/ProfilePage.tsx:230
 msgid "О себе"
@@ -498,11 +502,11 @@ msgstr "Овен"
 msgid "Ожидает"
 msgstr "Ожидает"
 
-#: apps/user/src/pages/OnboardingPage.tsx:466
+#: apps/user/src/pages/OnboardingPage.tsx:477
 msgid "Ожидания"
 msgstr "Ожидания"
 
-#: apps/user/src/pages/OnboardingPage.tsx:476
+#: apps/user/src/pages/OnboardingPage.tsx:487
 msgid "Опишите ваши ожидания от встреч..."
 msgstr "Опишите ваши ожидания от встреч..."
 
@@ -538,7 +542,7 @@ msgstr "Отклонено"
 msgid "Откройте приложение из Telegram"
 msgstr "Откройте приложение из Telegram"
 
-#: apps/user/src/pages/OnboardingPage.tsx:506
+#: apps/user/src/pages/OnboardingPage.tsx:517
 msgid "Отмена"
 msgstr "Отмена"
 
@@ -625,10 +629,6 @@ msgstr "Пожалуйста, откройте приложение через T
 msgid "Пожалуйста, проверьте правильность даты"
 msgstr "Пожалуйста, проверьте правильность даты"
 
-#: apps/user/src/pages/OnboardingPage.tsx:80
-msgid "Узнать себя и других с новой стороны"
-msgstr "Узнать себя и других с новой стороны"
-
 #: apps/user/src/pages/ProfilePage.tsx:196
 msgid "Пол"
 msgstr "Пол"
@@ -637,6 +637,14 @@ msgstr "Пол"
 msgid "Пол *"
 msgstr "Пол *"
 
+#: apps/user/src/components/UserFooter.tsx:20
+msgid "Политика конфиденциальности"
+msgstr "Политика конфиденциальности"
+
+#: apps/user/src/pages/OnboardingPage.tsx:400
+msgid "Политикой конфиденциальности"
+msgstr "Политикой конфиденциальности"
+
 #: apps/user/src/pages/FeedbackPage.tsx:386
 msgid "Полный отстой"
 msgstr "Полный отстой"
@@ -644,6 +652,10 @@ msgstr "Полный отстой"
 #: apps/user/src/pages/OnboardingPage.tsx:246
 msgid "Пользователь с таким Telegram ID уже зарегистрирован."
 msgstr "Пользователь с таким Telegram ID уже зарегистрирован."
+
+#: apps/user/src/pages/HomePage.tsx:33
+msgid "Последний вагон"
+msgstr "Последний вагон"
 
 #: apps/user/src/pages/HomePage.tsx:150
 msgid "Привет, {firstName}!"
@@ -673,7 +685,7 @@ msgstr "Профессия обязательна"
 msgid "Профессия/сфера деятельности"
 msgstr "Профессия/сфера деятельности"
 
-#: apps/user/src/pages/OnboardingPage.tsx:422
+#: apps/user/src/pages/OnboardingPage.tsx:433
 msgid "Профессия/сфера деятельности *"
 msgstr "Профессия/сфера деятельности *"
 
@@ -692,6 +704,10 @@ msgstr "Разрешено"
 #: apps/user/src/pages/ProfilePage.tsx:30
 msgid "Рак"
 msgstr "Рак"
+
+#: apps/user/src/pages/HomePage.tsx:31
+msgid "Ранняя пташка"
+msgstr "Ранняя пташка"
 
 #: apps/user/src/pages/TaskPage.tsx:235
 msgid "Расскажи, как вы выполнили задание..."
@@ -721,6 +737,10 @@ msgstr "Регион *"
 #: apps/user/src/pages/GroupsPage.tsx:75
 msgid "Регион: {0}"
 msgstr "Регион: {0}"
+
+#: apps/user/src/pages/OnboardingPage.tsx:398
+msgid "Регистрируясь, вы соглашаетесь с"
+msgstr "Регистрируясь, вы соглашаетесь с"
 
 #: apps/user/src/pages/ProfilePage.tsx:279
 msgid "Редактировать профиль"
@@ -761,17 +781,25 @@ msgstr "Скорпион"
 msgid "Собираем пазл из людей..."
 msgstr "Собираем пазл из людей..."
 
+#: apps/user/src/pages/OnboardingPage.tsx:389
+msgid "Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk"
+msgstr "Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk"
+
 #: apps/user/src/pages/ProfilePage.tsx:204
 msgid "Согласие на публикацию фото"
 msgstr "Согласие на публикацию фото"
 
-#: apps/user/src/pages/OnboardingPage.tsx:531
+#: apps/user/src/pages/OnboardingPage.tsx:542
 msgid "Сохранить"
 msgstr "Сохранить"
 
 #: apps/user/src/pages/FeedbackPage.tsx:271
 msgid "Спасибо за отзыв!"
 msgstr "Спасибо за отзыв!"
+
+#: apps/user/src/pages/HomePage.tsx:32
+msgid "Стандарт"
+msgstr "Стандарт"
 
 #: apps/user/src/pages/HomePage.tsx:186
 #~ msgid "Старт {0}"
@@ -821,6 +849,18 @@ msgstr "Ты в курсе всех дел!"
 msgid "Ты получил(а) 10 баллов!"
 msgstr "Ты получил(а) 10 баллов!"
 
+#: apps/user/src/pages/OnboardingPage.tsx:80
+msgid "Узнать себя и других с новой стороны"
+msgstr "Узнать себя и других с новой стороны"
+
+#: apps/user/src/components/UserFooter.tsx:23
+msgid "Условия использования"
+msgstr "Условия использования"
+
+#: apps/user/src/pages/OnboardingPage.tsx:404
+msgid "Условиями использования"
+msgstr "Условиями использования"
+
 #. placeholder {0}: index + 1
 #: apps/user/src/pages/TaskPage.tsx:247
 msgid "Фото {0}"
@@ -838,7 +878,7 @@ msgstr "Хочешь встретиться с этим партнером сн�
 msgid "Цели и ожидания"
 msgstr "Цели и ожидания"
 
-#: apps/user/src/pages/OnboardingPage.tsx:438
+#: apps/user/src/pages/OnboardingPage.tsx:449
 msgid "Цель участия"
 msgstr "Цель участия"
 
@@ -876,27 +916,5 @@ msgid "Юг"
 msgstr "Юг"
 
 #: apps/user/src/pages/OnboardingPage.tsx:389
-msgid "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"
-msgstr "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"
-
-#: apps/user/src/pages/OnboardingPage.tsx:389
-msgid "Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk"
-msgstr "Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk"
-
-#: apps/user/src/pages/OnboardingPage.tsx:398
-msgid "Регистрируясь, вы соглашаетесь с"
-msgstr "Регистрируясь, вы соглашаетесь с"
-
-#: apps/user/src/pages/OnboardingPage.tsx:400
-#: apps/user/src/components/UserFooter.tsx:17
-msgid "Политикой конфиденциальности"
-msgstr "Политикой конфиденциальности"
-
-#: apps/user/src/pages/OnboardingPage.tsx:402
-msgid "и"
-msgstr "и"
-
-#: apps/user/src/pages/OnboardingPage.tsx:404
-#: apps/user/src/components/UserFooter.tsx:21
-msgid "Условиями использования"
-msgstr "Условиями использования"
+#~ msgid "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"
+#~ msgstr "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"

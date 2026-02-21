@@ -86,6 +86,8 @@ export const createPaymentLink = userAction({
     args: {
         amount: v.number(),
         months: v.number(),
+        seasonId: v.optional(v.string()),
+        returnUrl: v.optional(v.string()),
     },
     returns: v.object({
         success: v.boolean(),
@@ -108,7 +110,10 @@ export const createPaymentLink = userAction({
         const apiKey = process.env.PAYPLUS_API_KEY;
         const secretKey = process.env.PAYPLUS_SECRET_KEY;
         const paymentPageUid = process.env.PAYPLUS_PAGE_UID;
-        const callbackUrl = process.env.PAYPLUS_CALLBACK_URL || `${process.env.CONVEX_CLOUD_URL}/payplus-callback`;
+        const callbackUrl = process.env.PAYPLUS_CALLBACK_URL || `${process.env.CONVEX_SITE_URL}/payplus-callback`;
+
+        console.log("PayPlus callback URL:", callbackUrl);
+        console.log("PayPlus returnUrl (refURL_success):", args.returnUrl);
 
         if (!apiKey || !secretKey || !paymentPageUid) {
             console.error("PayPlus credentials not configured");
@@ -134,7 +139,11 @@ export const createPaymentLink = userAction({
                         sendEmailApproval: true,
                         sendEmailFailure: false,
                         initial_invoice: true,
-                        more_info: participant._id,
+                        more_info: JSON.stringify({
+                            participantId: participant._id,
+                            seasonId: args.seasonId,
+                        }),
+                        refURL_success: args.returnUrl || "",
                         refURL_callback: callbackUrl,
                         customer: {
                             customer_name: participant.name,
@@ -153,6 +162,7 @@ export const createPaymentLink = userAction({
             );
 
             const data: PayPlusResponse = await response.json();
+            console.log("PayPlus full response:", JSON.stringify(data));
 
             if (data.results?.status === "success" && data.data?.payment_page_link) {
                 // Log the payment attempt
@@ -249,6 +259,7 @@ export const processSuccessfulPayment = internalMutation({
         transactionId: v.string(),
         amount: v.number(),
         months: v.number(),
+        seasonId: v.optional(v.string()),
     },
     returns: v.null(),
     handler: async (ctx, args) => {
@@ -295,6 +306,35 @@ export const processSuccessfulPayment = internalMutation({
             paidUntil: newPaidUntil,
             paymentDate: now,
         });
+
+        // Auto-enroll in season after successful payment
+        if (args.seasonId) {
+            const seasonId = args.seasonId as Id<"seasons">;
+            const season = await ctx.db.get(seasonId);
+            if (season && (season.status === "Draft" || season.status === "Active")) {
+                // Check if already enrolled
+                const existing = await ctx.db
+                    .query("seasonParticipants")
+                    .withIndex("by_seasonId_and_participantId", (q) =>
+                        q.eq("seasonId", seasonId).eq("participantId", args.participantId)
+                    )
+                    .first();
+
+                if (!existing) {
+                    await ctx.db.insert("seasonParticipants", {
+                        seasonId,
+                        participantId: args.participantId,
+                        enrolledAt: now,
+                        status: "Enrolled",
+                    });
+
+                    // Activate participant if they are Lead or Inactive
+                    if (participant.status !== "Active") {
+                        await ctx.db.patch(args.participantId, { status: "Active" });
+                    }
+                }
+            }
+        }
 
         return null;
     },

@@ -78,6 +78,20 @@ Backend (set in Convex dashboard):
 
 Frontend (`.env.local` in each app): `VITE_CONVEX_URL`
 
+## Internationalization (Lingui) — IMPORTANT
+
+This project uses **Lingui** for i18n with `en` and `ru` locales. Text in React components uses `t` template literals, `Trans`, and `Plural` macros from `@lingui/macro`.
+
+**After ANY edit that adds, removes, or changes user-facing text** in `apps/user/src/` or `apps/admin/src/` (any string wrapped in `t`, `Trans`, `Plural`, or `msg`), you MUST run:
+
+```bash
+npm run lingui:extract && npm run lingui:compile
+```
+
+This extracts new strings into `.po` files and compiles them into `.mjs` catalogs. **Skipping this step causes gibberish hashes to appear in the UI instead of actual text.**
+
+Commit the updated `.po` and `.mjs` files together with the source changes.
+
 ## Key Conventions
 
 - Database indexes follow the pattern `by_field` or `by_field1_and_field2`
