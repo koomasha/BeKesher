@@ -16,7 +16,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
     return (
         <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
             <div className="sidebar-header">
-                <h1><Trans>🔗 BeKesher</Trans></h1>
+                <h1><Trans>🔗 Tuk-Tuk</Trans></h1>
                 <p style={{ fontSize: '0.75rem', opacity: 0.7 }}><Trans>Admin Dashboard</Trans></p>
                 <LanguageSwitcher />
             </div>

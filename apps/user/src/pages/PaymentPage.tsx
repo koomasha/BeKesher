@@ -100,7 +100,7 @@ function PaymentPage() {
                 {/* Header */}
                 <div className="payment-header">
                     <Logo size={80} className="payment-logo" />
-                    <h1>Подписка BeKesher</h1>
+                    <h1>Подписка Tuk-Tuk</h1>
                     <p className="payment-subtitle">Присоединяйтесь к нашему сообществу</p>
                 </div>
 

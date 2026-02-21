@@ -6,7 +6,7 @@ Pay special attention to naming of existing utils types and models. Import from 
 
 ## Feature Description
 
-Implement a comprehensive internationalization (i18n) system across the BeKesher platform to replace ~157 hardcoded text strings scattered across 16 files. The system will create a single source of truth for all user-facing text with **Russian as the primary language everywhere** and **English as a required secondary language**.
+Implement a comprehensive internationalization (i18n) system across the Tuk-Tuk platform to replace ~157 hardcoded text strings scattered across 16 files. The system will create a single source of truth for all user-facing text with **Russian as the primary language everywhere** and **English as a required secondary language**.
 
 **CRITICAL REQUIREMENT**: Both User and Admin apps must support language switching between Russian (primary) and English (secondary) via UI controls.
 
@@ -18,13 +18,13 @@ This system will cover:
 
 ## User Story
 
-As a **developer maintaining BeKesher**
+As a **developer maintaining Tuk-Tuk**
 I want to **centralize all user-facing text in a single source of truth with i18n infrastructure**
 So that **I can easily manage translations, support multiple languages, and eliminate hardcoded strings across the codebase**
 
 ## Problem Statement
 
-The BeKesher platform currently has ~157 hardcoded text strings scattered across 16 files with inconsistent language usage (User app in Russian, Admin app in English, no unified approach), with no centralized text management or i18n infrastructure. This creates several problems:
+The Tuk-Tuk platform currently has ~157 hardcoded text strings scattered across 16 files with inconsistent language usage (User app in Russian, Admin app in English, no unified approach), with no centralized text management or i18n infrastructure. This creates several problems:
 
 1. **No Single Source of Truth**: Text is duplicated and inconsistent (e.g., region names map between Russian/English in multiple places)
 2. **No Language Consistency**: Admin is in English, User is in Russian - should both be Russian-first with English option
@@ -674,7 +674,7 @@ Create `apps/user/src/hooks/useLanguage.ts`:
 import { useState, useEffect } from 'react';
 import { loadCatalog } from '../i18n';
 
-const LOCALE_KEY = 'bekesher_locale';
+const LOCALE_KEY = 'tuk-tuk_locale';
 
 export function useLanguage() {
   const [locale, setLocale] = useState<string>(
@@ -830,13 +830,13 @@ Example changes in `apps/user/src/pages/HomePage.tsx`:
 ```typescript
 // Before:
 <h1>Привет, {firstName}!</h1>
-<p>Добро пожаловать в BeKesher</p>
+<p>Добро пожаловать в Tuk-Tuk</p>
 
 // After:
 import { Trans, t } from '@lingui/macro';
 
 <h1><Trans>Привет, {firstName}!</Trans></h1>
-<p><Trans>Добро пожаловать в BeKesher</Trans></p>
+<p><Trans>Добро пожаловать в Tuk-Tuk</Trans></p>
 
 // Before (inline string):
 <p>Загружаем профиль...</p>

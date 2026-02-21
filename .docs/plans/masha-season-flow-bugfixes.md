@@ -10,7 +10,7 @@ Fix all bugs, data integrity issues, logic gaps, test gaps, and frontend issues 
 
 ## User Story
 
-As a developer maintaining BeKesher
+As a developer maintaining Tuk-Tuk
 I want to fix all identified bugs in the season-flow feature before merging
 So that the feature is production-ready with correct authorization, data integrity, and test coverage
 

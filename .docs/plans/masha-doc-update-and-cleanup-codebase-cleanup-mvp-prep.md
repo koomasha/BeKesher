@@ -6,17 +6,17 @@ Pay special attention to naming of existing utils types and models. Import from 
 
 ## Feature Description
 
-Comprehensive codebase cleanup to remove dead code, code duplications, development leftovers, and improve code quality before the BeKesher MVP enters user testing. This refactoring ensures a maintainable, professional codebase with reduced bundle sizes, better performance, and cleaner code for future development.
+Comprehensive codebase cleanup to remove dead code, code duplications, development leftovers, and improve code quality before the Tuk-Tuk MVP enters user testing. This refactoring ensures a maintainable, professional codebase with reduced bundle sizes, better performance, and cleaner code for future development.
 
 ## User Story
 
-As a **developer maintaining the BeKesher platform**
+As a **developer maintaining the Tuk-Tuk platform**
 I want to **clean up technical debt accumulated during rapid MVP development**
 So that **the codebase is production-ready, maintainable, and optimized for user testing and future feature development**
 
 ## Problem Statement
 
-The BeKesher MVP has been developed rapidly and contains significant technical debt:
+The Tuk-Tuk MVP has been developed rapidly and contains significant technical debt:
 - **Code Duplication**: The `calculateAge()` function is duplicated in 4 locations; i18n configuration, `useLanguage` hook, and `LanguageSwitcher` component are duplicated between user and admin apps
 - **Debug Code**: 20+ console.log statements scattered across backend and frontend
 - **Incomplete Work**: 12+ TODO comments indicating unfinished features or type improvements
@@ -66,8 +66,8 @@ Systematically refactor the codebase by:
 - [`apps/user/src/i18n.ts`](apps/user/src/i18n.ts) (lines 1-27) - Why: i18n configuration duplicated with admin
 - [`apps/admin/src/i18n.ts`](apps/admin/src/i18n.ts) (lines 1-27) - Why: Identical i18n configuration
 
-- [`apps/user/src/hooks/useLanguage.ts`](apps/user/src/hooks/useLanguage.ts) (lines 1-29) - Why: Language hook duplicated (uses 'bekesher_locale')
-- [`apps/admin/src/hooks/useLanguage.ts`](apps/admin/src/hooks/useLanguage.ts) (lines 1-29) - Why: Nearly identical hook (uses 'bekesher_admin_locale')
+- [`apps/user/src/hooks/useLanguage.ts`](apps/user/src/hooks/useLanguage.ts) (lines 1-29) - Why: Language hook duplicated (uses 'tuk-tuk_locale')
+- [`apps/admin/src/hooks/useLanguage.ts`](apps/admin/src/hooks/useLanguage.ts) (lines 1-29) - Why: Nearly identical hook (uses 'tuk-tuk_admin_locale')
 
 - [`apps/user/src/components/LanguageSwitcher.tsx`](apps/user/src/components/LanguageSwitcher.tsx) (lines 1-24) - Why: Duplicated component
 - [`apps/admin/src/components/LanguageSwitcher.tsx`](apps/admin/src/components/LanguageSwitcher.tsx) (lines 1-24) - Why: Identical component

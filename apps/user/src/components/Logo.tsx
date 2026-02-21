@@ -8,7 +8,7 @@ export function Logo({ size = 48, className }: { size?: number; className?: stri
             height={height}
             xmlns="http://www.w3.org/2000/svg"
             className={className}
-            aria-label="BeKesher logo"
+            aria-label="Tuk-Tuk logo"
         >
             <defs>
                 <radialGradient id="v6-glow" cx="50%" cy="50%" r="50%">

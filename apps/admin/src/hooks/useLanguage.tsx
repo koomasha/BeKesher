@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { loadCatalog } from '../i18n';
 
-const LOCALE_KEY = 'bekesher_admin_locale';
+const LOCALE_KEY = 'tuk-tuk_admin_locale';
 
 interface LanguageContextType {
   locale: string;

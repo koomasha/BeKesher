@@ -1,11 +1,11 @@
-/* BeKesher User App - Global Styles */
+/* Tuk-Tuk User App - Global Styles */
 /* Styleguide v2.0 compliant */
 
 /* Google Fonts - Rubik (Latin, Cyrillic, Hebrew) */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Brand Colors - BeKesher Official */
+  /* Brand Colors - Tuk-Tuk Official */
   --color-primary: #005871;
   /* Lyons Blue */
   --color-primary-hover: #004559;

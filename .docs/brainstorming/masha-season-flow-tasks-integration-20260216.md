@@ -5,7 +5,7 @@
 
 ## The Idea
 
-Integrate a **seasons concept** into BeKesher where:
+Integrate a **seasons concept** into Tuk-Tuk where:
 - **Seasons are 4 weeks long**, starting every second Sunday of the month
 - **Groups are rematched weekly** within a season (Week 1, Week 2, Week 3, Week 4)
 - **Tasks are part of the season structure** - need to determine how they're assigned/rotated
@@ -762,7 +762,7 @@ await ctx.db.patch(participant._id, {
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│ BEKESHER Admin                                             │
+│ Tuk-Tuk Admin                                              │
 │ ┌─────┬──────┬──────┬───────┬─────┬─────────┐             │
 │ │ ... │Groups│Tasks │Support│... │Seasons  │             │
 │ └─────┴──────┴──────┴───────┴─────┴────▼────┘             │

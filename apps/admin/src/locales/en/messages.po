@@ -146,7 +146,7 @@ msgid "🔄 Running..."
 msgstr ""
 
 #: apps/admin/src/components/Sidebar.tsx:15
-msgid "🔗 BeKesher"
+msgid "🔗 Tuk-Tuk"
 msgstr ""
 
 #: apps/admin/src/pages/FeedbackPage.tsx:147
@@ -285,7 +285,7 @@ msgid "assignments"
 msgstr ""
 
 #: apps/admin/src/components/LoginPage.tsx:149
-msgid "BeKesher Admin"
+msgid "Tuk-Tuk Admin"
 msgstr ""
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:410

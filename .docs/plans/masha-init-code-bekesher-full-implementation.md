@@ -1,4 +1,4 @@
-# Feature: BeKesher Full Application Implementation
+# Feature: Tuk-Tuk Full Application Implementation
 
 The following plan should be complete, but validate documentation and codebase patterns before implementing.
 
@@ -6,7 +6,7 @@ Pay special attention to naming of existing utils, types and models. Import from
 
 ## Feature Description
 
-Complete rebuild of the BeKesher networking platform using Convex backend, React User UI (Telegram Mini App), and React Admin Dashboard. Replaces existing Google Script + Make.com + Airtable infrastructure.
+Complete rebuild of the Tuk-Tuk networking platform using Convex backend, React User UI (Telegram Mini App), and React Admin Dashboard. Replaces existing Google Script + Make.com + Airtable infrastructure.
 
 ## User Story
 
@@ -56,7 +56,7 @@ Build a modern, unified full-stack application:
 ### New Files to Create
 
 ```
-bekesher/
+tuk-tuk/
 ├── convex/
 │   ├── schema.ts                    # Database schema
 │   ├── participants.ts              # Participant CRUD
@@ -176,7 +176,7 @@ export default crons;
 
 | # | Make.com Scenario | Purpose | Convex Replacement |
 |---|-------------------|---------|-------------------|
-| 1 | `1_Dispatcher_BEKESHER v2` | Main Telegram bot dispatcher - routes commands/callbacks | `convex/http.ts` - Telegram webhook endpoint + router logic |
+| 1 | `1_Dispatcher_TUK-TUK v2` | Main Telegram bot dispatcher - routes commands/callbacks | `convex/http.ts` - Telegram webhook endpoint + router logic |
 | 2 | `2_Начало` (Start) | Welcome new user, create channel invite link | `convex/participants.ts` → `onRegistrationComplete` action |
 | 3 | `3_Social_game_Создание платежа` | Create PayPlus payment link | `convex/payments.ts` → `createPaymentLink` action |
 | 3.1 | `3.1_PayPlus Callback` | Handle payment success/failure webhook | `convex/http.ts` → `/payplus-callback` + `convex/payments.ts` |
@@ -190,8 +190,8 @@ export default crons;
 | M4 | `М4_Оплата` (Payment) | Payment flow from bot | `convex/payments.ts` → `initiatePayment` action |
 | M5 | `М5_Пауза-Возобновление` (Pause) | Toggle pause status | `convex/participants.ts` → `togglePause` mutation |
 | M6 | `M6_Unsubscribe` | Unsubscribe/deactivate user | `convex/participants.ts` → `deactivate` mutation |
-| - | `BEKESHER Random Coffee` | Random coffee matching | **OUT OF MVP SCOPE** (Phase 2) |
-| - | `Уборщик_BEKESHER` (Cleaner) | Cleanup old data | `convex/crons.ts` → cleanup job |
+| - | `TUK-TUK Random Coffee` | Random coffee matching | **OUT OF MVP SCOPE** (Phase 2) |
+| - | `Уборщик_TUK-TUK` (Cleaner) | Cleanup old data | `convex/crons.ts` → cleanup job |
 
 **Workflow Details to Port:**
 
@@ -284,7 +284,7 @@ Build admin panel.
 
 ```json
 {
-  "name": "bekesher",
+  "name": "tuk-tuk",
   "private": true,
   "workspaces": ["apps/*"],
   "scripts": {

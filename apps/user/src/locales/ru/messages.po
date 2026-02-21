@@ -182,8 +182,8 @@ msgid "Добавило веселья"
 msgstr "Добавило веселья"
 
 #: apps/user/src/pages/HomePage.tsx:151
-msgid "Добро пожаловать в BeKesher"
-msgstr "Добро пожаловать в BeKesher"
+msgid "Добро пожаловать в Tuk-Tuk"
+msgstr "Добро пожаловать в Tuk-Tuk"
 
 #: apps/user/src/pages/OnboardingPage.tsx:183
 #: apps/user/src/pages/OnboardingPage.tsx:371
@@ -878,5 +878,5 @@ msgid "Юг"
 msgstr "Юг"
 
 #: apps/user/src/pages/OnboardingPage.tsx:389
-msgid "Я согласен(на) на размещение моих фотографий в социальных сетях BeKesher"
-msgstr "Я согласен(на) на размещение моих фотографий в социальных сетях BeKesher"
+msgid "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"
+msgstr "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"

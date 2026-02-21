@@ -8,11 +8,11 @@ export function UserFooter() {
             <div className="footer-content">
                 <div className="footer-brand">
                     <Logo size={24} />
-                    <span className="footer-wordmark">BeKesher</span>
+                    <span className="footer-wordmark">Tuk-Tuk</span>
                 </div>
                 <LanguageSwitcher />
                 <div className="footer-copyright">
-                    © 2026 BeKesher
+                    © 2026 Tuk-Tuk
                 </div>
             </div>
         </footer>

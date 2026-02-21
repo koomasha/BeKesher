@@ -10,7 +10,7 @@ Replace loosely-typed string fields in the Convex schema with strongly-typed lit
 
 ## User Story
 
-As a developer working on the BeKesher codebase
+As a developer working on the Tuk-Tuk codebase
 I want strongly-typed schema fields instead of generic strings
 So that I can catch type errors at compile time, get better IDE autocomplete, and prevent invalid data from being stored in the database
 

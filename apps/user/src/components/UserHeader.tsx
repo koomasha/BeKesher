@@ -34,7 +34,7 @@ export function UserHeader() {
         <div className="user-header animate-fade-in">
             <div className="header-brand">
                 <Logo size={32} />
-                <span className="brand-wordmark">BeKesher</span>
+                <span className="brand-wordmark">Tuk-Tuk</span>
             </div>
             <div className="user-info">
                 <div className="user-avatar">

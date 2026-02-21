@@ -1,4 +1,4 @@
-# בקשר (BeKesher) — Brand Design System & AI Prompt Guide
+# Tuk-Tuk — Brand Design System & AI Prompt Guide
 
 **Version:** 2.0  
 **Purpose:** Paste this entire document as context when asking any AI agent (Google AI Studio, ChatGPT, Claude, v0, Bolt, etc.) to generate UI, landing pages, React components, or any visual asset for the בקשר project. This ensures visual consistency across all outputs.
@@ -57,7 +57,7 @@ Before finalizing any design, ask: "Does this feel like a living room or an offi
 
 ## 1. BRAND OVERVIEW
 
-**Name:** בקשר (pronounced "BeKesher", means "In Touch" / "Connected" in Hebrew)  
+**Name:** Tuk-Tuk  
 **Product:** A social game app for new repatriants (olim) in Israel. It helps people make real friends through playful ice-breaker games, community challenges, and gamified social matching. It's a game first, a social platform second.  
 **Voice & Tone:** Like a friendly neighbor who just moved in too. Warm, encouraging, slightly playful, never formal. Uses emoji naturally. Celebrates small wins. Says "ты" not "Вы".  
 **Languages:** Hebrew (RTL), Russian, English. The app is multilingual — always account for bidirectional text.  

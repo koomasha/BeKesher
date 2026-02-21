@@ -1,4 +1,4 @@
-# Feature: Seasons + Tasks Integration for BeKesher
+# Feature: Seasons + Tasks Integration for Tuk-Tuk
 
 The following plan should be complete, but it's important that you validate documentation and codebase patterns and task sanity before you start implementing.
 
@@ -6,17 +6,17 @@ Pay special attention to naming of existing utils, types, and models. Import fro
 
 ## Feature Description
 
-Integrate a comprehensive seasons and tasks system into BeKesher that transforms the weekly matching model into a structured 4-week season experience with creative group tasks. Seasons are 4-week periods manually activated by admins, where participants enroll, get matched weekly with different people, and complete curated tasks. Each week within a season, groups receive tasks assigned by admins, complete them together, and earn points through an admin-reviewed submission process.
+Integrate a comprehensive seasons and tasks system into Tuk-Tuk that transforms the weekly matching model into a structured 4-week season experience with creative group tasks. Seasons are 4-week periods manually activated by admins, where participants enroll, get matched weekly with different people, and complete curated tasks. Each week within a season, groups receive tasks assigned by admins, complete them together, and earn points through an admin-reviewed submission process.
 
 ## User Story
 
-**As a BeKesher participant**, I want to enroll in themed seasons and complete creative weekly tasks with my matched groups, so that I have a structured, gamified networking experience with clear progression and rewards.
+**As a Tuk-Tuk participant**, I want to enroll in themed seasons and complete creative weekly tasks with my matched groups, so that I have a structured, gamified networking experience with clear progression and rewards.
 
-**As a BeKesher admin**, I want to manage seasons, curate tasks, and manually assign them to groups, so that I can create intentional, themed experiences and maintain quality control over task completions.
+**As a Tuk-Tuk admin**, I want to manage seasons, curate tasks, and manually assign them to groups, so that I can create intentional, themed experiences and maintain quality control over task completions.
 
 ## Problem Statement
 
-The current BeKesher system operates on an infinite weekly matching cycle without narrative structure or engagement mechanics beyond basic meetups. Participants meet once, leave feedback (+10 points), and get rematched the next week with no sense of progression, completion, or creative challenges. The system lacks:
+The current Tuk-Tuk system operates on an infinite weekly matching cycle without narrative structure or engagement mechanics beyond basic meetups. Participants meet once, leave feedback (+10 points), and get rematched the next week with no sense of progression, completion, or creative challenges. The system lacks:
 
 1. **Temporal boundaries** - No defined cycles or seasons to create anticipation and closure
 2. **Task engagement** - No creative activities beyond "meet and chat"

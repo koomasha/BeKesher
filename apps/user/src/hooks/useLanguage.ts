@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { loadCatalog } from '../i18n';
 
-const LOCALE_KEY = 'bekesher_locale';
+const LOCALE_KEY = 'tuk-tuk_locale';
 
 export function useLanguage() {
   const [locale, setLocale] = useState<string>(
