@@ -1,26 +1,9 @@
-import { internalMutation, internalQuery, query } from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { userQuery, userAction } from "./authUser";
 import { paymentStatusValidator, currencyValidator } from "./validators";
-
-// ============================================
-// PUBLIC QUERIES
-// ============================================
-
-/**
- * Get the default payment amount from environment variable
- * Defaults to 100 shekels if not set
- */
-export const getPaymentAmount = query({
-    args: {},
-    returns: v.number(),
-    handler: async () => {
-        const amount = process.env.PAYMENT_AMOUNT;
-        return amount ? parseFloat(amount) : 100;
-    },
-});
 
 /**
  * Get payment history for a participant
@@ -112,9 +95,6 @@ export const createPaymentLink = userAction({
         const paymentPageUid = process.env.PAYPLUS_PAGE_UID;
         const callbackUrl = process.env.PAYPLUS_CALLBACK_URL || `${process.env.CONVEX_SITE_URL}/payplus-callback`;
 
-        console.log("PayPlus callback URL:", callbackUrl);
-        console.log("PayPlus returnUrl (refURL_success):", args.returnUrl);
-
         if (!apiKey || !secretKey || !paymentPageUid) {
             console.error("PayPlus credentials not configured");
             return { success: false, error: "Payment system not configured" };
@@ -162,8 +142,6 @@ export const createPaymentLink = userAction({
             );
 
             const data: PayPlusResponse = await response.json();
-            console.log("PayPlus full response:", JSON.stringify(data));
-
             if (data.results?.status === "success" && data.data?.payment_page_link) {
                 // Log the payment attempt
                 await ctx.runMutation(internal.payments.logPaymentAttempt, {

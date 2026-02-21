@@ -48,7 +48,7 @@ async function deleteAllTables(ctx: any) {
 export const cleanAll = internalMutation({
     args: {},
     handler: async (ctx) => {
-        // assertNotProduction(); // temporarily disabled for admin panel testing
+        assertNotProduction();
         console.log("🧹 Cleaning all tables...");
         await deleteAllTables(ctx);
         console.log("🧹 All tables cleaned.");
@@ -65,7 +65,7 @@ export const resetAndSeed = internalMutation({
         const now = Date.now();
 
         // ---- 1. Clean ----
-        // assertNotProduction(); // temporarily disabled for admin panel testing
+        assertNotProduction();
         console.log("🧹 Cleaning...");
         await deleteAllTables(ctx);
 

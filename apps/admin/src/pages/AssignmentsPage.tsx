@@ -202,7 +202,7 @@ function AssignToGroupsSection({
                                     </td>
                                     <td>
                                         {group.taskId ? (
-                                            <span style={{ color: 'var(--color-warning)' }}>
+                                            <span style={{ color: 'var(--accent-warning)' }}>
                                                 <Trans>Already assigned</Trans>
                                             </span>
                                         ) : (

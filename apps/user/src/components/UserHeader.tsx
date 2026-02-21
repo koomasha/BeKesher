@@ -1,5 +1,6 @@
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import { Link } from 'react-router-dom';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
 import { Logo } from './Logo';
 import './UserHeader.css';
@@ -32,10 +33,10 @@ export function UserHeader() {
 
     return (
         <div className="user-header animate-fade-in">
-            <div className="header-brand">
+            <Link to="/" className="header-brand">
                 <Logo size={32} />
                 <span className="brand-wordmark">Tuk-Tuk</span>
-            </div>
+            </Link>
             <div className="user-info">
                 <div className="user-avatar">
                     {avatarUrl ? (

@@ -206,7 +206,7 @@ function CloseSeasonConfirmModal({
                 <div className="modal-header">
                     <div>
                         <h2 style={{ marginBottom: '2px' }}><Trans>Закрыть сезон</Trans></h2>
-                        <span style={{ fontSize: '0.85em', color: 'var(--color-text-secondary, #888)' }}>Close Season</span>
+                        <span style={{ fontSize: '0.85em', color: 'var(--text-secondary, #888)' }}>Close Season</span>
                     </div>
                     <button className="modal-close" onClick={onClose}>×</button>
                 </div>
@@ -214,7 +214,7 @@ function CloseSeasonConfirmModal({
                     <p style={{ marginBottom: 'var(--spacing-xs, 4px)' }}>
                         <Trans>Это завершит сезон, отметит все записи как завершённые и закроет все активные группы.</Trans>
                     </p>
-                    <p style={{ marginBottom: 'var(--spacing-md)', fontSize: '0.85em', color: 'var(--color-text-secondary, #888)' }}>
+                    <p style={{ marginBottom: 'var(--spacing-md)', fontSize: '0.85em', color: 'var(--text-secondary, #888)' }}>
                         This will complete the season, mark all enrollments as completed, and close all active groups.
                     </p>
                     <p style={{ marginBottom: 'var(--spacing-sm)' }}>
@@ -243,7 +243,7 @@ function CloseSeasonConfirmModal({
                         className="btn btn-primary"
                         onClick={onConfirm}
                         disabled={!isMatch || isProcessing}
-                        style={{ background: isMatch ? 'var(--color-error, #e53e3e)' : undefined }}
+                        style={{ background: isMatch ? 'var(--accent-error, #e53e3e)' : undefined }}
                     >
                         {isProcessing ? <Trans>Закрытие...</Trans> : <Trans>Закрыть сезон</Trans>}
                     </button>

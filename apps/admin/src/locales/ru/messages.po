@@ -85,7 +85,7 @@ msgstr "✅ Одобрить"
 msgid "✅ Matching Complete"
 msgstr "✅ Подбор завершен"
 
-#: apps/admin/src/components/Sidebar.tsx:75
+#: apps/admin/src/components/Sidebar.tsx:79
 msgid "✅ Review Tasks"
 msgstr "✅ Проверка заданий"
 
@@ -97,7 +97,7 @@ msgstr "❌ Подбор не удался"
 msgid "❌ Reject"
 msgstr "❌ Отклонить"
 
-#: apps/admin/src/components/Sidebar.tsx:92
+#: apps/admin/src/components/Sidebar.tsx:96
 msgid "⭐ Feedback"
 msgstr "⭐ Отзывы"
 
@@ -105,31 +105,31 @@ msgstr "⭐ Отзывы"
 msgid "🎉 Added fun"
 msgstr "🎉 Добавило веселья"
 
-#: apps/admin/src/components/Sidebar.tsx:44
+#: apps/admin/src/components/Sidebar.tsx:48
 msgid "🎯 Groups"
 msgstr "🎯 Группы"
 
-#: apps/admin/src/components/Sidebar.tsx:37
+#: apps/admin/src/components/Sidebar.tsx:41
 msgid "👥 Participants"
 msgstr "👥 Участники"
 
-#: apps/admin/src/components/Sidebar.tsx:99
+#: apps/admin/src/components/Sidebar.tsx:103
 msgid "💬 Support Tickets"
 msgstr "💬 Обращения в поддержку"
 
-#: apps/admin/src/components/Sidebar.tsx:54
+#: apps/admin/src/components/Sidebar.tsx:58
 msgid "📅 Seasons"
 msgstr "📅 Сезоны"
 
-#: apps/admin/src/components/Sidebar.tsx:30
+#: apps/admin/src/components/Sidebar.tsx:34
 msgid "📊 Dashboard"
 msgstr "📊 Панель управления"
 
-#: apps/admin/src/components/Sidebar.tsx:68
+#: apps/admin/src/components/Sidebar.tsx:72
 msgid "📌 Assign Tasks"
 msgstr "📌 Назначить задания"
 
-#: apps/admin/src/components/Sidebar.tsx:61
+#: apps/admin/src/components/Sidebar.tsx:65
 msgid "📝 Task Library"
 msgstr "📝 Библиотека заданий"
 
@@ -137,7 +137,7 @@ msgstr "📝 Библиотека заданий"
 msgid "🔄 Needs Revision"
 msgstr "🔄 Требует доработки"
 
-#: apps/admin/src/components/Sidebar.tsx:85
+#: apps/admin/src/components/Sidebar.tsx:89
 msgid "🔄 Run Matching"
 msgstr "🔄 Запустить подбор"
 
@@ -146,8 +146,8 @@ msgid "🔄 Running..."
 msgstr "🔄 Выполняется..."
 
 #: apps/admin/src/components/Sidebar.tsx:19
-msgid "🔗 Tuk-Tuk"
-msgstr "🔗 Tuk-Tuk"
+#~ msgid "🔗 Tuk-Tuk"
+#~ msgstr "🔗 Tuk-Tuk"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:147
 msgid "🤝 Made it deeper"
@@ -225,7 +225,7 @@ msgstr "Добавьте заметки об этом участнике..."
 msgid "Admin Comments"
 msgstr "Комментарии администратора"
 
-#: apps/admin/src/components/Sidebar.tsx:20
+#: apps/admin/src/components/Sidebar.tsx:24
 msgid "Admin Dashboard"
 msgstr "Панель администратора"
 
@@ -753,7 +753,7 @@ msgstr "Открыто"
 msgid "Open Tickets"
 msgstr "Открытые обращения"
 
-#: apps/admin/src/components/Sidebar.tsx:78
+#: apps/admin/src/components/Sidebar.tsx:82
 msgid "Operations"
 msgstr "Операции"
 
@@ -929,7 +929,7 @@ msgstr "Сезон"
 msgid "Season Details"
 msgstr "Детали сезона"
 
-#: apps/admin/src/components/Sidebar.tsx:47
+#: apps/admin/src/components/Sidebar.tsx:51
 msgid "Season Flow"
 msgstr "Поток сезонов"
 
@@ -1108,6 +1108,10 @@ msgstr "Название"
 #: apps/admin/src/pages/DashboardPage.tsx:27
 msgid "Total Participants"
 msgstr "Всего участников"
+
+#: apps/admin/src/components/Sidebar.tsx:22
+msgid "Tuk-Tuk"
+msgstr ""
 
 #: apps/admin/src/components/LoginPage.tsx:149
 msgid "Tuk-Tuk Admin"

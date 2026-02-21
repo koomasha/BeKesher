@@ -3,6 +3,7 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from '../components/Logo';
 import { Trans, t } from '@lingui/macro';
 
 function SupportPage() {
@@ -53,6 +54,7 @@ function SupportPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
+                <Logo size={80} />
                 <h1><Trans>Поддержка</Trans></h1>
                 <p><Trans>Мы рады помочь!</Trans></p>
             </div>

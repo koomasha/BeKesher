@@ -201,9 +201,6 @@ function OnboardingPage() {
                         socialMediaConsent: formData.socialMediaConsent,
                     });
 
-                    // Update localStorage
-                    localStorage.setItem('userProfile', JSON.stringify(formData));
-
                     navigate('/profile');
                     return;
                 }
@@ -234,9 +231,6 @@ function OnboardingPage() {
                     email: formData.email,
                     socialMediaConsent: formData.socialMediaConsent,
                 });
-
-                // Also save to localStorage for ProfilePage compatibility
-                localStorage.setItem('userProfile', JSON.stringify(formData));
 
                 navigate('/');
             } catch (error: unknown) {
@@ -275,7 +269,7 @@ function OnboardingPage() {
         <div className="step-content">
             <div className="step-header">
                 <h2 className="step-title"><Trans>Личные данные</Trans></h2>
-                <Logo size={56} />
+                <Logo size={80} />
             </div>
 
             <div className="form-group">
@@ -411,7 +405,7 @@ function OnboardingPage() {
         <div className="step-content">
             <div className="step-header">
                 <h2 className="step-title"><Trans>О себе</Trans></h2>
-                <Logo size={56} />
+                <Logo size={80} />
             </div>
 
             <div className="form-group">
@@ -447,7 +441,7 @@ function OnboardingPage() {
         <div className="step-content">
             <div className="step-header">
                 <h2 className="step-title"><Trans>Цель участия</Trans></h2>
-                <Logo size={56} />
+                <Logo size={80} />
             </div>
 
             <div className="form-group">
@@ -475,7 +469,7 @@ function OnboardingPage() {
         <div className="step-content">
             <div className="step-header">
                 <h2 className="step-title"><Trans>Ожидания</Trans></h2>
-                <Logo size={56} />
+                <Logo size={80} />
             </div>
 
             <div className="form-group">

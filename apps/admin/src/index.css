@@ -677,11 +677,6 @@ textarea.input {
     box-shadow: var(--focus-ring);
 }
 
-/* Color Variables */
-.color-warning {
-    color: var(--accent-warning);
-}
-
 /* Responsive Grid Utility Classes */
 .detail-grid {
     display: grid;

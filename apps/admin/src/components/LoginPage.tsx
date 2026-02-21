@@ -78,7 +78,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                 });
 
                 setGsiLoaded(true);
-            } catch (err) {
+            } catch {
                 setError(t`Failed to load Google Sign-In. Please refresh.`);
             }
         };

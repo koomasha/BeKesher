@@ -70,14 +70,14 @@ export const weeklyCloseAndMatch = internalAction({
 
         // Mark incomplete task assignments as "NotCompleted"
         if (activeGroups.length > 0) {
-            const markedCount = await ctx.runMutation(
+            await ctx.runMutation(
                 internal.taskAssignments.markIncompleteAsNotCompleted,
                 { groupIds: activeGroups }
             );
         }
 
         // Close all active groups
-        const closedCount = await ctx.runMutation(
+        await ctx.runMutation(
             internal.groups.closeActiveGroups,
             {}
         );
@@ -85,7 +85,7 @@ export const weeklyCloseAndMatch = internalAction({
         // TODO: Send feedback request notifications to all group members
 
         // Step 2: Run matching for next week
-        const result = await ctx.runAction(
+        await ctx.runAction(
             internal.matching.runWeeklyMatching,
             {}
         );

@@ -17,6 +17,7 @@
     align-items: center;
     gap: var(--spacing-sm);
     flex-shrink: 0;
+    text-decoration: none;
 }
 
 .brand-wordmark {
@@ -88,16 +89,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.user-status {
-    font-size: 0.7rem;
-    font-weight: 500;
-}
-
-.badge-guest {
-    color: var(--text-muted);
-    font-style: italic;
 }
 
 .user-points {

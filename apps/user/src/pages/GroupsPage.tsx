@@ -2,6 +2,7 @@ import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from '../components/Logo';
 import { Trans } from '@lingui/macro';
 
 function GroupsPage() {
@@ -52,6 +53,7 @@ function GroupsPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
+                <Logo size={80} />
                 <h1><Trans>Мои группы</Trans></h1>
                 <p><Trans>Общайся с новыми людьми</Trans></p>
             </div>

@@ -65,90 +65,29 @@ Before finalizing any design, ask: "Does this feel like a living room or an offi
 
 ---
 
-## 2. LOGO — EXACT SVG (use as-is, do not recreate or approximate)
+## 2. LOGO
 
-The logo is a network/community graph with a central "T" node surrounded by colored satellite nodes connected by lines. **Always embed this exact SVG. Never try to redraw, simplify, or reinterpret it.**
+The logo is the "Chat Tuk-Tuk" design — a speech bubble with "TUK-TUK" text inside and "CHAT" letters arched above it. The logo file is located at `.docs/logo.svg` and is used as an image asset across all apps. **Do not recreate or redraw — always reference the SVG file.**
 
-### 2A. Full-Color Logo (default — use on light backgrounds)
+### 2A. Logo File
 
-```svg
-<svg viewBox="38 40 128 115" width="128" height="115" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <radialGradient id="v6-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#33BECC" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#33BECC" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <circle cx="105" cy="95" r="80" fill="url(#v6-glow)"/>
-  <circle cx="105" cy="88" r="20" fill="#005871"/>
-  <circle cx="105" cy="88" r="23" fill="none" stroke="#33BECC" stroke-width="1.5" opacity="0.4"/>
-  <circle cx="60" cy="58" r="11" fill="#33BECC"/>
-  <circle cx="150" cy="58" r="9" fill="#FF7F50"/>
-  <circle cx="55" cy="115" r="8" fill="#DCD494"/>
-  <circle cx="148" cy="120" r="10" fill="#33BECC" opacity="0.7"/>
-  <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.6"/>
-  <circle cx="68" cy="82" r="5" fill="#005871" opacity="0.4"/>
-  <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.5"/>
-  <line x1="105" y1="88" x2="60" y2="58" stroke="#33BECC" stroke-width="1.5" opacity="0.35"/>
-  <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.35"/>
-  <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5" opacity="0.35"/>
-  <line x1="105" y1="88" x2="148" y2="120" stroke="#33BECC" stroke-width="1.2" opacity="0.3"/>
-  <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.3"/>
-  <line x1="60" y1="58" x2="55" y2="115" stroke="#005871" stroke-width="1" opacity="0.15"/>
-  <line x1="150" y1="58" x2="148" y2="120" stroke="#005871" stroke-width="1" opacity="0.15"/>
-  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#fff" text-anchor="middle">T</text>
-</svg>
-```
+The single logo file is used everywhere:
+- **Source file:** `.docs/logo.svg`
+- **User app:** `apps/user/src/assets/logo.svg` (imported via `Logo` component)
+- **Admin app:** `apps/admin/src/assets/logo.svg` (imported via `Logo` component)
+- **Landing page:** `landing/logo.svg` (referenced as `<img>` tag)
 
-### 2B. Dark Background Logo (use on #005871, #1A1A1A, or any dark background)
+### 2B. Logo Usage Rules
 
-Key differences from light version: central node is **white** (not brand blue), "T" letter is **#005871** (not white), satellite opacities are boosted for visibility, connection lines are brighter, secondary cross-links use white instead of brand blue.
-
-```svg
-<svg viewBox="38 40 128 115" width="128" height="115" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <radialGradient id="v6-glow-dark" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#33BECC" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#33BECC" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <circle cx="105" cy="95" r="80" fill="url(#v6-glow-dark)"/>
-  <circle cx="105" cy="88" r="20" fill="#FFFFFF"/>
-  <circle cx="105" cy="88" r="23" fill="none" stroke="#33BECC" stroke-width="1.5" opacity="0.5"/>
-  <circle cx="60" cy="58" r="11" fill="#33BECC"/>
-  <circle cx="150" cy="58" r="9" fill="#FF7F50"/>
-  <circle cx="55" cy="115" r="8" fill="#DCD494"/>
-  <circle cx="148" cy="120" r="10" fill="#33BECC" opacity="0.8"/>
-  <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.7"/>
-  <circle cx="68" cy="82" r="5" fill="#FFFFFF" opacity="0.3"/>
-  <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.6"/>
-  <line x1="105" y1="88" x2="60" y2="58" stroke="#33BECC" stroke-width="1.5" opacity="0.45"/>
-  <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.45"/>
-  <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5" opacity="0.45"/>
-  <line x1="105" y1="88" x2="148" y2="120" stroke="#33BECC" stroke-width="1.2" opacity="0.4"/>
-  <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.4"/>
-  <line x1="60" y1="58" x2="55" y2="115" stroke="#FFFFFF" stroke-width="1" opacity="0.1"/>
-  <line x1="150" y1="58" x2="148" y2="120" stroke="#FFFFFF" stroke-width="1" opacity="0.1"/>
-  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#005871" text-anchor="middle">T</text>
-</svg>
-```
-
-### 2C. Logo Usage Rules
-
-- **Light backgrounds (#F7F4F0, #FFFFFF, #EDF8F9):** Use the light logo from Section 2A.
-- **Dark backgrounds (#005871, #1A1A1A, or any dark color):** Use the dark variant from Section 2B (white center node, brand-colored "T").
-- **Navbar / header:** Place logo SVG inline at `width="36" height="32"` to `width="48" height="43"`, followed by the wordmark **בקשר** in Rubik Bold, color `#005871` (light bg) or `#F0F0F0` (dark bg).
-- **Splash / hero:** Use larger at `width="128" height="115"` or scale proportionally.
-- **Favicon:** Use only the central node (circle `#005871` with white "T") at 32×32.
-- **Minimum size:** Never render below `width="28"`.
-- **Clear space:** Maintain padding equal to the radius of the central node on all sides.
+- **Navbar / header:** Render at `width="32"` to `width="48"`, followed by the wordmark **Tuk-Tuk** in Rubik Bold, color `#005871` (light bg) or `#F0F0F0` (dark bg).
+- **Splash / hero:** Use larger at `width="120"` or scale proportionally.
+- **Minimum size:** Never render below `width="24"`.
+- **Clear space:** Maintain padding around the logo on all sides.
 - **DO NOT** add drop shadows, outlines, backgrounds, or any effects to the logo.
-- **DO NOT** change any colors, opacities, stroke widths, or node positions.
-- **Gradient IDs:** If using multiple logos on one page, make gradient IDs unique (e.g., `v6-glow-1`, `v6-glow-2`) to avoid SVG conflicts.
 
-### 2D. Wordmark
+### 2C. Wordmark
 
-The brand name **בקשר** always appears in **Rubik, weight 700** next to the logo mark. On light backgrounds use `#005871`. On dark backgrounds use `#F0F0F0`.
+The brand name **Tuk-Tuk** always appears in **Rubik, weight 700** next to the logo mark. On light backgrounds use `#005871`. On dark backgrounds use `#F0F0F0`.
 
 ---
 

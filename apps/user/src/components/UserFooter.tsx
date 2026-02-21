@@ -9,7 +9,7 @@ export function UserFooter() {
             <div className="footer-content">
                 <div className="footer-row">
                     <div className="footer-brand">
-                        <Logo size={24} />
+                        <Logo size={36} />
                         <span className="footer-wordmark">Tuk-Tuk</span>
                     </div>
                     <LanguageSwitcher />
