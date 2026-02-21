@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Trans, t } from '@lingui/macro';
@@ -281,6 +281,11 @@ function ParticipantDetailModal({
     const enrollInSeason = useMutation(api.seasonParticipants.enroll);
     const updateAdminNotes = useMutation(api.participants.updateAdminNotes);
 
+    // Admin notes state
+    const [adminNotes, setAdminNotes] = useState('');
+    const [isSavingNotes, setIsSavingNotes] = useState(false);
+    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     // Close on ESC key
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -305,8 +310,8 @@ function ParticipantDetailModal({
         if (adminNotes === (participant.adminNotes || '')) return; // No change
 
         // Clear previous timeout
-        if (saveTimeout) {
-            clearTimeout(saveTimeout);
+        if (saveTimeoutRef.current) {
+            clearTimeout(saveTimeoutRef.current);
         }
 
         // Set new timeout for auto-save
@@ -324,7 +329,7 @@ function ParticipantDetailModal({
             }
         }, 1000);
 
-        setSaveTimeout(timeout);
+        saveTimeoutRef.current = timeout;
 
         return () => {
             if (timeout) clearTimeout(timeout);
@@ -346,11 +351,6 @@ function ParticipantDetailModal({
     const [editStatus, setEditStatus] = useState('');
     const [editOnPause, setEditOnPause] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-
-    // Admin notes state
-    const [adminNotes, setAdminNotes] = useState('');
-    const [isSavingNotes, setIsSavingNotes] = useState(false);
-    const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const startEditing = () => {
         if (!participant) return;
