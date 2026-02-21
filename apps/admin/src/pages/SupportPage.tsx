@@ -27,7 +27,7 @@ function SupportPage() {
             await answerTicket({ ticketId: selectedTicket, answer });
             setSelectedTicket(null);
             setAnswer('');
-        } catch (error) {
+        } catch {
             alert(t`Failed to answer ticket`);
         }
     };
@@ -35,7 +35,7 @@ function SupportPage() {
     const handleClose = async (ticketId: Id<'supportTickets'>) => {
         try {
             await closeTicket({ ticketId });
-        } catch (error) {
+        } catch {
             alert(t`Failed to close ticket`);
         }
     };

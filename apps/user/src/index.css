@@ -855,43 +855,6 @@ body {
   }
 }
 
-/* ==============================
-   RATING SCALE
-   ============================== */
-.rating-scale {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--spacing-sm);
-  margin: var(--spacing-lg) 0;
-}
-
-.rating-button {
-  aspect-ratio: 1;
-  border-radius: var(--radius-md);
-  border: 2px solid var(--border-color);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-base);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rating-button:hover {
-  border-color: var(--color-accent);
-  transform: scale(1.05);
-}
-
-.rating-button.selected {
-  background: var(--color-warm);
-  border-color: transparent;
-  color: white;
-  transform: scale(1.1);
-}
-
 .rating-labels {
   display: flex;
   justify-content: space-between;
@@ -1152,26 +1115,6 @@ body {
 }
 
 /* ==============================
-   RATING STARS (legacy)
-   ============================== */
-.rating {
-  display: flex;
-  gap: var(--spacing-xs);
-}
-
-.star {
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-  color: var(--border-color);
-  transition: color var(--transition-base);
-}
-
-.star.active,
-.star:hover {
-  color: var(--color-highlight);
-}
-
-/* ==============================
    POINTS DISPLAY (gamification)
    ============================== */
 .points-badge {
@@ -1202,16 +1145,6 @@ body {
   color: var(--color-primary);
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
-}
-
-/* ==============================
-   GRADIENT TEXT (landing-page inspired)
-   ============================== */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 /* ==============================

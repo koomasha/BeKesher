@@ -606,54 +606,6 @@ export const deleteParticipant = userMutation({
 });
 
 // ============================================
-// INTERNAL QUERIES (for matching algorithm)
-// ============================================
-
-/**
- * Get all active participants for matching
- */
-export const getActiveForMatching = internalQuery({
-    args: {},
-    returns: v.array(
-        v.object({
-            _id: v.id("participants"),
-            name: v.string(),
-            telegramId: v.string(),
-            birthDate: v.string(),
-            gender: genderValidator,
-            region: regionValidator,
-        })
-    ),
-    handler: async (ctx) => {
-        // Get participants with status "Active" or "Lead" and not on pause
-        const activeParticipants = await ctx.db
-            .query("participants")
-            .withIndex("by_status_and_onPause", (q) =>
-                q.eq("status", "Active").eq("onPause", false)
-            )
-            .collect();
-
-        const leadParticipants = await ctx.db
-            .query("participants")
-            .withIndex("by_status_and_onPause", (q) =>
-                q.eq("status", "Lead").eq("onPause", false)
-            )
-            .collect();
-
-        const allActive = [...activeParticipants, ...leadParticipants];
-
-        return allActive.map((p) => ({
-            _id: p._id,
-            name: p.name,
-            telegramId: p.telegramId,
-            birthDate: p.birthDate,
-            gender: p.gender,
-            region: p.region,
-        }));
-    },
-});
-
-// ============================================
 // INTERNAL MUTATIONS (for system operations)
 // ============================================
 
@@ -803,33 +755,3 @@ export const logParticipantChange = internalMutation({
     },
 });
 
-/**
- * One-time migration: Add socialMediaConsent field to existing participants
- * Run this once after deploying the schema change
- */
-export const migrateSocialMediaConsent = internalMutation({
-    args: {},
-    returns: v.object({
-        updated: v.number(),
-        skipped: v.number(),
-    }),
-    handler: async (ctx) => {
-        const allParticipants = await ctx.db.query("participants").collect();
-
-        let updated = 0;
-        let skipped = 0;
-
-        for (const participant of allParticipants) {
-            if (participant.socialMediaConsent === undefined) {
-                await ctx.db.patch(participant._id, {
-                    socialMediaConsent: true, // Default to true (opt-in)
-                });
-                updated++;
-            } else {
-                skipped++;
-            }
-        }
-
-        return { updated, skipped };
-    },
-});

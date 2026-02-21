@@ -105,7 +105,7 @@ function ProfilePage() {
             <div className="profile-container">
                 {/* Header with Logo */}
                 <div className="profile-header">
-                    <Logo size={80} className="page-header-logo" />
+                    <Logo size={80} />
                     <h1><Trans>Мой профиль</Trans></h1>
                     <p className="profile-subtitle">Tuk-Tuk</p>
                 </div>

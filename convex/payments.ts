@@ -1,26 +1,9 @@
-import { internalMutation, internalQuery, query } from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { userQuery, userAction } from "./authUser";
 import { paymentStatusValidator, currencyValidator } from "./validators";
-
-// ============================================
-// PUBLIC QUERIES
-// ============================================
-
-/**
- * Get the default payment amount from environment variable
- * Defaults to 100 shekels if not set
- */
-export const getPaymentAmount = query({
-    args: {},
-    returns: v.number(),
-    handler: async () => {
-        const amount = process.env.PAYMENT_AMOUNT;
-        return amount ? parseFloat(amount) : 100;
-    },
-});
 
 /**
  * Get payment history for a participant

@@ -54,7 +54,7 @@ function SupportPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
-                <Logo size={80} className="page-header-logo" />
+                <Logo size={80} />
                 <h1><Trans>Поддержка</Trans></h1>
                 <p><Trans>Мы рады помочь!</Trans></p>
             </div>

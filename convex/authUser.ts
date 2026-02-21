@@ -230,17 +230,6 @@ export const userAction: any = customAction(action, {
 // ============================================
 
 /**
- * publicQuery — No authentication required.
- * Use for endpoints that should be accessible to anyone.
- */
-export const publicQuery = customQuery(query, {
-    args: {},
-    input: async (ctx, args) => {
-        return { ctx, args };
-    },
-});
-
-/**
  * publicMutation — No authentication required.
  * Use for unauthenticated endpoints like registration.
  * Registration still receives telegramToken for telegramId extraction.
@@ -313,27 +302,6 @@ export const createBypassSession = internalMutation({
         });
 
         return { token };
-    },
-});
-
-/**
- * Clean up expired sessions. Can be called by a cron job.
- */
-export const cleanupExpiredSessions = internalMutation({
-    args: {},
-    returns: v.number(),
-    handler: async (ctx) => {
-        const now = Date.now();
-        const expired = await ctx.db
-            .query("sessions")
-            .filter((q) => q.lt(q.field("expiresAt"), now))
-            .collect();
-
-        for (const session of expired) {
-            await ctx.db.delete(session._id);
-        }
-
-        return expired.length;
     },
 });
 

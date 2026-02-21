@@ -263,7 +263,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
-                    <Logo size={80} className="page-header-logo" />
+                    <Logo size={80} />
                     <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="success-state animate-fade-in">
@@ -290,7 +290,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
-                    <Logo size={80} className="page-header-logo" />
+                    <Logo size={80} />
                     <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="card animate-fade-in">
@@ -312,7 +312,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header decorated-section">
-                    <Logo size={80} className="page-header-logo" />
+                    <Logo size={80} />
                     <h1><Trans>Обратная связь</Trans></h1>
                     <p><Trans>Поделись впечатлениями</Trans></p>
                 </div>
@@ -356,7 +356,7 @@ function FeedbackPage() {
     return (
         <div className="page">
             <div className="page-header">
-                <Logo size={80} className="page-header-logo" />
+                <Logo size={80} />
                 <h1><Trans>Обратная связь</Trans></h1>
             </div>
 

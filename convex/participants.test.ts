@@ -442,23 +442,6 @@ describe("participants", () => {
     // INTERNAL FUNCTION TESTS
     // ============================================
 
-    describe("getActiveForMatching (internal)", () => {
-        test("returns Active and Lead participants not on pause", async () => {
-            const t = setupTest();
-
-            await seedParticipants(t, [
-                makeParticipant({ telegramId: uniqueTelegramId(1), status: "Active", onPause: false }),
-                makeParticipant({ telegramId: uniqueTelegramId(2), status: "Lead", onPause: false }),
-                makeParticipant({ telegramId: uniqueTelegramId(3), status: "Active", onPause: true }), // excluded
-                makeParticipant({ telegramId: uniqueTelegramId(4), status: "Inactive", onPause: false }), // excluded
-            ]);
-
-            const active = await t.query(internal.participants.getActiveForMatching, {});
-
-            expect(active).toHaveLength(2);
-        });
-    });
-
     describe("updateStatus (internal)", () => {
         test("updates participant status", async () => {
             const t = setupTest();

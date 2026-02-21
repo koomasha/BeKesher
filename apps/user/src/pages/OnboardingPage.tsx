@@ -201,9 +201,6 @@ function OnboardingPage() {
                         socialMediaConsent: formData.socialMediaConsent,
                     });
 
-                    // Update localStorage
-                    localStorage.setItem('userProfile', JSON.stringify(formData));
-
                     navigate('/profile');
                     return;
                 }
@@ -234,9 +231,6 @@ function OnboardingPage() {
                     email: formData.email,
                     socialMediaConsent: formData.socialMediaConsent,
                 });
-
-                // Also save to localStorage for ProfilePage compatibility
-                localStorage.setItem('userProfile', JSON.stringify(formData));
 
                 navigate('/');
             } catch (error: unknown) {

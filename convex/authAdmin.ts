@@ -94,11 +94,6 @@ export const adminAction = customAction(action, {
  * if they are logged in and authorized. Returns null otherwise.
  * Used by the frontend to determine authentication state.
  */
-/**
- * getAdminIdentity
- * Returns the authenticated user's identity and authorization state.
- * safe for use by unauthenticated clients (returns null).
- */
 export const getAdminIdentity = query({
     args: {},
     handler: async (ctx) => {

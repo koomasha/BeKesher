@@ -53,7 +53,7 @@ function GroupsPage() {
     return (
         <div className="page">
             <div className="page-header decorated-section">
-                <Logo size={80} className="page-header-logo" />
+                <Logo size={80} />
                 <h1><Trans>Мои группы</Trans></h1>
                 <p><Trans>Общайся с новыми людьми</Trans></p>
             </div>
