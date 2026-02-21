@@ -537,7 +537,7 @@ function CreateTaskModal({ onClose }: { onClose: () => void }) {
                             required
                         />
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--spacing-md)' }}>
+                    <div className="form-row-3">
                         <div className="form-group">
                             <label className="form-label"><Trans>Type</Trans></label>
                             <select className="input" value={type} onChange={(e) => setType(e.target.value as 'Activity' | 'Conversation' | 'Creative' | 'Philosophy')}>

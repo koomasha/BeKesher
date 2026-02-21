@@ -60,12 +60,9 @@ export const runWeeklyMatching = internalAction({
         message: v.optional(v.string()),
     }),
     handler: async (ctx) => {
-        console.log("🚀 Starting weekly matching v4.0 (with seasons)...");
-
         // 1. Check for active season
         const activeSeason = await ctx.runQuery(internal.seasons.getActiveInternal, {});
         if (!activeSeason) {
-            console.log("❌ No active season found!");
             return {
                 success: false,
                 groupsCreated: 0,
@@ -74,7 +71,6 @@ export const runWeeklyMatching = internalAction({
                 message: "No active season",
             };
         }
-        console.log(`✅ Active season: ${activeSeason.name}`);
 
         // 2. Calculate current week in season (clamp to valid range for manual runs)
         const currentTime = Date.now();
@@ -82,18 +78,15 @@ export const runWeeklyMatching = internalAction({
         let weekNumber: 1 | 2 | 3 | 4;
         if (!rawWeek) {
             weekNumber = currentTime < activeSeason.startDate ? 1 : 4;
-            console.log(`⚠️ Current time is outside season bounds, using week ${weekNumber}`);
         } else {
             weekNumber = rawWeek as 1 | 2 | 3 | 4;
         }
-        console.log(`✅ Week ${weekNumber} of season`);
 
         // 3. Get enrolled participants for this season
         const enrolledIds = await ctx.runQuery(
             internal.seasonParticipants.getEnrolledForMatching,
             { seasonId: activeSeason._id }
         );
-        console.log(`✅ Enrolled participants: ${enrolledIds.length}`);
 
         // 4. Get full participant data for enrolled participants
         const allParticipants: Participant[] = [];
@@ -110,10 +103,8 @@ export const runWeeklyMatching = internalAction({
                 });
             }
         }
-        console.log(`✅ Active enrolled participants: ${allParticipants.length}`);
 
         if (allParticipants.length < 2) {
-            console.log("❌ Not enough participants for matching!");
             return {
                 success: false,
                 groupsCreated: 0,
@@ -129,16 +120,13 @@ export const runWeeklyMatching = internalAction({
             {}
         );
         const busySet = new Set(busyParticipantIds);
-        console.log(`✅ Already in active groups: ${busySet.size} people`);
 
         // 6. Filter available participants
         const availableParticipants = allParticipants.filter(
             (p) => !busySet.has(p._id)
         );
-        console.log(`✅ Available for matching: ${availableParticipants.length}`);
 
         if (availableParticipants.length < 2) {
-            console.log("⚠️ Not enough available participants!");
             return {
                 success: true,
                 groupsCreated: 0,
@@ -152,9 +140,6 @@ export const runWeeklyMatching = internalAction({
         const groupHistory = await ctx.runQuery(internal.groups.getHistoryLastWeeks, {
             weeks: HISTORY_WEEKS,
         });
-        console.log(
-            `✅ Group history (last ${HISTORY_WEEKS} weeks): ${groupHistory.length} records`
-        );
 
         const historyMap = buildHistoryMap(groupHistory);
 
@@ -163,7 +148,6 @@ export const runWeeklyMatching = internalAction({
         let unpaired = availableParticipants;
 
         // STAGE A: Strict (region + ±10 years + not met in 4 weeks)
-        console.log("\n🎯 STAGE A: Strict matching (region + ±10 years + new people)");
         const resultA = matchGroupsWithCriteria(unpaired, historyMap, {
             sameRegion: true,
             ageRange: 10,
@@ -171,12 +155,8 @@ export const runWeeklyMatching = internalAction({
         });
         allGroups = allGroups.concat(resultA.groups);
         unpaired = resultA.unpaired;
-        console.log(
-            `✅ Stage A: ${resultA.groups.length} groups, ${unpaired.length} remaining`
-        );
 
         // STAGE B: Expanded age (region + ±15 years + not met)
-        console.log("\n🎯 STAGE B: Expanded age (±15 years + new people)");
         const resultB = matchGroupsWithCriteria(unpaired, historyMap, {
             sameRegion: true,
             ageRange: 15,
@@ -184,12 +164,8 @@ export const runWeeklyMatching = internalAction({
         });
         allGroups = allGroups.concat(resultB.groups);
         unpaired = resultB.unpaired;
-        console.log(
-            `✅ Stage B: ${resultB.groups.length} groups, ${unpaired.length} remaining`
-        );
 
         // STAGE C: Allow repeats (region + ±15 years + allow repeats)
-        console.log("\n🎯 STAGE C: Allow repeats");
         const resultC = matchGroupsWithCriteria(unpaired, historyMap, {
             sameRegion: true,
             ageRange: 15,
@@ -197,33 +173,21 @@ export const runWeeklyMatching = internalAction({
         });
         allGroups = allGroups.concat(resultC.groups);
         unpaired = resultC.unpaired;
-        console.log(
-            `✅ Stage C: ${resultC.groups.length} groups, ${unpaired.length} remaining`
-        );
 
         // STAGE D: Neighboring regions
-        console.log("\n🎯 STAGE D: Neighboring regions");
         const resultD = matchGroupsNeighboringRegions(unpaired, historyMap);
         allGroups = allGroups.concat(resultD.groups);
         unpaired = resultD.unpaired;
-        console.log(
-            `✅ Stage D: ${resultD.groups.length} groups, ${unpaired.length} remaining`
-        );
 
         // STAGE E: Force majeure (no one left behind!)
-        console.log("\n🎯 STAGE E: Force majeure (no one left behind!)");
         const resultE = matchGroupsForceMajeure(unpaired);
         allGroups = allGroups.concat(resultE.groups);
         unpaired = resultE.unpaired;
-        console.log(
-            `✅ Stage E: ${resultE.groups.length} groups, ${unpaired.length} remaining`
-        );
 
         // FINAL FALLBACK: If 1 person remains, try to add to ANY group from all stages
         if (unpaired.length === 1 && allGroups.length > 0) {
             const loner = unpaired[0];
             const lonerRegion = loner.region || "Center";
-            console.log(`🔄 Final fallback: trying to add ${loner.name} (${lonerRegion}) to an existing group`);
 
             for (const group of allGroups) {
                 if (group.participants.length < 4) {
@@ -232,7 +196,6 @@ export const runWeeklyMatching = internalAction({
                     if ((lonerRegion === "North" && hasSouth) || (lonerRegion === "South" && hasNorth)) continue;
 
                     group.participants.push(loner);
-                    console.log(`✅ Added ${loner.name} to group: ${group.participants.map((p) => p.name).join(" + ")}`);
                     unpaired = [];
                     break;
                 }
@@ -255,15 +218,6 @@ export const runWeeklyMatching = internalAction({
                 });
                 createdCount++;
             }
-        }
-
-        console.log("\n🎉 MATCHING COMPLETE!");
-        console.log(`✅ Groups created: ${createdCount}`);
-        console.log(`⚠️ Without group: ${unpaired.length}`);
-
-        // Log remaining (if any)
-        for (const p of unpaired) {
-            console.log(`❌ WITHOUT GROUP: ${p.name} | ${p.region}`);
         }
 
         return {
@@ -384,10 +338,6 @@ function matchGroupsWithCriteria(
                 for (const p of group) {
                     matched.add(p._id);
                 }
-
-                console.log(
-                    `👥 Group (${group.length}) in ${pool.region}: ${group.map((p) => p.name).join(" + ")}`
-                );
 
                 available = available.filter((p) => !matched.has(p._id));
             } else {
@@ -531,8 +481,6 @@ function matchGroupsForceMajeure(participants: Participant[]): MatchingStageResu
     const groups: GroupResult[] = [];
     const matched = new Set<Id<"participants">>();
 
-    console.log(`🚨 Force majeure: ${participants.length} people`);
-
     // Group by region
     const byRegion: Record<string, Participant[]> = {
         North: [],
@@ -578,7 +526,6 @@ function matchGroupsForceMajeure(participants: Participant[]): MatchingStageResu
 
                 if (compatible) {
                     group.participants.push(loner);
-                    console.log(`🚨 Added to group: ${loner.name}`);
                     unpaired = [];
                     break;
                 }
@@ -618,10 +565,6 @@ function formForceMajeureGroups(
         for (const p of groupParticipants) {
             matched.add(p._id);
         }
-
-        console.log(
-            `🚨 Force majeure group (${groupSize}): ${groupParticipants.map((p) => p.name).join(" + ")}`
-        );
 
         remaining = remaining.slice(groupSize);
     }

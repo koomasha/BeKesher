@@ -1122,21 +1122,21 @@ msgstr "Готовы встретиться снова: {0}"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Закрыть сезон"
-msgstr ""
+msgstr "Закрыть сезон"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Это завершит сезон, отметит все записи как завершённые и закроет все активные группы."
-msgstr ""
+msgstr "Это завершит сезон, отметит все записи как завершённые и закроет все активные группы."
 
 #. placeholder {seasonName}: season name
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Введите <0>закрыть {seasonName}</0> для подтверждения:"
-msgstr ""
+msgstr "Введите <0>закрыть {seasonName}</0> для подтверждения:"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Отмена"
-msgstr ""
+msgstr "Отмена"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Закрытие..."
-msgstr ""
+msgstr "Закрытие..."

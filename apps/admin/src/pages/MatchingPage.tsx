@@ -62,7 +62,7 @@ function MatchingPage() {
                         <Trans>Season: {activeSeason.name}</Trans>
                     </p>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                    <div className="detail-grid" style={{ marginBottom: 'var(--spacing-lg)' }}>
                         <div>
                             <div style={{ fontSize: '2rem', fontWeight: 700, color: availableForMatching.length > 0 ? 'var(--accent-warning)' : 'var(--text-secondary)' }}>
                                 {availableForMatching.length}
@@ -157,7 +157,7 @@ function MatchingPage() {
                         </p>
                     )}
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--spacing-md)' }}>
+                    <div className="detail-grid">
                         <div>
                             <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--accent-success)' }}>
                                 {result.groupsCreated}

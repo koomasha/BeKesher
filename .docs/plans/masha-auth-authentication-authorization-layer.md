@@ -46,7 +46,6 @@ For the initial implementation, admin authorization uses a **hardcoded list of a
 **Authorized admin emails:**
 - `masha@koomasha.com`
 - `migdalor80@gmail.com`
-- `alisazelencova8@gmail.com`
 - `brookyuri@gmail.com`
 
 The `adminQuery`/`adminMutation`/`adminAction` wrappers verify that `ctx.auth.getUserIdentity().email` is in this list. The `admins` table in the schema can still exist for storing admin profile metadata (name, picture) but is **not** used for authorization decisions.

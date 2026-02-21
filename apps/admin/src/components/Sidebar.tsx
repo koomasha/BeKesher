@@ -6,7 +6,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { Trans } from '@lingui/macro';
 import { useState } from 'react';
 
-function Sidebar() {
+function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const user = useQuery(api.authAdmin.getAdminIdentity);
     const { logout } = useAdminAuth();
     const cleanAll = useAction(api.seed.cleanAllPublic);
@@ -14,7 +14,7 @@ function Sidebar() {
     const [loading, setLoading] = useState<string | null>(null);
 
     return (
-        <aside className="sidebar">
+        <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
             <div className="sidebar-header">
                 <h1><Trans>🔗 BeKesher</Trans></h1>
                 <p style={{ fontSize: '0.75rem', opacity: 0.7 }}><Trans>Admin Dashboard</Trans></p>
@@ -25,18 +25,21 @@ function Sidebar() {
                 <NavLink
                     to="/dashboard"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>📊 Dashboard</Trans>
                 </NavLink>
                 <NavLink
                     to="/participants"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>👥 Participants</Trans>
                 </NavLink>
                 <NavLink
                     to="/groups"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>🎯 Groups</Trans>
                 </NavLink>
@@ -46,24 +49,28 @@ function Sidebar() {
                 <NavLink
                     to="/seasons"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>📅 Seasons</Trans>
                 </NavLink>
                 <NavLink
                     to="/tasks"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>📝 Task Library</Trans>
                 </NavLink>
                 <NavLink
                     to="/assignments"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>📌 Assign Tasks</Trans>
                 </NavLink>
                 <NavLink
                     to="/review"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>✅ Review Tasks</Trans>
                 </NavLink>
@@ -73,18 +80,21 @@ function Sidebar() {
                 <NavLink
                     to="/matching"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>🔄 Run Matching</Trans>
                 </NavLink>
                 <NavLink
                     to="/feedback"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>⭐ Feedback</Trans>
                 </NavLink>
                 <NavLink
                     to="/support"
                     className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
                 >
                     <Trans>💬 Support Tickets</Trans>
                 </NavLink>

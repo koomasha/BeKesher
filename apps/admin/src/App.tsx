@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useConvexAuth } from 'convex/react';
 import { I18nProvider } from '@lingui/react';
@@ -16,6 +17,42 @@ import LoginPage from './components/LoginPage';
 import { useAdminAuth } from './hooks/useAdminAuth';
 import { useLanguage } from './hooks/useLanguage';
 import { i18n } from './i18n';
+
+function AdminLayout() {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    return (
+        <div className="admin-layout">
+            <button
+                className="sidebar-toggle"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                aria-label="Toggle navigation"
+            >
+                {sidebarOpen ? '\u2715' : '\u2630'}
+            </button>
+            <div
+                className={`sidebar-backdrop ${sidebarOpen ? 'sidebar-backdrop-visible' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+            />
+            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            <main className="admin-main">
+                <Routes>
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/participants" element={<ParticipantsPage />} />
+                    <Route path="/groups" element={<GroupsPage />} />
+                    <Route path="/seasons" element={<SeasonsPage />} />
+                    <Route path="/tasks" element={<TasksPage />} />
+                    <Route path="/assignments" element={<AssignmentsPage />} />
+                    <Route path="/review" element={<ReviewPage />} />
+                    <Route path="/feedback" element={<FeedbackPage />} />
+                    <Route path="/support" element={<SupportPage />} />
+                    <Route path="/matching" element={<MatchingPage />} />
+                </Routes>
+            </main>
+        </div>
+    );
+}
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
     const { isLoading, isAuthenticated } = useConvexAuth();
@@ -60,24 +97,7 @@ function App() {
                     path="/*"
                     element={
                         <AuthGuard>
-                            <div className="admin-layout">
-                                <Sidebar />
-                                <main className="admin-main">
-                                    <Routes>
-                                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                                        <Route path="/dashboard" element={<DashboardPage />} />
-                                        <Route path="/participants" element={<ParticipantsPage />} />
-                                        <Route path="/groups" element={<GroupsPage />} />
-                                        <Route path="/seasons" element={<SeasonsPage />} />
-                                        <Route path="/tasks" element={<TasksPage />} />
-                                        <Route path="/assignments" element={<AssignmentsPage />} />
-                                        <Route path="/review" element={<ReviewPage />} />
-                                        <Route path="/feedback" element={<FeedbackPage />} />
-                                        <Route path="/support" element={<SupportPage />} />
-                                        <Route path="/matching" element={<MatchingPage />} />
-                                    </Routes>
-                                </main>
-                            </div>
+                            <AdminLayout />
                         </AuthGuard>
                     }
                 />

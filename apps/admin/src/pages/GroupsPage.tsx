@@ -184,7 +184,7 @@ function GroupDetailModal({
                         <p style={{ color: 'var(--text-secondary)' }}><Trans>Group not found.</Trans></p>
                     ) : (
                         <>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                            <div className="detail-grid" style={{ marginBottom: 'var(--spacing-lg)' }}>
                                 <div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-xs)' }}>
                                         <Trans>Status</Trans>

@@ -10,6 +10,7 @@ import PaymentPage from './pages/PaymentPage';
 import TaskPage from './pages/TaskPage';
 import { UserHeader } from './components/UserHeader';
 import { UserFooter } from './components/UserFooter';
+import { AccessDenied } from './components/AccessDenied';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useTelegramAuth } from './hooks/useTelegramAuth';
 import { useLanguage } from './hooks/useLanguage';
@@ -19,7 +20,6 @@ function App() {
     const { telegramUser } = useTelegramAuth();
     const { isLoading } = useLanguage();
 
-    // Show loading state while i18n catalogs are loading
     if (isLoading) {
         return (
             <div className="loading">
@@ -28,23 +28,8 @@ function App() {
         );
     }
 
-    // In production, restrict access to users with a valid Telegram ID
     if (import.meta.env.PROD && !telegramUser?.id) {
-        return (
-            <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-                <div className="card" style={{ textAlign: 'center', maxWidth: '400px' }}>
-                    <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--primary-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto var(--spacing-md)' }}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="white" strokeWidth="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="white" strokeWidth="2"/></svg>
-                    </div>
-                    <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 600, marginBottom: 'var(--spacing-sm)', color: 'var(--text-primary)' }}>
-                        Доступ ограничен
-                    </h2>
-                    <p style={{ color: 'var(--text-secondary)' }}>
-                        Это приложение доступно только через Telegram
-                    </p>
-                </div>
-            </div>
-        );
+        return <AccessDenied />;
     }
 
     return (
