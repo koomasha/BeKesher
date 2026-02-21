@@ -45,7 +45,10 @@
       "Bash(curl:*)",
       "Bash(file:*)",
       "Bash(grep:*)",
-      "Bash(strings:*)"
+      "Bash(strings:*)",
+      "Bash(python3:*)",
+      "Bash(node -e:*)",
+      "Bash(unzip:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\tuk-tuk"

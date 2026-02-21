@@ -53,7 +53,7 @@ function GroupsPage() {
         <div className="page">
             <div className="page-header decorated-section">
                 <h1><Trans>Мои группы</Trans></h1>
-                <p><Trans>Общайся с новыми друзьями</Trans></p>
+                <p><Trans>Общайся с новыми людьми</Trans></p>
             </div>
 
             {enrollment && (

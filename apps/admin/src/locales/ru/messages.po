@@ -175,7 +175,7 @@ msgstr "8+ (Отлично)"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:553
 msgid "About"
-msgstr ""
+msgstr "О себе"
 
 #: apps/admin/src/pages/GroupsPage.tsx:84
 #: apps/admin/src/pages/ParticipantsPage.tsx:179
@@ -218,12 +218,12 @@ msgstr "Активность"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:638
 msgid "Add private notes about this participant..."
-msgstr ""
+msgstr "Добавьте заметки об этом участнике..."
 
 #: apps/admin/src/pages/SeasonsPage.tsx:541
 #: apps/admin/src/pages/TasksPage.tsx:303
 msgid "Admin Comments"
-msgstr ""
+msgstr "Комментарии администратора"
 
 #: apps/admin/src/components/Sidebar.tsx:20
 msgid "Admin Dashboard"
@@ -231,7 +231,7 @@ msgstr "Панель администратора"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:623
 msgid "Admin Notes"
-msgstr ""
+msgstr "Заметки администратора"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:172
 #: apps/admin/src/pages/ParticipantsPage.tsx:533
@@ -255,7 +255,7 @@ msgstr "Все"
 
 #: apps/admin/src/pages/MatchingPage.tsx:111
 msgid "All enrolled participants are in active groups."
-msgstr ""
+msgstr "Все зарегистрированные участники находятся в активных группах."
 
 #: apps/admin/src/pages/AssignmentsPage.tsx:206
 msgid "Already assigned"
@@ -292,7 +292,7 @@ msgstr "Назначить выбранным группам"
 
 #: apps/admin/src/pages/GroupsPage.tsx:234
 msgid "Assigned Task"
-msgstr ""
+msgstr "Назначенное задание"
 
 #: apps/admin/src/pages/AssignmentsPage.tsx:152
 msgid "Assigning..."
@@ -304,15 +304,15 @@ msgstr "назначений"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:653
 msgid "Auto-saves 1 second after you stop typing"
-msgstr ""
+msgstr "Автосохранение через 1 секунду после ввода"
 
 #: apps/admin/src/pages/MatchingPage.tsx:70
 msgid "Available for Matching"
-msgstr ""
+msgstr "Доступны для подбора"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:534
 msgid "Birth Date"
-msgstr ""
+msgstr "Дата рождения"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:317
 msgid "Brief description of the season (optional)"
@@ -340,7 +340,7 @@ msgstr "Центр"
 #: apps/admin/src/pages/ParticipantsPage.tsx:464
 #: apps/admin/src/pages/ParticipantsPage.tsx:537
 msgid "City"
-msgstr ""
+msgstr "Город"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:679
 #: apps/admin/src/pages/SupportPage.tsx:154
@@ -458,16 +458,16 @@ msgstr "Легкая"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:671
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:411
 msgid "Edit Participant"
-msgstr ""
+msgstr "Редактировать участника"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:442
 #: apps/admin/src/pages/ParticipantsPage.tsx:532
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:65
 #: apps/admin/src/pages/SeasonsPage.tsx:460
@@ -480,7 +480,7 @@ msgstr "Дата окончания будет автоматически уст
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:666
 msgid "Enroll in"
-msgstr ""
+msgstr "Записать в"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:66
 #: apps/admin/src/pages/SeasonsPage.tsx:468
@@ -489,11 +489,11 @@ msgstr "Записано"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:487
 msgid "Enrolled Participants"
-msgstr ""
+msgstr "Зарегистрированные участники"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:665
 msgid "Enrolling..."
-msgstr ""
+msgstr "Запись..."
 
 #: apps/admin/src/pages/TasksPage.tsx:504
 msgid "Enter a descriptive task title"
@@ -525,11 +525,11 @@ msgstr "Отзывы"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:482
 msgid "Female"
-msgstr ""
+msgstr "Женщина"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:99
 msgid "Filter by #..."
-msgstr ""
+msgstr "Фильтр по #..."
 
 #: apps/admin/src/pages/TasksPage.tsx:563
 msgid "Friendship"
@@ -544,11 +544,11 @@ msgstr "Пол"
 
 #: apps/admin/src/pages/GroupsPage.tsx:175
 msgid "Group Details"
-msgstr ""
+msgstr "Детали группы"
 
 #: apps/admin/src/pages/GroupsPage.tsx:184
 msgid "Group not found."
-msgstr ""
+msgstr "Группа не найдена."
 
 #: apps/admin/src/pages/FeedbackPage.tsx:51
 msgid "Group Status:"
@@ -606,7 +606,7 @@ msgstr "Загрузка..."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:481
 msgid "Male"
-msgstr ""
+msgstr "Мужчина"
 
 #: apps/admin/src/pages/MatchingPage.tsx:40
 msgid "Matching failed. Check console for details."
@@ -675,7 +675,7 @@ msgstr "Назначения не найдены."
 #: apps/admin/src/pages/SeasonsPage.tsx:565
 #: apps/admin/src/pages/TasksPage.tsx:327
 msgid "No comments yet"
-msgstr ""
+msgstr "Комментариев пока нет"
 
 #: apps/admin/src/components/LoginPage.tsx:66
 msgid "No credential received. Please try again."
@@ -695,7 +695,7 @@ msgstr "Групп пока нет."
 
 #: apps/admin/src/pages/SeasonsPage.tsx:491
 msgid "No participants enrolled yet."
-msgstr ""
+msgstr "Пока нет зарегистрированных участников."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:163
 msgid "No participants found."
@@ -728,13 +728,13 @@ msgstr "Не завершено"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:574
 msgid "Not enrolled in any season."
-msgstr ""
+msgstr "Не записан ни в один сезон."
 
 #: apps/admin/src/pages/MatchingPage.tsx:76
 #: apps/admin/src/pages/ParticipantsPage.tsx:506
 #: apps/admin/src/pages/ParticipantsPage.tsx:539
 msgid "On Pause"
-msgstr ""
+msgstr "На паузе"
 
 #: apps/admin/src/pages/TasksPage.tsx:271
 #: apps/admin/src/pages/TasksPage.tsx:520
@@ -763,7 +763,7 @@ msgstr "Необязательный отзыв для участника"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:483
 msgid "Other"
-msgstr ""
+msgstr "Другое"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:178
 #: apps/admin/src/pages/ParticipantsPage.tsx:542
@@ -772,11 +772,11 @@ msgstr "Оплачено до"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:411
 msgid "Participant Details"
-msgstr ""
+msgstr "Детали участника"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:420
 msgid "Participant not found."
-msgstr ""
+msgstr "Участник не найден."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:85
 msgid "Participants"
@@ -788,7 +788,7 @@ msgstr "Участники на паузе исключаются"
 
 #: apps/admin/src/pages/MatchingPage.tsx:59
 msgid "Participants Without Active Group"
-msgstr ""
+msgstr "Участники без активной группы"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:177
 msgid "Paused"
@@ -806,7 +806,7 @@ msgstr "Philosophy"
 #: apps/admin/src/pages/ParticipantsPage.tsx:433
 #: apps/admin/src/pages/ParticipantsPage.tsx:531
 msgid "Phone"
-msgstr ""
+msgstr "Телефон"
 
 #: apps/admin/src/pages/ReviewPage.tsx:197
 #~ msgid "photo(s) submitted"
@@ -832,11 +832,11 @@ msgstr "Баллы для награждения"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:626
 msgid "Private - visible only to admins"
-msgstr ""
+msgstr "Приватно — видно только администраторам"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:561
 msgid "Profession"
-msgstr ""
+msgstr "Профессия"
 
 #: apps/admin/src/pages/TasksPage.tsx:80
 #: apps/admin/src/pages/TasksPage.tsx:559
@@ -867,7 +867,7 @@ msgstr "Регион:"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:546
 msgid "Registered"
-msgstr ""
+msgstr "Зарегистрирован"
 
 #: apps/admin/src/pages/ReviewPage.tsx:40
 msgid "Rejected"
@@ -904,30 +904,30 @@ msgstr "Запустить подбор"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:522
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:522
 #: apps/admin/src/pages/ParticipantsPage.tsx:630
 msgid "Saving..."
-msgstr ""
+msgstr "Сохранение..."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:151
 msgid "Search by name..."
-msgstr ""
+msgstr "Поиск по имени..."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:145
 msgid "Search:"
-msgstr ""
+msgstr "Поиск:"
 
 #: apps/admin/src/pages/GroupsPage.tsx:81
 #: apps/admin/src/pages/GroupsPage.tsx:214
 #: apps/admin/src/pages/ParticipantsPage.tsx:176
 msgid "Season"
-msgstr ""
+msgstr "Сезон"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:427
 msgid "Season Details"
-msgstr ""
+msgstr "Детали сезона"
 
 #: apps/admin/src/components/Sidebar.tsx:47
 msgid "Season Flow"
@@ -935,7 +935,7 @@ msgstr "Поток сезонов"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:568
 msgid "Season History"
-msgstr ""
+msgstr "История сезонов"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:298
 msgid "Season Name"
@@ -943,17 +943,17 @@ msgstr "Название сезона"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:438
 msgid "Season not found."
-msgstr ""
+msgstr "Сезон не найден."
 
 #: apps/admin/src/pages/GroupsPage.tsx:48
 #: apps/admin/src/pages/ParticipantsPage.tsx:130
 msgid "Season:"
-msgstr ""
+msgstr "Сезон:"
 
 #. placeholder {0}: activeSeason.name
 #: apps/admin/src/pages/MatchingPage.tsx:62
 msgid "Season: {0}"
-msgstr ""
+msgstr "Сезон: {0}"
 
 #: apps/admin/src/pages/SeasonsPage.tsx:23
 msgid "Seasons"
@@ -965,7 +965,7 @@ msgstr "Выбрать группы"
 
 #: apps/admin/src/pages/GroupsPage.tsx:294
 msgid "Select status..."
-msgstr ""
+msgstr "Выберите статус..."
 
 #: apps/admin/src/pages/AssignmentsPage.tsx:43
 msgid "Select Task to Assign"
@@ -978,7 +978,7 @@ msgstr "выбрано"
 #: apps/admin/src/pages/SeasonsPage.tsx:672
 #: apps/admin/src/pages/TasksPage.tsx:434
 msgid "Send"
-msgstr ""
+msgstr "Отправить"
 
 #: apps/admin/src/pages/SupportPage.tsx:132
 msgid "Send Answer"
@@ -987,7 +987,7 @@ msgstr "Отправить ответ"
 #: apps/admin/src/pages/SeasonsPage.tsx:672
 #: apps/admin/src/pages/TasksPage.tsx:434
 msgid "Sending..."
-msgstr ""
+msgstr "Отправка..."
 
 #: apps/admin/src/components/LoginPage.tsx:158
 msgid "Sign in with your Google account to continue"
@@ -1093,7 +1093,7 @@ msgstr "Проверка заданий"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:530
 msgid "Telegram ID"
-msgstr ""
+msgstr "Telegram ID"
 
 #: apps/admin/src/pages/MatchingPage.tsx:120
 msgid "This will run the matching algorithm to create new groups for this week. The algorithm works in 5 stages:"
@@ -1141,15 +1141,15 @@ msgstr "Не подобранные участники:"
 
 #: apps/admin/src/pages/GroupsPage.tsx:304
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: apps/admin/src/pages/GroupsPage.tsx:285
 msgid "Update Status"
-msgstr ""
+msgstr "Обновить статус"
 
 #: apps/admin/src/pages/GroupsPage.tsx:304
 msgid "Updating..."
-msgstr ""
+msgstr "Обновление..."
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:243
 #: apps/admin/src/pages/SeasonsPage.tsx:95
@@ -1189,7 +1189,7 @@ msgstr "Готовы встретиться снова: {0}"
 #: apps/admin/src/pages/SeasonsPage.tsx:657
 #: apps/admin/src/pages/TasksPage.tsx:419
 msgid "Write a comment..."
-msgstr ""
+msgstr "Написать комментарий..."
 
 #: apps/admin/src/pages/SeasonsPage.tsx:221
 msgid "Введите <0>закрыть {seasonName}</0> для подтверждения:"

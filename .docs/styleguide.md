@@ -67,7 +67,7 @@ Before finalizing any design, ask: "Does this feel like a living room or an offi
 
 ## 2. LOGO — EXACT SVG (use as-is, do not recreate or approximate)
 
-The logo is a network/community graph with a central "B" node surrounded by colored satellite nodes connected by lines. **Always embed this exact SVG. Never try to redraw, simplify, or reinterpret it.**
+The logo is a network/community graph with a central "T" node surrounded by colored satellite nodes connected by lines. **Always embed this exact SVG. Never try to redraw, simplify, or reinterpret it.**
 
 ### 2A. Full-Color Logo (default — use on light backgrounds)
 
@@ -96,13 +96,13 @@ The logo is a network/community graph with a central "B" node surrounded by colo
   <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.3"/>
   <line x1="60" y1="58" x2="55" y2="115" stroke="#005871" stroke-width="1" opacity="0.15"/>
   <line x1="150" y1="58" x2="148" y2="120" stroke="#005871" stroke-width="1" opacity="0.15"/>
-  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#fff" text-anchor="middle">B</text>
+  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#fff" text-anchor="middle">T</text>
 </svg>
 ```
 
 ### 2B. Dark Background Logo (use on #005871, #1A1A1A, or any dark background)
 
-Key differences from light version: central node is **white** (not brand blue), "B" letter is **#005871** (not white), satellite opacities are boosted for visibility, connection lines are brighter, secondary cross-links use white instead of brand blue.
+Key differences from light version: central node is **white** (not brand blue), "T" letter is **#005871** (not white), satellite opacities are boosted for visibility, connection lines are brighter, secondary cross-links use white instead of brand blue.
 
 ```svg
 <svg viewBox="38 40 128 115" width="128" height="115" xmlns="http://www.w3.org/2000/svg">
@@ -129,17 +129,17 @@ Key differences from light version: central node is **white** (not brand blue), 
   <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.4"/>
   <line x1="60" y1="58" x2="55" y2="115" stroke="#FFFFFF" stroke-width="1" opacity="0.1"/>
   <line x1="150" y1="58" x2="148" y2="120" stroke="#FFFFFF" stroke-width="1" opacity="0.1"/>
-  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#005871" text-anchor="middle">B</text>
+  <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#005871" text-anchor="middle">T</text>
 </svg>
 ```
 
 ### 2C. Logo Usage Rules
 
 - **Light backgrounds (#F7F4F0, #FFFFFF, #EDF8F9):** Use the light logo from Section 2A.
-- **Dark backgrounds (#005871, #1A1A1A, or any dark color):** Use the dark variant from Section 2B (white center node, brand-colored "B").
+- **Dark backgrounds (#005871, #1A1A1A, or any dark color):** Use the dark variant from Section 2B (white center node, brand-colored "T").
 - **Navbar / header:** Place logo SVG inline at `width="36" height="32"` to `width="48" height="43"`, followed by the wordmark **בקשר** in Rubik Bold, color `#005871` (light bg) or `#F0F0F0` (dark bg).
 - **Splash / hero:** Use larger at `width="128" height="115"` or scale proportionally.
-- **Favicon:** Use only the central node (circle `#005871` with white "B") at 32×32.
+- **Favicon:** Use only the central node (circle `#005871` with white "T") at 32×32.
 - **Minimum size:** Never render below `width="28"`.
 - **Clear space:** Maintain padding equal to the radius of the central node on all sides.
 - **DO NOT** add drop shadows, outlines, backgrounds, or any effects to the logo.
@@ -445,7 +445,7 @@ When implementing dark mode, remap as follows:
 | Borders | `#E0E0E0` | `#3A3A3A` |
 | Shadows | `rgba(0,88,113,0.06)` | `rgba(0,0,0,0.3)` |
 
-The logo switches to the **dark variant** (Section 2B) on dark backgrounds — white center node, brand-colored "B". The satellite nodes and connection lines remain full-color on both themes.
+The logo switches to the **dark variant** (Section 2B) on dark backgrounds — white center node, brand-colored "T". The satellite nodes and connection lines remain full-color on both themes.
 
 ---
 

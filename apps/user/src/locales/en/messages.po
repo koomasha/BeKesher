@@ -56,15 +56,15 @@ msgstr "{displayAge} years old"
 
 #: apps/user/src/pages/ProfilePage.tsx:200
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: apps/user/src/pages/OnboardingPage.tsx:306
 msgid "Email (опционально)"
-msgstr ""
+msgstr "Email (optional)"
 
 #: apps/user/src/pages/OnboardingPage.tsx:312
 msgid "example@email.com"
-msgstr ""
+msgstr "example@email.com"
 
 #. placeholder {0}: index + 1
 #: apps/user/src/pages/FeedbackPage.tsx:401
@@ -73,7 +73,7 @@ msgstr "Preview {0}"
 
 #: apps/user/src/pages/TaskPage.tsx:140
 msgid "Администратор скоро проверит выполнение"
-msgstr "Администратор скоро проверит выполнение"
+msgstr "Admin will review your submission soon"
 
 #: apps/user/src/pages/HomePage.tsx:203
 #~ msgid "Активен"
@@ -113,7 +113,7 @@ msgstr "Age"
 
 #: apps/user/src/pages/OnboardingPage.tsx:393
 msgid "Вы можете изменить это в любое время в настройках профиля"
-msgstr ""
+msgstr "You can change this at any time in your profile settings"
 
 #: apps/user/src/pages/FeedbackPage.tsx:316
 msgid "Выбери группу для оценки:"
@@ -134,7 +134,7 @@ msgstr "Select your goal"
 
 #: apps/user/src/pages/TaskPage.tsx:153
 msgid "Выполни задание вместе с группой"
-msgstr "Выполни задание вместе с группой"
+msgstr "Complete the task together with your group"
 
 #: apps/user/src/pages/HomePage.tsx:18
 msgid "Готовим сюрпризы..."
@@ -213,7 +213,7 @@ msgstr "Upload a photo from your meetup"
 
 #: apps/user/src/pages/TaskPage.tsx:264
 msgid "Загрузить фото"
-msgstr "Загрузить фото"
+msgstr "Upload photo"
 
 #: apps/user/src/pages/ProfilePage.tsx:57
 msgid "Загрузка профиля..."
@@ -227,12 +227,12 @@ msgstr "Ask a question"
 #: apps/user/src/pages/TaskPage.tsx:131
 #: apps/user/src/pages/TaskPage.tsx:152
 msgid "Задание"
-msgstr "Задание"
+msgstr "Task"
 
 #. placeholder {0}: assignment.pointsAwarded
 #: apps/user/src/pages/TaskPage.tsx:218
 msgid "Задание выполнено! +{0} баллов"
-msgstr "Задание выполнено! +{0} баллов"
+msgstr "Task completed! +{0} points"
 
 #: apps/user/src/pages/TaskPage.tsx:165
 #~ msgid "Задание скоро откроется"
@@ -240,7 +240,7 @@ msgstr "Задание выполнено! +{0} баллов"
 
 #: apps/user/src/pages/TaskPage.tsx:115
 msgid "Задания назначаются после формирования группы"
-msgstr "Задания назначаются после формирования группы"
+msgstr "Tasks are assigned after groups are formed"
 
 #: apps/user/src/pages/HomePage.tsx:262
 msgid "Записаться"
@@ -288,7 +288,7 @@ msgstr "Name is required"
 
 #: apps/user/src/pages/TaskPage.tsx:174
 msgid "Инструкции:"
-msgstr "Инструкции:"
+msgstr "Instructions:"
 
 #: apps/user/src/pages/HomePage.tsx:17
 msgid "Ищем интересных людей рядом..."
@@ -297,7 +297,7 @@ msgstr "Finding interesting people nearby..."
 #: apps/user/src/pages/TaskPage.tsx:120
 #: apps/user/src/pages/TaskPage.tsx:304
 msgid "К группам"
-msgstr "К группам"
+msgstr "To groups"
 
 #: apps/user/src/pages/FeedbackPage.tsx:434
 msgid "Как задание повлияло на ваше общение?"
@@ -305,7 +305,7 @@ msgstr "How did the task affect your conversation?"
 
 #: apps/user/src/pages/TaskPage.tsx:189
 msgid "Как отчитаться:"
-msgstr "Как отчитаться:"
+msgstr "How to report:"
 
 #: apps/user/src/pages/OnboardingPage.tsx:471
 msgid "Каких людей хочешь встретить, что важно, ожидания *"
@@ -321,7 +321,7 @@ msgstr "Capricorn"
 
 #: apps/user/src/pages/TaskPage.tsx:207
 msgid "Комментарий проверяющего:"
-msgstr "Комментарий проверяющего:"
+msgstr "Reviewer comment:"
 
 #: apps/user/src/pages/ProfilePage.tsx:31
 msgid "Лев"
@@ -373,7 +373,7 @@ msgstr "Home"
 
 #: apps/user/src/pages/TaskPage.tsx:163
 msgid "На доработку"
-msgstr "На доработку"
+msgstr "Needs revision"
 
 #: apps/user/src/pages/GroupsPage.tsx:101
 msgid "На этой неделе пока нет группы"
@@ -414,7 +414,7 @@ msgstr "Setting up the magic of connection..."
 
 #: apps/user/src/pages/TaskPage.tsx:165
 msgid "Не выполнено"
-msgstr "Не выполнено"
+msgstr "Not completed"
 
 #: apps/user/src/pages/FeedbackPage.tsx:461
 msgid "Не очень подошло"
@@ -422,7 +422,7 @@ msgstr "Didn't fit well"
 
 #: apps/user/src/pages/ProfilePage.tsx:208
 msgid "Не разрешено"
-msgstr ""
+msgstr "Not allowed"
 
 #: apps/user/src/pages/SupportPage.tsx:47
 msgid "Не удалось отправить вопрос. Попробуйте ещё раз."
@@ -434,7 +434,7 @@ msgstr "Failed to submit feedback. Please try again."
 
 #: apps/user/src/pages/TaskPage.tsx:79
 msgid "Не удалось отправить. Попробуйте еще раз."
-msgstr "Не удалось отправить. Попробуйте еще раз."
+msgstr "Failed to send. Please try again."
 
 #: apps/user/src/pages/FeedbackPage.tsx:387
 msgid "Не хочу чтобы заканчивалась"
@@ -455,7 +455,7 @@ msgstr "No"
 
 #: apps/user/src/pages/TaskPage.tsx:113
 msgid "Нет активного задания"
-msgstr "Нет активного задания"
+msgstr "No active task"
 
 #: apps/user/src/pages/HomePage.tsx:273
 msgid "Нет активных сезонов. Скоро объявим новый!"
@@ -487,8 +487,8 @@ msgid "Обратная связь"
 msgstr "Feedback"
 
 #: apps/user/src/pages/GroupsPage.tsx:56
-msgid "Общайся с новыми друзьями"
-msgstr "Connect with new friends"
+msgid "Общайся с новыми людьми"
+msgstr "Connect with new people"
 
 #: apps/user/src/pages/ProfilePage.tsx:27
 msgid "Овен"
@@ -496,7 +496,7 @@ msgstr "Aries"
 
 #: apps/user/src/pages/TaskPage.tsx:161
 msgid "Ожидает"
-msgstr "Ожидает"
+msgstr "Pending"
 
 #: apps/user/src/pages/OnboardingPage.tsx:466
 msgid "Ожидания"
@@ -524,7 +524,7 @@ msgstr "Feedback"
 
 #: apps/user/src/pages/TaskPage.tsx:164
 msgid "Отклонено"
-msgstr "Отклонено"
+msgstr "Rejected"
 
 #: apps/user/src/pages/TaskPage.tsx:168
 #~ msgid "Откроется: {0}"
@@ -552,7 +552,7 @@ msgstr "Submit question"
 
 #: apps/user/src/pages/TaskPage.tsx:285
 msgid "Отправить отчёт"
-msgstr "Отправить отчёт"
+msgstr "Submit report"
 
 #: apps/user/src/pages/FeedbackPage.tsx:554
 #: apps/user/src/pages/SupportPage.tsx:86
@@ -562,15 +562,15 @@ msgstr "Sending..."
 
 #: apps/user/src/pages/TaskPage.tsx:227
 msgid "Отчёт о выполнении"
-msgstr "Отчёт о выполнении"
+msgstr "Completion report"
 
 #: apps/user/src/pages/TaskPage.tsx:298
 msgid "Отчёт отправлен, ожидает проверки"
-msgstr "Отчёт отправлен, ожидает проверки"
+msgstr "Report submitted, awaiting review"
 
 #: apps/user/src/pages/TaskPage.tsx:139
 msgid "Отчёт отправлен!"
-msgstr "Отчёт отправлен!"
+msgstr "Report submitted!"
 
 #: apps/user/src/pages/OnboardingPage.tsx:249
 msgid "Ошибка: {errorMessage}"
@@ -582,7 +582,7 @@ msgstr "Error: could not get Telegram ID. Open the app from Telegram."
 
 #: apps/user/src/pages/GroupsPage.tsx:92
 msgid "Перейти к заданию"
-msgstr "Перейти к заданию"
+msgstr "Go to task"
 
 #: apps/user/src/pages/HomePage.tsx:20
 msgid "Перемешиваем участников..."
@@ -626,8 +626,8 @@ msgid "Пожалуйста, проверьте правильность дат�
 msgstr "Please check the date is correct"
 
 #: apps/user/src/pages/OnboardingPage.tsx:80
-msgid "Познать себя и людей рядом"
-msgstr "Get to know myself and people around me"
+msgid "Узнать себя и других с новой стороны"
+msgstr "Discover yourself and others from a new perspective"
 
 #: apps/user/src/pages/ProfilePage.tsx:196
 msgid "Пол"
@@ -655,7 +655,7 @@ msgstr "Coming up with fun activities..."
 
 #: apps/user/src/pages/TaskPage.tsx:162
 msgid "Принято"
-msgstr "Принято"
+msgstr "Accepted"
 
 #: apps/user/src/pages/HomePage.tsx:22
 msgid "Проверяем совпадения..."
@@ -687,7 +687,7 @@ msgstr "Past Groups"
 
 #: apps/user/src/pages/ProfilePage.tsx:207
 msgid "Разрешено"
-msgstr ""
+msgstr "Allowed"
 
 #: apps/user/src/pages/ProfilePage.tsx:30
 msgid "Рак"
@@ -695,7 +695,7 @@ msgstr "Cancer"
 
 #: apps/user/src/pages/TaskPage.tsx:235
 msgid "Расскажи, как вы выполнили задание..."
-msgstr "Расскажи, как вы выполнили задание..."
+msgstr "Tell us how you completed the task..."
 
 #: apps/user/src/pages/FeedbackPage.tsx:526
 msgid "Расскажи, что можно улучшить..."
@@ -736,7 +736,7 @@ msgstr "Pisces"
 
 #: apps/user/src/pages/TaskPage.tsx:289
 msgid "С фото: 10 баллов | Только текст: 5 баллов"
-msgstr "С фото: 10 баллов | Только текст: 5 баллов"
+msgstr "With photo: 10 points | Text only: 5 points"
 
 #. placeholder {0}: group.members.join(', ')
 #: apps/user/src/pages/FeedbackPage.tsx:330
@@ -763,7 +763,7 @@ msgstr "Assembling a puzzle of people..."
 
 #: apps/user/src/pages/ProfilePage.tsx:204
 msgid "Согласие на публикацию фото"
-msgstr ""
+msgstr "Photo publication consent"
 
 #: apps/user/src/pages/OnboardingPage.tsx:531
 msgid "Сохранить"
@@ -824,11 +824,11 @@ msgstr "You earned 10 points!"
 #. placeholder {0}: index + 1
 #: apps/user/src/pages/TaskPage.tsx:247
 msgid "Фото {0}"
-msgstr "Фото {0}"
+msgstr "Photo {0}"
 
 #: apps/user/src/pages/TaskPage.tsx:241
 msgid "Фотографии (необязательно)"
-msgstr "Фотографии (необязательно)"
+msgstr "Photos (optional)"
 
 #: apps/user/src/pages/FeedbackPage.tsx:469
 msgid "Хочешь встретиться с этим партнером снова?"
@@ -877,4 +877,26 @@ msgstr "South"
 
 #: apps/user/src/pages/OnboardingPage.tsx:389
 msgid "Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk"
-msgstr ""
+msgstr "I consent to my photos being posted on Tuk-Tuk social media"
+
+#: apps/user/src/pages/OnboardingPage.tsx:389
+msgid "Согласен(а) на использование фото и видео с моим участием для публикаций и продвижения игры Tuk-Tuk"
+msgstr "I consent to the use of photos and videos with my participation for publications and promotion of Tuk-Tuk"
+
+#: apps/user/src/pages/OnboardingPage.tsx:398
+msgid "Регистрируясь, вы соглашаетесь с"
+msgstr "By registering, you agree to the"
+
+#: apps/user/src/pages/OnboardingPage.tsx:400
+#: apps/user/src/components/UserFooter.tsx:17
+msgid "Политикой конфиденциальности"
+msgstr "Privacy Policy"
+
+#: apps/user/src/pages/OnboardingPage.tsx:402
+msgid "и"
+msgstr "and"
+
+#: apps/user/src/pages/OnboardingPage.tsx:404
+#: apps/user/src/components/UserFooter.tsx:21
+msgid "Условиями использования"
+msgstr "Terms of Use"
