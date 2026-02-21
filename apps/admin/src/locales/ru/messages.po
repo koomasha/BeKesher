@@ -146,8 +146,8 @@ msgid "🔄 Running..."
 msgstr "🔄 Выполняется..."
 
 #: apps/admin/src/components/Sidebar.tsx:15
-msgid "🔗 BeKesher"
-msgstr "🔗 BeKesher"
+msgid "🔗 Tuk-Tuk"
+msgstr "🔗 Tuk-Tuk"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:147
 msgid "🤝 Made it deeper"
@@ -285,8 +285,8 @@ msgid "assignments"
 msgstr "назначений"
 
 #: apps/admin/src/components/LoginPage.tsx:149
-msgid "BeKesher Admin"
-msgstr "BeKesher Администратор"
+msgid "Tuk-Tuk Admin"
+msgstr "Tuk-Tuk Администратор"
 
 #: apps/admin/src/pages/ParticipantsPage.tsx:410
 msgid "Birth Date"
@@ -1122,21 +1122,21 @@ msgstr "Готовы встретиться снова: {0}"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Закрыть сезон"
-msgstr ""
+msgstr "Закрыть сезон"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Это завершит сезон, отметит все записи как завершённые и закроет все активные группы."
-msgstr ""
+msgstr "Это завершит сезон, отметит все записи как завершённые и закроет все активные группы."
 
 #. placeholder {seasonName}: season name
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Введите <0>закрыть {seasonName}</0> для подтверждения:"
-msgstr ""
+msgstr "Введите <0>закрыть {seasonName}</0> для подтверждения:"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Отмена"
-msgstr ""
+msgstr "Отмена"
 
 #: apps/admin/src/pages/SeasonsPage.tsx
 msgid "Закрытие..."
-msgstr ""
+msgstr "Закрытие..."

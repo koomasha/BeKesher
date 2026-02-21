@@ -146,7 +146,6 @@ export const create = adminMutation({
       createdByEmail: ctx.adminEmail,
     });
 
-    console.log("✅ Task created:", args.title);
     return taskId;
   },
 });

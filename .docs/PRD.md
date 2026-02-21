@@ -1,4 +1,4 @@
-# BeKesher - Product Requirements Document
+# Tuk-Tuk - Product Requirements Document
 
 **Version:** 1.0  
 **Date:** 2026-02-07  
@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-**BeKesher** (בְּקֶשֶׁר — "In Touch") is an automated networking and socialization platform designed specifically for new immigrants in Israel. The application facilitates meaningful connections through weekly task-based meetups and gamified social interactions.
+**Tuk-Tuk** is an automated networking and socialization platform designed specifically for new immigrants in Israel. The application facilitates meaningful connections through weekly task-based meetups and gamified social interactions.
 
 The current system operates as a **No-Code/Low-Code MVP** built on Telegram, Make.com, Airtable, and Google Apps Script. This PRD outlines the complete rebuild of the platform using a modern, scalable full-stack architecture with **Convex** as the backend, replacing the existing fragmented infrastructure. The new system will include a dedicated **User UI** (replacing Fillout forms) and an **Admin Panel** (replacing Airtable management).
 
@@ -182,7 +182,7 @@ Deliver a production-ready application with Convex backend, user-facing web inte
 ### Directory Structure
 
 ```
-bekesher/
+tuk-tuk/
 ├── .docs/                      # Documentation
 │   ├── PRD.md                  # This document
 │   └── brainstorming/          # Design discussions

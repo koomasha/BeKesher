@@ -830,8 +830,6 @@ export const migrateSocialMediaConsent = internalMutation({
             }
         }
 
-        console.log(`Migration complete: ${updated} participants updated, ${skipped} already had the field`);
-
         return { updated, skipped };
     },
 });

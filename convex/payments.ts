@@ -143,7 +143,7 @@ export const createPaymentLink = userAction({
                         },
                         items: [
                             {
-                                name: `BeKesher Subscription - ${args.months} month(s)`,
+                                name: `Tuk-Tuk Subscription - ${args.months} month(s)`,
                                 quantity: 1,
                                 price: args.amount,
                             },

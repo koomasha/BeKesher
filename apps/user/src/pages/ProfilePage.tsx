@@ -118,7 +118,7 @@ function ProfilePage() {
                 <div className="profile-header">
                     <div>
                         <h1><Trans>Мой профиль</Trans></h1>
-                        <p className="profile-subtitle">BeKesher</p>
+                        <p className="profile-subtitle">Tuk-Tuk</p>
                     </div>
                     <Logo size={64} />
                 </div>

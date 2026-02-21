@@ -14,7 +14,6 @@ import { ConvexError } from "convex/values";
 const ADMIN_EMAILS: readonly string[] = [
     "masha@koomasha.com",
     "migdalor80@gmail.com",
-    "alisazelencova8@gmail.com",
     "brookyuri@gmail.com",
 ] as const;
 

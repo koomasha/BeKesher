@@ -1,4 +1,4 @@
-# Ручное тестирование BeKesher
+# Ручное тестирование Tuk-Tuk
 
 > После запуска `npm run seed` база содержит тестовые данные для всех сценариев ниже.
 > Bypass-токены для пользователей: `dev-token-anna` (Центр), `dev-token-igor` (Север), `dev-token-svetlana` (Юг), `dev-token-lead` (Lead).

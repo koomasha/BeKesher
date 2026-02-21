@@ -156,7 +156,7 @@ export const resetAndSeed = internalMutation({
 
         const seasonId = await ctx.db.insert("seasons", {
             name: "Зимний сезон 2026",
-            description: "Первый сезон BeKesher — зима 2026",
+            description: "Первый сезон Tuk-Tuk — зима 2026",
             startDate: seasonStart,
             endDate: seasonEnd,
             status: "Active",

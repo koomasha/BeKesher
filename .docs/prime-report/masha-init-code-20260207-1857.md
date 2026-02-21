@@ -1,4 +1,4 @@
-# Prime Report: BeKesher
+# Prime Report: Tuk-Tuk
 
 **Branch:** `masha/init-code`
 **Date:** 2026-02-07 18:57
@@ -9,7 +9,7 @@
 ## Project Overview
 
 - **Purpose:** Automated networking/socialization platform for new immigrants in Israel. Connects people through weekly task-based group meetups via a Telegram Mini App.
-- **Name:** BeKesher (Hebrew: "In Touch")
+- **Name:** Tuk-Tuk (Hebrew: "In Touch")
 - **Current State:** MVP / Foundation phase. Full codebase scaffolded (backend + two frontends). Not yet deployed or tested against live data.
 - **Origin:** Migrating from a no-code stack (Make.com + Airtable + Google Apps Script + Fillout forms + Telegram Bot) to a modern full-stack architecture.
 - **Active Users (legacy):** ~73 active participants, ~85 total registered
@@ -24,7 +24,7 @@
 **Monorepo** using npm workspaces with three main areas:
 
 ```
-bekesher/
+tuk-tuk/
 ├── convex/           # Serverless backend (Convex)
 ├── apps/
 │   ├── user/         # Telegram Mini App (React + Vite, port 5173)

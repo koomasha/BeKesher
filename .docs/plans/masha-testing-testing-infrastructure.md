@@ -6,7 +6,7 @@ Pay special attention to naming of existing utils types and models. Import from 
 
 ## Feature Description
 
-Establish a comprehensive testing infrastructure for the BeKesher project using Vitest and `convex-test`. This covers:
+Establish a comprehensive testing infrastructure for the Tuk-Tuk project using Vitest and `convex-test`. This covers:
 
 1. **Convex backend unit tests** for all 8 domain modules (participants, groups, matching, payments, feedback, support, notifications, crons)
 2. **HTTP endpoint tests** for webhook handlers (PayPlus, Telegram, health)
@@ -17,7 +17,7 @@ The PRD explicitly identifies "Algorithm Parity Failure" as Risk #1 (High Impact
 
 ## User Story
 
-As a **developer maintaining BeKesher**
+As a **developer maintaining Tuk-Tuk**
 I want to **have automated tests for all backend functions and critical business logic**
 So that **I can confidently make changes, catch regressions early, and validate matching algorithm correctness**
 

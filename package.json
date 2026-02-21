@@ -1,5 +1,5 @@
 {
-  "name": "bekesher",
+  "name": "tuk-tuk",
   "private": true,
   "workspaces": [
     "apps/*"

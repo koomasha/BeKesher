@@ -148,7 +148,7 @@ function HomePage() {
             <div className="page-header decorated-section">
                 <Logo size={120} className="home-logo" />
                 <h1><Trans>Привет, {firstName}!</Trans></h1>
-                <p><Trans>Добро пожаловать в BeKesher</Trans></p>
+                <p><Trans>Добро пожаловать в Tuk-Tuk</Trans></p>
             </div>
 
             {profile === undefined && isAuthenticated && (

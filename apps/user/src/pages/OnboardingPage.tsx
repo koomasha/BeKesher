@@ -386,7 +386,7 @@ function OnboardingPage() {
                         onChange={(e) => handleInputChange('socialMediaConsent', e.target.checked)}
                     />
                     <span>
-                        <Trans>Я согласен(на) на размещение моих фотографий в социальных сетях BeKesher</Trans>
+                        <Trans>Я согласен(на) на размещение моих фотографий в социальных сетях Tuk-Tuk</Trans>
                     </span>
                 </label>
                 <p className="form-hint">

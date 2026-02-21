@@ -10,17 +10,17 @@ Add the ability for participants to consent (or decline) to having their photogr
 
 ## User Story
 
-As a BeKesher participant
+As a Tuk-Tuk participant
 I want to control whether my photos can be posted on social media
 So that I maintain privacy control over my image and personal information
 
-As a BeKesher administrator
+As a Tuk-Tuk administrator
 I want to track changes to participant profile data
 So that I can ensure compliance, investigate issues, and maintain data integrity
 
 ## Problem Statement
 
-Currently, BeKesher has no mechanism for participants to consent to social media photo posting, which is a privacy concern and potential GDPR/compliance issue. Additionally, there's no audit trail for profile changes, making it difficult to track when and how participant data changes over time.
+Currently, Tuk-Tuk has no mechanism for participants to consent to social media photo posting, which is a privacy concern and potential GDPR/compliance issue. Additionally, there's no audit trail for profile changes, making it difficult to track when and how participant data changes over time.
 
 ## Solution Statement
 

@@ -230,7 +230,6 @@ export const create = adminMutation({
       createdByEmail: ctx.adminEmail,
     });
 
-    console.log("✅ Season created:", args.name);
     return seasonId;
   },
 });
@@ -306,8 +305,6 @@ export const activate = adminMutation({
       await ctx.db.patch(args.seasonId, { status: "Active" });
     }
 
-    console.log("✅ Season activated");
-
     return null;
   },
 });
@@ -364,7 +361,6 @@ export const complete = adminMutation({
       }
     }
 
-    console.log("✅ Season completed");
     return null;
   },
 });

@@ -1,4 +1,4 @@
-# BeKesher MVP
+# Tuk-Tuk MVP
 
 A networking platform that connects people through weekly meetups.
 
@@ -12,7 +12,7 @@ A networking platform that connects people through weekly meetups.
 ## Project Structure
 
 ```
-bekesher/
+tuk-tuk/
 ├── convex/              # Backend (Convex functions)
 │   ├── schema.ts        # Database schema
 │   ├── participants.ts  # User management

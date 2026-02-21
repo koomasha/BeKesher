@@ -320,7 +320,6 @@ export const assignToGroups = adminMutation({
       count++;
     }
 
-    console.log(`✅ Assigned task to ${count} groups`);
     return count;
   },
 });
@@ -372,7 +371,6 @@ export const reviewCompletion = adminMutation({
       }
     }
 
-    console.log(`✅ Task review: ${args.reviewStatus}`);
     return null;
   },
 });
@@ -436,7 +434,6 @@ export const submitCompletion = userMutation({
       submittedAt: Date.now(),
     });
 
-    console.log("✅ Task completion submitted");
     return null;
   },
 });

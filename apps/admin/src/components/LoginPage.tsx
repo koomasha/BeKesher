@@ -146,7 +146,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
                         marginBottom: "8px",
                     }}
                 >
-                    <Trans>BeKesher Admin</Trans>
+                    <Trans>Tuk-Tuk Admin</Trans>
                 </h1>
                 <p
                     style={{

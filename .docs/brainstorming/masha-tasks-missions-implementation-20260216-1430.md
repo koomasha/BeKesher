@@ -1,11 +1,11 @@
 # Date: 2026-02-16 14:30
 # Branch: masha/posting-consent
-# Brainstorm: Tasks/Missions Implementation for BeKesher
+# Brainstorm: Tasks/Missions Implementation for Tuk-Tuk
 # Status: ✅ Decision Made - Option B Selected
 
 ## The Idea
 
-Add a tasks/missions system to BeKesher where:
+Add a tasks/missions system to Tuk-Tuk where:
 - **Admin side**: Create, edit, and manage weekly tasks that groups complete
 - **User side**: View current week's task assigned to their group, submit completion reports with photos/feedback
 

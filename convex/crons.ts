@@ -61,9 +61,7 @@ export const weeklyCloseAndMatch = internalAction({
     args: {},
     returns: v.null(),
     handler: async (ctx) => {
-        // === STEP 1: Close current week ===
-        console.log("📦 Step 1: Closing current week...");
-
+        // Step 1: Close current week
         // Get all active groups before closing
         const activeGroups = await ctx.runQuery(
             internal.groups.getActiveGroupIds,
@@ -76,7 +74,6 @@ export const weeklyCloseAndMatch = internalAction({
                 internal.taskAssignments.markIncompleteAsNotCompleted,
                 { groupIds: activeGroups }
             );
-            console.log(`✅ Marked ${markedCount} incomplete tasks as NotCompleted`);
         }
 
         // Close all active groups
@@ -84,19 +81,14 @@ export const weeklyCloseAndMatch = internalAction({
             internal.groups.closeActiveGroups,
             {}
         );
-        console.log(`✅ Closed ${closedCount} active groups`);
 
         // TODO: Send feedback request notifications to all group members
 
-        // === STEP 2: Run matching for next week ===
-        console.log("🚀 Step 2: Running matching for next week...");
-
+        // Step 2: Run matching for next week
         const result = await ctx.runAction(
             internal.matching.runWeeklyMatching,
             {}
         );
-
-        console.log(`✅ Matching complete: ${result.groupsCreated} groups created, ${result.unpaired} unpaired`);
 
         return null;
     },

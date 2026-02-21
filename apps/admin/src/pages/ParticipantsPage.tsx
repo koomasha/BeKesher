@@ -447,7 +447,7 @@ function ParticipantDetailModal({
                                     onChange={(e) => setEditEmail(e.target.value)}
                                 />
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)' }}>
+                            <div className="form-row">
                                 <div className="form-group">
                                     <label className="form-label"><Trans>Region</Trans></label>
                                     <select
@@ -470,7 +470,7 @@ function ParticipantDetailModal({
                                     />
                                 </div>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)' }}>
+                            <div className="form-row">
                                 <div className="form-group">
                                     <label className="form-label"><Trans>Gender</Trans></label>
                                     <select
@@ -525,7 +525,7 @@ function ParticipantDetailModal({
                         </>
                     ) : (
                         <>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-md)' }}>
+                            <div className="detail-grid" style={{ marginBottom: 'var(--spacing-md)' }}>
                                 <DetailField label={_(t`Name`)} value={participant.name} />
                                 <DetailField label={_(t`Telegram ID`)} value={participant.telegramId} />
                                 <DetailField label={_(t`Phone`)} value={participant.phone} />

@@ -6,7 +6,7 @@ Pay special attention to naming of existing utils, types, and models. Import fro
 
 ## Feature Description
 
-Implement a comprehensive authentication and authorization layer for BeKesher that operates in three modes:
+Implement a comprehensive authentication and authorization layer for Tuk-Tuk that operates in three modes:
 
 1. **Production Mode** — Telegram Mini App `telegramToken` (Telegram's `initData`) HMAC-SHA256 validation **per-request in function wrappers** for user app; Google OAuth (Identity Services) for admin dashboard; secured Convex functions via custom middleware wrappers. Session-based auth is **blocked** in production.
 2. **Development Mode** — ngrok tunnel for local Telegram Mini App testing with real Telegram auth; Convex stays cloud-hosted. Both `telegramToken` and session-based auth are available (requires `AUTH_BYPASS_SECRET`).
@@ -20,7 +20,7 @@ So that user data is protected, admin operations are gated, and the system can b
 
 ## Problem Statement
 
-Currently, BeKesher has **zero authentication or authorization**. All Convex functions are public and accept a `telegramId` string parameter from the client without any server-side validation. Any client can call any function with any `telegramId`, accessing or modifying other users' data. The admin dashboard has no login gate. Webhooks are unauthenticated. The `initDataUnsafe` field used on the client is not cryptographically verified.
+Currently, Tuk-Tuk has **zero authentication or authorization**. All Convex functions are public and accept a `telegramId` string parameter from the client without any server-side validation. Any client can call any function with any `telegramId`, accessing or modifying other users' data. The admin dashboard has no login gate. Webhooks are unauthenticated. The `initDataUnsafe` field used on the client is not cryptographically verified.
 
 ## Solution Statement
 
@@ -46,7 +46,6 @@ For the initial implementation, admin authorization uses a **hardcoded list of a
 **Authorized admin emails:**
 - `masha@koomasha.com`
 - `migdalor80@gmail.com`
-- `alisazelencova8@gmail.com`
 - `brookyuri@gmail.com`
 
 The `adminQuery`/`adminMutation`/`adminAction` wrappers verify that `ctx.auth.getUserIdentity().email` is in this list. The `admins` table in the schema can still exist for storing admin profile metadata (name, picture) but is **not** used for authorization decisions.
@@ -378,7 +377,7 @@ IMPORTANT: Execute every task in order, top to bottom. Each task is atomic and i
 ### Task 13: CREATE `apps/admin/src/components/LoginPage.tsx`
 
 - **IMPLEMENT**: Create a login page with:
-  - Centered card layout with BeKesher branding
+  - Centered card layout with Tuk-Tuk branding
   - `<GoogleLogin>` component from `@react-oauth/google`
   - Success handler that stores the credential JWT
   - Error handling for failed login

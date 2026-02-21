@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-BeKesher is a networking platform that connects people through weekly meetups. It consists of a Convex serverless backend, a user-facing Telegram Mini App, and an admin dashboard.
+Tuk-Tuk is a networking platform that connects people through weekly meetups. It consists of a Convex serverless backend, a user-facing Telegram Mini App, and an admin dashboard.
 
 ## Commands
 

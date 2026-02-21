@@ -12,7 +12,7 @@ Redesign the user feedback form to match the reference form (Fillout-based). The
 
 ## User Story
 
-As a BeKesher participant
+As a Tuk-Tuk participant
 I want to submit detailed feedback about my weekly meetup through a guided multi-step form
 So that the organizers get richer data about meeting quality and I can share photos from the meetup
 
