@@ -42,7 +42,10 @@
       "WebFetch(domain:docs.payplus.co.il)",
       "WebFetch(domain:jsapi.apiary.io)",
       "mcp__convex__envGet",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(file:*)",
+      "Bash(grep:*)",
+      "Bash(strings:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\KooMa\\src\\tuk-tuk"
