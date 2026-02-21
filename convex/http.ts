@@ -21,12 +21,35 @@ http.route({
     handler: httpAction(async (ctx, req) => {
         try {
             const body = await req.json();
+            console.log("PayPlus callback received:", JSON.stringify(body));
 
             // Extract payment details from PayPlus callback
             const status = body.transaction?.status_code;
             const transactionId = body.transaction?.uid;
-            const participantId = body.more_info as Id<"participants"> | undefined;
             const amount = body.transaction?.amount;
+
+            // Parse more_info: can be JSON (new format) or plain participantId (legacy)
+            let participantId: Id<"participants"> | undefined;
+            let seasonId: string | undefined;
+            const moreInfo = body.transaction?.more_info || body.more_info;
+
+            if (moreInfo) {
+                try {
+                    // PayPlus may double-escape the JSON string, so try cleaning it
+                    const cleaned = typeof moreInfo === "string"
+                        ? moreInfo.replace(/\\\\/g, "\\").replace(/\\"/g, '"')
+                        : moreInfo;
+                    const toParse = typeof cleaned === "string" ? cleaned : JSON.stringify(cleaned);
+                    const parsed = JSON.parse(toParse);
+                    participantId = parsed.participantId as Id<"participants">;
+                    seasonId = parsed.seasonId;
+                    console.log("Parsed more_info:", { participantId, seasonId });
+                } catch (e) {
+                    console.error("Failed to parse more_info:", moreInfo, e);
+                    // Legacy format: plain participantId string
+                    participantId = moreInfo as Id<"participants">;
+                }
+            }
 
             if (!participantId) {
                 return new Response(JSON.stringify({ error: "Missing participant ID" }), {
@@ -42,7 +65,8 @@ http.route({
                     participantId,
                     transactionId: transactionId || "",
                     amount: amount || 0,
-                    months: 1, // Default to 1 month, could be derived from amount
+                    months: 1,
+                    seasonId,
                 });
             } else {
                 // Failed payment

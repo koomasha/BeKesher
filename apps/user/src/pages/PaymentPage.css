@@ -8,127 +8,127 @@
 }
 
 .payment-container {
-    max-width: 600px;
+    max-width: 480px;
     margin: 0 auto;
 }
 
 /* Header */
 .payment-header {
     text-align: center;
-    margin-bottom: var(--spacing-xl);
-    padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+    margin-bottom: var(--spacing-lg);
+    padding-top: calc(var(--spacing-md) + env(safe-area-inset-top));
 }
 
 .payment-logo {
-    margin-bottom: var(--spacing-md);
-    animation: fadeIn 0.5s ease;
+    margin-bottom: var(--spacing-sm);
+    animation: payFadeIn 0.4s ease;
 }
 
 .payment-header h1 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: var(--spacing-xs);
-    line-height: 1.2;
 }
 
 .payment-subtitle {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     color: var(--text-secondary);
 }
 
-/* Pricing Card */
-.pricing-card {
-    background: var(--primary-gradient);
+/* Main payment card — single unified card */
+.payment-card {
+    background: var(--bg-card);
     border-radius: var(--radius-card);
-    padding: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-md);
-    animation: fadeIn 0.5s ease 0.1s backwards;
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+    animation: payFadeIn 0.4s ease 0.05s backwards;
 }
 
-.price-section {
+/* Price row at top of card */
+.payment-price-row {
+    padding: var(--spacing-lg) var(--spacing-xl);
     display: flex;
     align-items: baseline;
-    justify-content: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.payment-price-left {
+    display: flex;
+    align-items: baseline;
     gap: var(--spacing-xs);
 }
 
-.price {
-    font-size: 4rem;
+.payment-price-amount {
+    font-size: var(--font-size-2xl);
     font-weight: 700;
-    color: white;
+    color: var(--color-primary);
     line-height: 1;
 }
 
-.price-period {
-    font-size: var(--font-size-lg);
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-}
-
-/* Benefits Card */
-.benefits-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-card);
-    border: 1px solid rgba(0, 88, 113, 0.08);
-    box-shadow: var(--shadow-md);
-    padding: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
-    animation: fadeIn 0.5s ease 0.2s backwards;
-}
-
-.benefits-card h2 {
+.payment-price-currency {
     font-size: var(--font-size-lg);
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-lg);
+    color: var(--color-primary);
 }
 
-.benefits-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+.payment-price-tier {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-accent);
+    background: var(--bg-alt);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
 }
 
-.benefit-item {
+/* Benefits list inside card */
+.payment-benefits {
+    padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.payment-benefits-item {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
 }
 
-.benefit-icon {
-    font-size: var(--font-size-xl);
+.payment-benefits-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.payment-benefits-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    color: var(--color-accent);
 }
 
-.benefit-text {
-    font-size: var(--font-size-base);
+.payment-benefits-text {
+    font-size: var(--font-size-sm);
     color: var(--text-primary);
     font-weight: 500;
 }
 
 /* Error Message */
-.error-message {
-    background: rgba(229, 57, 53, 0.1);
-    border: 1px solid var(--accent-error);
+.payment-error {
+    background: rgba(229, 57, 53, 0.08);
+    border: 1px solid rgba(229, 57, 53, 0.2);
     border-radius: var(--radius-md);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    animation: fadeIn 0.3s ease;
-}
-
-.error-icon {
-    font-size: var(--font-size-xl);
-    flex-shrink: 0;
-}
-
-.error-message span:last-child {
+    animation: payFadeIn 0.2s ease;
     color: var(--accent-error);
     font-size: var(--font-size-sm);
     font-weight: 500;
@@ -137,11 +137,11 @@
 /* Payment Button */
 .btn-payment {
     width: 100%;
-    background: var(--primary-gradient);
+    background: var(--warm-gradient);
     color: white;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     font-weight: 700;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     border-radius: var(--radius-btn);
     border: none;
     cursor: pointer;
@@ -150,19 +150,20 @@
     justify-content: center;
     gap: var(--spacing-sm);
     transition: all var(--transition-base);
-    margin-bottom: var(--spacing-md);
-    animation: fadeIn 0.5s ease 0.3s backwards;
-    min-height: 44px;
+    margin-bottom: var(--spacing-sm);
+    animation: payFadeIn 0.4s ease 0.15s backwards;
+    min-height: 48px;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-payment:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-raised);
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-payment:disabled {
-    opacity: 0.7;
+    opacity: 0.65;
     cursor: not-allowed;
 }
 
@@ -172,18 +173,40 @@
 
 /* Small Spinner for Button */
 .spinner-small {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: white;
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: paySpin 0.8s linear infinite;
 }
 
 /* Back Button */
 .btn-back {
     width: 100%;
-    animation: fadeIn 0.5s ease 0.4s backwards;
+    animation: payFadeIn 0.4s ease 0.2s backwards;
+}
+
+/* Waiting for payment */
+.payment-waiting-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    animation: payFadeIn 0.4s ease;
+}
+
+.payment-waiting-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.5;
 }
 
 /* Empty State */
@@ -211,10 +234,10 @@
 }
 
 /* Animations */
-@keyframes fadeIn {
+@keyframes payFadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(12px);
     }
     to {
         opacity: 1;
@@ -222,33 +245,29 @@
     }
 }
 
-@keyframes spin {
+@keyframes paySpin {
     to {
         transform: rotate(360deg);
     }
 }
 
-/* Dark theme support */
-.dark .pricing-card {
-    background: linear-gradient(135deg, #33BECC 0%, #33BECC 100%);
-}
-
-.dark .benefits-card {
-    background: var(--bg-card);
+/* Dark theme */
+.dark .payment-card {
     border-color: var(--border-color);
 }
 
-/* Responsive adjustments */
+
+/* Responsive */
 @media (max-width: 480px) {
     .payment-header h1 {
-        font-size: var(--font-size-xl);
+        font-size: var(--font-size-lg);
     }
 
-    .price {
-        font-size: 3rem;
+    .payment-price-amount {
+        font-size: var(--font-size-2xl);
     }
 
-    .benefit-text {
-        font-size: var(--font-size-sm);
+    .payment-benefits {
+        padding: var(--spacing-md) var(--spacing-lg);
     }
 }
