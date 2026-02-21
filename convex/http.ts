@@ -21,8 +21,6 @@ http.route({
     handler: httpAction(async (ctx, req) => {
         try {
             const body = await req.json();
-            console.log("PayPlus callback received:", JSON.stringify(body));
-
             // Extract payment details from PayPlus callback
             const status = body.transaction?.status_code;
             const transactionId = body.transaction?.uid;
@@ -43,7 +41,6 @@ http.route({
                     const parsed = JSON.parse(toParse);
                     participantId = parsed.participantId as Id<"participants">;
                     seasonId = parsed.seasonId;
-                    console.log("Parsed more_info:", { participantId, seasonId });
                 } catch (e) {
                     console.error("Failed to parse more_info:", moreInfo, e);
                     // Legacy format: plain participantId string
@@ -100,7 +97,8 @@ http.route({
 
 /**
  * Telegram bot webhook for handling bot updates
- * This is optional - main UI is via Mini App
+ * Currently only handles menu_pause callback; other menu items
+ * are served via the Mini App.
  */
 http.route({
     path: "/telegram-webhook",
@@ -109,51 +107,20 @@ http.route({
         try {
             const update = await req.json();
 
-            // Handle callback queries (button presses in bot)
             if (update.callback_query) {
                 const callbackData = update.callback_query.data;
                 const userId = update.callback_query.from?.id?.toString();
 
-                // Route based on callback data
-                // This maps to the Make.com dispatcher logic
-                switch (callbackData) {
-                    case "menu_profile":
-                        // Would redirect to Mini App profile page
-                        break;
-                    case "menu_edit":
-                        // Would redirect to Mini App edit page
-                        break;
-                    case "menu_payment":
-                        // Would redirect to Mini App payment page
-                        break;
-                    case "menu_pause":
-                        // Toggle pause - could handle directly
-                        if (userId) {
-                            await ctx.runMutation(internal.participants.togglePauseInternal, {
-                                telegramId: userId,
-                            });
-                        }
-                        break;
-                    case "menu_support":
-                        // Would prompt for support question
-                        break;
+                if (callbackData === "menu_pause" && userId) {
+                    await ctx.runMutation(internal.participants.togglePauseInternal, {
+                        telegramId: userId,
+                    });
                 }
 
-                // Acknowledge the callback
                 return new Response(JSON.stringify({ ok: true }), {
                     status: 200,
                     headers: { "Content-Type": "application/json" },
                 });
-            }
-
-            // Handle regular messages
-            if (update.message) {
-                const text = update.message.text;
-
-                // Handle /start command
-                if (text?.startsWith("/start")) {
-                    // Would send welcome message with Mini App button
-                }
             }
 
             return new Response(JSON.stringify({ ok: true }), {
@@ -243,8 +210,6 @@ http.route({
         });
     }),
 });
-
-
 
 // ============================================
 // HEALTH CHECK

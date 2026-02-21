@@ -67,7 +67,7 @@ function ProfilePage() {
             <div className="profile-page">
                 <div className="profile-container">
                     <div className="empty-state">
-                        <Logo size={96} className="empty-logo" />
+                        <Logo size={80} className="empty-logo" />
                         <h2><Trans>Требуется авторизация</Trans></h2>
                         <p><Trans>Пожалуйста, откройте приложение через Telegram</Trans></p>
                     </div>
@@ -82,7 +82,7 @@ function ProfilePage() {
             <div className="profile-page">
                 <div className="profile-container">
                     <div className="empty-state">
-                        <Logo size={96} className="empty-logo" />
+                        <Logo size={80} className="empty-logo" />
                         <h2><Trans>Профиль не заполнен</Trans></h2>
                         <p><Trans>Пожалуйста, заполните анкету для создания профиля</Trans></p>
                         <button
@@ -105,11 +105,9 @@ function ProfilePage() {
             <div className="profile-container">
                 {/* Header with Logo */}
                 <div className="profile-header">
-                    <div>
-                        <h1><Trans>Мой профиль</Trans></h1>
-                        <p className="profile-subtitle">Tuk-Tuk</p>
-                    </div>
-                    <Logo size={64} />
+                    <Logo size={80} className="page-header-logo" />
+                    <h1><Trans>Мой профиль</Trans></h1>
+                    <p className="profile-subtitle">Tuk-Tuk</p>
                 </div>
 
                 {/* Main Info Section */}

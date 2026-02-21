@@ -5,6 +5,7 @@ import { api } from 'convex/_generated/api';
 import './PaymentPage.css';
 import { Logo } from '../components/Logo';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Trans, t } from '@lingui/macro';
 
 function PaymentPage() {
     const navigate = useNavigate();
@@ -44,17 +45,17 @@ function PaymentPage() {
 
     const handlePayment = async () => {
         if (!isAuthenticated) {
-            setError('Откройте приложение из Telegram');
+            setError(t`Откройте приложение из Telegram`);
             return;
         }
 
         if (!profile) {
-            setError('Профиль не найден. Пожалуйста, заполните анкету.');
+            setError(t`Профиль не найден. Пожалуйста, заполните анкету.`);
             return;
         }
 
         if (!seasonId) {
-            setError('Сезон не выбран. Вернитесь на главную.');
+            setError(t`Сезон не выбран. Вернитесь на главную.`);
             return;
         }
 
@@ -80,12 +81,12 @@ function PaymentPage() {
                 setIsProcessing(false);
                 setWaitingForPayment(true);
             } else {
-                setError(result.error || 'Не удалось создать ссылку для оплаты');
+                setError(result.error || t`Не удалось создать ссылку для оплаты`);
                 setIsProcessing(false);
             }
         } catch (err) {
             console.error('Payment error:', err);
-            setError('Произошла ошибка при создании платежа');
+            setError(t`Произошла ошибка при создании платежа`);
             setIsProcessing(false);
         }
     };
@@ -97,7 +98,7 @@ function PaymentPage() {
                 <div className="payment-container">
                     <div className="empty-state">
                         <div className="spinner"></div>
-                        <p>Загрузка...</p>
+                        <p><Trans>Загрузка...</Trans></p>
                     </div>
                 </div>
             </div>
@@ -110,14 +111,14 @@ function PaymentPage() {
             <div className="payment-page">
                 <div className="payment-container">
                     <div className="empty-state">
-                        <Logo size={96} className="empty-logo" />
-                        <h2>{!seasonId ? 'Сезон не выбран' : 'Профиль не найден'}</h2>
-                        <p>{!seasonId ? 'Вернитесь на главную и выберите сезон' : 'Пожалуйста, сначала заполните анкету'}</p>
+                        <Logo size={80} className="empty-logo" />
+                        <h2>{!seasonId ? t`Сезон не выбран` : t`Профиль не найден`}</h2>
+                        <p>{!seasonId ? t`Вернитесь на главную и выберите сезон` : t`Пожалуйста, сначала заполните анкету`}</p>
                         <button
                             className="btn btn-primary"
                             onClick={() => navigate(!seasonId ? '/' : '/onboarding')}
                         >
-                            {!seasonId ? 'На главную' : 'Заполнить анкету'}
+                            {!seasonId ? t`На главную` : t`Заполнить анкету`}
                         </button>
                     </div>
                 </div>
@@ -131,21 +132,21 @@ function PaymentPage() {
             <div className="payment-page">
                 <div className="payment-container">
                     <div className="payment-header">
-                        <Logo size={64} className="payment-logo" />
-                        <h1>Ожидаем оплату</h1>
-                        <p className="payment-subtitle">Завершите оплату в открывшемся окне</p>
+                        <Logo size={80} className="payment-logo" />
+                        <h1><Trans>Ожидаем оплату</Trans></h1>
+                        <p className="payment-subtitle"><Trans>Завершите оплату в открывшемся окне</Trans></p>
                     </div>
                     <div className="payment-waiting-card">
                         <div className="spinner"></div>
                         <p className="payment-waiting-text">
-                            После оплаты вы будете автоматически записаны в сезон
+                            <Trans>После оплаты вы будете автоматически записаны в сезон</Trans>
                         </p>
                     </div>
                     <button
                         className="btn btn-secondary btn-back"
                         onClick={() => navigate('/')}
                     >
-                        Назад
+                        <Trans>Назад</Trans>
                     </button>
                 </div>
             </div>
@@ -155,14 +156,12 @@ function PaymentPage() {
     return (
         <div className="payment-page">
             <div className="payment-container">
-                {/* Header */}
                 <div className="payment-header">
-                    <Logo size={64} className="payment-logo" />
-                    <h1>Оплата сезона</h1>
+                    <Logo size={80} className="payment-logo" />
+                    <h1><Trans>Оплата сезона</Trans></h1>
                     {seasonName && <p className="payment-subtitle">{seasonName}</p>}
                 </div>
 
-                {/* Single unified card */}
                 <div className="payment-card">
                     <div className="payment-price-row">
                         <div className="payment-price-left">
@@ -176,37 +175,35 @@ function PaymentPage() {
                             <div className="payment-benefits-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             </div>
-                            <span className="payment-benefits-text">4 недели встреч</span>
+                            <span className="payment-benefits-text"><Trans>4 недели встреч</Trans></span>
                         </div>
                         <div className="payment-benefits-item">
                             <div className="payment-benefits-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             </div>
-                            <span className="payment-benefits-text">Новые знакомства каждую неделю</span>
+                            <span className="payment-benefits-text"><Trans>Новые знакомства каждую неделю</Trans></span>
                         </div>
                         <div className="payment-benefits-item">
                             <div className="payment-benefits-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             </div>
-                            <span className="payment-benefits-text">Группы и задания</span>
+                            <span className="payment-benefits-text"><Trans>Группы и задания</Trans></span>
                         </div>
                         <div className="payment-benefits-item">
                             <div className="payment-benefits-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                             </div>
-                            <span className="payment-benefits-text">Поддержка 24/7</span>
+                            <span className="payment-benefits-text"><Trans>Поддержка 24/7</Trans></span>
                         </div>
                     </div>
                 </div>
 
-                {/* Error Message */}
                 {error && (
                     <div className="payment-error">
                         <span>{error}</span>
                     </div>
                 )}
 
-                {/* Payment Button */}
                 <button
                     className="btn btn-payment"
                     onClick={handlePayment}
@@ -215,20 +212,19 @@ function PaymentPage() {
                     {isProcessing ? (
                         <>
                             <div className="spinner-small"></div>
-                            <span>Создаем платеж...</span>
+                            <span><Trans>Создаем платеж...</Trans></span>
                         </>
                     ) : (
-                        <span>Оплатить {paymentAmount} ₪</span>
+                        <span><Trans>Оплатить {paymentAmount} ₪</Trans></span>
                     )}
                 </button>
 
-                {/* Back Button */}
                 <button
                     className="btn btn-secondary btn-back"
                     onClick={() => navigate('/')}
                     disabled={isProcessing}
                 >
-                    Назад
+                    <Trans>Назад</Trans>
                 </button>
             </div>
         </div>

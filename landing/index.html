@@ -7,9 +7,8 @@
     <title>Tuk-Tuk — Твоя связь с новым сообществом</title>
     <meta name="description"
         content="Социальная игра для новых репатриантов в Израиле. Найди друзей, выполняй задания и чувствуй себя как дома.">
-    <!-- Favicon (3 main nodes from logo) -->
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='20' r='9' fill='%23005871'/%3E%3Ccircle cx='8' cy='10' r='5' fill='%23FF7F50'/%3E%3Ccircle cx='24' cy='10' r='5' fill='%23DCD494'/%3E%3Cline x1='16' y1='20' x2='8' y2='10' stroke='%23FF7F50' stroke-width='1' opacity='0.4'/%3E%3Cline x1='16' y1='20' x2='24' y2='10' stroke='%23DCD494' stroke-width='1' opacity='0.4'/%3E%3Ctext x='16' y='25' font-family='Rubik,sans-serif' font-weight='700' font-size='10' fill='%23fff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -359,34 +358,8 @@
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-[#E8E2DC]">
         <div class="max-w-6xl mx-auto px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center gap-2 md:gap-3">
-                <!-- LOGO SVG (Exact from Brand Guide) -->
-                <svg width="42" height="38" viewBox="38 40 128 115" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <radialGradient id="v6-nav-glow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#33BECC" stop-opacity="0.15" />
-                            <stop offset="100%" stop-color="#33BECC" stop-opacity="0" />
-                        </radialGradient>
-                    </defs>
-                    <circle cx="105" cy="95" r="80" fill="url(#v6-nav-glow)" />
-                    <circle cx="105" cy="88" r="20" fill="#005871" />
-                    <circle cx="105" cy="88" r="23" fill="none" stroke="#FF7F50" stroke-width="1.5" opacity="0.4" />
-                    <circle cx="60" cy="58" r="11" fill="#FF7F50" />
-                    <circle cx="150" cy="58" r="9" fill="#FF7F50" />
-                    <circle cx="55" cy="115" r="8" fill="#DCD494" />
-                    <circle cx="148" cy="120" r="10" fill="#FF7F50" opacity="0.7" />
-                    <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.6" />
-                    <circle cx="68" cy="82" r="5" fill="#005871" opacity="0.4" />
-                    <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.5" />
-                    <line x1="105" y1="88" x2="60" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.35" />
-                    <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.35" />
-                    <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5" opacity="0.35" />
-                    <line x1="105" y1="88" x2="148" y2="120" stroke="#FF7F50" stroke-width="1.2" opacity="0.3" />
-                    <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2" opacity="0.3" />
-                    <line x1="60" y1="58" x2="55" y2="115" stroke="#005871" stroke-width="1" opacity="0.15" />
-                    <line x1="150" y1="58" x2="148" y2="120" stroke="#005871" stroke-width="1" opacity="0.15" />
-                    <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22" fill="#fff"
-                        text-anchor="middle">T</text>
-                </svg>
+                <!-- Logo -->
+                <img src="logo.svg" width="56" height="56" alt="Tuk-Tuk logo">
                 <!-- Wordmark -->
                 <div class="hidden md:block">
                     <span class="block text-xl font-bold text-[#005871] leading-none">Tuk-Tuk</span>
@@ -853,39 +826,10 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
                 <div class="flex-1">
                     <div class="flex items-center gap-2 mb-3">
-                        <!-- Footer Logo (Dark Variant per Section 2B) -->
-                        <svg width="36" height="32" viewBox="38 40 128 115" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <radialGradient id="v6-footer-glow" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#33BECC" stop-opacity="0.2" />
-                                    <stop offset="100%" stop-color="#33BECC" stop-opacity="0" />
-                                </radialGradient>
-                            </defs>
-                            <circle cx="105" cy="95" r="80" fill="url(#v6-footer-glow)" />
-                            <circle cx="105" cy="88" r="20" fill="#FFFFFF" />
-                            <circle cx="105" cy="88" r="23" fill="none" stroke="#FF7F50" stroke-width="1.5"
-                                opacity="0.5" />
-                            <circle cx="60" cy="58" r="11" fill="#FF7F50" />
-                            <circle cx="150" cy="58" r="9" fill="#FF7F50" />
-                            <circle cx="55" cy="115" r="8" fill="#DCD494" />
-                            <circle cx="148" cy="120" r="10" fill="#FF7F50" opacity="0.8" />
-                            <circle cx="105" cy="140" r="7" fill="#FF7F50" opacity="0.7" />
-                            <circle cx="68" cy="82" r="5" fill="#FFFFFF" opacity="0.3" />
-                            <circle cx="140" cy="85" r="5.5" fill="#DCD494" opacity="0.6" />
-                            <line x1="105" y1="88" x2="60" y2="58" stroke="#FF7F50" stroke-width="1.5" opacity="0.45" />
-                            <line x1="105" y1="88" x2="150" y2="58" stroke="#FF7F50" stroke-width="1.5"
-                                opacity="0.45" />
-                            <line x1="105" y1="88" x2="55" y2="115" stroke="#DCD494" stroke-width="1.5"
-                                opacity="0.45" />
-                            <line x1="105" y1="88" x2="148" y2="120" stroke="#FF7F50" stroke-width="1.2"
-                                opacity="0.4" />
-                            <line x1="105" y1="88" x2="105" y2="140" stroke="#FF7F50" stroke-width="1.2"
-                                opacity="0.4" />
-                            <line x1="60" y1="58" x2="55" y2="115" stroke="#FFFFFF" stroke-width="1" opacity="0.1" />
-                            <line x1="150" y1="58" x2="148" y2="120" stroke="#FFFFFF" stroke-width="1" opacity="0.1" />
-                            <text x="105" y="96" font-family="Rubik, sans-serif" font-weight="700" font-size="22"
-                                fill="#005871" text-anchor="middle">T</text>
-                        </svg>
+                        <!-- Footer Logo -->
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                            <img src="logo.svg" width="40" height="40" alt="Tuk-Tuk logo">
+                        </div>
                         <span class="text-2xl font-bold text-white">Tuk-Tuk</span>
                     </div>
                     <p class="max-w-md text-[#E8E2DC]/80 leading-relaxed text-sm">

@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(git diff-tree:*)",
+      "Bash(git show:*)",
+      "Bash(for:*)",
+      "Bash(do sed -i 's|<image |<style>@media\\(prefers-color-scheme:dark\\){.favicon-bg{fill:white}}</style><circle class=\"\"favicon-bg\"\" cx=\"\"800\"\" cy=\"\"800\"\" r=\"\"800\"\" fill=\"\"none\"\"/><image |' \"$f\")",
+      "Bash(done)",
+      "Read(//c/Users/KooMa/src/tuk-tuk/**)"
     ]
   }
 }

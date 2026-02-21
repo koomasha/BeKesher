@@ -4,6 +4,7 @@ import { api } from 'convex/_generated/api';
 import { Link } from 'react-router-dom';
 import { Id } from 'convex/_generated/dataModel';
 import { useTelegramAuth } from '../hooks/useTelegramAuth';
+import { Logo } from '../components/Logo';
 import { Trans, t } from '@lingui/macro';
 
 const TOTAL_STEPS = 6;
@@ -262,6 +263,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
+                    <Logo size={80} className="page-header-logo" />
                     <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="success-state animate-fade-in">
@@ -288,6 +290,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header">
+                    <Logo size={80} className="page-header-logo" />
                     <h1><Trans>Обратная связь</Trans></h1>
                 </div>
                 <div className="card animate-fade-in">
@@ -309,6 +312,7 @@ function FeedbackPage() {
         return (
             <div className="page">
                 <div className="page-header decorated-section">
+                    <Logo size={80} className="page-header-logo" />
                     <h1><Trans>Обратная связь</Trans></h1>
                     <p><Trans>Поделись впечатлениями</Trans></p>
                 </div>
@@ -352,6 +356,7 @@ function FeedbackPage() {
     return (
         <div className="page">
             <div className="page-header">
+                <Logo size={80} className="page-header-logo" />
                 <h1><Trans>Обратная связь</Trans></h1>
             </div>
 

@@ -112,9 +112,6 @@ export const createPaymentLink = userAction({
         const paymentPageUid = process.env.PAYPLUS_PAGE_UID;
         const callbackUrl = process.env.PAYPLUS_CALLBACK_URL || `${process.env.CONVEX_SITE_URL}/payplus-callback`;
 
-        console.log("PayPlus callback URL:", callbackUrl);
-        console.log("PayPlus returnUrl (refURL_success):", args.returnUrl);
-
         if (!apiKey || !secretKey || !paymentPageUid) {
             console.error("PayPlus credentials not configured");
             return { success: false, error: "Payment system not configured" };
@@ -162,8 +159,6 @@ export const createPaymentLink = userAction({
             );
 
             const data: PayPlusResponse = await response.json();
-            console.log("PayPlus full response:", JSON.stringify(data));
-
             if (data.results?.status === "success" && data.data?.payment_page_link) {
                 // Log the payment attempt
                 await ctx.runMutation(internal.payments.logPaymentAttempt, {

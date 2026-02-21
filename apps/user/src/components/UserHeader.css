@@ -17,6 +17,7 @@
     align-items: center;
     gap: var(--spacing-sm);
     flex-shrink: 0;
+    text-decoration: none;
 }
 
 .brand-wordmark {

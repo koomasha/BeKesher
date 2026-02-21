@@ -85,7 +85,7 @@ msgstr "✅ Approve"
 msgid "✅ Matching Complete"
 msgstr "✅ Matching Complete"
 
-#: apps/admin/src/components/Sidebar.tsx:75
+#: apps/admin/src/components/Sidebar.tsx:79
 msgid "✅ Review Tasks"
 msgstr "✅ Review Tasks"
 
@@ -97,7 +97,7 @@ msgstr "❌ Matching Failed"
 msgid "❌ Reject"
 msgstr "❌ Reject"
 
-#: apps/admin/src/components/Sidebar.tsx:92
+#: apps/admin/src/components/Sidebar.tsx:96
 msgid "⭐ Feedback"
 msgstr "⭐ Feedback"
 
@@ -105,31 +105,31 @@ msgstr "⭐ Feedback"
 msgid "🎉 Added fun"
 msgstr "🎉 Added fun"
 
-#: apps/admin/src/components/Sidebar.tsx:44
+#: apps/admin/src/components/Sidebar.tsx:48
 msgid "🎯 Groups"
 msgstr "🎯 Groups"
 
-#: apps/admin/src/components/Sidebar.tsx:37
+#: apps/admin/src/components/Sidebar.tsx:41
 msgid "👥 Participants"
 msgstr "👥 Participants"
 
-#: apps/admin/src/components/Sidebar.tsx:99
+#: apps/admin/src/components/Sidebar.tsx:103
 msgid "💬 Support Tickets"
 msgstr "💬 Support Tickets"
 
-#: apps/admin/src/components/Sidebar.tsx:54
+#: apps/admin/src/components/Sidebar.tsx:58
 msgid "📅 Seasons"
 msgstr "📅 Seasons"
 
-#: apps/admin/src/components/Sidebar.tsx:30
+#: apps/admin/src/components/Sidebar.tsx:34
 msgid "📊 Dashboard"
 msgstr "📊 Dashboard"
 
-#: apps/admin/src/components/Sidebar.tsx:68
+#: apps/admin/src/components/Sidebar.tsx:72
 msgid "📌 Assign Tasks"
 msgstr "📌 Assign Tasks"
 
-#: apps/admin/src/components/Sidebar.tsx:61
+#: apps/admin/src/components/Sidebar.tsx:65
 msgid "📝 Task Library"
 msgstr "📝 Task Library"
 
@@ -137,7 +137,7 @@ msgstr "📝 Task Library"
 msgid "🔄 Needs Revision"
 msgstr "🔄 Needs Revision"
 
-#: apps/admin/src/components/Sidebar.tsx:85
+#: apps/admin/src/components/Sidebar.tsx:89
 msgid "🔄 Run Matching"
 msgstr "🔄 Run Matching"
 
@@ -146,8 +146,8 @@ msgid "🔄 Running..."
 msgstr "🔄 Running..."
 
 #: apps/admin/src/components/Sidebar.tsx:19
-msgid "🔗 Tuk-Tuk"
-msgstr "🔗 Tuk-Tuk"
+#~ msgid "🔗 Tuk-Tuk"
+#~ msgstr "🔗 Tuk-Tuk"
 
 #: apps/admin/src/pages/FeedbackPage.tsx:147
 msgid "🤝 Made it deeper"
@@ -225,7 +225,7 @@ msgstr "Add private notes about this participant..."
 msgid "Admin Comments"
 msgstr "Admin Comments"
 
-#: apps/admin/src/components/Sidebar.tsx:20
+#: apps/admin/src/components/Sidebar.tsx:24
 msgid "Admin Dashboard"
 msgstr "Admin Dashboard"
 
@@ -741,7 +741,7 @@ msgstr "Open"
 msgid "Open Tickets"
 msgstr "Open Tickets"
 
-#: apps/admin/src/components/Sidebar.tsx:78
+#: apps/admin/src/components/Sidebar.tsx:82
 msgid "Operations"
 msgstr "Operations"
 
@@ -917,7 +917,7 @@ msgstr "Season"
 msgid "Season Details"
 msgstr "Season Details"
 
-#: apps/admin/src/components/Sidebar.tsx:47
+#: apps/admin/src/components/Sidebar.tsx:51
 msgid "Season Flow"
 msgstr "Season Flow"
 
@@ -1092,6 +1092,10 @@ msgstr "Title"
 #: apps/admin/src/pages/DashboardPage.tsx:27
 msgid "Total Participants"
 msgstr "Total Participants"
+
+#: apps/admin/src/components/Sidebar.tsx:22
+msgid "Tuk-Tuk"
+msgstr "Tuk-Tuk"
 
 #: apps/admin/src/components/LoginPage.tsx:149
 msgid "Tuk-Tuk Admin"

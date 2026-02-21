@@ -119,7 +119,6 @@ function HomePage() {
         initializeUser();
     }, [isAuthenticated, telegramUser, profile, createLeadParticipant, navigate]);
 
-    // Helper function to check if profile is incomplete
     const isProfileIncomplete = (p: {
         phone?: string;
         birthDate?: string;
@@ -130,22 +129,20 @@ function HomePage() {
     } | null) => {
         if (!p) return true;
 
-        // Check for placeholder values that indicate an incomplete profile
         return (
-            !p.phone || // Empty phone
-            p.phone === "" || // Empty phone
-            p.birthDate === "2000-01-01" || // Placeholder birthDate
-            !p.aboutMe || // No aboutMe
-            !p.profession || // No profession
-            !p.purpose || // No purpose
-            !p.expectations // No expectations
+            !p.phone ||
+            p.birthDate === "2000-01-01" ||
+            !p.aboutMe ||
+            !p.profession ||
+            !p.purpose ||
+            !p.expectations
         );
     };
 
     return (
         <div className="page">
             <div className="page-header decorated-section">
-                <Logo size={120} className="home-logo" />
+                <Logo size={80} className="home-logo" />
                 <h1><Trans>Привет, {firstName}!</Trans></h1>
                 <p><Trans>Добро пожаловать в Tuk-Tuk</Trans></p>
             </div>
